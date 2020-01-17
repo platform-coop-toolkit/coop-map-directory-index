@@ -1,6 +1,9 @@
 # OS X cruft
 .DS_Store
 
+# Non-versioned working directory
+scratch
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
