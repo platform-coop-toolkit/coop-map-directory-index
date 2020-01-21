@@ -26,6 +26,7 @@ router.register(r'organizations', OrganizationViewSet)
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
+    path('maps/', include('maps.urls')),
 ]
 urlpatterns += [
     path('', include(router.urls))
