@@ -16,7 +16,11 @@ class GroupSerializer(serializers.HyperlinkedModelSerializer):
     fields = ('id', 'name')
 
 
-class OrganizationSerializer(serializers.HyperlinkedModelSerializer):
+class OrganizationSerializer(GeoFeatureModelSerializer):
+    category = serializers.StringRelatedField(source='category.name')
+    type = serializers.StringRelatedField(source='type.name')
+
     class Meta:
         model = Organization
-        fields = ('name', 'description', 'city', 'email', 'url', 'geom')
+        geo_field = 'geom'
+        fields = ('name', 'description', 'category', 'type', 'address', 'city', 'state', 'postal_code', 'country', 'url',)

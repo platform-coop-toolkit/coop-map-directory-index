@@ -6,7 +6,7 @@
     'use strict';
 
     // IE doesn't accept periods or dashes in the window name, but the element IDs
-    // we use to generate popup window names may contain them, therefore we map them
+    // we use to generate popup window names may contain them, therefore we maps them
     // to allowed characters in a reversible way so that we can locate the correct
     // element when the popup window is dismissed.
     function id_to_windowname(text) {

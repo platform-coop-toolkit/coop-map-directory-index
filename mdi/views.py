@@ -1,11 +1,14 @@
 from django.shortcuts import render, reverse
-
 from django.contrib.auth.models import User, Group
+from django.http import HttpResponse
 from rest_framework import viewsets
 from rest_framework.decorators import api_view
 from .serializers import UserSerializer, GroupSerializer, OrganizationSerializer
 from .models import Organization
 from rest_framework.response import Response
+
+def map(request):
+  return HttpResponse("Where's ma maps?")
 
 @api_view(['GET'])
 def api_root(request, format=None):
@@ -33,5 +36,5 @@ class GroupViewSet(viewsets.ModelViewSet):
 
 
 class OrganizationViewSet(viewsets.ModelViewSet):
-    queryset = Organization.objects.all()
+    queryset = Organization.objects.filter(geom__isnull=False)
     serializer_class  = OrganizationSerializer
