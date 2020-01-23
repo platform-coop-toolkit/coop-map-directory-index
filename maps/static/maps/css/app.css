@@ -8,4 +8,14 @@ body {
   top: 0;
   bottom: 0;
   width: 100%;
+  color: #203131;
+  font-family: 'Noto Sans', sans-serif;
+}
+#map b {
+  font-family: 'Noto Serif', serif;
+}
+#map hr {
+  border: none;
+  border-top: 3px double #203131;
+  text-align: center;
 }

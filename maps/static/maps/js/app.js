@@ -48,9 +48,18 @@ map.on('load', function () {
   map.on('mouseover', 'coops', function (e) {
     map.getCanvas().style.cursor = 'pointer';
     let
-      htmlString = '<b>' + e.features[0].properties.name + '</b><br />' +
-        e.features[0].properties.address + '<br />' +
-        e.features[0].properties.city;
+      htmlString = '';
+      if (e.features[0].properties.url) {
+        htmlString += '<b><a href="' + e.features[0].properties.url + '">' + e.features[0].properties.name + '</a></b><br />'
+      } else {
+        htmlString += '<b>' + e.features[0].properties.name + '</b><br />'
+      }
+      if (e.features[0].properties.address !== 'null') { htmlString += e.features[0].properties.address + '<br />' }
+      if (e.features[0].properties.city !== 'null') { htmlString += e.features[0].properties.city + ' '}
+      if (e.features[0].properties.state !== 'null') { htmlString += e.features[0].properties.state + ' ' }
+      if (e.features[0].properties.postal_code !== 'null') { htmlString += e.features[0].properties.postal_code + ' ' }
+      if (e.features[0].properties.country !== 'null') { htmlString += e.features[0].properties.country + ' ' }
+      if (e.features[0].properties.type !== 'null') { htmlString += '<hr>' + e.features[0].properties.type }
 
     popup.setLngLat(e.features[0].geometry.coordinates)
       .setHTML(htmlString)
