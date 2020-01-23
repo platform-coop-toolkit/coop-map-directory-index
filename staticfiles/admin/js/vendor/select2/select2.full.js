@@ -88,7 +88,7 @@ var requirejs, require, define;
 
             // If wanting node ID compatibility, strip .js from end
             // of IDs. Have to do this here, and not in nameToUrl
-            // because node allows either .js or non .js to maps
+            // because node allows either .js or non .js to map
             // to same file.
             if (config.nodeIdCompat && jsSuffixRegExp.test(name[lastIndex])) {
                 name[lastIndex] = name[lastIndex].replace(jsSuffixRegExp, '');
@@ -130,7 +130,7 @@ var requirejs, require, define;
             name = name.join('/');
         }
 
-        //Apply maps config if available.
+        //Apply map config if available.
         if ((baseParts || starMap) && map) {
             nameParts = name.split('/');
 
@@ -161,9 +161,9 @@ var requirejs, require, define;
                     break;
                 }
 
-                //Check for a star maps match, but just hold on to it,
+                //Check for a star map match, but just hold on to it,
                 //if there is a shorter segment match later in a matching
-                //config, then favor over this star maps.
+                //config, then favor over this star map.
                 if (!foundStarMap && starMap && starMap[nameSegment]) {
                     foundStarMap = starMap[nameSegment];
                     starI = i;
@@ -247,7 +247,7 @@ var requirejs, require, define;
     }
 
     /**
-     * Makes a name maps, normalizing the name, and using a plugin
+     * Makes a name map, normalizing the name, and using a plugin
      * for normalization if necessary. Grabs a ref to plugin
      * too, as an optimization.
      */
