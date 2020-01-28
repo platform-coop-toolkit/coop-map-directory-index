@@ -39,7 +39,9 @@ SECRET_KEY = 'l0)^62hh%f$&$=z(gsnlwcffbf0e!vgfhzqnobtj34jh8d^1yv'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS')
+if ALLOWED_HOSTS != '':
+    ALLOWED_HOSTS = ALLOWED_HOSTS.split(' ')
 
 
 # Application definition
