@@ -1,0 +1,142 @@
+
+
+<!doctype html>
+<html class="no-js" lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="x-ua-compatible" content="ie=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+		<script>(function(html){html.className = html.className.replace(/\bno-js\b/,'js')})(document.documentElement);</script>
+		<link rel="stylesheet" href="../../styles/pinecone.css">
+		<link rel="apple-touch-icon" sizes="180x180" href="../../images/apple-touch-icon.png">
+		<link rel="icon" type="image/ico" href="../../themes/mandelbrot/favicon.ico" >
+		<title>Filter List: Default | Pinecone</title>
+	</head>
+
+	<body>
+		<header role="banner">
+			<div class="container">
+			</div>
+		</header>
+		<div class="wrap container" role="document">
+      		<div class="content">
+				<main>
+<div class="spacer"></div>
+<button id="show-filters" type="button" class="button">
+<svg
+	class="icon icon--filter"
+	aria-hidden="true"
+	viewBox="0 0 20 20"
+	focusable="false"
+>
+	<use href="/images/filter.svg#filter"/>
+</svg>
+<span class="button__label">Filter</span></button>
+<div class="filters">
+<button id="hide-filters" type="button" class="button">
+<span class="button__label">Close</span><svg
+	class="icon icon--close"
+	aria-hidden="true"
+	viewBox="0 0 20 20"
+	focusable="false"
+>
+	<use href="/images/close.svg#close"/>
+</svg>
+</button>
+	<form action="/">
+	<h2 class="h1 screen-reader-text">Filters</h2>
+	<div class="accordion accordion--filter-list">
+		<div class="accordion__pane">
+			<p class="accordion__heading">Topics</p>
+			<div class="accordion__content">
+<button id="deselect-topics" type="button" class="button">
+<span class="button__label">Deselect All<span class="screen-reader-text"> Topics</span></span></button>
+				<ul id="topics" class="input-group input-group__parent topics">
+					<li>
+<input id="cooperative-essentials" type="checkbox" name="topics[]" value="cooperative-essentials"  /><label for="cooperative-essentials">Cooperative essentials</label>							<span id="cooperative-essentials-disclosure-label" hidden>show 5 subtopics for "Cooperative essentials"</span>
+							<span hidden> (and 5 subtopics)</span>
+							<ul class="input-group input-group__descendant">
+								<li><input id="governance" type="checkbox" name="topics[]" value="governance"  /><label for="governance">Governance</label></li>
+								<li><input id="ownership" type="checkbox" name="topics[]" value="ownership"  /><label for="ownership">Ownership</label></li>
+								<li><input id="cooperative-best-practices" type="checkbox" name="topics[]" value="cooperative-best-practices"  /><label for="cooperative-best-practices">Cooperative best practices</label></li>
+								<li><input id="diversity-and-inclusion" type="checkbox" name="topics[]" value="diversity-and-inclusion"  /><label for="diversity-and-inclusion">Diversity and inclusion</label></li>
+								<li><input id="bylaws" type="checkbox" name="topics[]" value="bylaws"  /><label for="bylaws">Bylaws</label></li>
+							</ul>
+					</li>
+					<li>
+<input id="business-operations" type="checkbox" name="topics[]" value="business-operations"  /><label for="business-operations">Business operations</label>							<span id="business-operations-disclosure-label" hidden>show 6 subtopics for "Business operations"</span>
+							<span hidden> (and 6 subtopics)</span>
+							<ul class="input-group input-group__descendant">
+								<li><input id="human-resources" type="checkbox" name="topics[]" value="human-resources"  /><label for="human-resources">Human resources</label></li>
+								<li><input id="marketing" type="checkbox" name="topics[]" value="marketing"  /><label for="marketing">Marketing</label></li>
+								<li><input id="social-media" type="checkbox" name="topics[]" value="social-media"  /><label for="social-media">Social media</label></li>
+								<li><input id="incorporation" type="checkbox" name="topics[]" value="incorporation"  /><label for="incorporation">Incorporation</label></li>
+								<li><input id="business-model" type="checkbox" name="topics[]" value="business-model"  /><label for="business-model">Business model</label></li>
+								<li><input id="income-benefits-and-compensation" type="checkbox" name="topics[]" value="income-benefits-and-compensation"  /><label for="income-benefits-and-compensation">Income, benefits, and compensation</label></li>
+							</ul>
+					</li>
+					<li>
+<input id="technology-and-platforms" type="checkbox" name="topics[]" value="technology-and-platforms"  /><label for="technology-and-platforms">Technology &amp; Platforms</label>							<span id="technology-and-platforms-disclosure-label" hidden>show 9 subtopics for "Technology &amp; Platforms"</span>
+							<span hidden> (and 9 subtopics)</span>
+							<ul class="input-group input-group__descendant">
+								<li><input id="software-development" type="checkbox" name="topics[]" value="software-development"  /><label for="software-development">Software development</label></li>
+								<li><input id="platforms" type="checkbox" name="topics[]" value="platforms"  /><label for="platforms">Platforms</label></li>
+								<li><input id="design" type="checkbox" name="topics[]" value="design"  /><label for="design">Design</label></li>
+								<li><input id="free-software" type="checkbox" name="topics[]" value="free-software"  /><label for="free-software">Free software</label></li>
+								<li><input id="data" type="checkbox" name="topics[]" value="data"  /><label for="data">Data</label></li>
+								<li><input id="algorithms" type="checkbox" name="topics[]" value="algorithms"  /><label for="algorithms">Algorithms</label></li>
+								<li><input id="automation" type="checkbox" name="topics[]" value="automation"  /><label for="automation">Automation</label></li>
+								<li><input id="blockchain" type="checkbox" name="topics[]" value="blockchain"  /><label for="blockchain">Blockchain</label></li>
+								<li><input id="search-engines" type="checkbox" name="topics[]" value="search-engines"  /><label for="search-engines">Search engines</label></li>
+							</ul>
+					</li>
+					<li>
+<input id="law-and-policy" type="checkbox" name="topics[]" value="law-and-policy"  /><label for="law-and-policy">Law &amp; Policy</label>							<span id="law-and-policy-disclosure-label" hidden>show 4 subtopics for "Law &amp; Policy"</span>
+							<span hidden> (and 4 subtopics)</span>
+							<ul class="input-group input-group__descendant">
+								<li><input id="anti-trust" type="checkbox" name="topics[]" value="anti-trust"  /><label for="anti-trust">Anti-trust</label></li>
+								<li><input id="labor-law" type="checkbox" name="topics[]" value="labor-law"  /><label for="labor-law">Labor law</label></li>
+								<li><input id="policy" type="checkbox" name="topics[]" value="policy"  /><label for="policy">Policy</label></li>
+								<li><input id="co-op-law" type="checkbox" name="topics[]" value="co-op-law"  /><label for="co-op-law">Co-op law</label></li>
+							</ul>
+					</li>
+					<li>
+<input id="fair-labour" type="checkbox" name="topics[]" value="fair-labour"  /><label for="fair-labour">Fair labour</label>							<span id="fair-labour-disclosure-label" hidden>show 3 subtopics for "Fair labour"</span>
+							<span hidden> (and 3 subtopics)</span>
+							<ul class="input-group input-group__descendant">
+								<li><input id="unions" type="checkbox" name="topics[]" value="unions"  /><label for="unions">Unions</label></li>
+								<li><input id="workplace-safety" type="checkbox" name="topics[]" value="workplace-safety"  /><label for="workplace-safety">Workplace safety</label></li>
+								<li><input id="social-security" type="checkbox" name="topics[]" value="social-security"  /><label for="social-security">Social security</label></li>
+							</ul>
+					</li>
+					<li>
+<input id="platform-co-op-theory" type="checkbox" name="topics[]" value="platform-co-op-theory"  /><label for="platform-co-op-theory">Platform co-op theory</label>							<span id="platform-co-op-theory-disclosure-label" hidden>show 7 subtopics for "Platform co-op theory"</span>
+							<span hidden> (and 7 subtopics)</span>
+							<ul class="input-group input-group__descendant">
+								<li><input id="platform-cooperativism" type="checkbox" name="topics[]" value="platform-cooperativism"  /><label for="platform-cooperativism">Platform cooperativism</label></li>
+								<li><input id="platform-capitalism" type="checkbox" name="topics[]" value="platform-capitalism"  /><label for="platform-capitalism">Platform capitalism</label></li>
+								<li><input id="gig-economy" type="checkbox" name="topics[]" value="gig-economy"  /><label for="gig-economy">Gig economy</label></li>
+								<li><input id="sharing-economy" type="checkbox" name="topics[]" value="sharing-economy"  /><label for="sharing-economy">Sharing economy</label></li>
+								<li><input id="solidarity-economy" type="checkbox" name="topics[]" value="solidarity-economy"  /><label for="solidarity-economy">Solidarity economy</label></li>
+								<li><input id="information-economy" type="checkbox" name="topics[]" value="information-economy"  /><label for="information-economy">Information economy</label></li>
+								<li><input id="peer-to-peer" type="checkbox" name="topics[]" value="peer-to-peer"  /><label for="peer-to-peer">Peer-to-peer</label></li>
+							</ul>
+					</li>
+				</ul>
+			</div>
+		</div>
+		</form>
+	</div>
+</div>
+				</main>
+			</div>
+		</div>
+		<footer class="content-info">
+  			<div class="container"></div>
+  		</footer>
+		<script crossorigin="anonymous" src="https://polyfill.io/v3/polyfill.min.js?features=Element.prototype.inert"></script>
+		<script src="../../scripts/pinecone.umd.js"></script>
+		<script src="../../scripts/pinecone.js"></script>
+	</body>
+</html>
+

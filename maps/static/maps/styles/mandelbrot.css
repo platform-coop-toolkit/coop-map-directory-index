@@ -1,0 +1,26 @@
+:root {
+	--blue-500: #16605d;
+	--blue-400: #1d7c79;
+	--blue-300: #30cfc9;
+	--white: #fff;
+}
+
+a {
+	color: var(--blue-500);
+}
+
+a:hover {
+	color: var(--white);
+}
+
+.Tree-entityLink:hover {
+	background: var(--blue-500);
+}
+
+.Header {
+	background-color: var(--blue-500);
+}
+
+.Pen-previewLink svg {
+	fill: var(--blue-400);
+}
