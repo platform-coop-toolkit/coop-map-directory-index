@@ -24,6 +24,16 @@ class Type(models.Model):
     return self.name
 
 
+class Activity(models.Model):
+  name = models.CharField(null=False,max_length = 255)
+  description = models.CharField(null=True,max_length = 255)
+  created_at = models.DateTimeField(auto_now_add=True)
+  updated_at = models.DateTimeField(auto_now=True)
+
+  def __str__(self):
+    return self.name
+
+
 class Organization(models.Model):
   name = models.CharField(null=False,max_length = 255)
   description = models.TextField(null=True)
@@ -39,16 +49,7 @@ class Organization(models.Model):
   geom = models.PointField(null=True)
   category = models.ForeignKey(Category, on_delete=models.CASCADE)
   type = models.ForeignKey(Type, on_delete=models.CASCADE)
-  created_at = models.DateTimeField(auto_now_add=True)
-  updated_at = models.DateTimeField(auto_now=True)
-
-  def __str__(self):
-    return self.name
-
-
-class Activity(models.Model):
-  name = models.CharField(null=False,max_length = 255)
-  description = models.CharField(null=True,max_length = 255)
+  activities = models.ManyToManyField(Activity)
   created_at = models.DateTimeField(auto_now_add=True)
   updated_at = models.DateTimeField(auto_now=True)
 
