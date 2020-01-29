@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from django.contrib.auth.models import User, Group
-from mdi.models import Organization
+from mdi.models import Organization, Activity
 from rest_framework_gis.serializers import GeoFeatureModelSerializer
 
 
@@ -16,9 +16,17 @@ class GroupSerializer(serializers.HyperlinkedModelSerializer):
     fields = ('id', 'name')
 
 
+class ActivitySerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = Activity
+        fields = '__all__'
+        # fields = ('name')
+
+
 class OrganizationSerializer(GeoFeatureModelSerializer):
     category = serializers.StringRelatedField(source='category.name')
     type = serializers.StringRelatedField(source='type.name')
+    # activities = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
 
     class Meta:
         model = Organization
