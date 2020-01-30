@@ -26,9 +26,9 @@ class ActivitySerializer(serializers.HyperlinkedModelSerializer):
 class OrganizationSerializer(GeoFeatureModelSerializer):
     category = serializers.StringRelatedField(source='category.name')
     type = serializers.StringRelatedField(source='type.name')
-    # activities = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
+    activities = serializers.StringRelatedField(many=True)
 
     class Meta:
         model = Organization
         geo_field = 'geom'
-        fields = ('name', 'description', 'category', 'type', 'address', 'city', 'state', 'postal_code', 'country', 'url',)
+        fields = ('name', 'description', 'category', 'type', 'activities', 'address', 'city', 'state', 'postal_code', 'country', 'url',)

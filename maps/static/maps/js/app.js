@@ -59,7 +59,13 @@ map.on('load', function () {
       if (e.features[0].properties.state !== 'null') { htmlString += e.features[0].properties.state + ' ' }
       if (e.features[0].properties.postal_code !== 'null') { htmlString += e.features[0].properties.postal_code + ' ' }
       if (e.features[0].properties.country !== 'null') { htmlString += e.features[0].properties.country + ' ' }
-      if (e.features[0].properties.type !== 'null') { htmlString += '<hr>' + e.features[0].properties.type }
+      if (e.features[0].properties.type !== 'null' || e.features[0].properties.type !== 'null') { htmlString += '<hr>' }
+      if (e.features[0].properties.type !== 'null') { htmlString += 'Type: ' + e.features[0].properties.type + '<br />'}
+      if (e.features[0].properties.type !== 'null') { htmlString += 'Category: ' + e.features[0].properties.category + '<br />' }
+      if (e.features[0].properties.activities !== 'null') {
+        console.log(e.features[0].properties.activities, typeof(e.features[0].properties.activities));
+        htmlString += 'Activities: ' + e.features[0].properties.activities.replace('[', '').replace(']', '').replace(/","/g, ', ').replace(/"/g, '');
+      }
 
     popup.setLngLat(e.features[0].geometry.coordinates)
       .setHTML(htmlString)
