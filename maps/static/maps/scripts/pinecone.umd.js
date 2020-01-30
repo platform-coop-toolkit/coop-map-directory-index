@@ -277,6 +277,77 @@
   }();
 
   /**
+   * DisclosureButton class.
+   */
+  var DisclosureButton =
+  /*#__PURE__*/
+  function () {
+    /**
+     * Constructor.
+     *
+     * @param {DomNode} label
+     * @param {Object} options
+     */
+    function DisclosureButton(label, options) {
+      _classCallCheck(this, DisclosureButton);
+
+      this.label = label;
+      this.container = this.label.parentNode;
+      this.config = _objectSpread2({}, {
+        controlSelector: '.disclosure-button',
+        buttonVariant: false,
+        visuallyHiddenLabel: false
+      }, {}, options);
+      this.initDisclosure();
+      this.handleClick = this.handleClick.bind(this);
+      this.addEventListeners();
+    }
+    /**
+     * Initialize content within the disclosure.
+     */
+
+
+    _createClass(DisclosureButton, [{
+      key: "initDisclosure",
+      value: function initDisclosure() {
+        var ctrl = document.createElement('button');
+        var className = this.config.buttonVariant ? "button ".concat(this.config.buttonVariant, " disclosure-button") : 'button disclosure-button';
+        var label = this.config.visuallyHiddenLabel ? "<span class=\"screen-reader-text\">".concat(this.label.textContent, "</span>") : this.label.textContent;
+        ctrl.setAttribute('class', className);
+        ctrl.setAttribute('aria-expanded', 'false');
+        ctrl.setAttribute('type', 'button');
+        ctrl.innerHTML = "\n\t\t\t".concat(label, "\n\t\t\t<svg class=\"icon icon--chevron-down\" viewBox=\"0 0 20 20\" aria-hidden=\"true\" focusable=\"false\" xmlns=\"http://www.w3.org/2000/svg\"><path id=\"chevron-down\" d=\"m10 15a1 1 0 0 1 -.71-.29l-5-5a1 1 0 0 1 1.42-1.42l4.29 4.3 4.29-4.3a1 1 0 0 1 1.42 1.42l-5 5a1 1 0 0 1 -.71.29z\" fill=\"currentColor\"/></svg>\n\t\t");
+        this.container.insertBefore(ctrl, this.label.nextElementSibling);
+        this.container.removeChild(this.label);
+      }
+      /**
+       *
+       * @param {Event} event
+       */
+
+    }, {
+      key: "handleClick",
+      value: function handleClick(event) {
+        if (!event.target.closest(this.config.controlSelector)) return;
+        var ctrl = event.target.closest(this.config.controlSelector);
+        var expanded = 'true' === ctrl.getAttribute('aria-expanded') || false;
+        ctrl.setAttribute('aria-expanded', !expanded);
+      }
+      /**
+       * Add click event listeners.
+       */
+
+    }, {
+      key: "addEventListeners",
+      value: function addEventListeners() {
+        this.container.addEventListener('click', this.handleClick, false);
+      }
+    }]);
+
+    return DisclosureButton;
+  }();
+
+  /**
    * Filter List Handler.
    */
   var FilterList =
@@ -538,6 +609,14 @@
         } else {
           var btn = event.target.closest(this.config.dropdownButtonSelector);
           var expanded = 'true' === btn.getAttribute('aria-expanded') || false;
+
+          if (!expanded) {
+            var dropdownButtons = this.menu.querySelectorAll('button');
+            Array.prototype.forEach.call(dropdownButtons, function (dropdownButton) {
+              dropdownButton.setAttribute('aria-expanded', false);
+            });
+          }
+
           btn.setAttribute('aria-expanded', !expanded);
         }
       }
@@ -608,7 +687,7 @@
 
   /**!
    * @fileOverview Kickass library to create and place poppers near their reference elements.
-   * @version 1.16.0
+   * @version 1.16.1
    * @license
    * Copyright (c) 2016 Federico Zivolo and contributors
    *
@@ -965,7 +1044,7 @@
   function getBordersSize(styles, axis) {
     var sideA = axis === 'x' ? 'Left' : 'Top';
     var sideB = sideA === 'Left' ? 'Right' : 'Bottom';
-    return parseFloat(styles['border' + sideA + 'Width'], 10) + parseFloat(styles['border' + sideB + 'Width'], 10);
+    return parseFloat(styles['border' + sideA + 'Width']) + parseFloat(styles['border' + sideB + 'Width']);
   }
 
   function getSize(axis, body, html, computedStyle) {
@@ -1110,8 +1189,8 @@
     var parentRect = getBoundingClientRect(parent);
     var scrollParent = getScrollParent(children);
     var styles = getStyleComputedProperty(parent);
-    var borderTopWidth = parseFloat(styles.borderTopWidth, 10);
-    var borderLeftWidth = parseFloat(styles.borderLeftWidth, 10); // In cases where the parent is fixed, we must ignore negative scroll in offset calc
+    var borderTopWidth = parseFloat(styles.borderTopWidth);
+    var borderLeftWidth = parseFloat(styles.borderLeftWidth); // In cases where the parent is fixed, we must ignore negative scroll in offset calc
 
     if (fixedPosition && isHTML) {
       parentRect.top = Math.max(parentRect.top, 0);
@@ -1131,8 +1210,8 @@
     // the box of the documentElement, in the other cases not.
 
     if (!isIE10 && isHTML) {
-      var marginTop = parseFloat(styles.marginTop, 10);
-      var marginLeft = parseFloat(styles.marginLeft, 10);
+      var marginTop = parseFloat(styles.marginTop);
+      var marginLeft = parseFloat(styles.marginLeft);
       offsets.top -= borderTopWidth - marginTop;
       offsets.bottom -= borderTopWidth - marginTop;
       offsets.left -= borderLeftWidth - marginLeft;
@@ -2072,8 +2151,8 @@
     // take popper margin in account because we don't have this info available
 
     var css = getStyleComputedProperty(data.instance.popper);
-    var popperMarginSide = parseFloat(css['margin' + sideCapitalized], 10);
-    var popperBorderSide = parseFloat(css['border' + sideCapitalized + 'Width'], 10);
+    var popperMarginSide = parseFloat(css['margin' + sideCapitalized]);
+    var popperBorderSide = parseFloat(css['border' + sideCapitalized + 'Width']);
     var sideValue = center - data.offsets.popper[side] - popperMarginSide - popperBorderSide; // prevent arrowElement from being placed not contiguously to its popper
 
     sideValue = Math.max(Math.min(popper[len] - arrowElementSize, sideValue), 0);
@@ -3390,8 +3469,8 @@
       this.subGroup = this.container.querySelector('.input-group__descendant');
       this.config = _objectSpread2({}, {
         disclosureButtonSelector: '.disclosure-button'
-      }, {}, options);
-      this.initDisclosure();
+      }, {}, options); // this.initDisclosure();
+
       this.initCustomCheckbox();
       this.handleChange = this.handleChange.bind(this);
       this.handleClick = this.handleClick.bind(this);
@@ -3404,27 +3483,10 @@
 
 
     _createClass(NestedCheckbox, [{
-      key: "initDisclosure",
-      value: function initDisclosure() {
-        var disclosureLabel = this.label.nextElementSibling;
-        var disclosureLabelId = disclosureLabel.id;
-        var disclosureBtn = document.createElement('button');
-        disclosureBtn.classList.add('disclosure-button');
-        disclosureBtn.setAttribute('type', 'button');
-        disclosureBtn.setAttribute('aria-expanded', false);
-        disclosureBtn.setAttribute('aria-labelledby', disclosureLabelId);
-        disclosureBtn.innerHTML = "\n\t\t\t<svg viewBox=\"0 0 20 20\" xmlns=\"http://www.w3.org/2000/svg\" class=\"icon icon-chevron-down\" aria-hidden=\"true\" focusable=\"false\"><path id=\"chevron-down\" d=\"m10 15a1 1 0 0 1 -.71-.29l-5-5a1 1 0 0 1 1.42-1.42l4.29 4.3 4.29-4.3a1 1 0 0 1 1.42 1.42l-5 5a1 1 0 0 1 -.71.29z\" fill=\"currentColor\"></path></svg>\n\t\t";
-        this.input.parentNode.insertBefore(disclosureBtn, this.subGroup);
-      }
-      /**
-       * Initialize a mixed checkbox.
-       */
-
-    }, {
       key: "initCustomCheckbox",
       value: function initCustomCheckbox() {
         var status = this.getCustomState();
-        var supplementaryLabel = this.container.querySelector('span:not([id])');
+        var supplementaryLabel = this.container.querySelector('span.supplementary-label');
         supplementaryLabel.parentNode.removeChild(supplementaryLabel);
         var customCheckbox = document.createElement('div');
         customCheckbox.classList.add('checkbox');
@@ -3505,13 +3567,7 @@
     }, {
       key: "handleClick",
       value: function handleClick(event) {
-        if (!event.target.closest(this.config.disclosureButtonSelector) && 'checkbox' !== event.target.getAttribute('role')) return;
-
-        if (event.target.closest(this.config.disclosureButtonSelector)) {
-          var ctrl = event.target.closest(this.config.disclosureButtonSelector);
-          var expanded = 'true' === ctrl.getAttribute('aria-expanded') || false;
-          ctrl.setAttribute('aria-expanded', !expanded);
-        }
+        if (!'checkbox' !== event.target.getAttribute('role')) return;
 
         if ('checkbox' === event.target.getAttribute('role')) {
           this.toggleMixedCheckbox(event.target);
@@ -3605,16 +3661,103 @@
     return Notification;
   }();
 
+  /**
+   * Search toggle class.
+   */
+  var SearchToggle =
+  /*#__PURE__*/
+  function () {
+    /**
+     * Constructor.
+     *
+     * @param {DomNode} btn
+     * @param {DomNode} container
+     * @param {Object} options
+     */
+    function SearchToggle(btn, container, options) {
+      _classCallCheck(this, SearchToggle);
+
+      this.btn = btn;
+      this.container = container;
+      this.config = _objectSpread2({}, {}, {}, options);
+      this.handleClick = this.handleClick.bind(this);
+      this.handleBlur = this.handleBlur.bind(this);
+      this.handleKeyDown = this.handleKeyDown.bind(this);
+      this.addEventListeners();
+    }
+    /**
+     * Handle click.
+     */
+
+
+    _createClass(SearchToggle, [{
+      key: "handleClick",
+      value: function handleClick() {
+        var expanded = 'true' === this.btn.getAttribute('aria-expanded') || false;
+        this.btn.setAttribute('aria-expanded', !expanded);
+      }
+      /**
+       *
+       * @param {Event} event
+       */
+
+    }, {
+      key: "handleBlur",
+      value: function handleBlur(event) {
+        if (!event.relatedTarget) return;
+        var expanded = 'true' === this.btn.getAttribute('aria-expanded') || false;
+
+        if (expanded && !event.relatedTarget.closest('.search-form') && event.relatedTarget !== this.btn) {
+          this.btn.setAttribute('aria-expanded', false);
+        }
+      }
+      /**
+       * @param {Event} event
+       */
+
+    }, {
+      key: "handleKeyDown",
+      value: function handleKeyDown(event) {
+        var expanded = 'true' === this.btn.getAttribute('aria-expanded') || false;
+        if (!expanded) return false;
+
+        if (27 === event.keyCode) {
+          this.btn.setAttribute('aria-expanded', false);
+          this.btn.focus();
+        }
+      }
+      /**
+       * Add event listeners.
+       */
+
+    }, {
+      key: "addEventListeners",
+      value: function addEventListeners() {
+        var _this = this;
+
+        this.btn.addEventListener('click', this.handleClick, false);
+        Array.prototype.forEach.call(this.container.querySelectorAll('input, button'), function (el) {
+          el.addEventListener('blur', _this.handleBlur, false);
+        });
+        document.addEventListener('keydown', this.handleKeyDown, false);
+      }
+    }]);
+
+    return SearchToggle;
+  }();
+
   var index = {
     Accordion: Accordion,
     Card: Card,
     DeselectAll: DeselectAll,
+    DisclosureButton: DisclosureButton,
     FilterList: FilterList,
     Icon: Icon,
     Menu: Menu,
     MenuButton: MenuButton,
     NestedCheckbox: NestedCheckbox,
-    Notification: Notification
+    Notification: Notification,
+    SearchToggle: SearchToggle
   };
 
   return index;

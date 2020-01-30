@@ -50,9 +50,9 @@ map.on('load', function () {
     let
       htmlString = '';
       if (e.features[0].properties.url) {
-        htmlString += '<b><a href="' + e.features[0].properties.url + '">' + e.features[0].properties.name + '</a></b><br />'
+        htmlString += '<strong><a href="' + e.features[0].properties.url + '">' + e.features[0].properties.name + '</a></strong><br />'
       } else {
-        htmlString += '<b>' + e.features[0].properties.name + '</b><br />'
+        htmlString += '<strong>' + e.features[0].properties.name + '</strong><br />'
       }
       if (e.features[0].properties.address !== 'null') { htmlString += e.features[0].properties.address + '<br />' }
       if (e.features[0].properties.city !== 'null') { htmlString += e.features[0].properties.city + ' '}
@@ -63,7 +63,6 @@ map.on('load', function () {
       if (e.features[0].properties.type !== 'null') { htmlString += 'Type: ' + e.features[0].properties.type + '<br />'}
       if (e.features[0].properties.type !== 'null') { htmlString += 'Category: ' + e.features[0].properties.category + '<br />' }
       if (e.features[0].properties.activities !== 'null') {
-        console.log(e.features[0].properties.activities, typeof(e.features[0].properties.activities));
         htmlString += 'Activities: ' + e.features[0].properties.activities.replace('[', '').replace(']', '').replace(/","/g, ', ').replace(/"/g, '');
       }
 

@@ -11,11 +11,7 @@ body {
   color: #203131;
   font-family: 'Noto Sans', sans-serif;
 }
-#map b {
+#map.organization {
   font-family: 'Noto Serif', serif;
 }
-#map hr {
-  border: none;
-  border-top: 3px double #203131;
-  text-align: center;
-}
+
