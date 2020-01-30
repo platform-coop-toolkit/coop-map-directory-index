@@ -12,7 +12,7 @@ This project requires Python 3 (it's been running under 3.6 & 3.7), PostgreSQL w
 4. Install the Python requirments: `pip install -r requirements.txt`
 5. Create a PostgreSQL role for this project: `createuser --password cmdi`
 6. Create the PostgreSQL database: `createdb --owner cmdi cmdi`
-7. Import the current database: `psql -f ./scratch/cmdi.sql`
+7. Import the current database: `bunzip2 -c ./scratch/cmdi.sql.bz2 | psql cmdi`
 8. Copy `.env-example` to `.env` and fill in the appropriate credentials.
 9. For a local installation simply start the server: `python manage.py runserver`
 
