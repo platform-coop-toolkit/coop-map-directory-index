@@ -6,7 +6,7 @@ from django.db.models import Manager as GeoManager
 
 
 class Category(models.Model):
-    name = models.CharField(null=False, max_length=255)
+    name = models.CharField(null=False, max_length=255, unique=True)
     description = models.CharField(null=True, max_length=255)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -16,7 +16,7 @@ class Category(models.Model):
 
 
 class Type(models.Model):
-    name = models.CharField(null=False, max_length=255)
+    name = models.CharField(null=False, max_length=255, unique=True)
     description = models.CharField(null=True, max_length=255)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -26,7 +26,7 @@ class Type(models.Model):
 
 
 class Activity(models.Model):
-    name = models.CharField(null=False, max_length=255)
+    name = models.CharField(null=False, max_length=255, unique=True)
     description = models.CharField(null=True, max_length=255)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
