@@ -7,7 +7,7 @@ var map = new mapboxgl.Map({
   hash: true
 });
 
-let nav = new mapboxgl.NavigationControl();
+let nav = new mapboxgl.NavigationControl({ showCompass: false });
 map.addControl(nav, 'bottom-left');
 
 map.on('load', function () {
