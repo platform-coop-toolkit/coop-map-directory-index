@@ -7,9 +7,9 @@ user_list = UserViewSet.as_view({
 })
 user_detail = UserViewSet.as_view({
     'get': 'retrieve',
-    'post': 'create',
-    'put': 'update',
-    'delete': 'destroy'
+    # 'post': 'create',
+    # 'put': 'update',
+    # 'delete': 'destroy'
 })
 
 group_list = GroupViewSet.as_view({
@@ -17,9 +17,9 @@ group_list = GroupViewSet.as_view({
 })
 group_detail = GroupViewSet.as_view({
     'get': 'retrieve',
-    'post': 'create',
-    'put': 'update',
-    'delete': 'destroy'
+    # 'post': 'create',
+    # 'put': 'update',
+    #'delete': 'destroy'
 })
 
 activity_list = ActivityViewSet.as_view({

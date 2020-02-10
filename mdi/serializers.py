@@ -19,8 +19,7 @@ class GroupSerializer(serializers.HyperlinkedModelSerializer):
 class ActivitySerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Activity
-        fields = '__all__'
-        # fields = ('name')
+        fields = ('name', 'description',)
 
 
 class OrganizationSerializer(GeoFeatureModelSerializer):
