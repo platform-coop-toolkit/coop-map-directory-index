@@ -57,6 +57,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework_gis',
     'django_countries',
+    'accounts',
     'mdi',
     'maps',
 ]
@@ -96,6 +97,9 @@ WSGI_APPLICATION = 'cmdi.wsgi.application'
 DATABASES = {
     'default': dj_database_url.config(conn_max_age=600)
 }
+
+
+AUTH_USER_MODEL = 'accounts.User'
 
 
 # Password validation

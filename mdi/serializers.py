@@ -1,5 +1,6 @@
 from rest_framework import serializers
-from django.contrib.auth.models import User, Group
+from accounts.models import User
+from django.contrib.auth.models import Group
 from mdi.models import Organization, Activity
 from rest_framework_gis.serializers import GeoFeatureModelSerializer
 
