@@ -26,6 +26,7 @@ class UserViewSet(viewsets.ModelViewSet):
   """
   queryset = User.objects.all().order_by('date_joined')
   serializer_class = UserSerializer
+  http_method_names = ['get']
 
 
 class GroupViewSet(viewsets.ModelViewSet):
@@ -34,13 +35,16 @@ class GroupViewSet(viewsets.ModelViewSet):
   """
   queryset = Group.objects.all()
   serializer_class = GroupSerializer
+  http_method_names = ['get']
 
 
 class ActivityViewSet(viewsets.ModelViewSet):
     queryset = Activity.objects.all()
     serializer_class = ActivitySerializer
+    http_method_names = ['get']
 
 
 class OrganizationViewSet(viewsets.ModelViewSet):
     queryset = Organization.objects.filter(geom__isnull=False)
     serializer_class  = OrganizationSerializer
+    http_method_names = ['get']
