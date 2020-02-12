@@ -44,6 +44,34 @@ class Activity(models.Model):
         return self.name
 
 
+class Tool(models.Model):
+    name = models.CharField(null=False, max_length=255)
+    description = models.TextField(null=True)
+    url = models.CharField(null=False, max_length=255)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ['name']
+
+    def __str__(self):
+        return self.name
+
+
+class SocialNetwork(models.Model):
+    name = models.CharField(null=False, max_length=255)
+    description = models.TextField(null=True)
+    url = models.CharField(null=False, max_length=255)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ['name']
+
+    def __str__(self):
+        return self.name
+
+
 class Organization(models.Model):
     name = models.CharField(null=False, max_length=255)
     description = models.TextField(null=True)
@@ -68,3 +96,4 @@ class Organization(models.Model):
 
     def __str__(self):
         return '{}, {}'.format(self.name, self.city)
+
