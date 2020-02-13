@@ -1,13 +1,14 @@
 from django.db import models
 from django.contrib.gis.db import models
+from accounts.models import User
 from django.contrib.postgres.fields import HStoreField
 from django.urls import reverse
 from django.db.models import Manager as GeoManager
 
 
 class Category(models.Model):
-    name = models.CharField(null=False, max_length=255, unique=True)
-    description = models.CharField(null=True, max_length=255)
+    name = models.CharField(blank=False, max_length=255, unique=True)
+    description = models.CharField(blank=True, default='', max_length=255)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -19,8 +20,8 @@ class Category(models.Model):
 
 
 class Type(models.Model):
-    name = models.CharField(null=False, max_length=255, unique=True)
-    description = models.CharField(null=True, max_length=255)
+    name = models.CharField(blank=False, max_length=255, unique=True)
+    description = models.CharField(blank=True, default='', max_length=255)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -32,8 +33,8 @@ class Type(models.Model):
 
 
 class Activity(models.Model):
-    name = models.CharField(null=False, max_length=255, unique=True)
-    description = models.CharField(null=True, max_length=255)
+    name = models.CharField(blank=False, max_length=255, unique=True)
+    description = models.CharField(blank=True, default='', max_length=255)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -45,9 +46,9 @@ class Activity(models.Model):
 
 
 class Tool(models.Model):
-    name = models.CharField(null=False, max_length=255)
-    description = models.TextField(null=True)
-    url = models.CharField(null=False, max_length=255)
+    name = models.CharField(blank=False, max_length=255)
+    description = models.TextField(blank=True, default='')
+    url = models.CharField(blank=False, max_length=255)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -59,9 +60,9 @@ class Tool(models.Model):
 
 
 class SocialNetwork(models.Model):
-    name = models.CharField(null=False, max_length=255)
-    description = models.TextField(null=True)
-    url = models.CharField(null=False, max_length=255)
+    name = models.CharField(blank=False, max_length=255)
+    description = models.TextField(blank=True, default='')
+    url = models.CharField(blank=False, max_length=255)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -73,15 +74,15 @@ class SocialNetwork(models.Model):
 
 
 class Organization(models.Model):
-    name = models.CharField(null=False, max_length=255)
-    description = models.TextField(null=True)
-    address = models.CharField(null=True, max_length=255)
-    city = models.CharField(null=True, max_length=255)
-    state = models.CharField(null=True, max_length=255)
-    postal_code = models.CharField(null=True, max_length=255)
-    country = models.CharField(null=True, max_length=3)
-    email = models.CharField(null=True, max_length=255)
-    url = models.CharField(null=True, max_length=255)
+    name = models.CharField(blank=False, max_length=255)
+    description = models.TextField(blank=True, default='')
+    address = models.CharField(blank=True, default='', max_length=255)
+    city = models.CharField(blank=True, default='', max_length=255)
+    state = models.CharField(blank=True, default='', max_length=255)
+    postal_code = models.CharField(blank=True, default='', max_length=255)
+    country = models.CharField(blank=True, default='', max_length=3)
+    email = models.CharField(blank=True, default='', max_length=255)
+    url = models.CharField(blank=True, default='', max_length=255)
     lat = models.FloatField(null=True)
     lng = models.FloatField(null=True)
     geom = models.PointField(null=True)
@@ -97,3 +98,10 @@ class Organization(models.Model):
     def __str__(self):
         return '{}, {}'.format(self.name, self.city)
 
+
+class User(User):
+    USERNAME_FIELD = 'email'
+    EMAIL_FIELD = 'email'
+
+    class Meta:
+        ordering = ['last_name', 'first_name']
