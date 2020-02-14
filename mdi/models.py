@@ -6,6 +6,19 @@ from django.urls import reverse
 from django.db.models import Manager as GeoManager
 
 
+class Source(models.Model):
+    name = models.CharField(blank=False, max_length=255, unique=True)
+    description = models.CharField(blank=True, max_length=255)
+    url = models.CharField(blank=True, max_length=255)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    class Meta:
+        ordering = ['name']
+
+    def __str__(self):
+        return self.name
+
+
 class Category(models.Model):
     name = models.CharField(blank=False, max_length=255, unique=True)
     description = models.CharField(blank=True, default='', max_length=255)
@@ -87,6 +100,7 @@ class Organization(models.Model):
     lng = models.FloatField(null=True)
     geom = models.PointField(null=True)
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
+    source = models.ForeignKey(Source, on_delete=models.CASCADE)
     type = models.ForeignKey(Type, on_delete=models.CASCADE)
     activities = models.ManyToManyField(Activity)
     created_at = models.DateTimeField(auto_now_add=True)
