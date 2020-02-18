@@ -18,6 +18,7 @@
   "homepage": "https://github.com/platform-coop-toolkit/coop-map-directory-index#readme",
   "husky": {
     "hooks": {
+      "pre-commit": null,
       "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
     }
   },
