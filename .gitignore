@@ -1,6 +1,9 @@
 # OS X cruft
 .DS_Store
 
+# Node
+node_modules
+
 # Non-versioned working directory
 scratch
 staticfiles

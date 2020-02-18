@@ -1,0 +1,33 @@
+{
+  "name": "coop-map-directory-index",
+  "version": "0.1.0",
+  "description": "The Map/Directory/Index component of the Platform Cooperative Development Kit.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/platform-coop-toolkit/coop-map-directory-index.git"
+  },
+  "author": "Eric Theise",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/platform-coop-toolkit/coop-map-directory-index/issues"
+  },
+  "homepage": "https://github.com/platform-coop-toolkit/coop-map-directory-index#readme",
+  "husky": {
+    "hooks": {
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
+    }
+  },
+  "dependencies": {
+    "d3": "^5.15.0",
+    "mapbox-gl": "^1.7.0"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^8.3.5",
+    "@commitlint/config-conventional": "^8.3.4",
+    "husky": "^4.2.3"
+  }
+}
