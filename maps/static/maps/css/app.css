@@ -1,17 +1,14 @@
 body {
-  margin: 0;
-  padding: 0;
 }
 
 #map {
-  position: absolute;
   top: 0;
   bottom: 0;
   width: 100%;
+  height: 580px;
   color: #203131;
   font-family: 'Noto Sans', sans-serif;
 }
 #map.organization {
   font-family: 'Noto Serif', serif;
 }
-
