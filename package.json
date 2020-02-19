@@ -4,6 +4,7 @@
   "description": "The Map/Directory/Index component of the Platform Cooperative Development Kit.",
   "main": "index.js",
   "scripts": {
+    "build:js": "browserify -t [ babelify ] -t envify maps/static/maps/js/app.js | uglifyjs -c warnings=false -o maps/static/maps/dist/js/app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -22,9 +23,20 @@
       "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
     }
   },
+  "browserslist": [
+    "> 0.25%",
+    "not dead"
+  ],
   "dependencies": {
+    "@babel/core": "^7.8.4",
+    "@babel/preset-env": "^7.8.4",
+    "babel-cli": "^6.26.0",
+    "babelify": "^10.0.0",
+    "browserify": "^16.5.0",
     "d3": "^5.15.0",
-    "mapbox-gl": "^1.7.0"
+    "envify": "^4.1.0",
+    "mapbox-gl": "^1.7.0",
+    "uglify": "^0.1.5"
   },
   "devDependencies": {
     "@commitlint/cli": "^8.3.5",
