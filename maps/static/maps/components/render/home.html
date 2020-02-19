@@ -10,7 +10,7 @@
 		<span class="screen-reader-text">search</span>
 		<input id="s" name="s" placeholder="Search resource name, publisher, or topic…"  type="search" />
 	</label>
-	<button type="submit" class="search-submit"><span class="screen-reader-text">submit search</span><svg
+	<button type="submit" class="button button--search"><span class="screen-reader-text">submit search</span><svg
 	class="icon icon--search"
 	aria-hidden="true"
 	viewBox="0 0 20 20"
@@ -62,10 +62,9 @@ Formats</a></li>
 </svg>
 Sectors</a></li>
 </ul>
-<p class="wp-block-button wp-block-button--inverse">
-	<a href="/browse-all" class="wp-block-button__link">Browse all resources
-	</a>
-</p>
+	<p>
+<a class="link--inverse" href="/browse-all">Browse all resources</a>
+	</p>
 </section>
 <section class="home__feed">
 	<header>
@@ -76,10 +75,25 @@ Sectors</a></li>
 	<div class="meta-card-wrapper">
 		<div class="card-wrapper">
 			<ul class="cards">
-	<li class="card card--resource" data-format="audio">
-		<header>
-				<span class="card__format">
-<svg
+	<li class="card__wrapper">
+		<article class="card card--resource">
+			<header>
+				<h3 class="card__title" >
+					<a class="card__link" href="resource">Aspernatur Eos Facilis Quia Aspernatur Magnam Aliquid Nisi</a>
+				</h3>
+					<p class="card__byline"><svg
+	class="icon icon--author"
+	aria-hidden="true"
+	viewBox="0 0 20 20"
+	focusable="false"
+>
+	<use href="/images/author.svg#author"/>
+</svg>
+ By Quod Et Quia</p>
+			</header>
+			<aside class="card__aside">
+				<div class="card__meta">
+					<span class="card__format"><span class="screen-reader-text">resource format: </span><svg
 	class="icon icon--audio"
 	aria-hidden="true"
 	viewBox="0 0 20 20"
@@ -87,13 +101,9 @@ Sectors</a></li>
 >
 	<use href="/images/audio.svg#audio"/>
 </svg>
-Audio</span>				<h2 class="card__title" >
-					<a href="resource">Porro Rerum Beatae Perspiciatis Consequatur Aliquid Dicta Nesciunt Ut Facere Unde</a>
-				</h2>
-		</header>
-			<p class="card__byline">By Amet Sit Sunt</p>
-				<p class="card__locality">
-<svg
+Audio</span>				</div>
+				<div class="card__meta">
+					<span class="card__locality"><span class="screen-reader-text">location of relevance: </span><svg
 	class="icon icon--location"
 	aria-hidden="true"
 	viewBox="0 0 20 20"
@@ -101,23 +111,44 @@ Audio</span>				<h2 class="card__title" >
 >
 	<use href="/images/location.svg#location"/>
 </svg>
-Montenegro</p>
-				<div class="card__tags">
-					<ul class="badges" >
-							<li class="badge">
-								<span class="screen-reader-text">Topic: </span>Utilisation
-							</li>
-							<li class="badge">
-								<span class="screen-reader-text">Topic: </span>Projection
-							</li>
-					</ul>
-					<p>+2 more</p>
+Gibraltar</span>
 				</div>
-		</li>
-	<li class="card card--resource" data-format="case-study">
-		<header>
-				<span class="card__format">
-<svg
+				<div class="card__tags tags">
+					<div class="badge">
+						<span class="screen-reader-text">Topic: </span>Collaboration
+					</div>
+					<div class="badge">
+						<span class="screen-reader-text">Topic: </span>Projection
+					</div>
+					<span class="overflow">
+						+5 more
+					</span>
+				</div>
+				<div class="card__meta">
+				    <span class="card__added">Added January 1, 2020</span>
+				</div>
+			</aside>
+		</article>
+	</li>
+	<li class="card__wrapper">
+		<article class="card card--resource">
+			<header>
+				<h3 class="card__title" >
+					<a class="card__link" href="resource">Provident Non Et Consequatur Deserunt Molestiae Et Recusandae Inventore Voluptatem</a>
+				</h3>
+					<p class="card__byline"><svg
+	class="icon icon--author"
+	aria-hidden="true"
+	viewBox="0 0 20 20"
+	focusable="false"
+>
+	<use href="/images/author.svg#author"/>
+</svg>
+ By Quis Pariatur Non</p>
+			</header>
+			<aside class="card__aside">
+				<div class="card__meta">
+					<span class="card__format"><span class="screen-reader-text">resource format: </span><svg
 	class="icon icon--case-study"
 	aria-hidden="true"
 	viewBox="0 0 20 20"
@@ -125,13 +156,9 @@ Montenegro</p>
 >
 	<use href="/images/case-study.svg#case-study"/>
 </svg>
-Case Study</span>				<h2 class="card__title" >
-					<a href="resource">Ipsam Quae Ut Enim Optio Quam Architecto Magnam Est Delectus Mollitia</a>
-				</h2>
-		</header>
-			<p class="card__byline">By Quos Aliquid</p>
-				<p class="card__locality">
-<svg
+Case Study</span>				</div>
+				<div class="card__meta">
+					<span class="card__locality"><span class="screen-reader-text">location of relevance: </span><svg
 	class="icon icon--location"
 	aria-hidden="true"
 	viewBox="0 0 20 20"
@@ -139,23 +166,44 @@ Case Study</span>				<h2 class="card__title" >
 >
 	<use href="/images/location.svg#location"/>
 </svg>
-Guinea</p>
-				<div class="card__tags">
-					<ul class="badges" >
-							<li class="badge">
-								<span class="screen-reader-text">Topic: </span>Hardware
-							</li>
-							<li class="badge">
-								<span class="screen-reader-text">Topic: </span>Definition
-							</li>
-					</ul>
-					<p>+3 more</p>
+Fiji</span>
 				</div>
-		</li>
-	<li class="card card--resource" data-format="toolkit">
-		<header>
-				<span class="card__format">
-<svg
+				<div class="card__tags tags">
+					<div class="badge">
+						<span class="screen-reader-text">Topic: </span>Protocol
+					</div>
+					<div class="badge">
+						<span class="screen-reader-text">Topic: </span>Throughput
+					</div>
+					<span class="overflow">
+						+5 more
+					</span>
+				</div>
+				<div class="card__meta">
+				    <span class="card__added">Added January 1, 2020</span>
+				</div>
+			</aside>
+		</article>
+	</li>
+	<li class="card__wrapper">
+		<article class="card card--resource">
+			<header>
+				<h3 class="card__title" >
+					<a class="card__link" href="resource">Dignissimos Ad Sit Earum Et Rerum Beatae Dolor Commodi Saepe Similique</a>
+				</h3>
+					<p class="card__byline"><svg
+	class="icon icon--author"
+	aria-hidden="true"
+	viewBox="0 0 20 20"
+	focusable="false"
+>
+	<use href="/images/author.svg#author"/>
+</svg>
+ By Quisquam Et</p>
+			</header>
+			<aside class="card__aside">
+				<div class="card__meta">
+					<span class="card__format"><span class="screen-reader-text">resource format: </span><svg
 	class="icon icon--toolkit"
 	aria-hidden="true"
 	viewBox="0 0 20 20"
@@ -163,13 +211,9 @@ Guinea</p>
 >
 	<use href="/images/toolkit.svg#toolkit"/>
 </svg>
-Toolkit</span>				<h2 class="card__title" >
-					<a href="resource">Architecto Error Et Quia Rerum Ea Et</a>
-				</h2>
-		</header>
-			<p class="card__byline">By Aliquid Facilis</p>
-				<p class="card__locality">
-<svg
+Toolkit</span>				</div>
+				<div class="card__meta">
+					<span class="card__locality"><span class="screen-reader-text">location of relevance: </span><svg
 	class="icon icon--location"
 	aria-hidden="true"
 	viewBox="0 0 20 20"
@@ -177,23 +221,44 @@ Toolkit</span>				<h2 class="card__title" >
 >
 	<use href="/images/location.svg#location"/>
 </svg>
-Luxembourg</p>
-				<div class="card__tags">
-					<ul class="badges" >
-							<li class="badge">
-								<span class="screen-reader-text">Topic: </span>Conglomeration
-							</li>
-							<li class="badge">
-								<span class="screen-reader-text">Topic: </span>Encoding
-							</li>
-					</ul>
-					<p>+3 more</p>
+Antarctica (the territory South of 60 deg S)</span>
 				</div>
-		</li>
-	<li class="card card--resource" data-format="educational-curriculum">
-		<header>
-				<span class="card__format">
-<svg
+				<div class="card__tags tags">
+					<div class="badge">
+						<span class="screen-reader-text">Topic: </span>Capability
+					</div>
+					<div class="badge">
+						<span class="screen-reader-text">Topic: </span>Migration
+					</div>
+					<span class="overflow">
+						+4 more
+					</span>
+				</div>
+				<div class="card__meta">
+				    <span class="card__added">Added January 1, 2020</span>
+				</div>
+			</aside>
+		</article>
+	</li>
+	<li class="card__wrapper">
+		<article class="card card--resource">
+			<header>
+				<h3 class="card__title" >
+					<a class="card__link" href="resource">Ipsum Fugit Quia Dolores Architecto</a>
+				</h3>
+					<p class="card__byline"><svg
+	class="icon icon--author"
+	aria-hidden="true"
+	viewBox="0 0 20 20"
+	focusable="false"
+>
+	<use href="/images/author.svg#author"/>
+</svg>
+ By Debitis Nesciunt</p>
+			</header>
+			<aside class="card__aside">
+				<div class="card__meta">
+					<span class="card__format"><span class="screen-reader-text">resource format: </span><svg
 	class="icon icon--educational-curriculum"
 	aria-hidden="true"
 	viewBox="0 0 20 20"
@@ -201,13 +266,9 @@ Luxembourg</p>
 >
 	<use href="/images/educational-curriculum.svg#educational-curriculum"/>
 </svg>
-Educational Curriculum</span>				<h2 class="card__title" >
-					<a href="resource">Quis Et Deserunt Aut Nihil Sed Deleniti Est Tempore Voluptatem Consequatur Animi</a>
-				</h2>
-		</header>
-			<p class="card__byline">By Sequi Debitis</p>
-				<p class="card__locality">
-<svg
+Educational Curriculum</span>				</div>
+				<div class="card__meta">
+					<span class="card__locality"><span class="screen-reader-text">location of relevance: </span><svg
 	class="icon icon--location"
 	aria-hidden="true"
 	viewBox="0 0 20 20"
@@ -215,24 +276,30 @@ Educational Curriculum</span>				<h2 class="card__title" >
 >
 	<use href="/images/location.svg#location"/>
 </svg>
-Anguilla</p>
-				<div class="card__tags">
-					<ul class="badges" >
-							<li class="badge">
-								<span class="screen-reader-text">Topic: </span>Productivity
-							</li>
-							<li class="badge">
-								<span class="screen-reader-text">Topic: </span>Complexity
-							</li>
-					</ul>
-					<p>+4 more</p>
+Albania</span>
 				</div>
-		</li>
+				<div class="card__tags tags">
+					<div class="badge">
+						<span class="screen-reader-text">Topic: </span>Parallelism
+					</div>
+					<div class="badge">
+						<span class="screen-reader-text">Topic: </span>Approach
+					</div>
+					<span class="overflow">
+						+4 more
+					</span>
+				</div>
+				<div class="card__meta">
+				    <span class="card__added">Added January 1, 2020</span>
+				</div>
+			</aside>
+		</article>
+	</li>
 			</ul>
 		</div>
 		<aside class="info-cards">
 <div class="info-card">
-<button id="button" type="button" class="button">
+<button id="button" type="button" class="button button--borderless">
 <svg
 	class="icon icon--close"
 	aria-hidden="true"
@@ -259,7 +326,7 @@ Anguilla</p>
 	</p>
 </div>
 <div class="info-card">
-<button id="button" type="button" class="button">
+<button id="button" type="button" class="button button--borderless">
 <svg
 	class="icon icon--close"
 	aria-hidden="true"
@@ -281,10 +348,25 @@ Anguilla</p>
 	<h3><a href="/most-recent">Recently published</a></h3>
 	<div class="card-wrapper">
 		<ul class="cards">
-	<li class="card card--resource" data-format="video">
-		<header>
-				<span class="card__format">
-<svg
+	<li class="card__wrapper">
+		<article class="card card--resource">
+			<header>
+				<h3 class="card__title" >
+					<a class="card__link" href="resource">In Natus Ex Animi Ipsa Qui</a>
+				</h3>
+					<p class="card__byline"><svg
+	class="icon icon--author"
+	aria-hidden="true"
+	viewBox="0 0 20 20"
+	focusable="false"
+>
+	<use href="/images/author.svg#author"/>
+</svg>
+ By Quidem Eaque Fuga</p>
+			</header>
+			<aside class="card__aside">
+				<div class="card__meta">
+					<span class="card__format"><span class="screen-reader-text">resource format: </span><svg
 	class="icon icon--video"
 	aria-hidden="true"
 	viewBox="0 0 20 20"
@@ -292,13 +374,9 @@ Anguilla</p>
 >
 	<use href="/images/video.svg#video"/>
 </svg>
-Video</span>				<h2 class="card__title" >
-					<a href="resource">Voluptas Libero Magnam Aliquam Id Debitis Et Eos Animi Cum Aliquam Quod</a>
-				</h2>
-		</header>
-			<p class="card__byline">By Et Rem Sed Nisi</p>
-				<p class="card__locality">
-<svg
+Video</span>				</div>
+				<div class="card__meta">
+					<span class="card__locality"><span class="screen-reader-text">location of relevance: </span><svg
 	class="icon icon--location"
 	aria-hidden="true"
 	viewBox="0 0 20 20"
@@ -306,23 +384,44 @@ Video</span>				<h2 class="card__title" >
 >
 	<use href="/images/location.svg#location"/>
 </svg>
-Chad</p>
-				<div class="card__tags">
-					<ul class="badges" >
-							<li class="badge">
-								<span class="screen-reader-text">Topic: </span>Matrix
-							</li>
-							<li class="badge">
-								<span class="screen-reader-text">Topic: </span>Benchmark
-							</li>
-					</ul>
-					<p>+4 more</p>
+Nepal</span>
 				</div>
-		</li>
-	<li class="card card--resource" data-format="article">
-		<header>
-				<span class="card__format">
-<svg
+				<div class="card__tags tags">
+					<div class="badge">
+						<span class="screen-reader-text">Topic: </span>Middleware
+					</div>
+					<div class="badge">
+						<span class="screen-reader-text">Topic: </span>Access
+					</div>
+					<span class="overflow">
+						+3 more
+					</span>
+				</div>
+				<div class="card__meta">
+				    <span class="card__added">Added January 1, 2020</span>
+				</div>
+			</aside>
+		</article>
+	</li>
+	<li class="card__wrapper">
+		<article class="card card--resource">
+			<header>
+				<h3 class="card__title" >
+					<a class="card__link" href="resource">Accusantium Quo Earum Est Ut Nostrum</a>
+				</h3>
+					<p class="card__byline"><svg
+	class="icon icon--author"
+	aria-hidden="true"
+	viewBox="0 0 20 20"
+	focusable="false"
+>
+	<use href="/images/author.svg#author"/>
+</svg>
+ By Eligendi Sunt Architecto</p>
+			</header>
+			<aside class="card__aside">
+				<div class="card__meta">
+					<span class="card__format"><span class="screen-reader-text">resource format: </span><svg
 	class="icon icon--article"
 	aria-hidden="true"
 	viewBox="0 0 20 20"
@@ -330,13 +429,9 @@ Chad</p>
 >
 	<use href="/images/article.svg#article"/>
 </svg>
-Article</span>				<h2 class="card__title" >
-					<a href="resource">Dolor Sapiente Ullam Consequatur Cumque Quae Repellendus Libero Non Molestiae Occaecati Ut</a>
-				</h2>
-		</header>
-			<p class="card__byline">By Odio Voluptatibus Laboriosam</p>
-				<p class="card__locality">
-<svg
+Article</span>				</div>
+				<div class="card__meta">
+					<span class="card__locality"><span class="screen-reader-text">location of relevance: </span><svg
 	class="icon icon--location"
 	aria-hidden="true"
 	viewBox="0 0 20 20"
@@ -344,23 +439,44 @@ Article</span>				<h2 class="card__title" >
 >
 	<use href="/images/location.svg#location"/>
 </svg>
-Togo</p>
-				<div class="card__tags">
-					<ul class="badges" >
-							<li class="badge">
-								<span class="screen-reader-text">Topic: </span>Support
-							</li>
-							<li class="badge">
-								<span class="screen-reader-text">Topic: </span>Adapter
-							</li>
-					</ul>
-					<p>+1 more</p>
+Ghana</span>
 				</div>
-		</li>
-	<li class="card card--resource" data-format="book">
-		<header>
-				<span class="card__format">
-<svg
+				<div class="card__tags tags">
+					<div class="badge">
+						<span class="screen-reader-text">Topic: </span>Product
+					</div>
+					<div class="badge">
+						<span class="screen-reader-text">Topic: </span>System Engine
+					</div>
+					<span class="overflow">
+						+3 more
+					</span>
+				</div>
+				<div class="card__meta">
+				    <span class="card__added">Added January 1, 2020</span>
+				</div>
+			</aside>
+		</article>
+	</li>
+	<li class="card__wrapper">
+		<article class="card card--resource">
+			<header>
+				<h3 class="card__title" >
+					<a class="card__link" href="resource">In Asperiores Reprehenderit Atque Temporibus Quaerat Voluptatem Porro Accusamus</a>
+				</h3>
+					<p class="card__byline"><svg
+	class="icon icon--author"
+	aria-hidden="true"
+	viewBox="0 0 20 20"
+	focusable="false"
+>
+	<use href="/images/author.svg#author"/>
+</svg>
+ By Pariatur Aut minus</p>
+			</header>
+			<aside class="card__aside">
+				<div class="card__meta">
+					<span class="card__format"><span class="screen-reader-text">resource format: </span><svg
 	class="icon icon--book"
 	aria-hidden="true"
 	viewBox="0 0 20 20"
@@ -368,13 +484,9 @@ Togo</p>
 >
 	<use href="/images/book.svg#book"/>
 </svg>
-Book</span>				<h2 class="card__title" >
-					<a href="resource">Odio Rerum Tempore Aspernatur Qui Earum Id Totam Nisi Enim Neque</a>
-				</h2>
-		</header>
-			<p class="card__byline">By Deleniti Et Cupiditate Aut</p>
-				<p class="card__locality">
-<svg
+Book</span>				</div>
+				<div class="card__meta">
+					<span class="card__locality"><span class="screen-reader-text">location of relevance: </span><svg
 	class="icon icon--location"
 	aria-hidden="true"
 	viewBox="0 0 20 20"
@@ -382,23 +494,44 @@ Book</span>				<h2 class="card__title" >
 >
 	<use href="/images/location.svg#location"/>
 </svg>
-Singapore</p>
-				<div class="card__tags">
-					<ul class="badges" >
-							<li class="badge">
-								<span class="screen-reader-text">Topic: </span>Interface
-							</li>
-							<li class="badge">
-								<span class="screen-reader-text">Topic: </span>Synergy
-							</li>
-					</ul>
-					<p>+5 more</p>
+French Southern Territories</span>
 				</div>
-		</li>
-	<li class="card card--resource" data-format="academic-paper">
-		<header>
-				<span class="card__format">
-<svg
+				<div class="card__tags tags">
+					<div class="badge">
+						<span class="screen-reader-text">Topic: </span>Model
+					</div>
+					<div class="badge">
+						<span class="screen-reader-text">Topic: </span>Matrices
+					</div>
+					<span class="overflow">
+						+2 more
+					</span>
+				</div>
+				<div class="card__meta">
+				    <span class="card__added">Added January 1, 2020</span>
+				</div>
+			</aside>
+		</article>
+	</li>
+	<li class="card__wrapper">
+		<article class="card card--resource">
+			<header>
+				<h3 class="card__title" >
+					<a class="card__link" href="resource">Adipisci Et Rerum Pariatur Dignissimos Iusto Adipisci Mollitia Aut Et Nam</a>
+				</h3>
+					<p class="card__byline"><svg
+	class="icon icon--author"
+	aria-hidden="true"
+	viewBox="0 0 20 20"
+	focusable="false"
+>
+	<use href="/images/author.svg#author"/>
+</svg>
+ By Placeat Incidunt</p>
+			</header>
+			<aside class="card__aside">
+				<div class="card__meta">
+					<span class="card__format"><span class="screen-reader-text">resource format: </span><svg
 	class="icon icon--academic-paper"
 	aria-hidden="true"
 	viewBox="0 0 20 20"
@@ -406,13 +539,9 @@ Singapore</p>
 >
 	<use href="/images/academic-paper.svg#academic-paper"/>
 </svg>
-Academic Paper</span>				<h2 class="card__title" >
-					<a href="resource">Quaerat Hic Omnis Magnam Esse Non</a>
-				</h2>
-		</header>
-			<p class="card__byline">By Id Ullam</p>
-				<p class="card__locality">
-<svg
+Academic Paper</span>				</div>
+				<div class="card__meta">
+					<span class="card__locality"><span class="screen-reader-text">location of relevance: </span><svg
 	class="icon icon--location"
 	aria-hidden="true"
 	viewBox="0 0 20 20"
@@ -420,19 +549,25 @@ Academic Paper</span>				<h2 class="card__title" >
 >
 	<use href="/images/location.svg#location"/>
 </svg>
-Gabon</p>
-				<div class="card__tags">
-					<ul class="badges" >
-							<li class="badge">
-								<span class="screen-reader-text">Topic: </span>Matrices
-							</li>
-							<li class="badge">
-								<span class="screen-reader-text">Topic: </span>Ability
-							</li>
-					</ul>
-					<p>+5 more</p>
+Saint Kitts and Nevis</span>
 				</div>
-		</li>
+				<div class="card__tags tags">
+					<div class="badge">
+						<span class="screen-reader-text">Topic: </span>Firmware
+					</div>
+					<div class="badge">
+						<span class="screen-reader-text">Topic: </span>Intranet
+					</div>
+					<span class="overflow">
+						+5 more
+					</span>
+				</div>
+				<div class="card__meta">
+				    <span class="card__added">Added January 1, 2020</span>
+				</div>
+			</aside>
+		</article>
+	</li>
 		</ul>
 	</div>
 </section>

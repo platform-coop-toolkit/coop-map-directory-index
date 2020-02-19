@@ -1,18 +1,19 @@
 
 
 <ul class="cards">
-	<li class="card card--story" data-format="worker-story">
+	<li class="card__wrapper">
+		<article class="card card--story">
 			<figure class="card__image">
 				<img src="/images/story.jpg" alt="Image for this story."/>
 			</figure>
-		<header>
-				<span class="card__format">
-Worker Story</span>				<h2 class="card__title" >
-					<a href="story">SEWA Federation</a>
-				</h2>
-		</header>
-				<p class="card__locality">
-<svg
+			<header>
+				<h3 class="card__title" >
+<span class="card__format">Worker Story</span><span class="screen-reader-text">: </span><a class="card__link" href="story">SEWA Federation</a>
+				</h3>
+			</header>
+			<aside class="card__aside">
+				<div class="card__meta">
+					<span class="card__locality"><span class="screen-reader-text">location: </span><svg
 	class="icon icon--location"
 	aria-hidden="true"
 	viewBox="0 0 20 20"
@@ -20,7 +21,10 @@ Worker Story</span>				<h2 class="card__title" >
 >
 	<use href="/images/location.svg#location"/>
 </svg>
-Gujarat, India</p>
-		</li>
-	</ul>
+Gujarat, India</span>
+				</div>
+			</aside>
+		</article>
+	</li>
+</ul>
 

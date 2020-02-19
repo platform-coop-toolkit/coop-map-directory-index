@@ -1,19 +1,24 @@
 
 
 <ul class="cards">
-	<li class="card card--blog" data-format="blog">
+	<li class="card__wrapper">
+		<article class="card card--blog">
 			<figure class="card__image">
 				<img src="/images/blog.jpg" alt="Image for this blog."/>
 			</figure>
-		<header>
-				<span class="card__format">
-Blog</span>				<h2 class="card__title" >
-					<a href="blog">Who Owns the World?</a>
-				</h2>
-		</header>
-			<p class="card__date">
-					Nov 12, 2019
-			</p>
-		</li>
-	</ul>
+			<header>
+				<h3 class="card__title" >
+<span class="card__format">Blog</span><span class="screen-reader-text">: </span><a class="card__link" href="blog">Who Owns the World?</a>
+				</h3>
+			</header>
+			<aside class="card__aside">
+				<div class="card__meta">
+					<span class="card__date">
+						<span class="screen-reader-text">date published: </span>Nov 12, 2019
+					</span>
+				</div>
+			</aside>
+		</article>
+	</li>
+</ul>
 
