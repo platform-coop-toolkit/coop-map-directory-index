@@ -22,22 +22,25 @@
       		<div class="content">
 				<main>
 <ul class="cards">
-	<li class="card card--person" data-format="card">
+	<li class="card__wrapper">
+		<article class="card card--person">
 			<figure class="card__image">
 				<img src="/images/person.jpg" alt="Image for this person."/>
 			</figure>
-		<header>
-				<span class="card__format">
-Card</span>				<h2 class="card__title" >
-					<a href="person">Trebor Scholz</a>
-				</h2>
-		</header>
-			<p class="card__description">Founding Director, Institute for the Cooperative Digital Economy</p>		</li>
-	</ul>
+			<header>
+				<h3 class="card__title" >
+<span class="card__format">Card</span><span class="screen-reader-text">: </span><a class="card__link" href="person">Trebor Scholz</a>
+				</h3>
+			</header>
+			<aside class="card__aside">
+				<div class="card__description">Founding Director, Institute for the Cooperative Digital Economy</div>
+			</aside>
+		</article>
+	</li>
+</ul>
 				</main>
 			</div>
 		</div>
-		<script crossorigin="anonymous" src="https://polyfill.io/v3/polyfill.min.js?features=Element.prototype.inert"></script>
 		<script src="../../scripts/pinecone.umd.js"></script>
 		<script src="../../scripts/pinecone.js"></script>
 	</body>

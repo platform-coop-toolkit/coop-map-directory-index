@@ -1,10 +1,10 @@
 
 
-	<h1>Pagination</h1>
-<nav class="navigation pagination" role="navigation" aria-label="Posts">
-	<h2 class="screen-reader-text">Posts navigation</h2>
+<div class="spacer"></div><nav class="navigation pagination" role="navigation" aria-label="resources">
+	<h2 class="screen-reader-text">resources navigation</h2>
 	<div class="nav-links">
-		<a class="previous page-numbers" href="1"><span class="screen-reader-text">Previous posts</span><svg
+		<a class="previous link link--pagination" href="1">
+			<span class="screen-reader-text">Previous 10 resources</span><svg
 	class="icon icon--chevron-left"
 	aria-hidden="true"
 	viewBox="0 0 20 20"
@@ -12,7 +12,13 @@
 >
 	<use href="/images/chevron-left.svg#chevron-left"/>
 </svg>
-</a><span aria-current="page" class="page-numbers current">2</span><a class="page-numbers" href="3">3</a><span class="page-numbers dots">…</span><a class="page-numbers" href="61">61</a><a class="next page-numbers" href="3"><span class="screen-reader-text">Next posts</span><svg
+		</a>
+		<span aria-current="page" class="page current">2</span>
+		<a class="link link--pagination" href="3"><span class="screen-reader-text">page </span>3</a>
+		<span class="page dots">…</span>
+		<a class="link link--pagination" href="61"><span class="screen-reader-text">page </span>61<span class="screen-reader-text"> (last)</span></a>
+		<a class="next link link--pagination" href="3">
+			<span class="screen-reader-text">Next 10 resources</span><svg
 	class="icon icon--chevron-right"
 	aria-hidden="true"
 	viewBox="0 0 20 20"
@@ -20,7 +26,7 @@
 >
 	<use href="/images/chevron-right.svg#chevron-right"/>
 </svg>
-</a>
+		</a>
 	</div>
 </nav>
 

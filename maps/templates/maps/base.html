@@ -1,0 +1,27 @@
+{% load static %}
+<!DOCTYPE html>
+<html class="no-js">
+<head>
+  <meta charset="utf-8" />
+  <title>Platform Cooperatives Worldwide</title>
+  <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no"/>
+  <script src="https://api.mapbox.com/mapbox-gl-js/v1.7.0/mapbox-gl.js"></script>
+  <link href="https://api.mapbox.com/mapbox-gl-js/v1.7.0/mapbox-gl.css" rel="stylesheet"/>
+  <script src="https://d3js.org/d3.v5.min.js"></script>
+  <script src="{% static 'maps/scripts/pinecone.umd.js' %}"></script>
+  <link href="{% static 'maps/styles/pinecone.css' %}" rel="stylesheet">
+  <link href="{% static 'maps/css/app.css' %}" rel="stylesheet">
+  <link rel="shortcut icon" href="{% static 'maps/images/favicon.png' %}" type="image/x-icon">
+</head>
+<body class="home page">
+{% include 'maps/header.html' %}
+  <div class="wrap container" role="document">
+    <div class="content">
+      <main>
+{% block content %}{% endblock %}
+      </main>
+    </div>
+  </div>
+{% include 'maps/footer.html' %}
+</body>
+</html>

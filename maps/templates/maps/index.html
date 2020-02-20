@@ -1,19 +1,12 @@
+{% extends 'maps/base.html' %}
 {% load static %}
-<!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="utf-8"/>
-    <title>Platform Cooperatives Worldwide</title>
-    <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no"/>
-    <script src="https://api.mapbox.com/mapbox-gl-js/v1.6.1/mapbox-gl.js"></script>
-    <link href="https://api.mapbox.com/mapbox-gl-js/v1.6.1/mapbox-gl.css" rel="stylesheet"/>
-    <script src="{% static 'maps/scripts/pinecone.umd.js' %}"></script>
-    <link href="{% static 'maps/styles/pinecone.css' %}" rel="stylesheet">
-    <link href="{% static 'maps/css/app.css' %}" rel="stylesheet">
-    <link rel="shortcut icon" href="{% static 'maps/images/favicon.png' %}" type="image/x-icon">
-  </head>
-  <body>
-    <div id="map"></div>
-    <script src="{% static 'maps/js/app.js' %}"></script>
-  </body>
-</html>
+{% block content %}
+        <div class="page-header">
+          <h1><span class="pc-ff--sans pc-fw--normal">Platform Co-op</span><br/> Directory</h1>
+          <p class="subhead">Subhead.</p>
+        </div>
+{% include 'maps/search.html' %}
+        <div id="map"></div>
+        <script src="{% static 'maps/js/app.js' %}"></script>
+        <div id="visibles"></div>
+{% endblock %}

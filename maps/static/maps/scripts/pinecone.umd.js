@@ -137,6 +137,7 @@
         var expanded = 'true' === ctrl.getAttribute('aria-expanded') || false;
         Array.prototype.forEach.call(this.container.querySelectorAll('.accordion__control'), function (el) {
           el.setAttribute('aria-expanded', false);
+          el.parentNode.classList.remove('accordion__pane--expanded');
         });
         ctrl.setAttribute('aria-expanded', !expanded);
 
@@ -177,7 +178,7 @@
 
       this.card = card;
       this.config = _objectSpread2({}, {
-        cardLinkSelector: 'h2 a'
+        cardLinkSelector: '.card__link'
       }, {}, options);
       this.initCard(card);
     }
@@ -277,6 +278,131 @@
   }();
 
   /**
+   * Dialog Handler.
+   */
+
+  /**
+   * Dialog class.
+   */
+  var Dialog =
+  /*#__PURE__*/
+  function () {
+    /**
+     * Constructor.
+     *
+     * @param {DomNode} btn
+     * @param {Object} options
+     */
+    function Dialog(btn, options) {
+      _classCallCheck(this, Dialog);
+
+      this.btn = btn;
+      this.config = _objectSpread2({}, {
+        callback:
+        /**
+         * Callback for when one was not provided.
+         */
+        function callback() {
+          console.error('No callback provided.'); // eslint-disable-line
+        }
+      }, {}, options);
+      this.invokeDialog = this.invokeDialog.bind(this);
+      this.handleClick = this.handleClick.bind(this);
+      this.addEventListeners();
+    }
+    /**
+     *
+     *
+     */
+
+
+    _createClass(Dialog, [{
+      key: "handleClick",
+      value: function handleClick() {
+        this.invokeDialog(this.config.callback);
+      }
+      /**
+       * Invoke dialog.
+       *
+       * @param {Function} callback
+       */
+
+    }, {
+      key: "invokeDialog",
+      value: function invokeDialog(callback) {
+        var elems = document.querySelectorAll('body > *');
+        Array.prototype.forEach.call(elems, function (elem) {
+          elem.setAttribute('inert', 'inert');
+        });
+        var unique = +new Date();
+        var dialog = document.createElement('div');
+        dialog.setAttribute('role', 'dialog');
+        dialog.setAttribute('aria-labelledby', "q-".concat(unique));
+        dialog.setAttribute('aria-describedby', "q-".concat(unique + 1));
+        var innerHtml = "<h2 id=\"q-".concat(unique, "\">").concat(this.config.title, "</h2>");
+
+        if (this.config.question) {
+          innerHtml += "<p id=\"q-".concat(unique + 1, "\">").concat(this.config.question, "</p>");
+        }
+
+        innerHtml += "\n\t\t\t<div class=\"buttons\">\n\t\t\t\t<button class=\"button button--secondary dismiss\">".concat(this.config.dismiss, "</button>\n\t\t\t\t<button class=\"button confirm\">").concat(this.config.confirm, "</button>\n\t\t\t</div>\n\t\t");
+        dialog.innerHTML = innerHtml;
+        var overlay = document.createElement('div');
+        overlay.setAttribute('inert', 'inert');
+        overlay.classList.add('overlay');
+        /**
+         * Handle close event.
+         */
+
+        var close = function close() {
+          Array.prototype.forEach.call(elems, function (elem) {
+            if (elem !== dialog) {
+              elem.removeAttribute('inert');
+            }
+          });
+          dialog.parentNode.removeChild(dialog);
+          overlay.parentNode.removeChild(overlay);
+          trigger.focus();
+        };
+
+        var confirm = dialog.querySelector('.confirm');
+        var dismiss = dialog.querySelector('.dismiss');
+        var trigger = this.btn;
+        document.body.appendChild(overlay);
+        document.body.appendChild(dialog);
+        dismiss.focus();
+
+        confirm.onclick = function () {
+          close();
+          callback();
+        };
+
+        dismiss.onclick = function () {
+          return close();
+        };
+
+        dialog.addEventListener('keydown', function (e) {
+          if (27 == e.keyCode) {
+            e.preventDefault();
+            close();
+          }
+        });
+      }
+      /**
+       * Add event listeners.
+       */
+
+    }, {
+      key: "addEventListeners",
+      value: function addEventListeners() {
+        this.btn.addEventListener('click', this.handleClick, false);
+      }
+    }]);
+
+    return Dialog;
+  }();
+
+  /**
    * DisclosureButton class.
    */
   var DisclosureButton =
@@ -295,7 +421,7 @@
       this.container = this.label.parentNode;
       this.config = _objectSpread2({}, {
         controlSelector: '.disclosure-button',
-        buttonVariant: false,
+        buttonVariant: 'button--borderless',
         visuallyHiddenLabel: false
       }, {}, options);
       this.initDisclosure();
@@ -316,7 +442,7 @@
         ctrl.setAttribute('class', className);
         ctrl.setAttribute('aria-expanded', 'false');
         ctrl.setAttribute('type', 'button');
-        ctrl.innerHTML = "\n\t\t\t".concat(label, "\n\t\t\t<svg class=\"icon icon--chevron-down\" viewBox=\"0 0 20 20\" aria-hidden=\"true\" focusable=\"false\" xmlns=\"http://www.w3.org/2000/svg\"><path id=\"chevron-down\" d=\"m10 15a1 1 0 0 1 -.71-.29l-5-5a1 1 0 0 1 1.42-1.42l4.29 4.3 4.29-4.3a1 1 0 0 1 1.42 1.42l-5 5a1 1 0 0 1 -.71.29z\" fill=\"currentColor\"/></svg>\n\t\t");
+        ctrl.innerHTML = "\n\t\t\t".concat(label, "<svg class=\"icon icon--chevron-down\" viewBox=\"0 0 20 20\" aria-hidden=\"true\" focusable=\"false\" xmlns=\"http://www.w3.org/2000/svg\"><path id=\"chevron-down\" d=\"m10 15a1 1 0 0 1 -.71-.29l-5-5a1 1 0 0 1 1.42-1.42l4.29 4.3 4.29-4.3a1 1 0 0 1 1.42 1.42l-5 5a1 1 0 0 1 -.71.29z\" fill=\"currentColor\"/></svg>\n\t\t");
         this.container.insertBefore(ctrl, this.label.nextElementSibling);
         this.container.removeChild(this.label);
       }
@@ -3347,7 +3473,7 @@
         // Create button
         var btn = document.createElement('button');
         btn.setAttribute('aria-expanded', 'false');
-        btn.classList.add('button');
+        btn.setAttribute('class', 'button button--borderless');
         btn.innerHTML = this.label.innerHTML;
         this.container.insertBefore(btn, this.label);
         this.container.removeChild(this.label); // Wrap menu
@@ -3374,24 +3500,30 @@
       }
       /**
        * Handle click.
+       *
+       * @param {Event} event
        */
 
     }, {
       key: "handleClick",
-      value: function handleClick() {
-        var expanded = 'true' === this.btn.getAttribute('aria-expanded') || false;
-        this.btn.setAttribute('aria-expanded', !expanded);
+      value: function handleClick(event) {
+        if (event.target.parentNode != this.container) {
+          this.btn.setAttribute('aria-expanded', false);
+        } else {
+          var expanded = 'true' === this.btn.getAttribute('aria-expanded') || false;
+          this.btn.setAttribute('aria-expanded', !expanded);
 
-        if (false === expanded) {
-          new Popper(this.btn, this.menu, {
-            placement: this.config.placement,
-            preventOverflow: true === this.config.preventOverflow ? {
-              enabled: true,
-              boundariesElement: this.config.boundariesElement
-            } : {
-              enabled: false
-            }
-          });
+          if (false === expanded) {
+            new Popper(this.btn, this.menu, {
+              placement: this.config.placement,
+              preventOverflow: true === this.config.preventOverflow ? {
+                enabled: true,
+                boundariesElement: this.config.boundariesElement
+              } : {
+                enabled: false
+              }
+            });
+          }
         }
       }
       /**
@@ -3431,7 +3563,7 @@
       value: function addEventListeners() {
         var _this = this;
 
-        this.btn.onclick = this.handleClick;
+        document.addEventListener('click', this.handleClick);
         document.addEventListener('keydown', this.handleKeyDown, false);
         Array.prototype.forEach.call(this.links, function (link) {
           link.addEventListener('blur', _this.handleBlur, false);
@@ -3469,8 +3601,7 @@
       this.subGroup = this.container.querySelector('.input-group__descendant');
       this.config = _objectSpread2({}, {
         disclosureButtonSelector: '.disclosure-button'
-      }, {}, options); // this.initDisclosure();
-
+      }, {}, options);
       this.initCustomCheckbox();
       this.handleChange = this.handleChange.bind(this);
       this.handleClick = this.handleClick.bind(this);
@@ -3567,7 +3698,7 @@
     }, {
       key: "handleClick",
       value: function handleClick(event) {
-        if (!'checkbox' !== event.target.getAttribute('role')) return;
+        if ('checkbox' !== event.target.getAttribute('role')) return;
 
         if ('checkbox' === event.target.getAttribute('role')) {
           this.toggleMixedCheckbox(event.target);
@@ -3750,6 +3881,7 @@
     Accordion: Accordion,
     Card: Card,
     DeselectAll: DeselectAll,
+    Dialog: Dialog,
     DisclosureButton: DisclosureButton,
     FilterList: FilterList,
     Icon: Icon,
