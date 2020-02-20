@@ -92,7 +92,6 @@ map.on('load', function () {
     filter: ['has', 'point_count'],
     layout: {
       'text-field': '{point_count_abbreviated}',
-      // 'text-font': ['DIN Offc Pro Medium', 'Arial Unicode MS Bold'],
       'text-size': 12
     }
   });
@@ -115,7 +114,7 @@ map.on('load', function () {
       layers: ['clusters']
     });
     var clusterId = features[0].properties.cluster_id;
-    map.getSource('earthquakes').getClusterExpansionZoom(
+    map.getSource('coops').getClusterExpansionZoom(
       clusterId,
       function (err, zoom) {
         if (err) return;
