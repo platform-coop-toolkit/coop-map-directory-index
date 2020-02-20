@@ -167,6 +167,40 @@ map.on('load', function () {
     map.getCanvas().style.cursor = '';
   });
 
+  let makeCardList = () => {
+    let visibleFeatures = map.queryRenderedFeatures({layers: ['unclustered-point']});
+
+    if (visibleFeatures) {
+      htmlString = '<ul class="cards">\n';
+      visibleFeatures.forEach(function (f) {
+        htmlString += '<li class="card__wrapper"><article class="card"><header><h3 class="card___title"><span class="card__format">' + f.properties.category.toUpperCase() + '</span><span class="screen-reader-text">: </span></h3></header><aside class="card__aside">\n<h4>' +
+          f.properties.name + '</h4><br />';
+        if (f.properties.activities) {
+          htmlString += '<strong>' + f.properties.activities.replace('[', '').replace(']', '').replace(/","/g, ', ').replace(/"/g, '') + '</strong><br />';
+        }
+        if (f.properties.city) {
+          htmlString += f.properties.city + ' '
+        }
+        if (f.properties.state) {
+          htmlString += f.properties.state + ' '
+        }
+        if (f.properties.country) {
+          htmlString += f.properties.country
+        }
+        htmlString += '</aside></article></li>';
+      });
+      htmlString += '</ul>';
+      document.getElementById('visibles').innerHTML = htmlString;
+    }
+  };
+
+  map.on('render', function () {
+    makeCardList();
+  });
+  map.on('moveend', function () {
+    makeCardList();
+  })
+
   // map.addLayer({
   //   'id': 'coops_individual_outer',
   //   'type': 'circle',
