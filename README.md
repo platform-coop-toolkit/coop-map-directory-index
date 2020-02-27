@@ -34,3 +34,19 @@ bunzip2 scratch/cmdi.sql.bz2
 psql -f scratch/cmdi.sql cmdi
 exit
 ```
+
+### Development
+
+Limit commit messages to 72 characters, do not end with a full stop, prefix with one of:
+
+* build
+* ci
+* chore
+* docs
+* feat
+* fix
+* perf
+* refactor
+* revert
+* style
+* test
