@@ -2,20 +2,25 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from django.contrib.gis.admin import OSMGeoAdmin
-from accounts.models import User
-from .models import Organization, SocialNetwork, Tool
+from accounts.models import SocialNetwork
+from .models import Organization, OrganizationSocialNetwork, Tool
 
-
-admin.site.register(User, UserAdmin)
 
 admin.site.site_header = 'Platform Coop : Map / Directory / Index'
 admin.site.site_title= 'Admin'
 admin.site.index_title= 'Map / Directory / Index'
 
 
+class OrganizationSocialNetworkInline(admin.TabularInline):
+    model = OrganizationSocialNetwork
+    extra = 3
+
+
 class OrganizationAdmin(admin.ModelAdmin):
-    list_filter = ('name',)
-    search_fields = ['name','description',]
+    list_display = ('name', 'city', 'country',)
+    list_filter = ('type', 'activities', 'country',)
+    search_fields = ['name', 'description',]
+    inlines = [OrganizationSocialNetworkInline]
 
 
 class SocialNetworkAdmin(admin.ModelAdmin):

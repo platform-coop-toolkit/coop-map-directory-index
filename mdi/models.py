@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.gis.db import models
-from accounts.models import User
+from accounts.models import User, SocialNetwork
+from django.core.exceptions import ValidationError
 from django.contrib.postgres.fields import HStoreField
 from django.urls import reverse
 from django.db.models import Manager as GeoManager
@@ -12,6 +13,7 @@ class Source(models.Model):
     url = models.CharField(blank=True, max_length=255)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
     class Meta:
         ordering = ['name']
 
@@ -72,20 +74,6 @@ class Tool(models.Model):
         return self.name
 
 
-class SocialNetwork(models.Model):
-    name = models.CharField(blank=False, max_length=255)
-    description = models.TextField(blank=True, default='')
-    url = models.CharField(blank=False, max_length=255)
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
-
-    class Meta:
-        ordering = ['name']
-
-    def __str__(self):
-        return self.name
-
-
 class Organization(models.Model):
     name = models.CharField(blank=False, max_length=255)
     description = models.TextField(blank=True, default='')
@@ -103,6 +91,7 @@ class Organization(models.Model):
     source = models.ForeignKey(Source, on_delete=models.CASCADE)
     type = models.ForeignKey(Type, on_delete=models.CASCADE)
     activities = models.ManyToManyField(Activity)
+    socialnetworks = models.ManyToManyField(SocialNetwork, through='OrganizationSocialNetwork')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -113,9 +102,18 @@ class Organization(models.Model):
         return '{}, {}'.format(self.name, self.city)
 
 
-class User(User):
-    USERNAME_FIELD = 'email'
-    EMAIL_FIELD = 'email'
+class OrganizationSocialNetwork(models.Model):
+    organization = models.ForeignKey(Organization, on_delete=models.CASCADE)
+    socialnetwork = models.ForeignKey(SocialNetwork, on_delete=models.CASCADE)
+    handle = models.CharField(blank=True, max_length=64)
+    url = models.CharField(blank=True, max_length=255)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
-        ordering = ['last_name', 'first_name']
+        verbose_name = "Organization's Social Network"
+
+    def clean(self):
+        super().clean()
+        if self.handle is None and self.url is None:
+            raise ValidationError('At least one of Handle or URL must be specified')
