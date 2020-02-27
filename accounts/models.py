@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser, UserManager
+from django_countries.fields import CountryField
 from django.core.exceptions import ValidationError
 
 
@@ -53,6 +54,7 @@ class User(AbstractUser):
       unique=True,
     )
     middle_name = models.CharField(blank=True, max_length=255, unique=False)
+    country = CountryField()
     socialnetworks = models.ManyToManyField(SocialNetwork, through='UserSocialNetwork')
 
 

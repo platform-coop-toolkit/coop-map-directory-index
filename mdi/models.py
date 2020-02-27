@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.gis.db import models
 from accounts.models import User, SocialNetwork
+from django_countries.fields import CountryField
 from django.core.exceptions import ValidationError
 from django.contrib.postgres.fields import HStoreField
 from django.urls import reverse
@@ -81,7 +82,7 @@ class Organization(models.Model):
     city = models.CharField(blank=True, default='', max_length=255)
     state = models.CharField(blank=True, default='', max_length=255)
     postal_code = models.CharField(blank=True, default='', max_length=255)
-    country = models.CharField(blank=True, default='', max_length=3)
+    country = CountryField()
     email = models.CharField(blank=True, default='', max_length=255)
     url = models.CharField(blank=True, default='', max_length=255)
     lat = models.FloatField(null=True)
