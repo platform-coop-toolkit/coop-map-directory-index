@@ -3,6 +3,7 @@ from accounts.models import User
 from django.contrib.auth.models import Group
 from mdi.models import Organization, Activity
 from rest_framework_gis.serializers import GeoFeatureModelSerializer
+from django_countries.serializers import CountryFieldMixin
 
 
 class UserSerializer(serializers.HyperlinkedModelSerializer):
@@ -23,7 +24,7 @@ class ActivitySerializer(serializers.HyperlinkedModelSerializer):
         fields = ('name', 'description',)
 
 
-class OrganizationSerializer(GeoFeatureModelSerializer):
+class OrganizationSerializer(CountryFieldMixin, GeoFeatureModelSerializer):
     category = serializers.StringRelatedField(source='category.name')
     type = serializers.StringRelatedField(source='type.name')
     activities = serializers.StringRelatedField(many=True)
@@ -31,4 +32,16 @@ class OrganizationSerializer(GeoFeatureModelSerializer):
     class Meta:
         model = Organization
         geo_field = 'geom'
-        fields = ('name', 'description', 'category', 'type', 'activities', 'address', 'city', 'state', 'postal_code', 'country', 'url',)
+        fields = (
+            'name',
+            'description',
+            'category',
+            'type',
+            'activities',
+            'address',
+            'city',
+            'state',
+            'postal_code',
+            'country',
+            'url',
+        )
