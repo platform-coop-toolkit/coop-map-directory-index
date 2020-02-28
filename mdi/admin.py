@@ -3,7 +3,7 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from django.contrib.gis.admin import OSMGeoAdmin
 from accounts.models import SocialNetwork
-from .models import Organization, OrganizationSocialNetwork, Tool, License #, Language
+from .models import Organization, OrganizationSocialNetwork, Tool, License, Pricing
 
 
 # Window dressing
@@ -35,12 +35,16 @@ class SocialNetworkAdmin(admin.ModelAdmin):
 @admin.register(Tool)
 class ToolAdmin(admin.ModelAdmin):
     list_display = ('name', 'license',)
-    list_filter = ('license',) #  'languages_supported',)
+    list_filter = ('license', 'pricing') #  'languages_supported',)
     search_fields = ['name', 'description',]
 
 
 @admin.register(License)
 class LicenseAdmin(admin.ModelAdmin):
-    fields = ('spdx', 'name', 'url',)
-    list_filter = ('spdx',)
-    search_fields = ['spdx', 'name',]
+    fields = ('spdx', 'name', 'url', )
+    list_filter = ('spdx', )
+    search_fields = ['spdx', 'name', ]
+
+@admin.register(Pricing)
+class PricingAdmin(admin.ModelAdmin):
+    fields = ('name', )

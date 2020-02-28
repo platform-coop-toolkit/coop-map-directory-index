@@ -62,6 +62,19 @@ class Activity(models.Model):
         return self.name
 
 
+class Pricing(models.Model):
+    name = models.CharField(blank=False, max_length=255)
+    description = models.CharField(blank=True, default='', max_length=255)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ['name',]
+
+    def __str__(self):
+        return self.name
+
+
 class Language(models.Model):
     culture_code = models.CharField(primary_key=True, max_length=7, blank=False, null=False, unique=True,)
     iso_name = models.CharField(max_length=64, blank=False, null=False, unique=True,)
@@ -92,7 +105,9 @@ class Tool(models.Model):
     description = models.TextField(blank=True, default='')
     url = models.CharField(blank=False, max_length=255)
     license = models.ForeignKey(License, blank=True, null=True, on_delete=models.CASCADE)
+    pricing = models.ForeignKey(Pricing, blank=True, null=True, on_delete=models.CASCADE)
     languages_supported = models.ManyToManyField(Language)
+    notes = models.TextField(blank=True, default='')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
