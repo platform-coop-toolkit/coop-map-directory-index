@@ -38,7 +38,7 @@ class LicenseSerializer(serializers.HyperlinkedModelSerializer):
 
 class ToolSerializer(serializers.HyperlinkedModelSerializer):
     license = serializers.StringRelatedField(source='license.spdx')
-    languages_supported = serializers.StringRelatedField(many=True)
+    languages_supported = LanguageSerializer(many=True)
 
     class Meta:
         model = Tool
