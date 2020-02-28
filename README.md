@@ -23,7 +23,7 @@ Data is presently being managed outside of this repository. A locally-installed 
 
 Local:
 ```
-pg_dump -f scratch/cmdi.sql --clean --if-exists cmdi && bzip2 -9 --force scratch/cmdi.sql
+pg_dump -f scratch/cmdi.sql --clean --if-exists --no-privileges --no-acl cmdi && bzip2 -9 --force scratch/cmdi.sql
 scp scratch/cmdi.sql.bz2 ubuntu@awshost:/home/ubuntu/coop-map-directory-index/scratch
 ```
 
@@ -31,7 +31,8 @@ Remote:
 ```
 sudo su postgres
 bunzip2 scratch/cmdi.sql.bz2
-psql -f scratch/cmdi.sql cmdi
+psql --set ON_ERROR_STOP=on -h localhost -U cmdi -W -f scratch/cmdi.sql cmdi
+
 exit
 ```
 
