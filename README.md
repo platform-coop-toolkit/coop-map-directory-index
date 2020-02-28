@@ -50,3 +50,12 @@ Limit commit messages to 72 characters, do not end with a full stop, prefix with
 * revert
 * style
 * test
+
+
+### Notes
+
+Modules we may need further down the road:
+* [django-languages-plus](https://github.com/cordery/django-languages-plus)
+* [django-countries-plus](https://github.com/cordery/django-countries-plus)
+* [pycountry](https://pypi.org/project/pycountry/)
+* [py-moneyed](https://github.com/limist/py-moneyed)

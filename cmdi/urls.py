@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from mdi.views import UserViewSet, GroupViewSet, OrganizationViewSet, ActivityViewSet
+from mdi.views import UserViewSet, GroupViewSet, OrganizationViewSet, ActivityViewSet, ToolViewSet
 from rest_framework import routers
 router = routers.DefaultRouter()
 
@@ -23,6 +23,7 @@ router.register(r'users', UserViewSet)
 router.register(r'groups', GroupViewSet)
 router.register(r'activities', ActivityViewSet)
 router.register(r'organizations', OrganizationViewSet)
+router.register(r'tools', ToolViewSet)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
