@@ -21,7 +21,7 @@ class OrganizationSocialNetworkInline(admin.TabularInline):
 @admin.register(Organization)
 class OrganizationAdmin(admin.ModelAdmin):
     list_display = ('name', 'city', 'country',)
-    list_filter = ('type', 'activities', 'country',)
+    list_filter = ('type', 'sectors', 'country',)
     search_fields = ['name', 'description',]
     inlines = [OrganizationSocialNetworkInline]
 

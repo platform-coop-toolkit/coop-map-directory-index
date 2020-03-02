@@ -141,13 +141,13 @@ map.on('load', function () {
       if (e.features[0].properties.state) { htmlString += e.features[0].properties.state + ' ' }
       if (e.features[0].properties.postal_code) { htmlString += e.features[0].properties.postal_code + ' ' }
       if (e.features[0].properties.country) { htmlString += e.features[0].properties.country + ' ' }
-      if (e.features[0].properties.type || e.features[0].properties.category || e.features[0].properties.activities) {
+      if (e.features[0].properties.type || e.features[0].properties.category || e.features[0].properties.sectors) {
         htmlString += '<hr>'
       }
       if (e.features[0].properties.type) { htmlString += 'Type: ' + e.features[0].properties.type + '<br />'}
       if (e.features[0].properties.category) { htmlString += 'Category: ' + e.features[0].properties.category + '<br />' }
-      if (e.features[0].properties.activities) {
-        htmlString += 'Sectors: ' + e.features[0].properties.activities.replace('[', '').replace(']', '').replace(/","/g, ', ').replace(/"/g, '');
+      if (e.features[0].properties.sectors) {
+        htmlString += 'Sectors: ' + e.features[0].properties.sectors.replace('[', '').replace(']', '').replace(/","/g, ', ').replace(/"/g, '');
       }
 
     let popup = new mapboxgl.Popup({
@@ -175,8 +175,8 @@ map.on('load', function () {
       visibleFeatures.forEach(function (f) {
         htmlString += '<li class="card__wrapper"><article class="card"><header><h3 class="card___title"><span class="card__format">' + f.properties.category.toUpperCase() + '</span><span class="screen-reader-text">: </span></h3></header><aside class="card__aside">\n<h4>' +
           f.properties.name + '</h4><br />';
-        if (f.properties.activities) {
-          htmlString += '<strong>' + f.properties.activities.replace('[', '').replace(']', '').replace(/","/g, ', ').replace(/"/g, '') + '</strong><br />';
+        if (f.properties.sectors) {
+          htmlString += '<strong>' + f.properties.sectors.replace('[', '').replace(']', '').replace(/","/g, ', ').replace(/"/g, '') + '</strong><br />';
         }
         if (f.properties.city) {
           htmlString += f.properties.city + ' '
@@ -299,8 +299,8 @@ map.on('load', function () {
       if (e.features[0].properties.type !== 'null' || e.features[0].properties.type !== 'null') { htmlString += '<hr>' }
       if (e.features[0].properties.type !== 'null') { htmlString += 'Type: ' + e.features[0].properties.type + '<br />'}
       if (e.features[0].properties.type !== 'null') { htmlString += 'Category: ' + e.features[0].properties.category + '<br />' }
-      if (e.features[0].properties.activities !== 'null') {
-        htmlString += 'Activities: ' + e.features[0].properties.activities.replace('[', '').replace(']', '').replace(/","/g, ', ').replace(/"/g, '');
+      if (e.features[0].properties.sectors !== 'null') {
+        htmlString += 'Sectors: ' + e.features[0].properties.sectors.replace('[', '').replace(']', '').replace(/","/g, ', ').replace(/"/g, '');
       }
 
     popup.setLngLat(e.features[0].geometry.coordinates)

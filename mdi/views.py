@@ -4,8 +4,8 @@ from django.contrib.auth.models import Group
 from django.http import HttpResponse
 from rest_framework import viewsets
 from rest_framework.decorators import api_view
-from .serializers import UserSerializer, GroupSerializer, OrganizationSerializer, ActivitySerializer, ToolSerializer
-from .models import Organization, Activity, Tool, License
+from .serializers import UserSerializer, GroupSerializer, OrganizationSerializer, SectorSerializer, ToolSerializer
+from .models import Organization, Sector, Tool, License
 from rest_framework.response import Response
 
 def map(request):
@@ -16,7 +16,7 @@ def api_root(request, format=None):
     return Response({
         'users': reverse('user-list', request=request, format=format),
         'groups': reverse('group-list', request=request, format=format),
-        'activities': reverse('activities-list', request=request, format=format),
+        'sectors': reverse('sectors-list', request=request, format=format),
         'organizations': reverse('organizations-list', request=request, format=format),
         'tools': reverse('tools-list', request=request, format=format),
     })
@@ -40,9 +40,9 @@ class GroupViewSet(viewsets.ModelViewSet):
   http_method_names = ['get']
 
 
-class ActivityViewSet(viewsets.ModelViewSet):
-    queryset = Activity.objects.all()
-    serializer_class = ActivitySerializer
+class SectorViewSet(viewsets.ModelViewSet):
+    queryset = Sector.objects.all()
+    serializer_class = SectorSerializer
     http_method_names = ['get']
 
 

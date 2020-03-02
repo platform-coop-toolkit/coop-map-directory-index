@@ -49,7 +49,7 @@ class Type(models.Model):
         return self.name
 
 
-class Activity(models.Model):
+class Sector(models.Model):
     name = models.CharField(blank=False, max_length=255, unique=True)
     description = models.CharField(blank=True, default='', max_length=255)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -134,7 +134,7 @@ class Organization(models.Model):
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
     source = models.ForeignKey(Source, on_delete=models.CASCADE)
     type = models.ForeignKey(Type, on_delete=models.CASCADE)
-    activities = models.ManyToManyField(Activity)
+    sectors = models.ManyToManyField(Sector)
     socialnetworks = models.ManyToManyField(SocialNetwork, through='OrganizationSocialNetwork')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
