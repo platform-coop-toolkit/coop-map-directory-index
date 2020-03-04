@@ -57,6 +57,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework_gis',
     'django_countries',
+    'django_registration',
     'accounts',
     'mdi',
     'maps',
@@ -100,6 +101,7 @@ DATABASES = {
 
 
 AUTH_USER_MODEL = 'accounts.User'
+ACCOUNT_ACTIVATION_DAYS = 7 # One-week activation window
 
 
 # Password validation
@@ -119,6 +121,11 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
+
+EMAIL_BACKEND = 'django_ses.SESBackend'
+DEFAULT_FROM_EMAIL = 'erictheise+pcc@gmail.com'
+
+LOGIN_REDIRECT_URL = '/maps/'
 
 
 # Internationalization

@@ -15,8 +15,10 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from mdi.views import UserViewSet, GroupViewSet, OrganizationViewSet, SectorViewSet, ToolViewSet
+from django_registration.backends.activation.views import RegistrationView
+from accounts.forms import UserRegistrationForm
 from rest_framework import routers
+from mdi.views import UserViewSet, GroupViewSet, OrganizationViewSet, SectorViewSet, ToolViewSet
 router = routers.DefaultRouter()
 
 router.register(r'users', UserViewSet)
@@ -29,6 +31,13 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     path('maps/', include('maps.urls')),
+    path('accounts/register/', RegistrationView.as_view(
+        form_class=UserRegistrationForm
+    ),
+         name='django_registration_register',
+         ),
+    path('accounts/', include('django_registration.backends.activation.urls')),
+    path('accounts/', include('django.contrib.auth.urls')),
 ]
 urlpatterns += [
     path('', include(router.urls))

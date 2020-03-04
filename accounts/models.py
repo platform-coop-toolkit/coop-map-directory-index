@@ -57,9 +57,12 @@ class User(AbstractUser):
     country = CountryField()
     socialnetworks = models.ManyToManyField(SocialNetwork, through='UserSocialNetwork')
 
-
-    USERNAME_FIELD = 'email'
+    USERNAME_FIELD = 'username'
     REQUIRED_FIELDS = []
+
+    @classmethod
+    def get_email_field_name(cls):
+        return 'email'
 
     class Meta:
         db_table = 'auth_user'
