@@ -7,6 +7,8 @@
 		<meta http-equiv="x-ua-compatible" content="ie=edge">
 		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 		<script>(function(html){html.className = html.className.replace(/\bno-js\b/,'js')})(document.documentElement);</script>
+		<script src="../../scripts/pinecone.umd.js"></script>
+		<script src="../../scripts/pinecone.js" defer></script>
 		<link rel="stylesheet" href="../../styles/pinecone.css">
 		<link rel="apple-touch-icon" sizes="180x180" href="../../images/apple-touch-icon.png">
 		<link rel="icon" href="../../images/favicon.png" >
@@ -28,7 +30,7 @@
 	<span class="brand__title screen-reader-text">Platform Cooperativism Consortium</span>
 </a>
 <div class="inner">
-	<button class="button button--borderless search-toggle" aria-expanded="false"><span class="screen-reader-text">Search </span><svg
+<button class="button button--borderless search-toggle" aria-expanded="false"><span class="screen-reader-text">Search </span><svg
 	class="icon icon--search"
 	aria-hidden="true"
 	viewBox="0 0 20 20"
@@ -52,8 +54,8 @@
 </svg>
 </button>
 </form>
-	<nav aria-labelledby="menu-primary-label">
-		<button class="button button--borderless menu-toggle" aria-expanded="false">
+<nav aria-labelledby="menu-primary-label">
+	<button class="button button--borderless menu-toggle" aria-expanded="false">
 <svg
 	class="icon icon--open"
 	aria-hidden="true"
@@ -70,46 +72,46 @@
 >
 	<use href="/images/close.svg#close"/>
 </svg>
-			<span id="menu-primary-label" class="menu-toggle__label">Menu</span>
-		</button>
-		<ul class="menu">
-			<li class="menu__submenu-wrapper current_page_ancestor current-menu-ancestor">
-				<a class="menu__item" aria-current="page" href="#explore">Explore</a>
-				<ul class="menu__submenu">
-					<li><a aria-current="page"class="menu__item" href="#browse-all">Browse all</a></li>
-					<li><a class="menu__item" href="#topics">Topics</a></li>
-					<li><a class="menu__item" href="#goals">Goals</a></li>
-					<li><a class="menu__item" href="#formats">Formats</a></li>
-					<li><a class="menu__item" href="#sectors">Sectors</a></li>
-				</ul>
-			</li>
-			<li class="menu__submenu-wrapper">
-				<a class="menu__item" href="#getting-started">Getting Started</a>
-				<ul class="menu__submenu">
-					<li><a class="menu__item" href="#how-to">How to use your library</a></li>
-					<li><a class="menu__item" href="#glossary">Glossary</a></li>
-				</ul>
-			</li>
-			<li class="menu__submenu-wrapper">
-				<a class="menu__item" href="#my-resources">My Resources</a>
-				<ul class="menu__submenu">
-					<li><a class="menu__item" href="#favorites">Favorites</a></li>
-					<li><a class="menu__item" href="#saved-searches">Saved searches</a></li>
-				</ul>
-			</li>
-			<li>
-				<a class="menu__item" href="#about">About</a>
-			</li>
-			<li class="menu__submenu-wrapper">
-				<a class="menu__item" href="#settings">Settings</a>
-				<ul class="menu__submenu">
-					<li><a class="menu__item" href="#language">Language</a></li>
-					<li><a class="menu__item" href="#privacy">Privacy</a></li>
-				</ul>
-			</li>
-			<li class="menu-item menu-item--languages menu__submenu-wrapper">
-				<a class="menu__item" href="/en/settings/language/">
-					<span class="menu__label">Language</span>
+		<span id="menu-primary-label" class="menu-toggle__label">Menu</span>
+	</button>
+	<ul class="menu">
+		<li class="menu__submenu-wrapper current_page_ancestor current-menu-ancestor">
+			<a class="menu__item" aria-current="page" href="#explore">Explore</a>
+			<ul class="menu__submenu">
+				<li><a aria-current="page"class="menu__item" href="#browse-all">Browse all</a></li>
+				<li><a class="menu__item" href="#topics">Topics</a></li>
+				<li><a class="menu__item" href="#goals">Goals</a></li>
+				<li><a class="menu__item" href="#formats">Formats</a></li>
+				<li><a class="menu__item" href="#sectors">Sectors</a></li>
+			</ul>
+		</li>
+		<li class="menu__submenu-wrapper">
+			<a class="menu__item" href="#getting-started">Getting Started</a>
+			<ul class="menu__submenu">
+				<li><a class="menu__item" href="#how-to">How to use your library</a></li>
+				<li><a class="menu__item" href="#glossary">Glossary</a></li>
+			</ul>
+		</li>
+		<li class="menu__submenu-wrapper">
+			<a class="menu__item" href="#my-resources">My Resources</a>
+			<ul class="menu__submenu">
+				<li><a class="menu__item" href="#favorites">Favorites</a></li>
+				<li><a class="menu__item" href="#saved-searches">Saved searches</a></li>
+			</ul>
+		</li>
+		<li>
+			<a class="menu__item" href="#about">About</a>
+		</li>
+		<li class="menu__submenu-wrapper">
+			<a class="menu__item" href="#settings">Settings</a>
+			<ul class="menu__submenu">
+				<li><a class="menu__item" href="#language">Language</a></li>
+				<li><a class="menu__item" href="#privacy">Privacy</a></li>
+			</ul>
+		</li>
+		<li class="menu-item menu-item--languages menu__submenu-wrapper">
+			<a class="menu__item" href="/en/settings/language/">
+				<span class="menu__label">Language</span>
 <svg
 	class="icon icon--language icon--lg"
 	aria-hidden="true"
@@ -118,19 +120,19 @@
 >
 	<use href="/images/language.svg#language"/>
 </svg>
-				</a>
-				<ul class="menu__submenu">
-					<li class="menu-item"><a aria-current="true" href="/en/" class="menu__item">English</a></li>
-					<li class="menu-item"><a href="/pt/" class="menu__item">Português</a></li>
-					<li class="menu-item"><a href="/sv/" class="menu__item">Svenska</a></li>
-					<li class="menu-item"><a href="/it/" class="menu__item">Italiano</a></li>
-					<li class="menu-item"><a href="/es/" class="menu__item">Español</a></li>
-					<li class="menu-item"><a href="/fr/" class="menu__item">Français</a></li>
-					<li class="menu-item"><a href="/de/" class="menu__item">Deutsch</a></li>
-				</ul>
-			</li>
-		</ul>
-	</nav>
+			</a>
+			<ul class="menu__submenu">
+				<li class="menu-item"><a aria-current="true" href="/en/" class="menu__item">English</a></li>
+				<li class="menu-item"><a href="/pt/" class="menu__item">Português</a></li>
+				<li class="menu-item"><a href="/sv/" class="menu__item">Svenska</a></li>
+				<li class="menu-item"><a href="/it/" class="menu__item">Italiano</a></li>
+				<li class="menu-item"><a href="/es/" class="menu__item">Español</a></li>
+				<li class="menu-item"><a href="/fr/" class="menu__item">Français</a></li>
+				<li class="menu-item"><a href="/de/" class="menu__item">Deutsch</a></li>
+			</ul>
+		</li>
+	</ul>
+</nav>
 </div>
 			</div>
 		</header>
@@ -160,7 +162,7 @@
 		<article class="card card--resource">
 			<header>
 				<h3 class="card__title" >
-					<a class="card__link" href="resource">Iste Et Soluta Fugit Ex Omnis Omnis Ducimus Modi</a>
+					<a class="card__link" href="resource">Et in Vel Laudantium Doloremque Ut Et Ut Impedit Aut in</a>
 				</h3>
 					<p class="card__byline"><svg
 	class="icon icon--author"
@@ -170,7 +172,7 @@
 >
 	<use href="/images/author.svg#author"/>
 </svg>
- By Labore Ex Beatae Consequatur</p>
+ By Deleniti Ex</p>
 			</header>
 			<aside class="card__aside">
 				<div class="card__meta">
@@ -192,148 +194,14 @@ Audio</span>				</div>
 >
 	<use href="/images/location.svg#location"/>
 </svg>
-Bolivia</span>
+Senegal</span>
 				</div>
 				<div class="card__tags tags">
 					<div class="badge">
-						<span class="screen-reader-text">Topic: </span>System Engine
+						<span class="screen-reader-text">Topic: </span>Application
 					</div>
 					<div class="badge">
-						<span class="screen-reader-text">Topic: </span>Open Architecture
-					</div>
-					<span class="overflow">
-						+3 more
-					</span>
-				</div>
-				<div class="card__meta">
-				    <span class="card__added">Added January 1, 2020</span>
-				</div>
-			</aside>
-		</article>
-		<div class="align-right">
-<button id="button" type="button" class="button button--borderless button--destructive remove-favorite">
-<svg
-	class="icon icon--delete"
-	aria-hidden="true"
-	viewBox="0 0 20 20"
-	focusable="false"
->
-	<use href="/images/delete.svg#delete"/>
-</svg>
-<span class="button__label">Remove</span></button>
-		</div>
-	</li>
-	<li class="card__wrapper">
-		<article class="card card--resource">
-			<header>
-				<h3 class="card__title" >
-					<a class="card__link" href="resource">Consequuntur Dolores Repellat Molestias</a>
-				</h3>
-					<p class="card__byline"><svg
-	class="icon icon--author"
-	aria-hidden="true"
-	viewBox="0 0 20 20"
-	focusable="false"
->
-	<use href="/images/author.svg#author"/>
-</svg>
- By Non Perferendis Et Adipisci</p>
-			</header>
-			<aside class="card__aside">
-				<div class="card__meta">
-					<span class="card__format"><span class="screen-reader-text">resource format: </span><svg
-	class="icon icon--case-study"
-	aria-hidden="true"
-	viewBox="0 0 20 20"
-	focusable="false"
->
-	<use href="/images/case-study.svg#case-study"/>
-</svg>
-Case Study</span>				</div>
-				<div class="card__meta">
-					<span class="card__locality"><span class="screen-reader-text">location of relevance: </span><svg
-	class="icon icon--location"
-	aria-hidden="true"
-	viewBox="0 0 20 20"
-	focusable="false"
->
-	<use href="/images/location.svg#location"/>
-</svg>
-Georgia</span>
-				</div>
-				<div class="card__tags tags">
-					<div class="badge">
-						<span class="screen-reader-text">Topic: </span>Matrix
-					</div>
-					<div class="badge">
-						<span class="screen-reader-text">Topic: </span>Concept
-					</div>
-					<span class="overflow">
-						+1 more
-					</span>
-				</div>
-				<div class="card__meta">
-				    <span class="card__added">Added January 1, 2020</span>
-				</div>
-			</aside>
-		</article>
-		<div class="align-right">
-<button id="button" type="button" class="button button--borderless button--destructive remove-favorite">
-<svg
-	class="icon icon--delete"
-	aria-hidden="true"
-	viewBox="0 0 20 20"
-	focusable="false"
->
-	<use href="/images/delete.svg#delete"/>
-</svg>
-<span class="button__label">Remove</span></button>
-		</div>
-	</li>
-	<li class="card__wrapper">
-		<article class="card card--resource">
-			<header>
-				<h3 class="card__title" >
-					<a class="card__link" href="resource">Non Beatae Enim Qui Aspernatur Voluptatem Optio Quis Iusto Deleniti Odit</a>
-				</h3>
-					<p class="card__byline"><svg
-	class="icon icon--author"
-	aria-hidden="true"
-	viewBox="0 0 20 20"
-	focusable="false"
->
-	<use href="/images/author.svg#author"/>
-</svg>
- By Eligendi Qui Maxime</p>
-			</header>
-			<aside class="card__aside">
-				<div class="card__meta">
-					<span class="card__format"><span class="screen-reader-text">resource format: </span><svg
-	class="icon icon--toolkit"
-	aria-hidden="true"
-	viewBox="0 0 20 20"
-	focusable="false"
->
-	<use href="/images/toolkit.svg#toolkit"/>
-</svg>
-Toolkit</span>				</div>
-				<div class="card__meta">
-					<span class="card__locality"><span class="screen-reader-text">location of relevance: </span><svg
-	class="icon icon--location"
-	aria-hidden="true"
-	viewBox="0 0 20 20"
-	focusable="false"
->
-	<use href="/images/location.svg#location"/>
-</svg>
-Moldova</span>
-				</div>
-				<div class="card__tags tags">
-					<div class="badge">
-						<span class="screen-reader-text">Topic: </span>Graphical User Interface
-					</div>
-					<div class="badge">
-						<span class="screen-reader-text">Topic: </span>Software
+						<span class="screen-reader-text">Topic: </span>Installation
 					</div>
 					<span class="overflow">
 						+4 more
@@ -361,7 +229,7 @@ Moldova</span>
 		<article class="card card--resource">
 			<header>
 				<h3 class="card__title" >
-					<a class="card__link" href="resource">Sed Voluptas Cumque Recusandae Reiciendis Assumenda Sequi Maiores Placeat</a>
+					<a class="card__link" href="resource">Cupiditate Molestiae Aut Necessitatibus Explicabo Placeat Ipsum Est Dolore</a>
 				</h3>
 					<p class="card__byline"><svg
 	class="icon icon--author"
@@ -371,19 +239,19 @@ Moldova</span>
 >
 	<use href="/images/author.svg#author"/>
 </svg>
- By Excepturi Et</p>
+ By Odit Voluptatibus Doloribus Ex</p>
 			</header>
 			<aside class="card__aside">
 				<div class="card__meta">
 					<span class="card__format"><span class="screen-reader-text">resource format: </span><svg
-	class="icon icon--educational-curriculum"
+	class="icon icon--case-study"
 	aria-hidden="true"
 	viewBox="0 0 20 20"
 	focusable="false"
 >
-	<use href="/images/educational-curriculum.svg#educational-curriculum"/>
+	<use href="/images/case-study.svg#case-study"/>
 </svg>
-Educational Curriculum</span>				</div>
+Case Study</span>				</div>
 				<div class="card__meta">
 					<span class="card__locality"><span class="screen-reader-text">location of relevance: </span><svg
 	class="icon icon--location"
@@ -393,14 +261,14 @@ Educational Curriculum</span>				</div>
 >
 	<use href="/images/location.svg#location"/>
 </svg>
-Chad</span>
+New Zealand</span>
 				</div>
 				<div class="card__tags tags">
 					<div class="badge">
-						<span class="screen-reader-text">Topic: </span>System Engine
+						<span class="screen-reader-text">Topic: </span>Focus Group
 					</div>
 					<div class="badge">
-						<span class="screen-reader-text">Topic: </span>Intranet
+						<span class="screen-reader-text">Topic: </span>Function
 					</div>
 					<span class="overflow">
 						+5 more
@@ -428,7 +296,7 @@ Chad</span>
 		<article class="card card--resource">
 			<header>
 				<h3 class="card__title" >
-					<a class="card__link" href="resource">Qui Nobis Tenetur Reiciendis Quasi Omnis Enim Molestias Tempora Voluptatem Illum</a>
+					<a class="card__link" href="resource">Eum Dolores Ut Voluptas Inventore Eos Debitis</a>
 				</h3>
 					<p class="card__byline"><svg
 	class="icon icon--author"
@@ -438,19 +306,19 @@ Chad</span>
 >
 	<use href="/images/author.svg#author"/>
 </svg>
- By Voluptate Vero Est Aspernatur</p>
+ By Tenetur Dicta Commodi Amet</p>
 			</header>
 			<aside class="card__aside">
 				<div class="card__meta">
 					<span class="card__format"><span class="screen-reader-text">resource format: </span><svg
-	class="icon icon--video"
+	class="icon icon--toolkit"
 	aria-hidden="true"
 	viewBox="0 0 20 20"
 	focusable="false"
 >
-	<use href="/images/video.svg#video"/>
+	<use href="/images/toolkit.svg#toolkit"/>
 </svg>
-Video</span>				</div>
+Toolkit</span>				</div>
 				<div class="card__meta">
 					<span class="card__locality"><span class="screen-reader-text">location of relevance: </span><svg
 	class="icon icon--location"
@@ -460,81 +328,14 @@ Video</span>				</div>
 >
 	<use href="/images/location.svg#location"/>
 </svg>
-Indonesia</span>
+Solomon Islands</span>
 				</div>
 				<div class="card__tags tags">
 					<div class="badge">
-						<span class="screen-reader-text">Topic: </span>Definition
+						<span class="screen-reader-text">Topic: </span>Knowledge Base
 					</div>
 					<div class="badge">
-						<span class="screen-reader-text">Topic: </span>Utilisation
-					</div>
-					<span class="overflow">
-						+1 more
-					</span>
-				</div>
-				<div class="card__meta">
-				    <span class="card__added">Added January 1, 2020</span>
-				</div>
-			</aside>
-		</article>
-		<div class="align-right">
-<button id="button" type="button" class="button button--borderless button--destructive remove-favorite">
-<svg
-	class="icon icon--delete"
-	aria-hidden="true"
-	viewBox="0 0 20 20"
-	focusable="false"
->
-	<use href="/images/delete.svg#delete"/>
-</svg>
-<span class="button__label">Remove</span></button>
-		</div>
-	</li>
-	<li class="card__wrapper">
-		<article class="card card--resource">
-			<header>
-				<h3 class="card__title" >
-					<a class="card__link" href="resource">Sit Eum Sed Quas Neque Quod</a>
-				</h3>
-					<p class="card__byline"><svg
-	class="icon icon--author"
-	aria-hidden="true"
-	viewBox="0 0 20 20"
-	focusable="false"
->
-	<use href="/images/author.svg#author"/>
-</svg>
- By Architecto Hic</p>
-			</header>
-			<aside class="card__aside">
-				<div class="card__meta">
-					<span class="card__format"><span class="screen-reader-text">resource format: </span><svg
-	class="icon icon--article"
-	aria-hidden="true"
-	viewBox="0 0 20 20"
-	focusable="false"
->
-	<use href="/images/article.svg#article"/>
-</svg>
-Article</span>				</div>
-				<div class="card__meta">
-					<span class="card__locality"><span class="screen-reader-text">location of relevance: </span><svg
-	class="icon icon--location"
-	aria-hidden="true"
-	viewBox="0 0 20 20"
-	focusable="false"
->
-	<use href="/images/location.svg#location"/>
-</svg>
-Syrian Arab Republic</span>
-				</div>
-				<div class="card__tags tags">
-					<div class="badge">
-						<span class="screen-reader-text">Topic: </span>Interface
-					</div>
-					<div class="badge">
-						<span class="screen-reader-text">Topic: </span>Attitude
+						<span class="screen-reader-text">Topic: </span>Extranet
 					</div>
 					<span class="overflow">
 						+2 more
@@ -562,7 +363,7 @@ Syrian Arab Republic</span>
 		<article class="card card--resource">
 			<header>
 				<h3 class="card__title" >
-					<a class="card__link" href="resource">Doloribus Cum Eos in Voluptas Ut Eos Beatae Reiciendis Neque Sit Velit</a>
+					<a class="card__link" href="resource">Sed Animi Nemo Fuga</a>
 				</h3>
 					<p class="card__byline"><svg
 	class="icon icon--author"
@@ -572,7 +373,208 @@ Syrian Arab Republic</span>
 >
 	<use href="/images/author.svg#author"/>
 </svg>
- By Eum Nulla Voluptates</p>
+ By Facere Eius Ratione</p>
+			</header>
+			<aside class="card__aside">
+				<div class="card__meta">
+					<span class="card__format"><span class="screen-reader-text">resource format: </span><svg
+	class="icon icon--educational-curriculum"
+	aria-hidden="true"
+	viewBox="0 0 20 20"
+	focusable="false"
+>
+	<use href="/images/educational-curriculum.svg#educational-curriculum"/>
+</svg>
+Educational Curriculum</span>				</div>
+				<div class="card__meta">
+					<span class="card__locality"><span class="screen-reader-text">location of relevance: </span><svg
+	class="icon icon--location"
+	aria-hidden="true"
+	viewBox="0 0 20 20"
+	focusable="false"
+>
+	<use href="/images/location.svg#location"/>
+</svg>
+Central African Republic</span>
+				</div>
+				<div class="card__tags tags">
+					<div class="badge">
+						<span class="screen-reader-text">Topic: </span>Core
+					</div>
+					<div class="badge">
+						<span class="screen-reader-text">Topic: </span>Graphical User Interface
+					</div>
+					<span class="overflow">
+						+1 more
+					</span>
+				</div>
+				<div class="card__meta">
+				    <span class="card__added">Added January 1, 2020</span>
+				</div>
+			</aside>
+		</article>
+		<div class="align-right">
+<button id="button" type="button" class="button button--borderless button--destructive remove-favorite">
+<svg
+	class="icon icon--delete"
+	aria-hidden="true"
+	viewBox="0 0 20 20"
+	focusable="false"
+>
+	<use href="/images/delete.svg#delete"/>
+</svg>
+<span class="button__label">Remove</span></button>
+		</div>
+	</li>
+	<li class="card__wrapper">
+		<article class="card card--resource">
+			<header>
+				<h3 class="card__title" >
+					<a class="card__link" href="resource">Magni Distinctio Magni Rem</a>
+				</h3>
+					<p class="card__byline"><svg
+	class="icon icon--author"
+	aria-hidden="true"
+	viewBox="0 0 20 20"
+	focusable="false"
+>
+	<use href="/images/author.svg#author"/>
+</svg>
+ By Illo Nostrum Est Aut</p>
+			</header>
+			<aside class="card__aside">
+				<div class="card__meta">
+					<span class="card__format"><span class="screen-reader-text">resource format: </span><svg
+	class="icon icon--video"
+	aria-hidden="true"
+	viewBox="0 0 20 20"
+	focusable="false"
+>
+	<use href="/images/video.svg#video"/>
+</svg>
+Video</span>				</div>
+				<div class="card__meta">
+					<span class="card__locality"><span class="screen-reader-text">location of relevance: </span><svg
+	class="icon icon--location"
+	aria-hidden="true"
+	viewBox="0 0 20 20"
+	focusable="false"
+>
+	<use href="/images/location.svg#location"/>
+</svg>
+Saint Lucia</span>
+				</div>
+				<div class="card__tags tags">
+					<div class="badge">
+						<span class="screen-reader-text">Topic: </span>Architecture
+					</div>
+					<div class="badge">
+						<span class="screen-reader-text">Topic: </span>Standardization
+					</div>
+					<span class="overflow">
+						+5 more
+					</span>
+				</div>
+				<div class="card__meta">
+				    <span class="card__added">Added January 1, 2020</span>
+				</div>
+			</aside>
+		</article>
+		<div class="align-right">
+<button id="button" type="button" class="button button--borderless button--destructive remove-favorite">
+<svg
+	class="icon icon--delete"
+	aria-hidden="true"
+	viewBox="0 0 20 20"
+	focusable="false"
+>
+	<use href="/images/delete.svg#delete"/>
+</svg>
+<span class="button__label">Remove</span></button>
+		</div>
+	</li>
+	<li class="card__wrapper">
+		<article class="card card--resource">
+			<header>
+				<h3 class="card__title" >
+					<a class="card__link" href="resource">Et Fugit Suscipit Velit Ut Ullam Nihil Veritatis Voluptatibus in Ipsa</a>
+				</h3>
+					<p class="card__byline"><svg
+	class="icon icon--author"
+	aria-hidden="true"
+	viewBox="0 0 20 20"
+	focusable="false"
+>
+	<use href="/images/author.svg#author"/>
+</svg>
+ By Fugit Voluptatum Ducimus</p>
+			</header>
+			<aside class="card__aside">
+				<div class="card__meta">
+					<span class="card__format"><span class="screen-reader-text">resource format: </span><svg
+	class="icon icon--article"
+	aria-hidden="true"
+	viewBox="0 0 20 20"
+	focusable="false"
+>
+	<use href="/images/article.svg#article"/>
+</svg>
+Article</span>				</div>
+				<div class="card__meta">
+					<span class="card__locality"><span class="screen-reader-text">location of relevance: </span><svg
+	class="icon icon--location"
+	aria-hidden="true"
+	viewBox="0 0 20 20"
+	focusable="false"
+>
+	<use href="/images/location.svg#location"/>
+</svg>
+United Arab Emirates</span>
+				</div>
+				<div class="card__tags tags">
+					<div class="badge">
+						<span class="screen-reader-text">Topic: </span>Standardization
+					</div>
+					<div class="badge">
+						<span class="screen-reader-text">Topic: </span>Archive
+					</div>
+					<span class="overflow">
+						+5 more
+					</span>
+				</div>
+				<div class="card__meta">
+				    <span class="card__added">Added January 1, 2020</span>
+				</div>
+			</aside>
+		</article>
+		<div class="align-right">
+<button id="button" type="button" class="button button--borderless button--destructive remove-favorite">
+<svg
+	class="icon icon--delete"
+	aria-hidden="true"
+	viewBox="0 0 20 20"
+	focusable="false"
+>
+	<use href="/images/delete.svg#delete"/>
+</svg>
+<span class="button__label">Remove</span></button>
+		</div>
+	</li>
+	<li class="card__wrapper">
+		<article class="card card--resource">
+			<header>
+				<h3 class="card__title" >
+					<a class="card__link" href="resource">Quia Animi Voluptatibus minus Ea Repellat Fugit Repudiandae Eum Ea Nesciunt</a>
+				</h3>
+					<p class="card__byline"><svg
+	class="icon icon--author"
+	aria-hidden="true"
+	viewBox="0 0 20 20"
+	focusable="false"
+>
+	<use href="/images/author.svg#author"/>
+</svg>
+ By Rerum in Sequi</p>
 			</header>
 			<aside class="card__aside">
 				<div class="card__meta">
@@ -594,14 +596,14 @@ Book</span>				</div>
 >
 	<use href="/images/location.svg#location"/>
 </svg>
-Slovenia</span>
+Japan</span>
 				</div>
 				<div class="card__tags tags">
 					<div class="badge">
-						<span class="screen-reader-text">Topic: </span>Hierarchy
+						<span class="screen-reader-text">Topic: </span>Matrix
 					</div>
 					<div class="badge">
-						<span class="screen-reader-text">Topic: </span>Groupware
+						<span class="screen-reader-text">Topic: </span>Local Area Network
 					</div>
 					<span class="overflow">
 						+4 more
@@ -629,7 +631,7 @@ Slovenia</span>
 		<article class="card card--resource">
 			<header>
 				<h3 class="card__title" >
-					<a class="card__link" href="resource">Non Explicabo Voluptas Fuga Veniam Molestiae at</a>
+					<a class="card__link" href="resource">Quaerat Rerum Eaque Aspernatur Ex Itaque</a>
 				</h3>
 					<p class="card__byline"><svg
 	class="icon icon--author"
@@ -639,7 +641,7 @@ Slovenia</span>
 >
 	<use href="/images/author.svg#author"/>
 </svg>
- By Consectetur Quo</p>
+ By In Repudiandae</p>
 			</header>
 			<aside class="card__aside">
 				<div class="card__meta">
@@ -661,17 +663,17 @@ Academic Paper</span>				</div>
 >
 	<use href="/images/location.svg#location"/>
 </svg>
-Montenegro</span>
+Uzbekistan</span>
 				</div>
 				<div class="card__tags tags">
 					<div class="badge">
-						<span class="screen-reader-text">Topic: </span>Capacity
+						<span class="screen-reader-text">Topic: </span>Architecture
 					</div>
 					<div class="badge">
-						<span class="screen-reader-text">Topic: </span>Circuit
+						<span class="screen-reader-text">Topic: </span>Database
 					</div>
 					<span class="overflow">
-						+4 more
+						+2 more
 					</span>
 				</div>
 				<div class="card__meta">
@@ -726,8 +728,6 @@ Montenegro</span>
 </div>
 </div>
   		</footer>
-		<script src="../../scripts/pinecone.umd.js"></script>
-		<script src="../../scripts/pinecone.js"></script>
 	</body>
 </html>
 

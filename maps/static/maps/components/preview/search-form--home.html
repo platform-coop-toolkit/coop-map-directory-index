@@ -7,13 +7,15 @@
 		<meta http-equiv="x-ua-compatible" content="ie=edge">
 		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 		<script>(function(html){html.className = html.className.replace(/\bno-js\b/,'js')})(document.documentElement);</script>
+		<script src="../../scripts/pinecone.umd.js"></script>
+		<script src="../../scripts/pinecone.js" defer></script>
 		<link rel="stylesheet" href="../../styles/pinecone.css">
 		<link rel="apple-touch-icon" sizes="180x180" href="../../images/apple-touch-icon.png">
 		<link rel="icon" href="../../images/favicon.png" >
-		<title>Search: Default | Pinecone</title>
+		<title>Search Form: Home | Pinecone</title>
 	</head>
 
-	<body>
+	<body class="has-blue-400-background-color home home__search">
 		<header role="banner">
 			<div class="container">
 			</div>
@@ -21,10 +23,10 @@
 		<div class="wrap container" role="document">
       		<div class="content">
 				<main>
-<div class="spacer"></div><form role="search" method="get" class="search-form" action="/">
+<div class="spacer"></div><form role="search" method="get" class="search-form search-form--inverse" action="/">
 	<label>
 		<span class="screen-reader-text">search</span>
-		<input id="s" name="s"  type="search" />
+		<input id="s" name="s" placeholder="Search resource name, publisher, or topic…"  type="search" />
 	</label>
 	<button type="submit" class="button button--search"><span class="screen-reader-text">submit search</span><svg
 	class="icon icon--search"
@@ -39,8 +41,6 @@
 				</main>
 			</div>
 		</div>
-		<script src="../../scripts/pinecone.umd.js"></script>
-		<script src="../../scripts/pinecone.js"></script>
 	</body>
 </html>
 

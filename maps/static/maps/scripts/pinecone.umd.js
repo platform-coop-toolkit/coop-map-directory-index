@@ -298,12 +298,23 @@
 
       this.btn = btn;
       this.config = _objectSpread2({}, {
+        title: 'Confirm action',
+        question: 'Do you want to do this?',
+        dismiss: 'No',
+        confirm: 'Yes',
+        inputLabel: false,
+        inputDescription: false,
+        input: false,
         callback:
         /**
          * Callback for when one was not provided.
          */
-        function callback() {
-          console.error('No callback provided.'); // eslint-disable-line
+        function callback(input) {
+          if (input) {
+            console.log("Responded with \"".concat(input, "\".")); // eslint-disable-line
+          } else {
+            console.error('Callback not provided.'); // eslint-disable-line
+          }
         }
       }, {}, options);
       this.invokeDialog = this.invokeDialog.bind(this);
@@ -330,6 +341,8 @@
     }, {
       key: "invokeDialog",
       value: function invokeDialog(callback) {
+        var _this = this;
+
         var elems = document.querySelectorAll('body > *');
         Array.prototype.forEach.call(elems, function (elem) {
           elem.setAttribute('inert', 'inert');
@@ -343,6 +356,20 @@
 
         if (this.config.question) {
           innerHtml += "<p id=\"q-".concat(unique + 1, "\">").concat(this.config.question, "</p>");
+        }
+
+        if (this.config.input && this.config.inputLabel) {
+          innerHtml += '<div class="input-group">';
+          innerHtml += "<label for=\"".concat(this.config.input, "\">").concat(this.config.inputLabel, "</label>");
+
+          if (this.config.inputDescription) {
+            innerHtml += "<input id=\"".concat(this.config.input, "\" type=\"text\" name=\"").concat(this.config.input, "\" aria-describedby=\"").concat(this.config.input, "-description\" />");
+            innerHtml += "<p id=\"".concat(this.config.input, "-description\" class=\"input-group__description\">").concat(this.config.inputDescription, "</p>");
+          } else {
+            innerHtml += "<input id=\"".concat(this.config.input, "\" type=\"text\" name=\"").concat(this.config.input, "\" />");
+          }
+
+          innerHtml += '</div>';
         }
 
         innerHtml += "\n\t\t\t<div class=\"buttons\">\n\t\t\t\t<button class=\"button button--secondary dismiss\">".concat(this.config.dismiss, "</button>\n\t\t\t\t<button class=\"button confirm\">").concat(this.config.confirm, "</button>\n\t\t\t</div>\n\t\t");
@@ -370,11 +397,17 @@
         var trigger = this.btn;
         document.body.appendChild(overlay);
         document.body.appendChild(dialog);
-        dismiss.focus();
+
+        if (this.config.input) {
+          document.getElementById(this.config.input).focus();
+        } else {
+          dismiss.focus();
+        }
 
         confirm.onclick = function () {
+          var input = document.getElementById(_this.config.input) ? document.getElementById(_this.config.input).value : false;
           close();
-          callback();
+          callback(input);
         };
 
         dismiss.onclick = function () {
@@ -3629,8 +3662,8 @@
         supplementaryLabel.classList.add('screen-reader-text');
         supplementaryLabel.hidden = false;
         this.input.parentNode.insertBefore(customCheckbox, this.input);
-        this.input.setAttribute('type', 'hidden');
-        this.input.setAttribute('value', status ? this.value : '');
+        this.input.classList.add('screen-reader-text');
+        this.input.setAttribute('aria-hidden', 'true');
         this.label.hidden = true;
         this.customCheckbox = customCheckbox;
       }
@@ -3654,7 +3687,7 @@
       value: function toggleMixedCheckbox(ctrl) {
         var state = 'true' === ctrl.getAttribute('aria-checked') || false;
         ctrl.setAttribute('aria-checked', !state);
-        this.input.setAttribute('value', !state ? this.value : '');
+        this.input.checked = !state;
         Array.prototype.forEach.call(this.subInputs, function (checkbox) {
           checkbox.checked = !state;
         });
