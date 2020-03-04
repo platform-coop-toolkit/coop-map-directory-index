@@ -136,6 +136,7 @@ class Organization(models.Model):
     type = models.ForeignKey(Type, on_delete=models.CASCADE)
     sectors = models.ManyToManyField(Sector)
     socialnetworks = models.ManyToManyField(SocialNetwork, through='OrganizationSocialNetwork')
+    notes = models.TextField(blank=True, default='')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 

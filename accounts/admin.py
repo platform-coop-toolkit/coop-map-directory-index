@@ -15,9 +15,10 @@ class CustomUserAdmin(UserAdmin):
 
     UserAdmin.fieldsets = (
         (None, {'fields': ('username', 'password')}),
-        ('Personal info', {'fields': ('first_name', 'middle_name', 'last_name',)}),
+        ('Personal info', {'fields': ('first_name', 'middle_name', 'last_name', 'bio', 'city', 'state', 'postal_code', 'country', 'url',)}),
+        ('Free text fields', {'fields': ('notes',)}),
         ('Permissions', {'fields': ('is_active', 'is_staff', 'is_superuser', 'groups', 'user_permissions')}),
-        ('Important dates', {'fields': ('last_login', 'date_joined')})
+        ('Important dates', {'fields': ('last_login', 'date_joined')}),
     )
     inlines = [UserSocialNetworkInline]
 

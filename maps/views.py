@@ -1,6 +1,7 @@
 from django.http import HttpResponse
 from django.template import loader
 from django.shortcuts import get_object_or_404, render
+from accounts.models import User
 from mdi.models import Organization
 
 
@@ -24,3 +25,11 @@ def organization_detail(request, organization_id):
     context = {
     }
     return render(request, 'maps/organization_detail.html', {'organization': organization})
+
+
+# Individual
+def individual_detail(request, user_id):
+    user = get_object_or_404(User, pk=user_id)
+    context = {
+    }
+    return render(request, 'maps/individual_detail.html', {'individual': user})

@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.gis.db import models
 from django.contrib.auth.models import AbstractUser, UserManager
 from django_countries.fields import CountryField
 from django.core.exceptions import ValidationError
@@ -54,8 +55,18 @@ class User(AbstractUser):
       unique=True,
     )
     middle_name = models.CharField(blank=True, max_length=255, unique=False)
+    bio = models.TextField(blank=True, default='')
+    address = models.CharField(blank=True, default='', max_length=255)
+    city = models.CharField(blank=True, default='', max_length=255)
+    state = models.CharField(blank=True, default='', max_length=255)
+    postal_code = models.CharField(blank=True, default='', max_length=255)
     country = CountryField()
+    url = models.CharField(blank=True, default='', max_length=255)
+    geom = models.PointField(null=True)
     socialnetworks = models.ManyToManyField(SocialNetwork, through='UserSocialNetwork')
+    notes = models.TextField(blank=True, default='')
+    # created_at: would normally add this but django-registration gives us date_joined
+    updated_at = models.DateTimeField(auto_now=True)
 
     USERNAME_FIELD = 'username'
     REQUIRED_FIELDS = []
@@ -83,4 +94,3 @@ class UserSocialNetwork(models.Model):
         super().clean()
         if self.handle is None or self.url is None:
             raise ValidationError('At least one of Handle or URL must be specified')
-
