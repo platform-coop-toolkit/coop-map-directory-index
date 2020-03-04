@@ -1,0 +1,69 @@
+{% extends 'maps/base.html' %}
+{% load static %}
+{% block content %}
+    <div class="page-header">
+        <h1><span class="pc-ff--sans pc-fw--normal">Platform Co-op</span><br/> Directory</h1>
+        <p class="subhead">Subhead.</p>
+    </div>
+    {% include 'maps/search.html' %}
+    <h1>{{ user.last_name }}, {{ user.first_name }}</h1>
+    <span>
+        <span class="screen-reader-text">location: </span>
+        <svg class="icon icon--location" aria-hidden="true" viewBox="0 0 20 20" focusable="false">
+            <use href="/images/location.svg#location"/>
+        </svg>
+        {% if user.city or user.state or user.country %}
+        {% if user.city %}{{ user.city }}, {% endif %}
+        {% if user.state %}{{ user.state }} {% endif %}
+        {% if user.country %}{{ user.country }}<br />{% endif %}
+    {% endif %}
+
+    </span>
+
+    <div class="tags">
+        <span class="badge">Role: Data not collected</span><br />
+    </div>
+
+    {% if user.bio %}
+    <h2>Bio:</h2>
+    <p>
+        {{ user.bio }}
+    </p>
+    {% endif %}
+
+    <h2>Looking for:</h2>
+    <p>Data not collected</p>
+
+    <h2>Offering:</h2>
+    <p>Data not collected</p>
+
+    <h2>Connections:</h2>
+    <p>Data not collected</p>
+
+    <h2>Contact:</h2>
+    {% if user.address or user.city or user.state or user.country or user.postal_code %}
+        {% if user.address %}{{ user.address }}<br />{% endif %}
+        {% if user.city %}{{ user.city }}, {% endif %}
+        {% if user.state %}{{ user.state }} {% endif %}
+        {% if user.postal_code %}{{ user.postal_code }} {% endif %}
+        {% if user.country %}{{ user.country }}<br />{% endif %}
+    {% endif %}
+    {% if user.phone %}T: {{ user.phone }}<br />{% endif %}
+    E: {{ user.email }}<br />
+
+    <h2>Follow:</h2>
+
+    {% if user.notes %}
+    <h2>Notes:</h2>
+    <p>
+        {{ user.notes }}
+    </p>
+    {% endif %}
+
+    <div class="spacer"></div>
+    <small>
+        Last updated: {{ user.updated_at }}<br />
+        Date joined: {{ user.date_joined }}
+    </small>
+
+{% endblock %}
