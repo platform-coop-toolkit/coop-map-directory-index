@@ -187,6 +187,8 @@ map.on('load', function () {
         if (f.properties.country) {
           htmlString += f.properties.country
         }
+        htmlString += '<div class="spacer"></div><p class="align-right"><a href="/maps/organizations/' + f.id + '">View full profile…</a></p>';
+
         htmlString += '</aside></article></li>';
       });
       htmlString += '</ul>';

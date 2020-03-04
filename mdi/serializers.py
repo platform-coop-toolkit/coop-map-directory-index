@@ -55,6 +55,7 @@ class OrganizationSerializer(CountryFieldMixin, GeoFeatureModelSerializer):
         model = Organization
         geo_field = 'geom'
         fields = (
+            'id',
             'name',
             'description',
             'category',
