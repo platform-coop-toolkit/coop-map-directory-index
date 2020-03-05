@@ -1,0 +1,1 @@
+Please activate your new Platform Coop account within {{ expiration_days }} days
