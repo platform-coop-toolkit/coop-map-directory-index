@@ -12,3 +12,7 @@ body {
 #map.organization {
   font-family: 'Noto Serif', serif;
 }
+
+li.no-bullet {
+  list-style: none;
+}

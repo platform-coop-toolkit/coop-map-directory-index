@@ -51,7 +51,18 @@
     {% if user.phone %}T: {{ user.phone }}<br />{% endif %}
     E: {{ user.email }}<br />
 
+    {% if user.socialnetworks %}
     <h2>Follow:</h2>
+        <ul>
+        {% for sn in user.usersocialnetwork_set.all %}
+            {% if sn.socialnetwork.format == 'handle' %}
+            <li class="no-bullet">{{ sn.socialnetwork.name }}: <a href="{{ sn.socialnetwork.base_url }}{{ sn.identifier|cut:'@' }}">{{ sn.identifier }}</a></li>
+            {% else %} {# sn.socialnetwork.format == 'url' #}
+            <li class="no-bullet">{{ sn.socialnetwork.name }}: <a href="{{ sn.identifier }}">{{ sn.identifier }}</a></li>
+            {% endif %}
+        {% endfor %}
+        </ul>
+    {% endif %}
 
     {% if user.notes %}
     <h2>Notes:</h2>

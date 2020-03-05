@@ -7,12 +7,11 @@ from .models import User, UserSocialNetwork
 
 class UserSocialNetworkInline(admin.TabularInline):
     model = UserSocialNetwork
+    fields = ['socialnetwork', 'identifier',]
     extra = 3
 
 
 class CustomUserAdmin(UserAdmin):
-    # list_display = ('email', 'first_name', 'last_name',)
-
     UserAdmin.fieldsets = (
         (None, {'fields': ('username', 'password')}),
         ('Personal info', {'fields': ('first_name', 'middle_name', 'last_name', 'bio', 'city', 'state', 'postal_code', 'country', 'url',)}),

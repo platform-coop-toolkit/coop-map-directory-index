@@ -38,6 +38,8 @@ class SocialNetwork(models.Model):
     name = models.CharField(blank=False, max_length=255)
     description = models.TextField(blank=True, default='')
     url = models.CharField(blank=False, max_length=255)
+    format = models.CharField(blank=False, max_length=8, choices=[('handle', 'handle'), ('url', 'url')])
+    base_url = models.CharField(blank=True, max_length=255)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -82,15 +84,10 @@ class User(AbstractUser):
 class UserSocialNetwork(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     socialnetwork = models.ForeignKey(SocialNetwork, on_delete=models.CASCADE)
-    handle = models.CharField(blank=True, max_length=64)
-    url = models.CharField(blank=True, max_length=255)
+    identifier = models.CharField(blank=False, max_length=255)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
+        ordering = ['socialnetwork',]
         verbose_name = "User's Social Network"
-
-    def clean(self):
-        super().clean()
-        if self.handle is None or self.url is None:
-            raise ValidationError('At least one of Handle or URL must be specified')

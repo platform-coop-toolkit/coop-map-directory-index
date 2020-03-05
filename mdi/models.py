@@ -150,8 +150,7 @@ class Organization(models.Model):
 class OrganizationSocialNetwork(models.Model):
     organization = models.ForeignKey(Organization, on_delete=models.CASCADE)
     socialnetwork = models.ForeignKey(SocialNetwork, on_delete=models.CASCADE)
-    handle = models.CharField(blank=True, max_length=64)
-    url = models.CharField(blank=True, max_length=255)
+    identifier = models.CharField(blank=False, max_length=255)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
