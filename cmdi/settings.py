@@ -61,6 +61,7 @@ INSTALLED_APPS = [
     'accounts',
     'mdi',
     'maps',
+    'lockdown',
 ]
 
 MIDDLEWARE = [
@@ -72,7 +73,15 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'lockdown.middleware.LockdownMiddleware',
 ]
+
+LOCKDOWN_PASSWORDS = ('six', '6',)
+LOCKDOWN_URL_EXCEPTIONS = (
+    r'^/organizations/$',
+    r'^/sectors/$',
+    r'^/tools/$',
+)
 
 ROOT_URLCONF = 'cmdi.urls'
 
