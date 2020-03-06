@@ -15,6 +15,15 @@
     {% endif %}
 {% endif %}
 
+<div class="page-header">
+    <p>
+        <div class="spacer"></div><a class="link--inverse" href="{% url 'index' %}">Home</a>
+    </p>
+    <h1>Account login</h1>
+</div>
+
+<div class="spacer"></div>
+
 <form method="post" action="{% url 'login' %}">
 {% csrf_token %}
 <table>
@@ -28,11 +37,14 @@
 </tr>
 </table>
 
-<input type="submit" value="login">
+<div class="spacer"></div><button id="button" type="submit" class="button">
+<span class="button__label">Login</span></button>
+
 <input type="hidden" name="next" value="{{ next }}">
 </form>
 
 {# Assumes you setup the password_reset view in your URLconf #}
 <p><a href="{% url 'password_reset' %}">Lost password?</a></p>
+<p><a href="{% url 'django_registration_register' %}">Create an account</a></p>
 
 {% endblock %}

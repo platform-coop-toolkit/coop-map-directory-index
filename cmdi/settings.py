@@ -76,7 +76,10 @@ MIDDLEWARE = [
     'lockdown.middleware.LockdownMiddleware',
 ]
 
+# django-lockdown is being used to deter the curious during development.
+# Keep it after launch should site access ever need to be disabled due to some emergency.
 LOCKDOWN_PASSWORDS = ('six', '6',)
+LOCKDOWN_ENABLED = True # Default is True. A quick way to make the site inaccessible.
 LOCKDOWN_URL_EXCEPTIONS = (
     r'^/organizations/$',
     r'^/sectors/$',

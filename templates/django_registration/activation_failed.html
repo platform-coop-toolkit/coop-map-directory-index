@@ -3,9 +3,14 @@
 {% extends 'maps/base.html' %}
 
 {% block content %}
-
-Your account could not be activated.
-
-    @todo: read documentation for activation_error
+<div class="page-header">
+    <p>
+        <div class="spacer"></div><a class="link--inverse" href="{% url 'index' %}}">Home</a>
+    </p>
+    <h1>Creation failure</h1>
+</div>
+<p>
+    Your account could not be activated. {{ activation_error.message }}
+</p>
 
 {% endblock %}

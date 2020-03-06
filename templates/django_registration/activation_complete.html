@@ -1,9 +1,16 @@
-{# /accounts/activate/failed/ #}
+{# /accounts/activate/complete/ #}
 
 {% extends 'maps/base.html' %}
 
 {% block content %}
-
-Your account has been activated.
+<div class="page-header">
+    <p>
+        <div class="spacer"></div><a class="link--inverse" href="{% url 'index' %}}">Home</a>
+    </p>
+    <h1>Success!</h1>
+</div>
+<p>
+    Your account has been activated. Please <a href="{% url 'login' %}">login</a>.
+</p>
 
 {% endblock %}

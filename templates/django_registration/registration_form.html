@@ -1,11 +1,27 @@
+{# /accounts/register/ #}
+
 {% extends 'maps/base.html' %}
 
 {% block content %}
+<div class="page-header">
+    <p>
+        <div class="spacer"></div><a class="link--inverse" href="{% url 'index' %}}">Home</a>
+    </p>
+    <h1>Account creation</h1>
+</div>
+<p>
+    Accounts on the Directory are intended for people working in the Platform Co-operative ecosystem: actively managing
+    organization profiles, doing academic or grantmaking research, or providing technical services. Accounts are not
+    necessary to browse the directory.
+</p>
+
+<div class="spacer"></div>
 
 <form method="post">
 {% csrf_token %}
 {{form}}
-<input type="submit" value="Submit"/>
+<div class="spacer"></div><button id="button" type="submit" class="button">
+<span class="button__label">Create account</span></button>
 </form>
 
 {% endblock %}
