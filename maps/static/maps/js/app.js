@@ -173,7 +173,7 @@ map.on('load', function () {
     if (visibleFeatures) {
       htmlString = '<ul class="cards">\n';
       visibleFeatures.forEach(function (f) {
-        htmlString += '<li class="card__wrapper"><article class="card"><header><h3 class="card___title"><span class="card__format">' + f.properties.category.toUpperCase() + '</span><span class="screen-reader-text">: </span></h3></header><aside class="card__aside">\n<h4>' +
+        htmlString += '<li class="card__wrapper"><article id="' + f.id + '" class="card"><header><h3 class="card___title"><span class="card__format">' + f.properties.category.toUpperCase() + '</span><span class="screen-reader-text">: </span></h3></header><aside class="card__aside">\n<h4>' +
           f.properties.name + '</h4><br />';
         if (f.properties.sectors) {
           htmlString += '<strong>' + f.properties.sectors.replace('[', '').replace(']', '').replace(/","/g, ', ').replace(/"/g, '') + '</strong><br />';

@@ -1,5 +1,6 @@
 {% extends 'maps/base.html' %}
-
+{% load maps_extras %}
+{% block title %}{{ 'Login'|titlify }}{% endblock %}
 {% block content %}
 
 {% if form.errors %}

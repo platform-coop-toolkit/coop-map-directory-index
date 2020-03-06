@@ -1,5 +1,7 @@
 {% extends 'maps/base.html' %}
 {% load static %}
+{% load maps_extras %}
+{% block title %}{{ organization.name|titlify }}{% endblock %}
 {% block content %}
     <div class="page-header">
         <h1><span class="pc-ff--sans pc-fw--normal">Platform Co-op</span><br/> Directory</h1>
