@@ -3,6 +3,15 @@
 {% block title %}{{ 'Logged out'|titlify }}{% endblock %}
 
 {% block content %}
-  <p>Logged out!</p>
-  <a href="{% url 'login'%}">Click here to login again.</a>
+<div class="page-header">
+    <p>
+        <div class="spacer"></div><a class="link--inverse" href="{% url 'index' %}">Home</a>
+    </p>
+    <h1>Logged out</h1>
+</div>
+
+<div class="spacer"></div>
+<p>Logged out!</p>
+<div class="spacer"></div>
+<a href="{% url 'login'%}">Click here to login again.</a>
 {% endblock %}
