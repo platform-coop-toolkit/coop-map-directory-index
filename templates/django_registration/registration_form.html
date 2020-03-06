@@ -1,7 +1,8 @@
 {# /accounts/register/ #}
 
 {% extends 'maps/base.html' %}
-
+{% load maps_extras %}
+{% block title %}{{ 'Account creation'|titlify }}{% endblock %}
 {% block content %}
 <div class="page-header">
     <p>

@@ -1,13 +1,14 @@
 {# /accounts/activate/failed/ #}
 
 {% extends 'maps/base.html' %}
-
+{% load maps_extras %}
+{% block title %}{{ 'Activation failure'|titlify }}{% endblock %}
 {% block content %}
 <div class="page-header">
     <p>
         <div class="spacer"></div><a class="link--inverse" href="{% url 'index' %}}">Home</a>
     </p>
-    <h1>Creation failure</h1>
+    <h1>Activation failure</h1>
 </div>
 <p>
     Your account could not be activated. {{ activation_error.message }}
