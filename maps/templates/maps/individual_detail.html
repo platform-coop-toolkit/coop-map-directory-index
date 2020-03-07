@@ -15,11 +15,10 @@
             <use href="/images/location.svg#location"/>
         </svg>
         {% if user.city or user.state or user.country %}
-        {% if user.city %}{{ user.city }}, {% endif %}
-        {% if user.state %}{{ user.state }} {% endif %}
-        {% if user.country %}{{ user.country }}<br />{% endif %}
-    {% endif %}
-
+            {% if user.city %}{{ user.city }}, {% endif %}
+            {% if user.state %}{{ user.state }} {% endif %}
+            {% if user.country %}{{ user.country }}<br />{% endif %}
+        {% endif %}
     </span>
 
     <div class="tags">

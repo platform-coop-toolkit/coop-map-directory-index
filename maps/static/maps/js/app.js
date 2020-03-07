@@ -33,7 +33,7 @@ map.on('load', function () {
     totals
   ;
 
-  map.addSource('coops', {
+  map.addSource('organizations', {
     'type': 'geojson',
     'data': '/organizations/',
     'cluster': true,
@@ -48,10 +48,18 @@ map.on('load', function () {
     // }
   });
 
+  map.addSource('individuals', {
+    'type': 'geojson',
+    'data': '/users/',
+    'cluster': true,
+    'clusterMaxZoom': 14,
+    'clusterRadius': 50
+  });
+
   map.addLayer({
     id: 'clusters',
     type: 'circle',
-    source: 'coops',
+    source: 'organizations',
     filter: ['has', 'point_count'],
     // 'filter': ['!=', ['get', 'cluster'], true],
     'paint': {
@@ -88,7 +96,7 @@ map.on('load', function () {
   map.addLayer({
     id: 'cluster-count',
     type: 'symbol',
-    source: 'coops',
+    source: 'organizations',
     filter: ['has', 'point_count'],
     layout: {
       'text-field': '{point_count_abbreviated}',
@@ -99,7 +107,7 @@ map.on('load', function () {
   map.addLayer({
     id: 'unclustered-point',
     type: 'circle',
-    source: 'coops',
+    source: 'organizations',
     filter: ['!', ['has', 'point_count']],
     paint: {
       'circle-color': '#11b4da',
@@ -114,7 +122,7 @@ map.on('load', function () {
       layers: ['clusters']
     });
     var clusterId = features[0].properties.cluster_id;
-    map.getSource('coops').getClusterExpansionZoom(
+    map.getSource('organizations').getClusterExpansionZoom(
       clusterId,
       function (err, zoom) {
         if (err) return;
@@ -187,12 +195,16 @@ map.on('load', function () {
         if (f.properties.country) {
           htmlString += f.properties.country
         }
-        htmlString += '<div class="spacer"></div><p class="align-right"><a href="/maps/organizations/' + f.id + '">View full profile…</a></p>';
-
         htmlString += '</aside></article></li>';
       });
       htmlString += '</ul>';
       document.getElementById('visibles').innerHTML = htmlString;
+
+      [...document.getElementsByTagName('article')].forEach(function (article) {
+        article.addEventListener('click', function () {
+          window.location = '/maps/organizations/' + article.id;
+        })
+      })
     }
   };
 
@@ -204,9 +216,9 @@ map.on('load', function () {
   })
 
   // map.addLayer({
-  //   'id': 'coops_individual_outer',
+  //   'id': 'organizations_individual_outer',
   //   'type': 'circle',
-  //   'source': 'coops',
+  //   'source': 'organizations',
   //   'filter': ['!=', ['get', 'cluster'], true],
   //   'paint': {
   //     'circle-color': [
@@ -229,7 +241,7 @@ map.on('load', function () {
   //   // keep track of new markers
   //   let newMarkers = {};
   //   // get the features whether or not they are visible (https://docs.mapbox.com/mapbox-gl-js/api/#map#queryrenderedfeatures)
-  //   const features = map.querySourceFeatures('coops');
+  //   const features = map.querySourceFeatures('organizations');
   //   totals = getPointCount(features);
   //   // loop through each feature
   //   features.forEach((feature) => {
@@ -284,7 +296,7 @@ map.on('load', function () {
   // };
 
 /*
-  map.on('mouseover', 'coops', function (e) {
+  map.on('mouseover', 'organizations', function (e) {
     map.getCanvas().style.cursor = 'pointer';
     let
       htmlString = '';
@@ -310,7 +322,7 @@ map.on('load', function () {
       .addTo(map);
   });
 
-  map.on('mouseleave', 'coops', function () {
+  map.on('mouseleave', 'organizations', function () {
     map.getCanvas().style.cursor = '';
     popup.remove();
   })
