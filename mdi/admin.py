@@ -1,7 +1,5 @@
 # -*- coding: utf-8 -*-
-from django.contrib import admin
-from django.contrib.auth.admin import UserAdmin
-from django.contrib.gis.admin import OSMGeoAdmin
+from django.contrib.gis import admin
 from accounts.models import SocialNetwork
 from .models import Organization, OrganizationSocialNetwork, Tool, License, Pricing
 
@@ -19,7 +17,7 @@ class OrganizationSocialNetworkInline(admin.TabularInline):
 
 
 @admin.register(Organization)
-class OrganizationAdmin(admin.ModelAdmin):
+class OrganizationAdmin(admin.OSMGeoAdmin):
     list_display = ('name', 'city', 'country',)
     list_filter = ('type', 'sectors', 'country',)
     search_fields = ['name', 'description',]
