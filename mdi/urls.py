@@ -1,5 +1,5 @@
 from django.urls import path, include
-from .views import api_root, UserViewSet, GroupViewSet, OrganizationViewSet, ActivityViewSet
+from .views import api_root, UserViewSet, GroupViewSet, OrganizationViewSet, SectorViewSet, ToolViewSet
 from rest_framework.urlpatterns import format_suffix_patterns
 
 user_list = UserViewSet.as_view({
@@ -22,10 +22,21 @@ group_detail = GroupViewSet.as_view({
     #'delete': 'destroy'
 })
 
-activity_list = ActivityViewSet.as_view({
+sector_list = SectorViewSet.as_view({
     'get': 'list'
 })
-activity_detail = ActivityViewSet .as_view({
+sector_detail = SectorViewSet .as_view({
+    'get': 'retrieve',
+    # 'post': 'create',
+    # 'put': 'update',
+    # 'delete': 'destroy'
+})
+
+
+tool_list = ToolViewSet.as_view({
+    'get': 'list'
+})
+tool_detail = ToolViewSet .as_view({
     'get': 'retrieve',
     # 'post': 'create',
     # 'put': 'update',
@@ -48,10 +59,12 @@ urlpatterns = [
     path('user/<int:pk>/', user_detail, name=user_detail),
     path('groups', user_list, name=group_list),
     path('groups/<int:pk>/', user_detail, name=group_detail),
-    path('activities', activity_list, name=activity_list),
-    path('activities/<int:pk>/', activity_detail, name=activity_detail),
+    path('sectors', sector_list, name=sector_list),
+    path('sectors/<int:pk>/', sector_detail, name=sector_detail),
     path('organizations', organization_list, name=organization_list),
     path('organization/<int:pk>/', organization_detail, name=organization_detail),
+    path('tools', tool_list, name=tool_list),
+    path('tool/<int:pk>/', tool_detail, name=tool_detail),
 ]
 # Login and logout views for the browsable API
 urlpatterns += [

@@ -1,0 +1,17 @@
+{# /accounts/register/closed/ #}
+
+{% extends 'maps/base.html' %}
+{% load maps_extras %}
+{% block title %}{{ 'Registation closed'|titlify }}{% endblock %}
+{% block content %}
+<div class="page-header">
+    <p>
+        <div class="spacer"></div><a class="link--inverse" href="{% url 'index' %}}">Home</a>
+    </p>
+    <h1>Registation closed</h1>
+</div>
+<p>
+    Registration of new user accounts is disabled at this time.
+</p>
+
+{% endblock %}

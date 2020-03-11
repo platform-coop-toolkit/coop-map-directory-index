@@ -1,0 +1,17 @@
+{% extends 'maps/base.html' %}
+{% load maps_extras %}
+{% block title %}{{ 'Logged out'|titlify }}{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <p>
+        <div class="spacer"></div><a class="link--inverse" href="{% url 'index' %}">Home</a>
+    </p>
+    <h1>Logged out</h1>
+</div>
+
+<div class="spacer"></div>
+<p>Logged out!</p>
+<div class="spacer"></div>
+<a href="{% url 'login'%}">Click here to login again.</a>
+{% endblock %}

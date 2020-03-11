@@ -225,7 +225,7 @@
         </li>
         <li class="Meta-item">
             <strong class="Meta-key">Filesystem Path:</strong>
-            <span class="Meta-value">src/components/02-molecules/08-disclosure-button/disclosure-button.njk</span>
+            <span class="Meta-value">src/components/molecules/disclosure-button/disclosure-button.njk</span>
         </li>
         
         
@@ -236,7 +236,16 @@
     <div class="Browser-panel Browser-notes" data-role="tab-panel" id="browser-17d0db049dfc635af2318587b267e168-panel-notes">
     <div class="Prose Prose--condensed">
         
-        <p class="Browser-isEmptyNote">There are no notes for this item.</p>
+        <h1 id="disclosure-button">Disclosure Button</h1>
+<p>A disclosure button can be used to toggle the visibility of the content that follows it in the DOM.</p>
+<p>To implement the disclosure button component, use the following markup:</p>
+<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"disclosure-label"</span> <span class="hljs-attr">hidden</span>&gt;</span><span class="hljs-comment">&lt;!-- Label for content --&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"details"</span>&gt;</span>
+    <span class="hljs-comment">&lt;!-- Content --&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre><p>The <code>.details</code> class is optional; any single element that follows the <code>&lt;span&gt;</code> will be shown/hidden by the button.</p>
+<p>Then, add the following JavaScript to the page:</p>
+<pre><code class="language-javascript"><span class="hljs-keyword">var</span> disclosureLabel = <span class="hljs-built_in">document</span>.querySelector( <span class="hljs-string">'.disclosure-label'</span> );
+<span class="hljs-keyword">new</span> Pinecone.DisclosureButton( label );</code></pre>
         
     </div>
 </div>
@@ -1321,8 +1330,8 @@
         
         
         <li class="Tree-item Tree-entity" data-role="item">
-            <a class="Tree-entityLink" href="inputs--default-(light-on-dark).html" data-pjax>
-                <span>Default (Light on Dark)</span>
+            <a class="Tree-entityLink" href="inputs--default-invers.html" data-pjax>
+                <span>Default (Inverse)</span>
                 
 
 <div class="Status Status--unlabelled">
@@ -1385,8 +1394,8 @@
         
         
         <li class="Tree-item Tree-entity" data-role="item">
-            <a class="Tree-entityLink" href="textareas--default-(light-on-dark).html" data-pjax>
-                <span>Default (Light on Dark)</span>
+            <a class="Tree-entityLink" href="textareas--default-inverse.html" data-pjax>
+                <span>Default (Inverse)</span>
                 
 
 <div class="Status Status--unlabelled">
@@ -1449,8 +1458,8 @@
         
         
         <li class="Tree-item Tree-entity" data-role="item">
-            <a class="Tree-entityLink" href="selects--default-(light-on-dark).html" data-pjax>
-                <span>Default (Light on Dark)</span>
+            <a class="Tree-entityLink" href="selects--default-inverse.html" data-pjax>
+                <span>Default (Inverse)</span>
                 
 
 <div class="Status Status--unlabelled">
@@ -1513,8 +1522,8 @@
         
         
         <li class="Tree-item Tree-entity" data-role="item">
-            <a class="Tree-entityLink" href="checkboxes--default-(light-on-dark).html" data-pjax>
-                <span>Default (Light on Dark)</span>
+            <a class="Tree-entityLink" href="checkboxes--default-inverse.html" data-pjax>
+                <span>Default (Inverse)</span>
                 
 
 <div class="Status Status--unlabelled">
@@ -1577,8 +1586,8 @@
         
         
         <li class="Tree-item Tree-entity" data-role="item">
-            <a class="Tree-entityLink" href="radio-buttons--default-(light-on-dark).html" data-pjax>
-                <span>Default (Light on Dark)</span>
+            <a class="Tree-entityLink" href="radio-buttons--default-inverse.html" data-pjax>
+                <span>Default (Inverse)</span>
                 
 
 <div class="Status Status--unlabelled">
@@ -1687,6 +1696,166 @@
             
             
             
+    
+        
+        
+        <li class="Tree-item Tree-entity" data-role="item">
+            <a class="Tree-entityLink" href="brand.html" data-pjax>
+                <span>Brand</span>
+                
+
+<div class="Status Status--unlabelled">
+
+<div class="Status-dots">
+
+
+<span class="Status-dot" style="border-color: #FF9233;" title="WIP"></span>
+
+
+</div>
+
+</div>
+
+
+            </a>
+        </li>
+        
+    
+        
+        
+        <li class="Tree-item Tree-entity" data-role="item">
+            <a class="Tree-entityLink" href="search-button.html" data-pjax>
+                <span>Search Button</span>
+                
+
+<div class="Status Status--unlabelled">
+
+<div class="Status-dots">
+
+
+<span class="Status-dot" style="border-color: #FF9233;" title="WIP"></span>
+
+
+</div>
+
+</div>
+
+
+            </a>
+        </li>
+        
+    
+        
+        <li class="Tree-item Tree-collection Tree-depth-3" data-behaviour="collection" id="tree-components-collection-search-form">
+            <h4 class="Tree-collectionLabel" data-role="toggle">
+                <span>Search Form</span>
+            </h4>
+            <ul class="Tree-collectionItems" data-role="items">
+            
+            
+            
+            
+    
+        
+        
+        <li class="Tree-item Tree-entity" data-role="item">
+            <a class="Tree-entityLink" href="search-form--default.html" data-pjax>
+                <span>Default</span>
+                
+
+<div class="Status Status--unlabelled">
+
+<div class="Status-dots">
+
+
+<span class="Status-dot" style="border-color: #FF9233;" title="WIP"></span>
+
+
+</div>
+
+</div>
+
+
+            </a>
+        </li>
+        
+    
+        
+        
+        <li class="Tree-item Tree-entity" data-role="item">
+            <a class="Tree-entityLink" href="search-form--inverse.html" data-pjax>
+                <span>Inverse</span>
+                
+
+<div class="Status Status--unlabelled">
+
+<div class="Status-dots">
+
+
+<span class="Status-dot" style="border-color: #FF9233;" title="WIP"></span>
+
+
+</div>
+
+</div>
+
+
+            </a>
+        </li>
+        
+    
+        
+        
+        <li class="Tree-item Tree-entity" data-role="item">
+            <a class="Tree-entityLink" href="search-form--home.html" data-pjax>
+                <span>Home</span>
+                
+
+<div class="Status Status--unlabelled">
+
+<div class="Status-dots">
+
+
+<span class="Status-dot" style="border-color: #FF9233;" title="WIP"></span>
+
+
+</div>
+
+</div>
+
+
+            </a>
+        </li>
+        
+    
+
+            </ul>
+        </li>
+        
+    
+        
+        
+        <li class="Tree-item Tree-entity" data-role="item">
+            <a class="Tree-entityLink" href="nav.html" data-pjax>
+                <span>Nav</span>
+                
+
+<div class="Status Status--unlabelled">
+
+<div class="Status-dots">
+
+
+<span class="Status-dot" style="border-color: #FF9233;" title="WIP"></span>
+
+
+</div>
+
+</div>
+
+
+            </a>
+        </li>
+        
     
         
         <li class="Tree-item Tree-collection Tree-depth-3" data-behaviour="collection" id="tree-components-collection-menu">
@@ -2049,6 +2218,30 @@
         
     
         
+        
+        <li class="Tree-item Tree-entity" data-role="item">
+            <a class="Tree-entityLink" href="info-card.html" data-pjax>
+                <span>Info Card</span>
+                
+
+<div class="Status Status--unlabelled">
+
+<div class="Status-dots">
+
+
+<span class="Status-dot" style="border-color: #FF9233;" title="WIP"></span>
+
+
+</div>
+
+</div>
+
+
+            </a>
+        </li>
+        
+    
+        
         <li class="Tree-item Tree-collection Tree-depth-3" data-behaviour="collection" id="tree-components-collection-accordion">
             <h4 class="Tree-collectionLabel" data-role="toggle">
                 <span>Accordion</span>
@@ -2113,21 +2306,10 @@
         
     
         
-        <li class="Tree-item Tree-collection Tree-depth-3" data-behaviour="collection" id="tree-components-collection-pagination">
-            <h4 class="Tree-collectionLabel" data-role="toggle">
-                <span>Pagination</span>
-            </h4>
-            <ul class="Tree-collectionItems" data-role="items">
-            
-            
-            
-            
-    
-        
         
         <li class="Tree-item Tree-entity" data-role="item">
-            <a class="Tree-entityLink" href="pagination--default.html" data-pjax>
-                <span>Default</span>
+            <a class="Tree-entityLink" href="filter-list.html" data-pjax>
+                <span>Filter List</span>
                 
 
 <div class="Status Status--unlabelled">
@@ -2144,35 +2326,6 @@
 
 
             </a>
-        </li>
-        
-    
-        
-        
-        <li class="Tree-item Tree-entity" data-role="item">
-            <a class="Tree-entityLink" href="pagination--inverse.html" data-pjax>
-                <span>Inverse</span>
-                
-
-<div class="Status Status--unlabelled">
-
-<div class="Status-dots">
-
-
-<span class="Status-dot" style="border-color: #FF9233;" title="WIP"></span>
-
-
-</div>
-
-</div>
-
-
-            </a>
-        </li>
-        
-    
-
-            </ul>
         </li>
         
     
@@ -2241,10 +2394,21 @@
         
     
         
+        <li class="Tree-item Tree-collection Tree-depth-3" data-behaviour="collection" id="tree-components-collection-dialog">
+            <h4 class="Tree-collectionLabel" data-role="toggle">
+                <span>Dialog</span>
+            </h4>
+            <ul class="Tree-collectionItems" data-role="items">
+            
+            
+            
+            
+    
+        
         
         <li class="Tree-item Tree-entity" data-role="item">
-            <a class="Tree-entityLink" href="filter-list.html" data-pjax>
-                <span>Filter List</span>
+            <a class="Tree-entityLink" href="dialog--default.html" data-pjax>
+                <span>Default</span>
                 
 
 <div class="Status Status--unlabelled">
@@ -2267,8 +2431,8 @@
         
         
         <li class="Tree-item Tree-entity" data-role="item">
-            <a class="Tree-entityLink" href="dialog.html" data-pjax>
-                <span>Dialog</span>
+            <a class="Tree-entityLink" href="dialog--dialog-with-input.html" data-pjax>
+                <span>Dialog With Input</span>
                 
 
 <div class="Status Status--unlabelled">
@@ -2285,6 +2449,11 @@
 
 
             </a>
+        </li>
+        
+    
+
+            </ul>
         </li>
         
     
@@ -2401,94 +2570,6 @@
         
     
         
-        <li class="Tree-item Tree-collection Tree-depth-3" data-behaviour="collection" id="tree-components-collection-search">
-            <h4 class="Tree-collectionLabel" data-role="toggle">
-                <span>Search</span>
-            </h4>
-            <ul class="Tree-collectionItems" data-role="items">
-            
-            
-            
-            
-    
-        
-        
-        <li class="Tree-item Tree-entity" data-role="item">
-            <a class="Tree-entityLink" href="search--default.html" data-pjax>
-                <span>Default</span>
-                
-
-<div class="Status Status--unlabelled">
-
-<div class="Status-dots">
-
-
-<span class="Status-dot" style="border-color: #FF9233;" title="WIP"></span>
-
-
-</div>
-
-</div>
-
-
-            </a>
-        </li>
-        
-    
-        
-        
-        <li class="Tree-item Tree-entity" data-role="item">
-            <a class="Tree-entityLink" href="search--inverse.html" data-pjax>
-                <span>Inverse</span>
-                
-
-<div class="Status Status--unlabelled">
-
-<div class="Status-dots">
-
-
-<span class="Status-dot" style="border-color: #FF9233;" title="WIP"></span>
-
-
-</div>
-
-</div>
-
-
-            </a>
-        </li>
-        
-    
-        
-        
-        <li class="Tree-item Tree-entity" data-role="item">
-            <a class="Tree-entityLink" href="search--home.html" data-pjax>
-                <span>Home</span>
-                
-
-<div class="Status Status--unlabelled">
-
-<div class="Status-dots">
-
-
-<span class="Status-dot" style="border-color: #FF9233;" title="WIP"></span>
-
-
-</div>
-
-</div>
-
-
-            </a>
-        </li>
-        
-    
-
-            </ul>
-        </li>
-        
-    
-        
         
         <li class="Tree-item Tree-entity is-current" data-state="current" data-role="item">
             <a class="Tree-entityLink" href="" data-pjax>
@@ -2537,10 +2618,21 @@
         
     
         
+        <li class="Tree-item Tree-collection Tree-depth-3" data-behaviour="collection" id="tree-components-collection-pagination">
+            <h4 class="Tree-collectionLabel" data-role="toggle">
+                <span>Pagination</span>
+            </h4>
+            <ul class="Tree-collectionItems" data-role="items">
+            
+            
+            
+            
+    
+        
         
         <li class="Tree-item Tree-entity" data-role="item">
-            <a class="Tree-entityLink" href="info-card.html" data-pjax>
-                <span>Info Card</span>
+            <a class="Tree-entityLink" href="pagination--default.html" data-pjax>
+                <span>Default</span>
                 
 
 <div class="Status Status--unlabelled">
@@ -2557,6 +2649,35 @@
 
 
             </a>
+        </li>
+        
+    
+        
+        
+        <li class="Tree-item Tree-entity" data-role="item">
+            <a class="Tree-entityLink" href="pagination--inverse.html" data-pjax>
+                <span>Inverse</span>
+                
+
+<div class="Status Status--unlabelled">
+
+<div class="Status-dots">
+
+
+<span class="Status-dot" style="border-color: #FF9233;" title="WIP"></span>
+
+
+</div>
+
+</div>
+
+
+            </a>
+        </li>
+        
+    
+
+            </ul>
         </li>
         
     
@@ -2599,6 +2720,54 @@
             
             
             
+    
+        
+        
+        <li class="Tree-item Tree-entity" data-role="item">
+            <a class="Tree-entityLink" href="skeleton.html" data-pjax>
+                <span>Skeleton</span>
+                
+
+<div class="Status Status--unlabelled">
+
+<div class="Status-dots">
+
+
+<span class="Status-dot" style="border-color: #FF9233;" title="WIP"></span>
+
+
+</div>
+
+</div>
+
+
+            </a>
+        </li>
+        
+    
+        
+        
+        <li class="Tree-item Tree-entity" data-role="item">
+            <a class="Tree-entityLink" href="home.html" data-pjax>
+                <span>Home</span>
+                
+
+<div class="Status Status--unlabelled">
+
+<div class="Status-dots">
+
+
+<span class="Status-dot" style="border-color: #FF9233;" title="WIP"></span>
+
+
+</div>
+
+</div>
+
+
+            </a>
+        </li>
+        
     
         
         
@@ -2713,10 +2882,21 @@
         
     
         
+        <li class="Tree-item Tree-collection Tree-depth-3" data-behaviour="collection" id="tree-components-collection-search-results">
+            <h4 class="Tree-collectionLabel" data-role="toggle">
+                <span>Search Results</span>
+            </h4>
+            <ul class="Tree-collectionItems" data-role="items">
+            
+            
+            
+            
+    
+        
         
         <li class="Tree-item Tree-entity" data-role="item">
-            <a class="Tree-entityLink" href="home.html" data-pjax>
-                <span>Home</span>
+            <a class="Tree-entityLink" href="search-results--default.html" data-pjax>
+                <span>Default</span>
                 
 
 <div class="Status Status--unlabelled">
@@ -2733,6 +2913,35 @@
 
 
             </a>
+        </li>
+        
+    
+        
+        
+        <li class="Tree-item Tree-entity" data-role="item">
+            <a class="Tree-entityLink" href="search-results--unfiltered.html" data-pjax>
+                <span>Unfiltered</span>
+                
+
+<div class="Status Status--unlabelled">
+
+<div class="Status-dots">
+
+
+<span class="Status-dot" style="border-color: #FF9233;" title="WIP"></span>
+
+
+</div>
+
+</div>
+
+
+            </a>
+        </li>
+        
+    
+
+            </ul>
         </li>
         
     
@@ -2788,6 +2997,32 @@
                 <span>Overview</span>
                 
             </a>
+        </li>
+        
+    
+        
+        <li class="Tree-item Tree-collection Tree-depth-2" data-behaviour="collection" id="tree-docs-collection-development">
+            <h4 class="Tree-collectionLabel" data-role="toggle">
+                <span>Development</span>
+            </h4>
+            <ul class="Tree-collectionItems" data-role="items">
+            
+            
+            
+            
+    
+        
+        
+        <li class="Tree-item Tree-entity" data-role="item">
+            <a class="Tree-entityLink" href="../../docs/development/releasing.html" data-pjax>
+                <span>Releasing</span>
+                
+            </a>
+        </li>
+        
+    
+
+            </ul>
         </li>
         
     

@@ -7,6 +7,8 @@
 		<meta http-equiv="x-ua-compatible" content="ie=edge">
 		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 		<script>(function(html){html.className = html.className.replace(/\bno-js\b/,'js')})(document.documentElement);</script>
+		<script src="../../scripts/pinecone.umd.js"></script>
+		<script src="../../scripts/pinecone.js" defer></script>
 		<link rel="stylesheet" href="../../styles/pinecone.css">
 		<link rel="apple-touch-icon" sizes="180x180" href="../../images/apple-touch-icon.png">
 		<link rel="icon" href="../../images/favicon.png" >
@@ -28,8 +30,8 @@
 	<span class="brand__title screen-reader-text">Platform Cooperativism Consortium</span>
 </a>
 <div class="inner">
-	<nav aria-labelledby="menu-primary-label">
-		<button class="button button--borderless menu-toggle" aria-expanded="false">
+<nav aria-labelledby="menu-primary-label">
+	<button class="button button--borderless menu-toggle" aria-expanded="false">
 <svg
 	class="icon icon--open"
 	aria-hidden="true"
@@ -46,46 +48,46 @@
 >
 	<use href="/images/close.svg#close"/>
 </svg>
-			<span id="menu-primary-label" class="menu-toggle__label">Menu</span>
-		</button>
-		<ul class="menu menu--home">
-			<li class="menu__submenu-wrapper current_page_ancestor current-menu-ancestor">
-				<a class="menu__item" aria-current="page" href="#explore">Explore</a>
-				<ul class="menu__submenu">
-					<li><a aria-current="page"class="menu__item" href="#browse-all">Browse all</a></li>
-					<li><a class="menu__item" href="#topics">Topics</a></li>
-					<li><a class="menu__item" href="#goals">Goals</a></li>
-					<li><a class="menu__item" href="#formats">Formats</a></li>
-					<li><a class="menu__item" href="#sectors">Sectors</a></li>
-				</ul>
-			</li>
-			<li class="menu__submenu-wrapper">
-				<a class="menu__item" href="#getting-started">Getting Started</a>
-				<ul class="menu__submenu">
-					<li><a class="menu__item" href="#how-to">How to use your library</a></li>
-					<li><a class="menu__item" href="#glossary">Glossary</a></li>
-				</ul>
-			</li>
-			<li class="menu__submenu-wrapper">
-				<a class="menu__item" href="#my-resources">My Resources</a>
-				<ul class="menu__submenu">
-					<li><a class="menu__item" href="#favorites">Favorites</a></li>
-					<li><a class="menu__item" href="#saved-searches">Saved searches</a></li>
-				</ul>
-			</li>
-			<li>
-				<a class="menu__item" href="#about">About</a>
-			</li>
-			<li class="menu__submenu-wrapper">
-				<a class="menu__item" href="#settings">Settings</a>
-				<ul class="menu__submenu">
-					<li><a class="menu__item" href="#language">Language</a></li>
-					<li><a class="menu__item" href="#privacy">Privacy</a></li>
-				</ul>
-			</li>
-			<li class="menu-item menu-item--languages menu__submenu-wrapper">
-				<a class="menu__item" href="/en/settings/language/">
-					<span class="menu__label">Language</span>
+		<span id="menu-primary-label" class="menu-toggle__label">Menu</span>
+	</button>
+	<ul class="menu">
+		<li class="menu__submenu-wrapper current_page_ancestor current-menu-ancestor">
+			<a class="menu__item" aria-current="page" href="#explore">Explore</a>
+			<ul class="menu__submenu">
+				<li><a aria-current="page"class="menu__item" href="#browse-all">Browse all</a></li>
+				<li><a class="menu__item" href="#topics">Topics</a></li>
+				<li><a class="menu__item" href="#goals">Goals</a></li>
+				<li><a class="menu__item" href="#formats">Formats</a></li>
+				<li><a class="menu__item" href="#sectors">Sectors</a></li>
+			</ul>
+		</li>
+		<li class="menu__submenu-wrapper">
+			<a class="menu__item" href="#getting-started">Getting Started</a>
+			<ul class="menu__submenu">
+				<li><a class="menu__item" href="#how-to">How to use your library</a></li>
+				<li><a class="menu__item" href="#glossary">Glossary</a></li>
+			</ul>
+		</li>
+		<li class="menu__submenu-wrapper">
+			<a class="menu__item" href="#my-resources">My Resources</a>
+			<ul class="menu__submenu">
+				<li><a class="menu__item" href="#favorites">Favorites</a></li>
+				<li><a class="menu__item" href="#saved-searches">Saved searches</a></li>
+			</ul>
+		</li>
+		<li>
+			<a class="menu__item" href="#about">About</a>
+		</li>
+		<li class="menu__submenu-wrapper">
+			<a class="menu__item" href="#settings">Settings</a>
+			<ul class="menu__submenu">
+				<li><a class="menu__item" href="#language">Language</a></li>
+				<li><a class="menu__item" href="#privacy">Privacy</a></li>
+			</ul>
+		</li>
+		<li class="menu-item menu-item--languages menu__submenu-wrapper">
+			<a class="menu__item" href="/en/settings/language/">
+				<span class="menu__label">Language</span>
 <svg
 	class="icon icon--language icon--lg"
 	aria-hidden="true"
@@ -94,19 +96,19 @@
 >
 	<use href="/images/language.svg#language"/>
 </svg>
-				</a>
-				<ul class="menu__submenu">
-					<li class="menu-item"><a aria-current="true" href="/en/" class="menu__item">English</a></li>
-					<li class="menu-item"><a href="/pt/" class="menu__item">Português</a></li>
-					<li class="menu-item"><a href="/sv/" class="menu__item">Svenska</a></li>
-					<li class="menu-item"><a href="/it/" class="menu__item">Italiano</a></li>
-					<li class="menu-item"><a href="/es/" class="menu__item">Español</a></li>
-					<li class="menu-item"><a href="/fr/" class="menu__item">Français</a></li>
-					<li class="menu-item"><a href="/de/" class="menu__item">Deutsch</a></li>
-				</ul>
-			</li>
-		</ul>
-	</nav>
+			</a>
+			<ul class="menu__submenu">
+				<li class="menu-item"><a aria-current="true" href="/en/" class="menu__item">English</a></li>
+				<li class="menu-item"><a href="/pt/" class="menu__item">Português</a></li>
+				<li class="menu-item"><a href="/sv/" class="menu__item">Svenska</a></li>
+				<li class="menu-item"><a href="/it/" class="menu__item">Italiano</a></li>
+				<li class="menu-item"><a href="/es/" class="menu__item">Español</a></li>
+				<li class="menu-item"><a href="/fr/" class="menu__item">Français</a></li>
+				<li class="menu-item"><a href="/de/" class="menu__item">Deutsch</a></li>
+			</ul>
+		</li>
+	</ul>
+</nav>
 </div>
 			</div>
 		</header>
@@ -192,7 +194,7 @@ Sectors</a></li>
 		<article class="card card--resource">
 			<header>
 				<h3 class="card__title" >
-					<a class="card__link" href="resource">Aspernatur Eos Facilis Quia Aspernatur Magnam Aliquid Nisi</a>
+					<a class="card__link" href="resource">Nisi Et Unde Quis Sequi Aut Ut Ut Sequi</a>
 				</h3>
 					<p class="card__byline"><svg
 	class="icon icon--author"
@@ -202,7 +204,7 @@ Sectors</a></li>
 >
 	<use href="/images/author.svg#author"/>
 </svg>
- By Quod Et Quia</p>
+ By Nemo Maxime Est Qui</p>
 			</header>
 			<aside class="card__aside">
 				<div class="card__meta">
@@ -224,17 +226,17 @@ Audio</span>				</div>
 >
 	<use href="/images/location.svg#location"/>
 </svg>
-Gibraltar</span>
+Panama</span>
 				</div>
 				<div class="card__tags tags">
 					<div class="badge">
-						<span class="screen-reader-text">Topic: </span>Collaboration
+						<span class="screen-reader-text">Topic: </span>Database
 					</div>
 					<div class="badge">
-						<span class="screen-reader-text">Topic: </span>Projection
+						<span class="screen-reader-text">Topic: </span>Architecture
 					</div>
 					<span class="overflow">
-						+5 more
+						+4 more
 					</span>
 				</div>
 				<div class="card__meta">
@@ -247,7 +249,7 @@ Gibraltar</span>
 		<article class="card card--resource">
 			<header>
 				<h3 class="card__title" >
-					<a class="card__link" href="resource">Provident Non Et Consequatur Deserunt Molestiae Et Recusandae Inventore Voluptatem</a>
+					<a class="card__link" href="resource">Occaecati Dolor Non Eaque</a>
 				</h3>
 					<p class="card__byline"><svg
 	class="icon icon--author"
@@ -257,7 +259,7 @@ Gibraltar</span>
 >
 	<use href="/images/author.svg#author"/>
 </svg>
- By Quis Pariatur Non</p>
+ By Officiis Inventore Ipsam Eius</p>
 			</header>
 			<aside class="card__aside">
 				<div class="card__meta">
@@ -279,17 +281,17 @@ Case Study</span>				</div>
 >
 	<use href="/images/location.svg#location"/>
 </svg>
-Fiji</span>
+Bhutan</span>
 				</div>
 				<div class="card__tags tags">
 					<div class="badge">
-						<span class="screen-reader-text">Topic: </span>Protocol
+						<span class="screen-reader-text">Topic: </span>Capability
 					</div>
 					<div class="badge">
-						<span class="screen-reader-text">Topic: </span>Throughput
+						<span class="screen-reader-text">Topic: </span>Collaboration
 					</div>
 					<span class="overflow">
-						+5 more
+						+4 more
 					</span>
 				</div>
 				<div class="card__meta">
@@ -302,7 +304,7 @@ Fiji</span>
 		<article class="card card--resource">
 			<header>
 				<h3 class="card__title" >
-					<a class="card__link" href="resource">Dignissimos Ad Sit Earum Et Rerum Beatae Dolor Commodi Saepe Similique</a>
+					<a class="card__link" href="resource">Harum Et Non Necessitatibus Ad Est Qui Odio Natus Dolorem Asperiores</a>
 				</h3>
 					<p class="card__byline"><svg
 	class="icon icon--author"
@@ -312,7 +314,7 @@ Fiji</span>
 >
 	<use href="/images/author.svg#author"/>
 </svg>
- By Quisquam Et</p>
+ By Minus Non Nihil</p>
 			</header>
 			<aside class="card__aside">
 				<div class="card__meta">
@@ -334,17 +336,17 @@ Toolkit</span>				</div>
 >
 	<use href="/images/location.svg#location"/>
 </svg>
-Antarctica (the territory South of 60 deg S)</span>
+Palau</span>
 				</div>
 				<div class="card__tags tags">
 					<div class="badge">
-						<span class="screen-reader-text">Topic: </span>Capability
+						<span class="screen-reader-text">Topic: </span>Standardization
 					</div>
 					<div class="badge">
-						<span class="screen-reader-text">Topic: </span>Migration
+						<span class="screen-reader-text">Topic: </span>Moderator
 					</div>
 					<span class="overflow">
-						+4 more
+						+1 more
 					</span>
 				</div>
 				<div class="card__meta">
@@ -357,7 +359,7 @@ Antarctica (the territory South of 60 deg S)</span>
 		<article class="card card--resource">
 			<header>
 				<h3 class="card__title" >
-					<a class="card__link" href="resource">Ipsum Fugit Quia Dolores Architecto</a>
+					<a class="card__link" href="resource">Voluptate Rerum Enim Nam Tenetur minus Dolor Eum Alias Tempora Id</a>
 				</h3>
 					<p class="card__byline"><svg
 	class="icon icon--author"
@@ -367,7 +369,7 @@ Antarctica (the territory South of 60 deg S)</span>
 >
 	<use href="/images/author.svg#author"/>
 </svg>
- By Debitis Nesciunt</p>
+ By Tempore Omnis</p>
 			</header>
 			<aside class="card__aside">
 				<div class="card__meta">
@@ -389,17 +391,17 @@ Educational Curriculum</span>				</div>
 >
 	<use href="/images/location.svg#location"/>
 </svg>
-Albania</span>
+Saint Vincent and the Grenadines</span>
 				</div>
 				<div class="card__tags tags">
 					<div class="badge">
-						<span class="screen-reader-text">Topic: </span>Parallelism
+						<span class="screen-reader-text">Topic: </span>Access
 					</div>
 					<div class="badge">
-						<span class="screen-reader-text">Topic: </span>Approach
+						<span class="screen-reader-text">Topic: </span>Middleware
 					</div>
 					<span class="overflow">
-						+4 more
+						+3 more
 					</span>
 				</div>
 				<div class="card__meta">
@@ -465,7 +467,7 @@ Albania</span>
 		<article class="card card--resource">
 			<header>
 				<h3 class="card__title" >
-					<a class="card__link" href="resource">In Natus Ex Animi Ipsa Qui</a>
+					<a class="card__link" href="resource">Ex Vitae Nam Praesentium</a>
 				</h3>
 					<p class="card__byline"><svg
 	class="icon icon--author"
@@ -475,7 +477,7 @@ Albania</span>
 >
 	<use href="/images/author.svg#author"/>
 </svg>
- By Quidem Eaque Fuga</p>
+ By Accusamus Velit</p>
 			</header>
 			<aside class="card__aside">
 				<div class="card__meta">
@@ -497,17 +499,17 @@ Video</span>				</div>
 >
 	<use href="/images/location.svg#location"/>
 </svg>
-Nepal</span>
+Bouvet Island (Bouvetoya)</span>
 				</div>
 				<div class="card__tags tags">
 					<div class="badge">
-						<span class="screen-reader-text">Topic: </span>Middleware
+						<span class="screen-reader-text">Topic: </span>Secured Line
 					</div>
 					<div class="badge">
-						<span class="screen-reader-text">Topic: </span>Access
+						<span class="screen-reader-text">Topic: </span>Secured Line
 					</div>
 					<span class="overflow">
-						+3 more
+						+5 more
 					</span>
 				</div>
 				<div class="card__meta">
@@ -520,7 +522,7 @@ Nepal</span>
 		<article class="card card--resource">
 			<header>
 				<h3 class="card__title" >
-					<a class="card__link" href="resource">Accusantium Quo Earum Est Ut Nostrum</a>
+					<a class="card__link" href="resource">Corporis Vero Est Eaque Explicabo Ex Voluptatum Dolores Rerum</a>
 				</h3>
 					<p class="card__byline"><svg
 	class="icon icon--author"
@@ -530,7 +532,7 @@ Nepal</span>
 >
 	<use href="/images/author.svg#author"/>
 </svg>
- By Eligendi Sunt Architecto</p>
+ By A Aut</p>
 			</header>
 			<aside class="card__aside">
 				<div class="card__meta">
@@ -552,17 +554,17 @@ Article</span>				</div>
 >
 	<use href="/images/location.svg#location"/>
 </svg>
-Ghana</span>
+Brunei Darussalam</span>
 				</div>
 				<div class="card__tags tags">
 					<div class="badge">
-						<span class="screen-reader-text">Topic: </span>Product
+						<span class="screen-reader-text">Topic: </span>Migration
 					</div>
 					<div class="badge">
-						<span class="screen-reader-text">Topic: </span>System Engine
+						<span class="screen-reader-text">Topic: </span>Benchmark
 					</div>
 					<span class="overflow">
-						+3 more
+						+4 more
 					</span>
 				</div>
 				<div class="card__meta">
@@ -575,7 +577,7 @@ Ghana</span>
 		<article class="card card--resource">
 			<header>
 				<h3 class="card__title" >
-					<a class="card__link" href="resource">In Asperiores Reprehenderit Atque Temporibus Quaerat Voluptatem Porro Accusamus</a>
+					<a class="card__link" href="resource">Sed Est Eius Nemo Ipsa Facilis Assumenda</a>
 				</h3>
 					<p class="card__byline"><svg
 	class="icon icon--author"
@@ -585,7 +587,7 @@ Ghana</span>
 >
 	<use href="/images/author.svg#author"/>
 </svg>
- By Pariatur Aut minus</p>
+ By Et Esse Quia Sint</p>
 			</header>
 			<aside class="card__aside">
 				<div class="card__meta">
@@ -607,17 +609,17 @@ Book</span>				</div>
 >
 	<use href="/images/location.svg#location"/>
 </svg>
-French Southern Territories</span>
+Cambodia</span>
 				</div>
 				<div class="card__tags tags">
 					<div class="badge">
-						<span class="screen-reader-text">Topic: </span>Model
+						<span class="screen-reader-text">Topic: </span>Budgetary Management
 					</div>
 					<div class="badge">
-						<span class="screen-reader-text">Topic: </span>Matrices
+						<span class="screen-reader-text">Topic: </span>Groupware
 					</div>
 					<span class="overflow">
-						+2 more
+						+5 more
 					</span>
 				</div>
 				<div class="card__meta">
@@ -630,7 +632,7 @@ French Southern Territories</span>
 		<article class="card card--resource">
 			<header>
 				<h3 class="card__title" >
-					<a class="card__link" href="resource">Adipisci Et Rerum Pariatur Dignissimos Iusto Adipisci Mollitia Aut Et Nam</a>
+					<a class="card__link" href="resource">Natus Modi Et Soluta Culpa Omnis Voluptatem Ipsa Et</a>
 				</h3>
 					<p class="card__byline"><svg
 	class="icon icon--author"
@@ -640,7 +642,7 @@ French Southern Territories</span>
 >
 	<use href="/images/author.svg#author"/>
 </svg>
- By Placeat Incidunt</p>
+ By Et Omnis Expedita</p>
 			</header>
 			<aside class="card__aside">
 				<div class="card__meta">
@@ -662,17 +664,17 @@ Academic Paper</span>				</div>
 >
 	<use href="/images/location.svg#location"/>
 </svg>
-Saint Kitts and Nevis</span>
+South Georgia and the South Sandwich Islands</span>
 				</div>
 				<div class="card__tags tags">
 					<div class="badge">
-						<span class="screen-reader-text">Topic: </span>Firmware
+						<span class="screen-reader-text">Topic: </span>Product
 					</div>
 					<div class="badge">
-						<span class="screen-reader-text">Topic: </span>Intranet
+						<span class="screen-reader-text">Topic: </span>Time Frame
 					</div>
 					<span class="overflow">
-						+5 more
+						+3 more
 					</span>
 				</div>
 				<div class="card__meta">
@@ -716,8 +718,6 @@ Saint Kitts and Nevis</span>
 </div>
 </div>
   		</footer>
-		<script src="../../scripts/pinecone.umd.js"></script>
-		<script src="../../scripts/pinecone.js"></script>
 	</body>
 </html>
 

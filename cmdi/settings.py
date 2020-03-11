@@ -57,9 +57,11 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework_gis',
     'django_countries',
+    'django_registration',
     'accounts',
     'mdi',
     'maps',
+    'lockdown',
 ]
 
 MIDDLEWARE = [
@@ -71,14 +73,25 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'lockdown.middleware.LockdownMiddleware',
 ]
+
+# django-lockdown is being used to deter the curious during development.
+# Keep it after launch should site access ever need to be disabled due to some emergency.
+LOCKDOWN_PASSWORDS = ('six', '6',)
+LOCKDOWN_ENABLED = True # Default is True. A quick way to make the site inaccessible.
+LOCKDOWN_URL_EXCEPTIONS = (
+    r'^/organizations/$',
+    r'^/sectors/$',
+    r'^/tools/$',
+)
 
 ROOT_URLCONF = 'cmdi.urls'
 
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -100,6 +113,7 @@ DATABASES = {
 
 
 AUTH_USER_MODEL = 'accounts.User'
+ACCOUNT_ACTIVATION_DAYS = 7 # One-week activation window
 
 
 # Password validation
@@ -119,6 +133,11 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
+
+EMAIL_BACKEND = 'django_ses.SESBackend'
+DEFAULT_FROM_EMAIL = 'erictheise+pcc@gmail.com'
+
+LOGIN_REDIRECT_URL = '/maps/'
 
 
 # Internationalization

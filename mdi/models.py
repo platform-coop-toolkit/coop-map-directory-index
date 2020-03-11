@@ -1,6 +1,9 @@
 from django.db import models
 from django.contrib.gis.db import models
-from accounts.models import User
+from accounts.models import User, SocialNetwork
+from django.conf.global_settings import LANGUAGES
+from django_countries.fields import CountryField
+from django.core.exceptions import ValidationError
 from django.contrib.postgres.fields import HStoreField
 from django.urls import reverse
 from django.db.models import Manager as GeoManager
@@ -12,6 +15,7 @@ class Source(models.Model):
     url = models.CharField(blank=True, max_length=255)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
     class Meta:
         ordering = ['name']
 
@@ -45,7 +49,7 @@ class Type(models.Model):
         return self.name
 
 
-class Activity(models.Model):
+class Sector(models.Model):
     name = models.CharField(blank=False, max_length=255, unique=True)
     description = models.CharField(blank=True, default='', max_length=255)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -58,24 +62,52 @@ class Activity(models.Model):
         return self.name
 
 
-class Tool(models.Model):
+class Pricing(models.Model):
     name = models.CharField(blank=False, max_length=255)
-    description = models.TextField(blank=True, default='')
-    url = models.CharField(blank=False, max_length=255)
+    description = models.CharField(blank=True, default='', max_length=255)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
-        ordering = ['name']
+        ordering = ['name',]
 
     def __str__(self):
         return self.name
 
 
-class SocialNetwork(models.Model):
+class Language(models.Model):
+    culture_code = models.CharField(primary_key=True, max_length=7, blank=False, null=False, unique=True,)
+    iso_name = models.CharField(max_length=64, blank=False, null=False, unique=True,)
+
+    class Meta:
+        ordering = ['culture_code']
+
+    def __str__(self):
+        return self.iso_name
+
+
+class License(models.Model):
+    name = models.CharField(blank=False, max_length=255)
+    spdx = models.CharField(blank=False, max_length=64)
+    url = models.CharField(blank=True, max_length=255)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ['spdx',]
+
+    def __str__(self):
+        return self.spdx
+
+
+class Tool(models.Model):
     name = models.CharField(blank=False, max_length=255)
     description = models.TextField(blank=True, default='')
     url = models.CharField(blank=False, max_length=255)
+    license = models.ForeignKey(License, blank=True, null=True, on_delete=models.CASCADE)
+    pricing = models.ForeignKey(Pricing, blank=True, null=True, on_delete=models.CASCADE)
+    languages_supported = models.ManyToManyField(Language)
+    notes = models.TextField(blank=True, default='')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -93,7 +125,7 @@ class Organization(models.Model):
     city = models.CharField(blank=True, default='', max_length=255)
     state = models.CharField(blank=True, default='', max_length=255)
     postal_code = models.CharField(blank=True, default='', max_length=255)
-    country = models.CharField(blank=True, default='', max_length=3)
+    country = CountryField()
     email = models.CharField(blank=True, default='', max_length=255)
     url = models.CharField(blank=True, default='', max_length=255)
     lat = models.FloatField(null=True)
@@ -102,7 +134,9 @@ class Organization(models.Model):
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
     source = models.ForeignKey(Source, on_delete=models.CASCADE)
     type = models.ForeignKey(Type, on_delete=models.CASCADE)
-    activities = models.ManyToManyField(Activity)
+    sectors = models.ManyToManyField(Sector)
+    socialnetworks = models.ManyToManyField(SocialNetwork, through='OrganizationSocialNetwork')
+    notes = models.TextField(blank=True, default='')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -113,9 +147,17 @@ class Organization(models.Model):
         return '{}, {}'.format(self.name, self.city)
 
 
-class User(User):
-    USERNAME_FIELD = 'email'
-    EMAIL_FIELD = 'email'
+class OrganizationSocialNetwork(models.Model):
+    organization = models.ForeignKey(Organization, on_delete=models.CASCADE)
+    socialnetwork = models.ForeignKey(SocialNetwork, on_delete=models.CASCADE)
+    identifier = models.CharField(blank=False, max_length=255)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
-        ordering = ['last_name', 'first_name']
+        verbose_name = "Organization's Social Network"
+
+    def clean(self):
+        super().clean()
+        if self.handle is None and self.url is None:
+            raise ValidationError('At least one of Handle or URL must be specified')

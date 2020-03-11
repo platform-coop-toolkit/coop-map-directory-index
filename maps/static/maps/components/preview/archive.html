@@ -7,6 +7,8 @@
 		<meta http-equiv="x-ua-compatible" content="ie=edge">
 		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 		<script>(function(html){html.className = html.className.replace(/\bno-js\b/,'js')})(document.documentElement);</script>
+		<script src="../../scripts/pinecone.umd.js"></script>
+		<script src="../../scripts/pinecone.js" defer></script>
 		<link rel="stylesheet" href="../../styles/pinecone.css">
 		<link rel="apple-touch-icon" sizes="180x180" href="../../images/apple-touch-icon.png">
 		<link rel="icon" href="../../images/favicon.png" >
@@ -28,7 +30,7 @@
 	<span class="brand__title screen-reader-text">Platform Cooperativism Consortium</span>
 </a>
 <div class="inner">
-	<button class="button button--borderless search-toggle" aria-expanded="false"><span class="screen-reader-text">Search </span><svg
+<button class="button button--borderless search-toggle" aria-expanded="false"><span class="screen-reader-text">Search </span><svg
 	class="icon icon--search"
 	aria-hidden="true"
 	viewBox="0 0 20 20"
@@ -52,8 +54,8 @@
 </svg>
 </button>
 </form>
-	<nav aria-labelledby="menu-primary-label">
-		<button class="button button--borderless menu-toggle" aria-expanded="false">
+<nav aria-labelledby="menu-primary-label">
+	<button class="button button--borderless menu-toggle" aria-expanded="false">
 <svg
 	class="icon icon--open"
 	aria-hidden="true"
@@ -70,46 +72,46 @@
 >
 	<use href="/images/close.svg#close"/>
 </svg>
-			<span id="menu-primary-label" class="menu-toggle__label">Menu</span>
-		</button>
-		<ul class="menu">
-			<li class="menu__submenu-wrapper current_page_ancestor current-menu-ancestor">
-				<a class="menu__item" aria-current="page" href="#explore">Explore</a>
-				<ul class="menu__submenu">
-					<li><a aria-current="page"class="menu__item" href="#browse-all">Browse all</a></li>
-					<li><a class="menu__item" href="#topics">Topics</a></li>
-					<li><a class="menu__item" href="#goals">Goals</a></li>
-					<li><a class="menu__item" href="#formats">Formats</a></li>
-					<li><a class="menu__item" href="#sectors">Sectors</a></li>
-				</ul>
-			</li>
-			<li class="menu__submenu-wrapper">
-				<a class="menu__item" href="#getting-started">Getting Started</a>
-				<ul class="menu__submenu">
-					<li><a class="menu__item" href="#how-to">How to use your library</a></li>
-					<li><a class="menu__item" href="#glossary">Glossary</a></li>
-				</ul>
-			</li>
-			<li class="menu__submenu-wrapper">
-				<a class="menu__item" href="#my-resources">My Resources</a>
-				<ul class="menu__submenu">
-					<li><a class="menu__item" href="#favorites">Favorites</a></li>
-					<li><a class="menu__item" href="#saved-searches">Saved searches</a></li>
-				</ul>
-			</li>
-			<li>
-				<a class="menu__item" href="#about">About</a>
-			</li>
-			<li class="menu__submenu-wrapper">
-				<a class="menu__item" href="#settings">Settings</a>
-				<ul class="menu__submenu">
-					<li><a class="menu__item" href="#language">Language</a></li>
-					<li><a class="menu__item" href="#privacy">Privacy</a></li>
-				</ul>
-			</li>
-			<li class="menu-item menu-item--languages menu__submenu-wrapper">
-				<a class="menu__item" href="/en/settings/language/">
-					<span class="menu__label">Language</span>
+		<span id="menu-primary-label" class="menu-toggle__label">Menu</span>
+	</button>
+	<ul class="menu">
+		<li class="menu__submenu-wrapper current_page_ancestor current-menu-ancestor">
+			<a class="menu__item" aria-current="page" href="#explore">Explore</a>
+			<ul class="menu__submenu">
+				<li><a aria-current="page"class="menu__item" href="#browse-all">Browse all</a></li>
+				<li><a class="menu__item" href="#topics">Topics</a></li>
+				<li><a class="menu__item" href="#goals">Goals</a></li>
+				<li><a class="menu__item" href="#formats">Formats</a></li>
+				<li><a class="menu__item" href="#sectors">Sectors</a></li>
+			</ul>
+		</li>
+		<li class="menu__submenu-wrapper">
+			<a class="menu__item" href="#getting-started">Getting Started</a>
+			<ul class="menu__submenu">
+				<li><a class="menu__item" href="#how-to">How to use your library</a></li>
+				<li><a class="menu__item" href="#glossary">Glossary</a></li>
+			</ul>
+		</li>
+		<li class="menu__submenu-wrapper">
+			<a class="menu__item" href="#my-resources">My Resources</a>
+			<ul class="menu__submenu">
+				<li><a class="menu__item" href="#favorites">Favorites</a></li>
+				<li><a class="menu__item" href="#saved-searches">Saved searches</a></li>
+			</ul>
+		</li>
+		<li>
+			<a class="menu__item" href="#about">About</a>
+		</li>
+		<li class="menu__submenu-wrapper">
+			<a class="menu__item" href="#settings">Settings</a>
+			<ul class="menu__submenu">
+				<li><a class="menu__item" href="#language">Language</a></li>
+				<li><a class="menu__item" href="#privacy">Privacy</a></li>
+			</ul>
+		</li>
+		<li class="menu-item menu-item--languages menu__submenu-wrapper">
+			<a class="menu__item" href="/en/settings/language/">
+				<span class="menu__label">Language</span>
 <svg
 	class="icon icon--language icon--lg"
 	aria-hidden="true"
@@ -118,19 +120,19 @@
 >
 	<use href="/images/language.svg#language"/>
 </svg>
-				</a>
-				<ul class="menu__submenu">
-					<li class="menu-item"><a aria-current="true" href="/en/" class="menu__item">English</a></li>
-					<li class="menu-item"><a href="/pt/" class="menu__item">Português</a></li>
-					<li class="menu-item"><a href="/sv/" class="menu__item">Svenska</a></li>
-					<li class="menu-item"><a href="/it/" class="menu__item">Italiano</a></li>
-					<li class="menu-item"><a href="/es/" class="menu__item">Español</a></li>
-					<li class="menu-item"><a href="/fr/" class="menu__item">Français</a></li>
-					<li class="menu-item"><a href="/de/" class="menu__item">Deutsch</a></li>
-				</ul>
-			</li>
-		</ul>
-	</nav>
+			</a>
+			<ul class="menu__submenu">
+				<li class="menu-item"><a aria-current="true" href="/en/" class="menu__item">English</a></li>
+				<li class="menu-item"><a href="/pt/" class="menu__item">Português</a></li>
+				<li class="menu-item"><a href="/sv/" class="menu__item">Svenska</a></li>
+				<li class="menu-item"><a href="/it/" class="menu__item">Italiano</a></li>
+				<li class="menu-item"><a href="/es/" class="menu__item">Español</a></li>
+				<li class="menu-item"><a href="/fr/" class="menu__item">Français</a></li>
+				<li class="menu-item"><a href="/de/" class="menu__item">Deutsch</a></li>
+			</ul>
+		</li>
+	</ul>
+</nav>
 </div>
 			</div>
 		</header>
@@ -501,16 +503,8 @@
 		</div>
 		</div>
 <div class="input-group">
-<button id="apply-filters" type="button" class="button">
-<svg
-	class="icon icon--filter"
-	aria-hidden="true"
-	viewBox="0 0 20 20"
-	focusable="false"
->
-	<use href="/images/filter.svg#filter"/>
-</svg>
-<span class="button__label">Filter</span></button>
+<button id="apply-filters" type="submit" class="button">
+<span class="button__label">Apply filters</span></button>
 </div>
 	</form>
 </div>
@@ -535,7 +529,8 @@ Sort by</h2>
 	</div>
 </div>
 <div class="current-filters">
-	<p class="h3">Showing 12 of 742 resources</p>
+	<p class="h3">Showing 12 of 742 resources for:</p>
+	<h2 class="h4">Applied filters</h2>
 	<ul class="tags">
 	<li class="tag">
 		<button type="button" class="button button--tag-button">
@@ -570,7 +565,7 @@ Sort by</h2>
 		<article class="card card--resource">
 			<header>
 				<h3 class="card__title" >
-					<a class="card__link" href="resource">Dolorem Et Beatae Dicta Itaque</a>
+					<a class="card__link" href="resource">Illum Labore Reiciendis Nesciunt Voluptatem Officia Cum</a>
 				</h3>
 					<p class="card__byline"><svg
 	class="icon icon--author"
@@ -580,7 +575,7 @@ Sort by</h2>
 >
 	<use href="/images/author.svg#author"/>
 </svg>
- By Kenneth Kulas</p>
+ By Amparo Dooley</p>
 			</header>
 			<aside class="card__aside">
 				<div class="card__meta">
@@ -593,7 +588,7 @@ Sort by</h2>
 	<use href="/images/audio.svg#audio"/>
 </svg>
 Audio</span><span class="separator">.</span>
-					<span class="card__publisher"><span class="screen-reader-text">publisher: </span>Rowe - Hagenes</span>
+					<span class="card__publisher"><span class="screen-reader-text">publisher: </span>Hegmann - Miller</span>
 				</div>
 				<div class="card__meta">
 					<span class="card__locality"><span class="screen-reader-text">location of relevance: </span><svg
@@ -604,17 +599,17 @@ Audio</span><span class="separator">.</span>
 >
 	<use href="/images/location.svg#location"/>
 </svg>
-Northern Mariana Islands</span>
+Guadeloupe</span>
 				</div>
 				<div class="card__tags tags">
 					<div class="badge">
-						<span class="screen-reader-text">Topic: </span>Instruction Set
+						<span class="screen-reader-text">Topic: </span>Leverage
 					</div>
 					<div class="badge">
-						<span class="screen-reader-text">Topic: </span>Methodology
+						<span class="screen-reader-text">Topic: </span>Leverage
 					</div>
 					<span class="overflow">
-						+1 more
+						+4 more
 					</span>
 				</div>
 				<div class="card__meta">
@@ -627,7 +622,7 @@ Northern Mariana Islands</span>
 		<article class="card card--resource">
 			<header>
 				<h3 class="card__title" >
-					<a class="card__link" href="resource">Sint Consectetur Cumque Doloremque</a>
+					<a class="card__link" href="resource">Non Consequatur Totam Deleniti Ratione Iure Similique Tenetur Repellendus Molestias</a>
 				</h3>
 					<p class="card__byline"><svg
 	class="icon icon--author"
@@ -637,7 +632,7 @@ Northern Mariana Islands</span>
 >
 	<use href="/images/author.svg#author"/>
 </svg>
- By Janiya Fadel</p>
+ By Aiden Stanton</p>
 			</header>
 			<aside class="card__aside">
 				<div class="card__meta">
@@ -650,7 +645,7 @@ Northern Mariana Islands</span>
 	<use href="/images/case-study.svg#case-study"/>
 </svg>
 Case Study</span><span class="separator">.</span>
-					<span class="card__publisher"><span class="screen-reader-text">publisher: </span>MacGyver, Little and Green</span>
+					<span class="card__publisher"><span class="screen-reader-text">publisher: </span>Douglas - Conn</span>
 				</div>
 				<div class="card__meta">
 					<span class="card__locality"><span class="screen-reader-text">location of relevance: </span><svg
@@ -661,14 +656,14 @@ Case Study</span><span class="separator">.</span>
 >
 	<use href="/images/location.svg#location"/>
 </svg>
-Monaco</span>
+Timor-Leste</span>
 				</div>
 				<div class="card__tags tags">
 					<div class="badge">
-						<span class="screen-reader-text">Topic: </span>Conglomeration
+						<span class="screen-reader-text">Topic: </span>Moderator
 					</div>
 					<div class="badge">
-						<span class="screen-reader-text">Topic: </span>Conglomeration
+						<span class="screen-reader-text">Topic: </span>Benchmark
 					</div>
 					<span class="overflow">
 						+5 more
@@ -684,7 +679,7 @@ Monaco</span>
 		<article class="card card--resource">
 			<header>
 				<h3 class="card__title" >
-					<a class="card__link" href="resource">Et Et Delectus Optio Aliquam Non Et in Mollitia Vero Nemo Vel</a>
+					<a class="card__link" href="resource">Tenetur Rerum Non Magnam Culpa Sint Nemo Nulla Nam Porro</a>
 				</h3>
 					<p class="card__byline"><svg
 	class="icon icon--author"
@@ -694,7 +689,7 @@ Monaco</span>
 >
 	<use href="/images/author.svg#author"/>
 </svg>
- By Gussie Herzog</p>
+ By Dayne Douglas</p>
 			</header>
 			<aside class="card__aside">
 				<div class="card__meta">
@@ -707,7 +702,7 @@ Monaco</span>
 	<use href="/images/toolkit.svg#toolkit"/>
 </svg>
 Toolkit</span><span class="separator">.</span>
-					<span class="card__publisher"><span class="screen-reader-text">publisher: </span>Kirlin - Cole</span>
+					<span class="card__publisher"><span class="screen-reader-text">publisher: </span>Balistreri - Morissette</span>
 				</div>
 				<div class="card__meta">
 					<span class="card__locality"><span class="screen-reader-text">location of relevance: </span><svg
@@ -718,14 +713,14 @@ Toolkit</span><span class="separator">.</span>
 >
 	<use href="/images/location.svg#location"/>
 </svg>
-Virgin Islands, British</span>
+Jersey</span>
 				</div>
 				<div class="card__tags tags">
 					<div class="badge">
-						<span class="screen-reader-text">Topic: </span>Portal
+						<span class="screen-reader-text">Topic: </span>Alliance
 					</div>
 					<div class="badge">
-						<span class="screen-reader-text">Topic: </span>Analyzer
+						<span class="screen-reader-text">Topic: </span>Access
 					</div>
 					<span class="overflow">
 						+3 more
@@ -741,7 +736,7 @@ Virgin Islands, British</span>
 		<article class="card card--resource">
 			<header>
 				<h3 class="card__title" >
-					<a class="card__link" href="resource">Dolor Molestiae Nihil Similique Pariatur Ut Sed Ducimus</a>
+					<a class="card__link" href="resource">Praesentium Molestias Veritatis Delectus Consequatur Quos Illo Eum Repellendus</a>
 				</h3>
 					<p class="card__byline"><svg
 	class="icon icon--author"
@@ -751,7 +746,7 @@ Virgin Islands, British</span>
 >
 	<use href="/images/author.svg#author"/>
 </svg>
- By Sean Schuster</p>
+ By Rosina Breitenberg</p>
 			</header>
 			<aside class="card__aside">
 				<div class="card__meta">
@@ -764,7 +759,7 @@ Virgin Islands, British</span>
 	<use href="/images/template.svg#template"/>
 </svg>
 Template</span><span class="separator">.</span>
-					<span class="card__publisher"><span class="screen-reader-text">publisher: </span>Lind - Johnston</span>
+					<span class="card__publisher"><span class="screen-reader-text">publisher: </span>Effertz Group</span>
 				</div>
 				<div class="card__meta">
 					<span class="card__locality"><span class="screen-reader-text">location of relevance: </span><svg
@@ -775,17 +770,17 @@ Template</span><span class="separator">.</span>
 >
 	<use href="/images/location.svg#location"/>
 </svg>
-Ghana</span>
+Netherlands</span>
 				</div>
 				<div class="card__tags tags">
 					<div class="badge">
-						<span class="screen-reader-text">Topic: </span>Orchestration
+						<span class="screen-reader-text">Topic: </span>Benchmark
 					</div>
 					<div class="badge">
-						<span class="screen-reader-text">Topic: </span>Graphic Interface
+						<span class="screen-reader-text">Topic: </span>Instruction Set
 					</div>
 					<span class="overflow">
-						+4 more
+						+5 more
 					</span>
 				</div>
 				<div class="card__meta">
@@ -798,7 +793,7 @@ Ghana</span>
 		<article class="card card--resource">
 			<header>
 				<h3 class="card__title" >
-					<a class="card__link" href="resource">Omnis Nisi Illo Voluptates</a>
+					<a class="card__link" href="resource">Sed Occaecati Iure Et Nulla Molestiae Incidunt Asperiores Ipsam Hic Optio Alias</a>
 				</h3>
 					<p class="card__byline"><svg
 	class="icon icon--author"
@@ -808,7 +803,7 @@ Ghana</span>
 >
 	<use href="/images/author.svg#author"/>
 </svg>
- By Ricky Casper</p>
+ By Freddy Hintz</p>
 			</header>
 			<aside class="card__aside">
 				<div class="card__meta">
@@ -821,7 +816,7 @@ Ghana</span>
 	<use href="/images/curriculum.svg#curriculum"/>
 </svg>
 Educational Curriculum</span><span class="separator">.</span>
-					<span class="card__publisher"><span class="screen-reader-text">publisher: </span>Blick, Streich and Skiles</span>
+					<span class="card__publisher"><span class="screen-reader-text">publisher: </span>Kreiger and Sons</span>
 				</div>
 				<div class="card__meta">
 					<span class="card__locality"><span class="screen-reader-text">location of relevance: </span><svg
@@ -832,14 +827,14 @@ Educational Curriculum</span><span class="separator">.</span>
 >
 	<use href="/images/location.svg#location"/>
 </svg>
-Montenegro</span>
+Pakistan</span>
 				</div>
 				<div class="card__tags tags">
 					<div class="badge">
-						<span class="screen-reader-text">Topic: </span>Circuit
+						<span class="screen-reader-text">Topic: </span>Ability
 					</div>
 					<div class="badge">
-						<span class="screen-reader-text">Topic: </span>Solution
+						<span class="screen-reader-text">Topic: </span>Archive
 					</div>
 					<span class="overflow">
 						+5 more
@@ -855,7 +850,7 @@ Montenegro</span>
 		<article class="card card--resource">
 			<header>
 				<h3 class="card__title" >
-					<a class="card__link" href="resource">Praesentium Alias Aliquam Et Consequatur Beatae Et Recusandae Dolore</a>
+					<a class="card__link" href="resource">Et Culpa Magni minus Nisi a Omnis Soluta Quod Perferendis</a>
 				</h3>
 					<p class="card__byline"><svg
 	class="icon icon--author"
@@ -865,7 +860,7 @@ Montenegro</span>
 >
 	<use href="/images/author.svg#author"/>
 </svg>
- By Justus Schultz</p>
+ By Bessie Carter</p>
 			</header>
 			<aside class="card__aside">
 				<div class="card__meta">
@@ -878,7 +873,7 @@ Montenegro</span>
 	<use href="/images/video.svg#video"/>
 </svg>
 Video</span><span class="separator">.</span>
-					<span class="card__publisher"><span class="screen-reader-text">publisher: </span>Harvey - Weissnat</span>
+					<span class="card__publisher"><span class="screen-reader-text">publisher: </span>Tillman - Beier</span>
 				</div>
 				<div class="card__meta">
 					<span class="card__locality"><span class="screen-reader-text">location of relevance: </span><svg
@@ -889,17 +884,17 @@ Video</span><span class="separator">.</span>
 >
 	<use href="/images/location.svg#location"/>
 </svg>
-Mexico</span>
+Fiji</span>
 				</div>
 				<div class="card__tags tags">
 					<div class="badge">
-						<span class="screen-reader-text">Topic: </span>Circuit
+						<span class="screen-reader-text">Topic: </span>Focus Group
 					</div>
 					<div class="badge">
-						<span class="screen-reader-text">Topic: </span>Info Mediaries
+						<span class="screen-reader-text">Topic: </span>Emulation
 					</div>
 					<span class="overflow">
-						+5 more
+						+2 more
 					</span>
 				</div>
 				<div class="card__meta">
@@ -912,7 +907,7 @@ Mexico</span>
 		<article class="card card--resource">
 			<header>
 				<h3 class="card__title" >
-					<a class="card__link" href="resource">Et Iusto Optio Nesciunt Sed Aut Ea Animi Adipisci Praesentium Et Voluptatem</a>
+					<a class="card__link" href="resource">Voluptatem Voluptate Quia Tenetur Voluptas Repellat Et</a>
 				</h3>
 					<p class="card__byline"><svg
 	class="icon icon--author"
@@ -922,7 +917,7 @@ Mexico</span>
 >
 	<use href="/images/author.svg#author"/>
 </svg>
- By Linda Ratke</p>
+ By Alisa Greenholt</p>
 			</header>
 			<aside class="card__aside">
 				<div class="card__meta">
@@ -935,7 +930,7 @@ Mexico</span>
 	<use href="/images/article.svg#article"/>
 </svg>
 Article</span><span class="separator">.</span>
-					<span class="card__publisher"><span class="screen-reader-text">publisher: </span>Bayer, Corwin and Osinski</span>
+					<span class="card__publisher"><span class="screen-reader-text">publisher: </span>Turner - Koelpin</span>
 				</div>
 				<div class="card__meta">
 					<span class="card__locality"><span class="screen-reader-text">location of relevance: </span><svg
@@ -946,14 +941,128 @@ Article</span><span class="separator">.</span>
 >
 	<use href="/images/location.svg#location"/>
 </svg>
-Malaysia</span>
+Papua New Guinea</span>
 				</div>
 				<div class="card__tags tags">
 					<div class="badge">
-						<span class="screen-reader-text">Topic: </span>Open Architecture
+						<span class="screen-reader-text">Topic: </span>Paradigm
 					</div>
 					<div class="badge">
-						<span class="screen-reader-text">Topic: </span>Archive
+						<span class="screen-reader-text">Topic: </span>Collaboration
+					</div>
+					<span class="overflow">
+						+3 more
+					</span>
+				</div>
+				<div class="card__meta">
+				    <span class="card__added">Added January 1, 2020</span>
+				</div>
+			</aside>
+		</article>
+	</li>
+	<li class="card__wrapper">
+		<article class="card card--resource">
+			<header>
+				<h3 class="card__title" >
+					<a class="card__link" href="resource">Ipsam Veniam Non Eaque Dignissimos Quam</a>
+				</h3>
+					<p class="card__byline"><svg
+	class="icon icon--author"
+	aria-hidden="true"
+	viewBox="0 0 20 20"
+	focusable="false"
+>
+	<use href="/images/author.svg#author"/>
+</svg>
+ By Quinton Braun</p>
+			</header>
+			<aside class="card__aside">
+				<div class="card__meta">
+					<span class="card__format"><span class="screen-reader-text">resource format: </span><svg
+	class="icon icon--book"
+	aria-hidden="true"
+	viewBox="0 0 20 20"
+	focusable="false"
+>
+	<use href="/images/book.svg#book"/>
+</svg>
+Book</span><span class="separator">.</span>
+					<span class="card__publisher"><span class="screen-reader-text">publisher: </span>Tillman Inc</span>
+				</div>
+				<div class="card__meta">
+					<span class="card__locality"><span class="screen-reader-text">location of relevance: </span><svg
+	class="icon icon--location"
+	aria-hidden="true"
+	viewBox="0 0 20 20"
+	focusable="false"
+>
+	<use href="/images/location.svg#location"/>
+</svg>
+Sri Lanka</span>
+				</div>
+				<div class="card__tags tags">
+					<div class="badge">
+						<span class="screen-reader-text">Topic: </span>Migration
+					</div>
+					<div class="badge">
+						<span class="screen-reader-text">Topic: </span>Task Force
+					</div>
+					<span class="overflow">
+						+2 more
+					</span>
+				</div>
+				<div class="card__meta">
+				    <span class="card__added">Added January 1, 2020</span>
+				</div>
+			</aside>
+		</article>
+	</li>
+	<li class="card__wrapper">
+		<article class="card card--resource">
+			<header>
+				<h3 class="card__title" >
+					<a class="card__link" href="resource">Ut Deleniti Laudantium Minima Rerum Voluptas</a>
+				</h3>
+					<p class="card__byline"><svg
+	class="icon icon--author"
+	aria-hidden="true"
+	viewBox="0 0 20 20"
+	focusable="false"
+>
+	<use href="/images/author.svg#author"/>
+</svg>
+ By Makayla Gerlach</p>
+			</header>
+			<aside class="card__aside">
+				<div class="card__meta">
+					<span class="card__format"><span class="screen-reader-text">resource format: </span><svg
+	class="icon icon--document"
+	aria-hidden="true"
+	viewBox="0 0 20 20"
+	focusable="false"
+>
+	<use href="/images/document.svg#document"/>
+</svg>
+Document</span><span class="separator">.</span>
+					<span class="card__publisher"><span class="screen-reader-text">publisher: </span>O'Conner LLC</span>
+				</div>
+				<div class="card__meta">
+					<span class="card__locality"><span class="screen-reader-text">location of relevance: </span><svg
+	class="icon icon--location"
+	aria-hidden="true"
+	viewBox="0 0 20 20"
+	focusable="false"
+>
+	<use href="/images/location.svg#location"/>
+</svg>
+Turkey</span>
+				</div>
+				<div class="card__tags tags">
+					<div class="badge">
+						<span class="screen-reader-text">Topic: </span>Framework
+					</div>
+					<div class="badge">
+						<span class="screen-reader-text">Topic: </span>Circuit
 					</div>
 					<span class="overflow">
 						+4 more
@@ -969,7 +1078,7 @@ Malaysia</span>
 		<article class="card card--resource">
 			<header>
 				<h3 class="card__title" >
-					<a class="card__link" href="resource">Nihil Modi Aut Vel Accusantium Incidunt Enim Aliquid Nobis Aspernatur Earum Provident</a>
+					<a class="card__link" href="resource">Tempore Porro Ut Et Magni Hic Autem Temporibus Aut Quis</a>
 				</h3>
 					<p class="card__byline"><svg
 	class="icon icon--author"
@@ -979,121 +1088,7 @@ Malaysia</span>
 >
 	<use href="/images/author.svg#author"/>
 </svg>
- By Willow Abernathy</p>
-			</header>
-			<aside class="card__aside">
-				<div class="card__meta">
-					<span class="card__format"><span class="screen-reader-text">resource format: </span><svg
-	class="icon icon--book"
-	aria-hidden="true"
-	viewBox="0 0 20 20"
-	focusable="false"
->
-	<use href="/images/book.svg#book"/>
-</svg>
-Book</span><span class="separator">.</span>
-					<span class="card__publisher"><span class="screen-reader-text">publisher: </span>Koelpin - Lynch</span>
-				</div>
-				<div class="card__meta">
-					<span class="card__locality"><span class="screen-reader-text">location of relevance: </span><svg
-	class="icon icon--location"
-	aria-hidden="true"
-	viewBox="0 0 20 20"
-	focusable="false"
->
-	<use href="/images/location.svg#location"/>
-</svg>
-Republic of Korea</span>
-				</div>
-				<div class="card__tags tags">
-					<div class="badge">
-						<span class="screen-reader-text">Topic: </span>Benchmark
-					</div>
-					<div class="badge">
-						<span class="screen-reader-text">Topic: </span>Capacity
-					</div>
-					<span class="overflow">
-						+2 more
-					</span>
-				</div>
-				<div class="card__meta">
-				    <span class="card__added">Added January 1, 2020</span>
-				</div>
-			</aside>
-		</article>
-	</li>
-	<li class="card__wrapper">
-		<article class="card card--resource">
-			<header>
-				<h3 class="card__title" >
-					<a class="card__link" href="resource">Quia Ducimus Perspiciatis Laboriosam Et Eum Voluptatem Perspiciatis Minima Excepturi</a>
-				</h3>
-					<p class="card__byline"><svg
-	class="icon icon--author"
-	aria-hidden="true"
-	viewBox="0 0 20 20"
-	focusable="false"
->
-	<use href="/images/author.svg#author"/>
-</svg>
- By Will Cruickshank</p>
-			</header>
-			<aside class="card__aside">
-				<div class="card__meta">
-					<span class="card__format"><span class="screen-reader-text">resource format: </span><svg
-	class="icon icon--document"
-	aria-hidden="true"
-	viewBox="0 0 20 20"
-	focusable="false"
->
-	<use href="/images/document.svg#document"/>
-</svg>
-Document</span><span class="separator">.</span>
-					<span class="card__publisher"><span class="screen-reader-text">publisher: </span>Stamm, Rodriguez and Johnston</span>
-				</div>
-				<div class="card__meta">
-					<span class="card__locality"><span class="screen-reader-text">location of relevance: </span><svg
-	class="icon icon--location"
-	aria-hidden="true"
-	viewBox="0 0 20 20"
-	focusable="false"
->
-	<use href="/images/location.svg#location"/>
-</svg>
-Palau</span>
-				</div>
-				<div class="card__tags tags">
-					<div class="badge">
-						<span class="screen-reader-text">Topic: </span>Collaboration
-					</div>
-					<div class="badge">
-						<span class="screen-reader-text">Topic: </span>Open System
-					</div>
-					<span class="overflow">
-						+1 more
-					</span>
-				</div>
-				<div class="card__meta">
-				    <span class="card__added">Added January 1, 2020</span>
-				</div>
-			</aside>
-		</article>
-	</li>
-	<li class="card__wrapper">
-		<article class="card card--resource">
-			<header>
-				<h3 class="card__title" >
-					<a class="card__link" href="resource">Repellat Et Recusandae minus</a>
-				</h3>
-					<p class="card__byline"><svg
-	class="icon icon--author"
-	aria-hidden="true"
-	viewBox="0 0 20 20"
-	focusable="false"
->
-	<use href="/images/author.svg#author"/>
-</svg>
- By Marjolaine Pacocha</p>
+ By Norwood Ferry</p>
 			</header>
 			<aside class="card__aside">
 				<div class="card__meta">
@@ -1106,7 +1101,7 @@ Palau</span>
 	<use href="/images/academic.svg#academic"/>
 </svg>
 Academic Paper</span><span class="separator">.</span>
-					<span class="card__publisher"><span class="screen-reader-text">publisher: </span>Gutkowski - Nienow</span>
+					<span class="card__publisher"><span class="screen-reader-text">publisher: </span>White - Bosco</span>
 				</div>
 				<div class="card__meta">
 					<span class="card__locality"><span class="screen-reader-text">location of relevance: </span><svg
@@ -1117,71 +1112,14 @@ Academic Paper</span><span class="separator">.</span>
 >
 	<use href="/images/location.svg#location"/>
 </svg>
-Dominican Republic</span>
+Canada</span>
 				</div>
 				<div class="card__tags tags">
 					<div class="badge">
-						<span class="screen-reader-text">Topic: </span>System Engine
+						<span class="screen-reader-text">Topic: </span>Encryption
 					</div>
 					<div class="badge">
-						<span class="screen-reader-text">Topic: </span>Artificial Intelligence
-					</div>
-					<span class="overflow">
-						+2 more
-					</span>
-				</div>
-				<div class="card__meta">
-				    <span class="card__added">Added January 1, 2020</span>
-				</div>
-			</aside>
-		</article>
-	</li>
-	<li class="card__wrapper">
-		<article class="card card--resource">
-			<header>
-				<h3 class="card__title" >
-					<a class="card__link" href="resource">Praesentium Deleniti Quis Ex Dicta Ducimus Voluptatum Dolor Mollitia</a>
-				</h3>
-					<p class="card__byline"><svg
-	class="icon icon--author"
-	aria-hidden="true"
-	viewBox="0 0 20 20"
-	focusable="false"
->
-	<use href="/images/author.svg#author"/>
-</svg>
- By Oran Welch</p>
-			</header>
-			<aside class="card__aside">
-				<div class="card__meta">
-					<span class="card__format"><span class="screen-reader-text">resource format: </span><svg
-	class="icon icon--report"
-	aria-hidden="true"
-	viewBox="0 0 20 20"
-	focusable="false"
->
-	<use href="/images/report.svg#report"/>
-</svg>
-Report</span><span class="separator">.</span>
-					<span class="card__publisher"><span class="screen-reader-text">publisher: </span>Ruecker - Kihn</span>
-				</div>
-				<div class="card__meta">
-					<span class="card__locality"><span class="screen-reader-text">location of relevance: </span><svg
-	class="icon icon--location"
-	aria-hidden="true"
-	viewBox="0 0 20 20"
-	focusable="false"
->
-	<use href="/images/location.svg#location"/>
-</svg>
-South Georgia and the South Sandwich Islands</span>
-				</div>
-				<div class="card__tags tags">
-					<div class="badge">
-						<span class="screen-reader-text">Topic: </span>Task Force
-					</div>
-					<div class="badge">
-						<span class="screen-reader-text">Topic: </span>Alliance
+						<span class="screen-reader-text">Topic: </span>Model
 					</div>
 					<span class="overflow">
 						+1 more
@@ -1197,7 +1135,7 @@ South Georgia and the South Sandwich Islands</span>
 		<article class="card card--resource">
 			<header>
 				<h3 class="card__title" >
-					<a class="card__link" href="resource">Non Qui Consequatur Veniam Omnis Dolor</a>
+					<a class="card__link" href="resource">Asperiores Molestias Veritatis Animi Eum Iusto</a>
 				</h3>
 					<p class="card__byline"><svg
 	class="icon icon--author"
@@ -1207,7 +1145,64 @@ South Georgia and the South Sandwich Islands</span>
 >
 	<use href="/images/author.svg#author"/>
 </svg>
- By Amelia Ernser</p>
+ By Cara Jacobson</p>
+			</header>
+			<aside class="card__aside">
+				<div class="card__meta">
+					<span class="card__format"><span class="screen-reader-text">resource format: </span><svg
+	class="icon icon--report"
+	aria-hidden="true"
+	viewBox="0 0 20 20"
+	focusable="false"
+>
+	<use href="/images/report.svg#report"/>
+</svg>
+Report</span><span class="separator">.</span>
+					<span class="card__publisher"><span class="screen-reader-text">publisher: </span>Hirthe Inc</span>
+				</div>
+				<div class="card__meta">
+					<span class="card__locality"><span class="screen-reader-text">location of relevance: </span><svg
+	class="icon icon--location"
+	aria-hidden="true"
+	viewBox="0 0 20 20"
+	focusable="false"
+>
+	<use href="/images/location.svg#location"/>
+</svg>
+Seychelles</span>
+				</div>
+				<div class="card__tags tags">
+					<div class="badge">
+						<span class="screen-reader-text">Topic: </span>Concept
+					</div>
+					<div class="badge">
+						<span class="screen-reader-text">Topic: </span>Structure
+					</div>
+					<span class="overflow">
+						+3 more
+					</span>
+				</div>
+				<div class="card__meta">
+				    <span class="card__added">Added January 1, 2020</span>
+				</div>
+			</aside>
+		</article>
+	</li>
+	<li class="card__wrapper">
+		<article class="card card--resource">
+			<header>
+				<h3 class="card__title" >
+					<a class="card__link" href="resource">Eligendi Voluptatem Est Alias Nobis Reiciendis Suscipit</a>
+				</h3>
+					<p class="card__byline"><svg
+	class="icon icon--author"
+	aria-hidden="true"
+	viewBox="0 0 20 20"
+	focusable="false"
+>
+	<use href="/images/author.svg#author"/>
+</svg>
+ By Elza Hermann</p>
 			</header>
 			<aside class="card__aside">
 				<div class="card__meta">
@@ -1220,7 +1215,7 @@ South Georgia and the South Sandwich Islands</span>
 	<use href="/images/audio.svg#audio"/>
 </svg>
 Audio</span><span class="separator">.</span>
-					<span class="card__publisher"><span class="screen-reader-text">publisher: </span>Botsford, Dare and Mann</span>
+					<span class="card__publisher"><span class="screen-reader-text">publisher: </span>Zboncak Group</span>
 				</div>
 				<div class="card__meta">
 					<span class="card__locality"><span class="screen-reader-text">location of relevance: </span><svg
@@ -1231,17 +1226,17 @@ Audio</span><span class="separator">.</span>
 >
 	<use href="/images/location.svg#location"/>
 </svg>
-Myanmar</span>
+Macao</span>
 				</div>
 				<div class="card__tags tags">
 					<div class="badge">
-						<span class="screen-reader-text">Topic: </span>Collaboration
+						<span class="screen-reader-text">Topic: </span>Artificial Intelligence
 					</div>
 					<div class="badge">
-						<span class="screen-reader-text">Topic: </span>Database
+						<span class="screen-reader-text">Topic: </span>Extranet
 					</div>
 					<span class="overflow">
-						+5 more
+						+4 more
 					</span>
 				</div>
 				<div class="card__meta">
@@ -1313,8 +1308,6 @@ Myanmar</span>
 </div>
 </div>
   		</footer>
-		<script src="../../scripts/pinecone.umd.js"></script>
-		<script src="../../scripts/pinecone.js"></script>
 	</body>
 </html>
 

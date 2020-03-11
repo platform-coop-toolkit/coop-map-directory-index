@@ -1,0 +1,14 @@
+Hello!
+
+Someone (hopefully you) has entered your email address in order to create an account on the Platform Co-op Directory.
+
+Please confirm your subscription by following this link:
+{{ scheme }}://{{ site }}/accounts/activate/{{ activation_key }}/
+
+Non-confirmed requests will be automatically dropped after {{ expiration_days }} days.
+
+Platform Cooperativism Consortium
+The New School
+79 Fifth Avenue, 1601
+New York, New York
+10003

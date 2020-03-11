@@ -33,7 +33,7 @@ map.on('load', function () {
     totals
   ;
 
-  map.addSource('coops', {
+  map.addSource('organizations', {
     'type': 'geojson',
     'data': '/organizations/',
     'cluster': true,
@@ -48,10 +48,18 @@ map.on('load', function () {
     // }
   });
 
+  map.addSource('individuals', {
+    'type': 'geojson',
+    'data': '/users/',
+    'cluster': true,
+    'clusterMaxZoom': 14,
+    'clusterRadius': 50
+  });
+
   map.addLayer({
     id: 'clusters',
     type: 'circle',
-    source: 'coops',
+    source: 'organizations',
     filter: ['has', 'point_count'],
     // 'filter': ['!=', ['get', 'cluster'], true],
     'paint': {
@@ -88,7 +96,7 @@ map.on('load', function () {
   map.addLayer({
     id: 'cluster-count',
     type: 'symbol',
-    source: 'coops',
+    source: 'organizations',
     filter: ['has', 'point_count'],
     layout: {
       'text-field': '{point_count_abbreviated}',
@@ -99,7 +107,7 @@ map.on('load', function () {
   map.addLayer({
     id: 'unclustered-point',
     type: 'circle',
-    source: 'coops',
+    source: 'organizations',
     filter: ['!', ['has', 'point_count']],
     paint: {
       'circle-color': '#11b4da',
@@ -114,7 +122,7 @@ map.on('load', function () {
       layers: ['clusters']
     });
     var clusterId = features[0].properties.cluster_id;
-    map.getSource('coops').getClusterExpansionZoom(
+    map.getSource('organizations').getClusterExpansionZoom(
       clusterId,
       function (err, zoom) {
         if (err) return;
@@ -141,13 +149,13 @@ map.on('load', function () {
       if (e.features[0].properties.state) { htmlString += e.features[0].properties.state + ' ' }
       if (e.features[0].properties.postal_code) { htmlString += e.features[0].properties.postal_code + ' ' }
       if (e.features[0].properties.country) { htmlString += e.features[0].properties.country + ' ' }
-      if (e.features[0].properties.type || e.features[0].properties.category || e.features[0].properties.activities) {
+      if (e.features[0].properties.type || e.features[0].properties.category || e.features[0].properties.sectors) {
         htmlString += '<hr>'
       }
       if (e.features[0].properties.type) { htmlString += 'Type: ' + e.features[0].properties.type + '<br />'}
       if (e.features[0].properties.category) { htmlString += 'Category: ' + e.features[0].properties.category + '<br />' }
-      if (e.features[0].properties.activities) {
-        htmlString += 'Sectors: ' + e.features[0].properties.activities.replace('[', '').replace(']', '').replace(/","/g, ', ').replace(/"/g, '');
+      if (e.features[0].properties.sectors) {
+        htmlString += 'Sectors: ' + e.features[0].properties.sectors.replace('[', '').replace(']', '').replace(/","/g, ', ').replace(/"/g, '');
       }
 
     let popup = new mapboxgl.Popup({
@@ -173,10 +181,10 @@ map.on('load', function () {
     if (visibleFeatures) {
       htmlString = '<ul class="cards">\n';
       visibleFeatures.forEach(function (f) {
-        htmlString += '<li class="card__wrapper"><article class="card"><header><h3 class="card___title"><span class="card__format">' + f.properties.category.toUpperCase() + '</span><span class="screen-reader-text">: </span></h3></header><aside class="card__aside">\n<h4>' +
+        htmlString += '<li class="card__wrapper"><article id="' + f.id + '" class="card"><header><h3 class="card___title"><span class="card__format">' + f.properties.category.toUpperCase() + '</span><span class="screen-reader-text">: </span></h3></header><aside class="card__aside">\n<h4>' +
           f.properties.name + '</h4><br />';
-        if (f.properties.activities) {
-          htmlString += '<strong>' + f.properties.activities.replace('[', '').replace(']', '').replace(/","/g, ', ').replace(/"/g, '') + '</strong><br />';
+        if (f.properties.sectors) {
+          htmlString += '<strong>' + f.properties.sectors.replace('[', '').replace(']', '').replace(/","/g, ', ').replace(/"/g, '') + '</strong><br />';
         }
         if (f.properties.city) {
           htmlString += f.properties.city + ' '
@@ -191,6 +199,12 @@ map.on('load', function () {
       });
       htmlString += '</ul>';
       document.getElementById('visibles').innerHTML = htmlString;
+
+      [...document.getElementsByTagName('article')].forEach(function (article) {
+        article.addEventListener('click', function () {
+          window.location = '/maps/organizations/' + article.id;
+        })
+      })
     }
   };
 
@@ -202,9 +216,9 @@ map.on('load', function () {
   })
 
   // map.addLayer({
-  //   'id': 'coops_individual_outer',
+  //   'id': 'organizations_individual_outer',
   //   'type': 'circle',
-  //   'source': 'coops',
+  //   'source': 'organizations',
   //   'filter': ['!=', ['get', 'cluster'], true],
   //   'paint': {
   //     'circle-color': [
@@ -227,7 +241,7 @@ map.on('load', function () {
   //   // keep track of new markers
   //   let newMarkers = {};
   //   // get the features whether or not they are visible (https://docs.mapbox.com/mapbox-gl-js/api/#map#queryrenderedfeatures)
-  //   const features = map.querySourceFeatures('coops');
+  //   const features = map.querySourceFeatures('organizations');
   //   totals = getPointCount(features);
   //   // loop through each feature
   //   features.forEach((feature) => {
@@ -282,7 +296,7 @@ map.on('load', function () {
   // };
 
 /*
-  map.on('mouseover', 'coops', function (e) {
+  map.on('mouseover', 'organizations', function (e) {
     map.getCanvas().style.cursor = 'pointer';
     let
       htmlString = '';
@@ -299,8 +313,8 @@ map.on('load', function () {
       if (e.features[0].properties.type !== 'null' || e.features[0].properties.type !== 'null') { htmlString += '<hr>' }
       if (e.features[0].properties.type !== 'null') { htmlString += 'Type: ' + e.features[0].properties.type + '<br />'}
       if (e.features[0].properties.type !== 'null') { htmlString += 'Category: ' + e.features[0].properties.category + '<br />' }
-      if (e.features[0].properties.activities !== 'null') {
-        htmlString += 'Activities: ' + e.features[0].properties.activities.replace('[', '').replace(']', '').replace(/","/g, ', ').replace(/"/g, '');
+      if (e.features[0].properties.sectors !== 'null') {
+        htmlString += 'Sectors: ' + e.features[0].properties.sectors.replace('[', '').replace(']', '').replace(/","/g, ', ').replace(/"/g, '');
       }
 
     popup.setLngLat(e.features[0].geometry.coordinates)
@@ -308,7 +322,7 @@ map.on('load', function () {
       .addTo(map);
   });
 
-  map.on('mouseleave', 'coops', function () {
+  map.on('mouseleave', 'organizations', function () {
     map.getCanvas().style.cursor = '';
     popup.remove();
   })

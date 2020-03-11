@@ -1,0 +1,19 @@
+{# /accounts/register/complete/ #}
+
+{% extends 'maps/base.html' %}
+{% load maps_extras %}
+{% block title %}{{ 'Activate your account'|titlify }}{% endblock %}
+{% block content %}
+<div class="page-header">
+    <p>
+        <div class="spacer"></div><a class="link--inverse" href="{% url 'index' %}}">Home</a>
+    </p>
+    <h1>Activate your account</h1>
+</div>
+<p>
+    Please check your email for a link to activate your account.
+</p>
+
+<div class="spacer"></div>
+
+{% endblock %}

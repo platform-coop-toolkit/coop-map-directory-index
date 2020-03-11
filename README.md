@@ -23,14 +23,40 @@ Data is presently being managed outside of this repository. A locally-installed 
 
 Local:
 ```
-pg_dump -f scratch/cmdi.sql --clean --if-exists cmdi && bzip2 -9 --force scratch/cmdi.sql
+pg_dump -f scratch/cmdi.sql --clean --if-exists --no-privileges --no-acl --no-owner cmdi && bzip2 -9 --force scratch/cmdi.sql
 scp scratch/cmdi.sql.bz2 ubuntu@awshost:/home/ubuntu/coop-map-directory-index/scratch
 ```
 
 Remote:
 ```
-sudo su postgres
 bunzip2 scratch/cmdi.sql.bz2
-psql -f scratch/cmdi.sql cmdi
+sudo su postgres
+psql --set ON_ERROR_STOP=on -h localhost -U cmdi -W -f scratch/cmdi.sql cmdi
 exit
+honcho start
 ```
+
+### Development
+
+Limit commit messages to 72 characters, do not end with a full stop, prefix with one of:
+
+* build
+* ci
+* chore
+* docs
+* feat
+* fix
+* perf
+* refactor
+* revert
+* style
+* test
+
+
+### Notes
+
+Modules we may need further down the road:
+* [django-languages-plus](https://github.com/cordery/django-languages-plus)
+* [django-countries-plus](https://github.com/cordery/django-countries-plus)
+* [pycountry](https://pypi.org/project/pycountry/)
+* [py-moneyed](https://github.com/limist/py-moneyed)
