@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "build:js": "browserify -t [ babelify ] -t envify maps/static/maps/js/app.js | uglifyjs -c warnings=false -o maps/static/maps/dist/js/app.js",
+    "lint": "eslint maps/static/maps/js/*.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -35,12 +36,14 @@
     "browserify": "^16.5.0",
     "d3": "^5.15.0",
     "envify": "^4.1.0",
+    "eslint": "^6.8.0",
     "mapbox-gl": "^1.7.0",
     "uglify": "^0.1.5"
   },
   "devDependencies": {
     "@commitlint/cli": "^8.3.5",
     "@commitlint/config-conventional": "^8.3.4",
+    "eslint-plugin-babel": "^5.3.0",
     "husky": "^4.2.3"
   }
 }

@@ -140,22 +140,22 @@ map.on('load', function () {
     let
       htmlString = '';
       if (e.features[0].properties.url) {
-        htmlString += '<strong><a href="' + e.features[0].properties.url + '">' + e.features[0].properties.name + '</a></strong><br />'
+        htmlString += `<strong><a href="${e.features[0].properties.url}">${e.features[0].properties.name}</a></strong><br />`;
       } else {
-        htmlString += '<strong>' + e.features[0].properties.name + '</strong><br />'
+        htmlString += `<strong>${e.features[0].properties.name}</strong><br />`;
       }
-      if (e.features[0].properties.address) { htmlString += e.features[0].properties.address + '<br />' }
-      if (e.features[0].properties.city) { htmlString += e.features[0].properties.city + ' '}
-      if (e.features[0].properties.state) { htmlString += e.features[0].properties.state + ' ' }
-      if (e.features[0].properties.postal_code) { htmlString += e.features[0].properties.postal_code + ' ' }
-      if (e.features[0].properties.country) { htmlString += e.features[0].properties.country + ' ' }
+      if (e.features[0].properties.address) { htmlString += `${e.features[0].properties.address}<br />`}
+      if (e.features[0].properties.city) { htmlString += `${e.features[0].properties.city} `}
+      if (e.features[0].properties.state) { htmlString += `${e.features[0].properties.state} `}
+      if (e.features[0].properties.postal_code) { htmlString += `${e.features[0].properties.postal_code} `}
+      if (e.features[0].properties.country) { htmlString += `${e.features[0].properties.country} `}
       if (e.features[0].properties.type || e.features[0].properties.category || e.features[0].properties.sectors) {
-        htmlString += '<hr>'
+        htmlString += '<hr>';
       }
-      if (e.features[0].properties.type) { htmlString += 'Type: ' + e.features[0].properties.type + '<br />'}
-      if (e.features[0].properties.category) { htmlString += 'Category: ' + e.features[0].properties.category + '<br />' }
+      if (e.features[0].properties.type) { htmlString += `Type: ${e.features[0].properties.type}<br />`}
+      if (e.features[0].properties.category) { htmlString += `Category: ${e.features[0].properties.category}<br />`}
       if (e.features[0].properties.sectors) {
-        htmlString += 'Sectors: ' + e.features[0].properties.sectors.replace('[', '').replace(']', '').replace(/","/g, ', ').replace(/"/g, '');
+        htmlString += `Sectors: ${e.features[0].properties.sectors.replace('[', '').replace(']', '').replace(/","/g, ', ').replace(/"/g, '')}`;
       }
 
     let popup = new mapboxgl.Popup({
@@ -181,19 +181,18 @@ map.on('load', function () {
     if (visibleFeatures) {
       htmlString = '<ul class="cards">\n';
       visibleFeatures.forEach(function (f) {
-        htmlString += '<li class="card__wrapper"><article id="' + f.id + '" class="card"><header><h3 class="card___title"><span class="card__format">' + f.properties.category.toUpperCase() + '</span><span class="screen-reader-text">: </span></h3></header><aside class="card__aside">\n<h4>' +
-          f.properties.name + '</h4><br />';
+        htmlString += `<li class="card__wrapper"><article id="${f.id}" class="card"><header><h3 class="card___title"><span class="card__format">${f.properties.category.toUpperCase()}</span><span class="screen-reader-text">: </span></h3></header><aside class="card__aside">\n<h4>${f.properties.name}</h4><br />`;
         if (f.properties.sectors) {
-          htmlString += '<strong>' + f.properties.sectors.replace('[', '').replace(']', '').replace(/","/g, ', ').replace(/"/g, '') + '</strong><br />';
+          htmlString += `<strong>${f.properties.sectors.replace('[', '').replace(']', '').replace(/","/g, ', ').replace(/"/g, '')}</strong><br />`;
         }
         if (f.properties.city) {
-          htmlString += f.properties.city + ' '
+          htmlString += `${f.properties.city} `;
         }
         if (f.properties.state) {
-          htmlString += f.properties.state + ' '
+          htmlString += `${f.properties.state} `;
         }
         if (f.properties.country) {
-          htmlString += f.properties.country
+          htmlString += `${f.properties.country}`;
         }
         htmlString += '</aside></article></li>';
       });
@@ -202,9 +201,9 @@ map.on('load', function () {
 
       [...document.getElementsByTagName('article')].forEach(function (article) {
         article.addEventListener('click', function () {
-          window.location = '/maps/organizations/' + article.id;
-        })
-      })
+          window.location = `/maps/organizations/${article.id}`;
+        });
+      });
     }
   };
 
@@ -213,7 +212,7 @@ map.on('load', function () {
   });
   map.on('moveend', function () {
     makeCardList();
-  })
+  });
 
   // map.addLayer({
   //   'id': 'organizations_individual_outer',
