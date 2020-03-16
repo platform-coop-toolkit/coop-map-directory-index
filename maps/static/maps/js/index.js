@@ -1,8 +1,10 @@
+import { generateCards, generatePopupHtml } from './cards.js';
+
 mapboxgl.accessToken = 'pk.eyJ1IjoiZXJpY3RoZWlzZSIsImEiOiJjazVvNGNmM2wxaGhjM2pvMGc0ZmIyaXN3In0.Jrt9t5UrY5aCbndSpq5JWw';
 var map = new mapboxgl.Map({
-  container: 'map', // container id
+  container: 'map',
   style: 'mapbox://styles/mapbox/dark-v10',
-  center: [-74.5, 40], // starting position [lng, lat]
+  center: [-74.5, 40],
   zoom: 4,
   hash: true,
   scrollZoom: false
@@ -110,8 +112,17 @@ map.on('load', function () {
     source: 'organizations',
     filter: ['!', ['has', 'point_count']],
     paint: {
-      'circle-color': '#11b4da',
-      'circle-radius': 4,
+      'circle-color': [
+        'match',
+        ['get', 'category'],
+        'platform co-op', colorScale('platformCoop'),
+        'co-op-run platform', colorScale('coopRunPlatform'),
+        'shared platform', colorScale('sharedPlatform'),
+        'supporter', colorScale('supporter'),
+        'other', colorScale('other'),
+        '#999'
+      ],
+      'circle-radius': 8,
       'circle-stroke-width': 1,
       'circle-stroke-color': '#fff'
     }
@@ -137,34 +148,13 @@ map.on('load', function () {
 
   map.on('click', 'unclustered-point', function (e) {
     map.getCanvas().style.cursor = 'pointer';
-    let
-      htmlString = '';
-      if (e.features[0].properties.url) {
-        htmlString += `<strong><a href="${e.features[0].properties.url}">${e.features[0].properties.name}</a></strong><br />`;
-      } else {
-        htmlString += `<strong>${e.features[0].properties.name}</strong><br />`;
-      }
-      if (e.features[0].properties.address) { htmlString += `${e.features[0].properties.address}<br />`}
-      if (e.features[0].properties.city) { htmlString += `${e.features[0].properties.city} `}
-      if (e.features[0].properties.state) { htmlString += `${e.features[0].properties.state} `}
-      if (e.features[0].properties.postal_code) { htmlString += `${e.features[0].properties.postal_code} `}
-      if (e.features[0].properties.country) { htmlString += `${e.features[0].properties.country} `}
-      if (e.features[0].properties.type || e.features[0].properties.category || e.features[0].properties.sectors) {
-        htmlString += '<hr>';
-      }
-      if (e.features[0].properties.type) { htmlString += `Type: ${e.features[0].properties.type}<br />`}
-      if (e.features[0].properties.category) { htmlString += `Category: ${e.features[0].properties.category}<br />`}
-      if (e.features[0].properties.sectors) {
-        htmlString += `Sectors: ${e.features[0].properties.sectors.replace('[', '').replace(']', '').replace(/","/g, ', ').replace(/"/g, '')}`;
-      }
-
     let popup = new mapboxgl.Popup({
       closeButton: true,
       closeOnClick: true
     });
 
     popup.setLngLat(e.features[0].geometry.coordinates)
-      .setHTML(htmlString)
+      .setHTML(generatePopupHtml(e.features[0]))
       .addTo(map);
   });
 
@@ -175,43 +165,13 @@ map.on('load', function () {
     map.getCanvas().style.cursor = '';
   });
 
-  let makeCardList = () => {
-    let visibleFeatures = map.queryRenderedFeatures({layers: ['unclustered-point']});
-
-    if (visibleFeatures) {
-      htmlString = '<ul class="cards">\n';
-      visibleFeatures.forEach(function (f) {
-        htmlString += `<li class="card__wrapper"><article id="${f.id}" class="card"><header><h3 class="card___title"><span class="card__format">${f.properties.category.toUpperCase()}</span><span class="screen-reader-text">: </span></h3></header><aside class="card__aside">\n<h4>${f.properties.name}</h4><br />`;
-        if (f.properties.sectors) {
-          htmlString += `<strong>${f.properties.sectors.replace('[', '').replace(']', '').replace(/","/g, ', ').replace(/"/g, '')}</strong><br />`;
-        }
-        if (f.properties.city) {
-          htmlString += `${f.properties.city} `;
-        }
-        if (f.properties.state) {
-          htmlString += `${f.properties.state} `;
-        }
-        if (f.properties.country) {
-          htmlString += `${f.properties.country}`;
-        }
-        htmlString += '</aside></article></li>';
-      });
-      htmlString += '</ul>';
-      document.getElementById('visibles').innerHTML = htmlString;
-
-      [...document.getElementsByTagName('article')].forEach(function (article) {
-        article.addEventListener('click', function () {
-          window.location = `/maps/organizations/${article.id}`;
-        });
-      });
-    }
-  };
+  generateCards(map, ['unclustered-point']);
 
   map.on('render', function () {
-    makeCardList();
+    generateCards(map, ['unclustered-point']);
   });
   map.on('moveend', function () {
-    makeCardList();
+    generateCards(map, ['unclustered-point']);
   });
 
   // map.addLayer({
@@ -293,38 +253,5 @@ map.on('load', function () {
   //   });
   //   return point_counts;
   // };
-
-/*
-  map.on('mouseover', 'organizations', function (e) {
-    map.getCanvas().style.cursor = 'pointer';
-    let
-      htmlString = '';
-      if (e.features[0].properties.url) {
-        htmlString += '<strong><a href="' + e.features[0].properties.url + '">' + e.features[0].properties.name + '</a></strong><br />'
-      } else {
-        htmlString += '<strong>' + e.features[0].properties.name + '</strong><br />'
-      }
-      if (e.features[0].properties.address !== 'null') { htmlString += e.features[0].properties.address + '<br />' }
-      if (e.features[0].properties.city !== 'null') { htmlString += e.features[0].properties.city + ' '}
-      if (e.features[0].properties.state !== 'null') { htmlString += e.features[0].properties.state + ' ' }
-      if (e.features[0].properties.postal_code !== 'null') { htmlString += e.features[0].properties.postal_code + ' ' }
-      if (e.features[0].properties.country !== 'null') { htmlString += e.features[0].properties.country + ' ' }
-      if (e.features[0].properties.type !== 'null' || e.features[0].properties.type !== 'null') { htmlString += '<hr>' }
-      if (e.features[0].properties.type !== 'null') { htmlString += 'Type: ' + e.features[0].properties.type + '<br />'}
-      if (e.features[0].properties.type !== 'null') { htmlString += 'Category: ' + e.features[0].properties.category + '<br />' }
-      if (e.features[0].properties.sectors !== 'null') {
-        htmlString += 'Sectors: ' + e.features[0].properties.sectors.replace('[', '').replace(']', '').replace(/","/g, ', ').replace(/"/g, '');
-      }
-
-    popup.setLngLat(e.features[0].geometry.coordinates)
-      .setHTML(htmlString)
-      .addTo(map);
-  });
-
-  map.on('mouseleave', 'organizations', function () {
-    map.getCanvas().style.cursor = '';
-    popup.remove();
-  })
-*/
 
 });

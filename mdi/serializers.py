@@ -1,15 +1,30 @@
 from rest_framework import serializers
 from accounts.models import User
 from django.contrib.auth.models import Group
-from mdi.models import Organization, Sector, Tool, License, Language
+from mdi.models import Organization, SocialNetwork, Sector, Tool, License, Language
 from rest_framework_gis.serializers import GeoFeatureModelSerializer
 from django_countries.serializers import CountryFieldMixin
 
 
+# class UserSerializer(CountryFieldMixin, GeoFeatureModelSerializer):
 class UserSerializer(serializers.HyperlinkedModelSerializer):
   class Meta:
     model = User
-    fields = ('username', 'id', 'email', 'groups')
+    fields = (
+        'id',
+        'email',
+        'first_name',
+        'middle_name',
+        'last_name',
+        'address',
+        'city',
+        'state',
+        'postal_code',
+        'country',
+        'url',
+        'bio',
+        'notes'
+    )
 
 
 class GroupSerializer(serializers.HyperlinkedModelSerializer):
