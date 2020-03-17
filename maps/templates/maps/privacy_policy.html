@@ -1,0 +1,55 @@
+{% extends 'maps/base.html' %}
+{% load static %}
+{% load maps_extras %}
+{% block title %}{{ title |titlify }}{% endblock %}
+{% block content %}
+        <div class="page-header">
+          <h1><span class="pc-ff--sans pc-fw--normal">Platform Co-op</span><br/> Directory</h1>
+          <p class="subhead">Subhead.</p>
+        </div>
+{% include 'maps/search.html' %}
+        <p>
+            The Platform Cooperativism Consortium (PCC) is dedicated to respecting and protecting your privacy. At the
+            PCC and ICDE, we are committed to making the processes and outcomes of our work transparent and accessible
+            to the public.
+        </p>
+
+        <h2>Web Cookies</h2>
+
+        <p>
+            Our site may use web cookies. A web cookie is a small piece of data that is sent from a website and stored
+            on a user’s computer by their web browser. Web cookies are designed to improve the browsing experience of
+            the user by recording users’ browsing activity. Web cookies have also been identified as invisibly gathering
+            information about users’ habits for marketing purposes. The PCC will not use web cookies for this purpose.
+        </p>
+
+        <h2>How We Share Your Information</h2>
+
+        <p>
+            Please be aware that The Platform Cooperativism Consortium works with a variety of third parties, including
+            Mailchimp (for our community updates), Riseup.net (for our discussion list) and Eventbrite (for public
+            programming), that host and manage the information that you provide on our website. Beyond that, we do not
+            reveal your personal information to third parties.
+        </p>
+
+        <h2>Contact</h2>
+
+        <p>
+            The Platform Cooperativism Consortium is the owner and operator of the website platform.coop. Please reach
+            out to us if you have questions or concerns about how your privacy is handled, email us at
+            <a href="mailto:info@platform.coop">info@platform.coop</a> or send a letter to:
+        </p>
+
+        <p>
+            Platform Cooperativism Consortium<br />
+            79 5th Ave 16th floor, Rm. 1601<br />
+            New York, NY 10003<br />
+            USA
+        </p>
+
+        <h2>Feedback</h2>
+
+        <p>
+            We welcome your feedback and input as we continue to build this privacy policy over the next several months.
+        </p>
+{% endblock %}
