@@ -52,12 +52,23 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
+    'django.contrib.sites',
     'django.contrib.staticfiles',
     'django.contrib.gis',
     'rest_framework',
     'rest_framework_gis',
     'django_countries',
-    'django_registration',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    # 'allauth.socialaccount.providers.facebook',
+    # 'allauth.socialaccount.providers.github',
+    # 'allauth.socialaccount.providers.google',
+    # 'allauth.socialaccount.providers.instagram',
+    # 'allauth.socialaccount.providers.openid',
+    # 'allauth.socialaccount.providers.reddit',
+    'allauth.socialaccount.providers.stackexchange',
+    # 'allauth.socialaccount.providers.twitter',
     'accounts',
     'mdi',
     'maps',
@@ -104,6 +115,15 @@ TEMPLATES = [
     },
 ]
 
+
+AUTHENTICATION_BACKENDS = (
+    # Needed to login by username in Django admin, regardless of `allauth`
+    'django.contrib.auth.backends.ModelBackend',
+    # `allauth` specific authentication methods, such as login by e-mail
+    'allauth.account.auth_backends.AuthenticationBackend',
+)
+SITE_ID = 1
+
 WSGI_APPLICATION = 'cmdi.wsgi.application'
 
 
@@ -113,7 +133,6 @@ DATABASES = {
 
 
 AUTH_USER_MODEL = 'accounts.User'
-ACCOUNT_ACTIVATION_DAYS = 7 # One-week activation window
 
 
 # Password validation
