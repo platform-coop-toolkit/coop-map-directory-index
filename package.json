@@ -14,7 +14,7 @@
     "optimize:js": "uglifyjs maps/static/maps/dist/js/site.js -m -c warnings=false -o maps/static/maps/dist/js/site.js",
     "optimize:css": "cssnano maps/static/maps/dist/css/site.css maps/static/maps/dist/css/site.css",
     "optimize": "npm run optimize:js",
-    "build:js": "browserify -t [ babelify ] -t envify maps/static/maps/js/app.js | uglifyjs -c warnings=false -o maps/static/maps/dist/js/site.js",
+    "build:js": "browserify -t [ babelify ] -t envify maps/static/maps/js/index.js | uglifyjs -c warnings=false -o maps/static/maps/dist/js/site.js",
     "watch:lint": "onchange maps/static/maps/js/*.js -- npm run lint",
     "watch:css": "onchange maps/static/maps/css/* -- npm run build:css",
     "lint": "eslint maps/static/maps/js/*.js",
