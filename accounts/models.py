@@ -1,5 +1,6 @@
-from django.db import models
 from django.contrib.gis.db import models
+from django.db.models.signals import pre_save
+from django.dispatch import receiver
 from django.contrib.auth.models import AbstractUser, UserManager
 from django_countries.fields import CountryField
 from django.core.exceptions import ValidationError
@@ -70,7 +71,7 @@ class User(AbstractUser):
     # created_at: would normally add this but django-registration gives us date_joined
     updated_at = models.DateTimeField(auto_now=True)
 
-    USERNAME_FIELD = 'username'
+    USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []
 
     @classmethod
@@ -79,6 +80,16 @@ class User(AbstractUser):
 
     class Meta:
         db_table = 'auth_user'
+
+
+# Because User extends AbstractUser the underlying model includes a `username` field with a `unique` constraint.
+# Because we don't use it, PostgreSQL complains that uniqueness is violated when an empty string comes in. This
+# relies on the pre_save signal to set the `username` field equal to the `email` field. `username` does not and
+# should never elsewhere appear in the codebase.
+@receiver(pre_save, sender=User)
+def mirror_username_from_email(sender, instance, *args, **kwargs):
+    instance.username = instance.email
+
 
 
 class UserSocialNetwork(models.Model):

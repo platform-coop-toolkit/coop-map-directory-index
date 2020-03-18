@@ -13,7 +13,7 @@ class UserSocialNetworkInline(admin.TabularInline):
 
 class CustomUserAdmin(UserAdmin):
     UserAdmin.fieldsets = (
-        (None, {'fields': ('username', 'password')}),
+        (None, {'fields': ('email', 'password')}),
         ('Personal info', {'fields': ('first_name', 'middle_name', 'last_name', 'bio', 'city', 'state', 'postal_code', 'country', 'url', 'geom',)}),
         ('Free text fields', {'fields': ('notes',)}),
         ('Permissions', {'fields': ('is_active', 'is_staff', 'is_superuser', 'groups', 'user_permissions')}),
