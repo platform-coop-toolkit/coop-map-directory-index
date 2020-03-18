@@ -6,5 +6,6 @@
         <p class="subhead">Subhead.</p>
     </div>
     {% include 'maps/search.html' %}
-    <div id="foo">{{ user.first_name }}</div>
+    <div id="foo">Hello {{ user.first_name }}</div>
+    <a href="{% url 'account_change_password' %}">Change password</a>
 {% endblock %}
