@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from accounts.models import User
+from accounts.models import User, Source
 from django.contrib.auth.models import Group
 from mdi.models import Organization, SocialNetwork, Sector, Tool, License, Language
 from rest_framework_gis.serializers import GeoFeatureModelSerializer
@@ -63,6 +63,7 @@ class ToolSerializer(serializers.HyperlinkedModelSerializer):
 
 class OrganizationSerializer(CountryFieldMixin, GeoFeatureModelSerializer):
     category = serializers.StringRelatedField(source='category.name')
+    source = serializers.StringRelatedField(source='source.name')
     type = serializers.StringRelatedField(source='type.name')
     sectors = serializers.StringRelatedField(many=True)
 
@@ -82,4 +83,5 @@ class OrganizationSerializer(CountryFieldMixin, GeoFeatureModelSerializer):
             'postal_code',
             'country',
             'url',
+            'source',
         )
