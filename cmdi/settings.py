@@ -58,9 +58,6 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework_gis',
     'django_countries',
-    'accounts',
-    'mdi',
-    'maps',
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
@@ -72,6 +69,9 @@ INSTALLED_APPS = [
     # 'allauth.socialaccount.providers.reddit',
     'allauth.socialaccount.providers.stackexchange',
     # 'allauth.socialaccount.providers.twitter',
+    'accounts',
+    'mdi',
+    'maps',
     'lockdown',
 ]
 
