@@ -6,31 +6,34 @@ from rest_framework_gis.serializers import GeoFeatureModelSerializer
 from django_countries.serializers import CountryFieldMixin
 
 
-# class UserSerializer(CountryFieldMixin, GeoFeatureModelSerializer):
-class UserSerializer(serializers.HyperlinkedModelSerializer):
-  class Meta:
-    model = User
-    fields = (
-        'id',
-        'email',
-        'first_name',
-        'middle_name',
-        'last_name',
-        'address',
-        'city',
-        'state',
-        'postal_code',
-        'country',
-        'url',
-        'bio',
-        'notes'
-    )
+class UserSerializer(CountryFieldMixin, GeoFeatureModelSerializer):
+    source = serializers.StringRelatedField(source='source.name')
+
+    class Meta:
+        model = User
+        geo_field = 'geom'
+        fields = (
+            'id',
+            'email',
+            'first_name',
+            'middle_name',
+            'last_name',
+            'address',
+            'city',
+            'state',
+            'postal_code',
+            'country',
+            'url',
+            'bio',
+            'notes',
+            'source',
+        )
 
 
 class GroupSerializer(serializers.HyperlinkedModelSerializer):
-  class Meta:
-    model = Group
-    fields = ('id', 'name')
+    class Meta:
+        model = Group
+        fields = ('id', 'name')
 
 
 class SectorSerializer(serializers.HyperlinkedModelSerializer):
