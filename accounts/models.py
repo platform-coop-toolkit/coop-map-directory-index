@@ -83,7 +83,7 @@ class User(AbstractUser):
     geom = models.PointField(blank=True, null=True)
     socialnetworks = models.ManyToManyField(SocialNetwork, through='UserSocialNetwork')
     notes = models.TextField(blank=True, default='')
-    source = models.ForeignKey(Source, on_delete=models.CASCADE)
+    source = models.ForeignKey(Source, on_delete=models.CASCADE, default=5)
     # created_at: would normally add this but django-registration gives us date_joined
     updated_at = models.DateTimeField(auto_now=True)
 
