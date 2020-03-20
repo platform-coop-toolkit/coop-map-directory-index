@@ -3,6 +3,7 @@ from django.db.models.signals import pre_save
 from django.dispatch import receiver
 from django.contrib.auth.models import AbstractUser, UserManager
 from django_countries.fields import CountryField
+from django.db.models.functions import Lower
 from django.core.exceptions import ValidationError
 
 
@@ -77,9 +78,9 @@ class User(AbstractUser):
     city = models.CharField(blank=True, default='', max_length=255)
     state = models.CharField(blank=True, default='', max_length=255)
     postal_code = models.CharField(blank=True, default='', max_length=255)
-    country = CountryField()
+    country = CountryField(blank=True)
     url = models.CharField(blank=True, default='', max_length=255)
-    geom = models.PointField(null=True)
+    geom = models.PointField(blank=True, null=True)
     socialnetworks = models.ManyToManyField(SocialNetwork, through='UserSocialNetwork')
     notes = models.TextField(blank=True, default='')
     source = models.ForeignKey(Source, on_delete=models.CASCADE)
@@ -95,6 +96,7 @@ class User(AbstractUser):
 
     class Meta:
         db_table = 'auth_user'
+        ordering = [Lower('email'), ]
 
 
 # Because User extends AbstractUser the underlying model includes a `username` field with a `unique` constraint.
