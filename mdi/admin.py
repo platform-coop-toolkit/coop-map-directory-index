@@ -26,13 +26,13 @@ class OrganizationAdmin(admin.OSMGeoAdmin):
 
 @admin.register(SocialNetwork)
 class SocialNetworkAdmin(admin.ModelAdmin):
-    list_filter = ('name',)
-    search_fields = ['name','description',]
+    list_filter = ('name', 'format', )
+    search_fields = ['name','description', ]
 
 
 @admin.register(Tool)
 class ToolAdmin(admin.ModelAdmin):
-    list_display = ('name', 'license',)
+    list_display = ('name', 'license', )
     list_filter = ('license', 'pricing') #  'languages_supported',)
     search_fields = ['name', 'description',]
 

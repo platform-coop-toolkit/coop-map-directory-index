@@ -7,7 +7,7 @@ from .models import User, UserSocialNetwork, Source
 
 class UserSocialNetworkInline(admin.TabularInline):
     model = UserSocialNetwork
-    fields = ['socialnetwork', 'identifier',]
+    fields = ['socialnetwork', 'identifier', ]
     extra = 3
 
 
@@ -27,5 +27,5 @@ admin.site.register(User, CustomUserAdmin)
 
 @admin.register(Source)
 class SourceAdmin(admin.ModelAdmin):
-    list_filter = ('name',)
-    search_fields = ['name','description',]
+    list_filter = ('name', )
+    search_fields = ['name','description', ]
