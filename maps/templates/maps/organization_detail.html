@@ -40,7 +40,18 @@
     T: +1 555 555 1212 {# organization.phone #}<br />
     E: {{ organization.email }}<br />
 
+    {% if organization.socialnetworks %}
     <h2>Follow:</h2>
+        <ul>
+        {% for sn in organization.organizationsocialnetwork_set.all %}
+            {% if sn.socialnetwork.format == 'handle' %}
+            <li class="no-bullet">{{ sn.socialnetwork.name }}: <a href="{{ sn.socialnetwork.base_url }}{{ sn.identifier|cut:'@' }}">{{ sn.identifier }}</a></li>
+            {% else %} {# sn.socialnetwork.format == 'url' #}
+            <li class="no-bullet">{{ sn.socialnetwork.name }}: <a href="{{ sn.identifier }}">{{ sn.identifier }}</a></li>
+            {% endif %}
+        {% endfor %}
+        </ul>
+    {% endif %}
 
     <h2>Notes:</h2>
     <p>{# organization.description #}</p>
