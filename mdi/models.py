@@ -145,8 +145,3 @@ class OrganizationSocialNetwork(models.Model):
 
     class Meta:
         verbose_name = "Organization's Social Network"
-
-    def clean(self):
-        super().clean()
-        if self.handle is None and self.url is None:
-            raise ValidationError('At least one of Handle or URL must be specified')
