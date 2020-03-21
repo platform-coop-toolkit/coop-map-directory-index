@@ -3,6 +3,7 @@
 from django.contrib.auth.admin import UserAdmin
 from django.contrib.gis import admin
 from .models import User, UserSocialNetwork, Source
+from django.db.models.functions import Lower
 
 
 class UserSocialNetworkInline(admin.TabularInline):
@@ -19,7 +20,8 @@ class CustomUserAdmin(UserAdmin):
         ('Permissions', {'fields': ('is_active', 'is_staff', 'is_superuser', 'groups', 'user_permissions')}),
         ('Important dates', {'fields': ('last_login', 'date_joined')}),
     )
-    inlines = [UserSocialNetworkInline]
+    inlines = [UserSocialNetworkInline, ]
+    ordering = [Lower('email'), ]
 
 
 admin.site.register(User, CustomUserAdmin)

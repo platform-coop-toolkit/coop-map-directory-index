@@ -2,6 +2,7 @@
 from django.contrib.gis import admin
 from accounts.models import SocialNetwork
 from .models import Organization, OrganizationSocialNetwork, Tool, License, Pricing
+from django.db.models.functions import Lower
 
 
 # Window dressing
@@ -22,6 +23,7 @@ class OrganizationAdmin(admin.OSMGeoAdmin):
     list_filter = ('source', 'type', 'sectors', 'country',)
     search_fields = ['name', 'description',]
     inlines = [OrganizationSocialNetworkInline]
+    ordering = [Lower('name'), ]
 
 
 @admin.register(SocialNetwork)

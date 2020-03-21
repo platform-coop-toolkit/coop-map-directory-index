@@ -3,7 +3,6 @@ from django.db.models.signals import pre_save
 from django.dispatch import receiver
 from django.contrib.auth.models import AbstractUser, UserManager
 from django_countries.fields import CountryField
-from django.db.models.functions import Lower
 from django.core.exceptions import ValidationError
 
 
@@ -95,8 +94,8 @@ class User(AbstractUser):
         return 'email'
 
     class Meta:
+        ordering = ['last_name', ]
         db_table = 'auth_user'
-        ordering = [Lower('email'), ]
 
 
 # Because User extends AbstractUser the underlying model includes a `username` field with a `unique` constraint.
@@ -117,5 +116,5 @@ class UserSocialNetwork(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
-        ordering = ['socialnetwork',]
+        ordering = ['socialnetwork', ]
         verbose_name = "User's Social Network"
