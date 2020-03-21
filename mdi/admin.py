@@ -21,7 +21,7 @@ class OrganizationSocialNetworkInline(admin.TabularInline):
 class OrganizationAdmin(admin.OSMGeoAdmin):
     list_display = ('name', 'city', 'country',)
     list_filter = ('source', 'type', 'sectors', 'country',)
-    search_fields = ['name', 'description',]
+    search_fields = ['name', 'description', ]
     inlines = [OrganizationSocialNetworkInline]
     ordering = [Lower('name'), ]
 
@@ -35,7 +35,7 @@ class SocialNetworkAdmin(admin.ModelAdmin):
 @admin.register(Tool)
 class ToolAdmin(admin.ModelAdmin):
     list_display = ('name', 'license', )
-    list_filter = ('license', 'pricing') #  'languages_supported',)
+    list_filter = ('license', 'pricing') # 'languages_supported',)
     search_fields = ['name', 'description',]
 
 
