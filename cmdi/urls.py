@@ -29,10 +29,10 @@ router.register(r'tools', ToolViewSet)
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
-    path('maps/', include('maps.urls')),
     # path('accounts/', include('django.contrib.auth.urls')),
     url(r'^accounts/', include('allauth.urls')),
+    path('', include('maps.urls')),
 ]
 urlpatterns += [
-    path('', include(router.urls))
+    path('api/', include(router.urls))
 ]

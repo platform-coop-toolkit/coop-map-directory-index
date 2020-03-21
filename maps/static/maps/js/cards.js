@@ -23,7 +23,7 @@ export const generateCards = (map, layers) => {
 
     [...document.getElementsByTagName('article')].forEach(function (article) {
       article.addEventListener('click', function () {
-        window.location = `/maps/organizations/${article.id}`;
+        window.location = `/organizations/${article.id}`;
       });
     });
   }

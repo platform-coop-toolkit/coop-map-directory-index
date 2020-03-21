@@ -37,7 +37,7 @@ map.on('load', function () {
 
   map.addSource('organizations', {
     'type': 'geojson',
-    'data': '/organizations/',
+    'data': '/api/organizations/',
     'cluster': true,
     'clusterMaxZoom': 14,
     'clusterRadius': 50 //,
@@ -52,7 +52,7 @@ map.on('load', function () {
 
   map.addSource('individuals', {
     'type': 'geojson',
-    'data': '/users/',
+    'data': '/api/users/',
     'cluster': true,
     'clusterMaxZoom': 14,
     'clusterRadius': 50
