@@ -28,7 +28,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='user',
             name='role',
-            field=models.ForeignKey(default=7, on_delete=django.db.models.deletion.CASCADE, to='accounts.Role'),
+            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='accounts.Role'),
             preserve_default=False,
         ),
     ]
