@@ -72,6 +72,7 @@ INSTALLED_APPS = [
     'accounts',
     'mdi',
     'maps',
+    'surveys',
     'lockdown',
 ]
 

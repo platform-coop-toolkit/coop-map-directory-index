@@ -32,6 +32,7 @@ urlpatterns = [
     # path('accounts/', include('django.contrib.auth.urls')),
     url(r'^accounts/', include('allauth.urls')),
     path('', include('maps.urls')),
+    path('surveys/', include('surveys.urls')),
 ]
 urlpatterns += [
     path('api/', include(router.urls))
