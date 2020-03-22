@@ -92,6 +92,7 @@ class Tool(models.Model):
     license = models.ForeignKey(License, blank=True, null=True, on_delete=models.CASCADE)
     pricing = models.ForeignKey(Pricing, blank=True, null=True, on_delete=models.CASCADE)
     languages_supported = models.ManyToManyField(Language)
+    sectors = models.ManyToManyField(Sector, blank=True, null=True)
     notes = models.TextField(blank=True, default='')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
