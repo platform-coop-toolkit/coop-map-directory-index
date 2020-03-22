@@ -35,6 +35,20 @@ class MyUserManager(UserManager):
         return user
 
 
+class Role(models.Model):
+    name = models.CharField(blank=False, max_length=255, unique=True)
+    description = models.CharField(blank=True, default='', max_length=255)
+    order = models.IntegerField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ['order']
+
+    def __str__(self):
+        return self.name
+
+
 class SocialNetwork(models.Model):
     name = models.CharField(blank=False, max_length=255)
     description = models.TextField(blank=True, default='')
@@ -80,6 +94,7 @@ class User(AbstractUser):
     country = CountryField(blank=True)
     url = models.CharField(blank=True, default='', max_length=255)
     geom = models.PointField(blank=True, null=True)
+    role = models.ForeignKey(Role, on_delete=models.CASCADE)
     socialnetworks = models.ManyToManyField(SocialNetwork, through='UserSocialNetwork')
     notes = models.TextField(blank=True, default='')
     source = models.ForeignKey(Source, on_delete=models.CASCADE, default=5)
