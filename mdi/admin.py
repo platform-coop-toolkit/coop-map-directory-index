@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from django.contrib.gis import admin
 from accounts.models import SocialNetwork
-from .models import Organization, OrganizationSocialNetwork, Tool, License, Pricing
+from .models import Organization, OrganizationSocialNetwork, Role, Tool, License, Pricing
 from django.db.models.functions import Lower
 
 
@@ -30,6 +30,11 @@ class OrganizationAdmin(admin.OSMGeoAdmin):
 class SocialNetworkAdmin(admin.ModelAdmin):
     list_filter = ('name', 'format', )
     search_fields = ['name','description', ]
+
+
+@admin.register(Role)
+class RoleAdmin(admin.ModelAdmin):
+    list_display = ('name', 'order', 'description')
 
 
 @admin.register(Tool)

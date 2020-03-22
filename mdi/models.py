@@ -21,6 +21,20 @@ class Category(models.Model):
         return self.name
 
 
+class Role(models.Model):
+    name = models.CharField(blank=False, max_length=255, unique=True)
+    description = models.CharField(blank=True, default='', max_length=255)
+    order = models.IntegerField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ['order']
+
+    def __str__(self):
+        return self.name
+
+
 class Type(models.Model):
     name = models.CharField(blank=False, max_length=255, unique=True)
     description = models.CharField(blank=True, default='', max_length=255)
