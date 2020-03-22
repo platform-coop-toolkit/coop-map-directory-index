@@ -42,6 +42,7 @@ class ToolAdmin(admin.ModelAdmin):
 @admin.register(License)
 class LicenseAdmin(admin.ModelAdmin):
     fields = ('spdx', 'name', 'url', )
+    list_display = ('spdx', 'name', 'url', )
     list_filter = ('spdx', )
     search_fields = ['spdx', 'name', ]
 
