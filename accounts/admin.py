@@ -13,7 +13,7 @@ class UserSocialNetworkInline(admin.TabularInline):
 
 
 class CustomUserAdmin(UserAdmin):
-    list_display = ['username', 'first_name', 'last_name', 'role']
+    list_display = ['username', 'first_name', 'last_name', 'role', 'is_active', ]
     list_filter = ['role', 'is_active', 'is_staff', ]
     UserAdmin.fieldsets = (
         (None, {'fields': ('email', 'password')}),
