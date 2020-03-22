@@ -25,10 +25,4 @@ class Migration(migrations.Migration):
                 'ordering': ['order'],
             },
         ),
-        migrations.AddField(
-            model_name='user',
-            name='role',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='accounts.Role'),
-            preserve_default=False,
-        ),
     ]
