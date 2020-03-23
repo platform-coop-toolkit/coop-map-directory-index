@@ -1,7 +1,10 @@
+{% load static %}
   <header role="banner">
     <div class="container">
       <a class="link link--brand" aria-current="page" href="{% url 'index' %}">
-{% include './svg/pcc.svg' %}
+        <svg class="icon icon--pcc icon--lg" viewBox="0 0 32 32" aria-hidden="" focusable="">
+            <use href="{% static 'maps/images/pcc.svg#pcc' %}" />
+        </svg>
         <span class="brand__title screen-reader-text">Platform Cooperatives Worldwide</span></a>
       <div class="inner">
         <nav aria-labelledby="menu-primary-label">
@@ -14,11 +17,8 @@
                 <path d="m17 15h-14a1 1 0 0 0 0 2h14a1 1 0 0 0 0-2z"></path>
               </g>
             </svg>
-            <svg class="icon icon--close" focusable="false" aria-hidden="true" viewBox="0 0 20 20"
-                 xmlns="http://www.w3.org/2000/svg">
-              <path id="close"
-                    d="m11.41 10 4.3-4.29a1 1 0 1 0 -1.42-1.42l-4.29 4.3-4.29-4.3a1 1 0 0 0 -1.42 1.42l4.3 4.29-4.3 4.29a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l4.29-4.3 4.29 4.3a1 1 0 0 0 1.42 0 1 1 0 0 0 0-1.42z"
-                    fill="currentColor"></path>
+            <svg class="icon icon--close" viewBox="0 0 20 20" aria-hidden="true" focusable="false">
+              <use href="{% static 'maps/images/close.svg#close' %}" />
             </svg>
             <span id="menu-primary-label" class="menu-toggle__label">Menu</span>
           </button>
@@ -26,7 +26,9 @@
             <li class=" menu-item menu-item-type-post_type_archive menu-item-object-lc_resource menu-item-has-children menu__submenu-wrapper">
               <button class="menu__item" aria-expanded="false">
                 Explore
-{% include './svg/chevron-down.svg' %}
+                <svg class="icon icon--chevron-down" viewBox="0 0 20 20" aria-hidden="true" focusable="false">
+                  <use href="{% static 'maps/images/chevron-down.svg#chevron-down' %}" />
+                </svg>
               </button>
               <ul class="menu__submenu">
                 <li class=" menu-item menu-item-type-post_type_archive menu-item-object-lc_resource"><a
@@ -45,13 +47,15 @@
             <li class=" menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children menu__submenu-wrapper">
               <button class="menu__item" aria-expanded="false">
                 My connections
-{% include './svg/chevron-down.svg' %}
+                <svg class="icon icon--chevron-down" viewBox="0 0 20 20" aria-hidden="true" focusable="false">
+                  <use href="{% static 'maps/images/chevron-down.svg#chevron-down' %}" />
+                </svg>
               </button>
               <ul class="menu__submenu">
                 <li class=" menu-item menu-item-type-post_type menu-item-object-page"><a
                     href="https://stage.commons.platform.coop/en/my-resources/favorites/" class="menu__item">Favorites</a>
                 </li>
-                <li class=" menu-item menu-item-type-post_type menu-item-object-page"><a
+                <li class="menu-item menu-item-type-post_type menu-item-object-page"><a
                     href="https://stage.commons.platform.coop/en/my-resources/saved-searches/" class="menu__item">Saved
                   searches</a></li>
               </ul>
@@ -70,8 +74,12 @@
               <button class="menu__item" aria-expanded="false">
 
                 <span class="menu__label">Language</span>
-{% include './svg/language.svg' %}
-{% include './svg/chevron-down.svg' %}
+                <svg class="icon icon--language icon--lg" viewBox="0 0 30 30" aria-hidden="true" focusable="false">
+                  <use href="{% static 'maps/images/language.svg#language' %}" />
+                </svg>
+                <svg class="icon icon--chevron-down" viewBox="0 0 20 20" aria-hidden="true" focusable="false">
+                  <use href="{% static 'maps/images/chevron-down.svg#chevron-down' %}" />
+                </svg>
               </button>
 
               <ul class="menu__submenu">
