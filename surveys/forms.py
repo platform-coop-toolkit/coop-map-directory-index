@@ -18,7 +18,7 @@ class UserForm(ModelForm):
             'role': _('Are you a…'),
         }
         widgets = {
-            # 'role': RadioSelect()
+            'role': RadioSelect()
         }
 
 
