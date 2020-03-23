@@ -14,7 +14,7 @@
     <span>
         <span class="screen-reader-text">location: </span>
         <svg class="icon icon--location" aria-hidden="true" viewBox="0 0 20 20" focusable="false">
-            <use href="/images/location.svg#location"/>
+            <use href="{% static 'maps/images/location.svg#location' %}"/>
         </svg>
         {% if user.city or user.state or user.country %}
             {% if user.city %}{{ user.city }}, {% endif %}
