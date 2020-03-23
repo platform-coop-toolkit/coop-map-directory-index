@@ -14,7 +14,7 @@ admin.site.index_title= 'Map / Directory / Index'
 # Create Admin-related classes
 @admin.register(Category)
 class CategoryNetworkAdmin(admin.ModelAdmin):
-    list_display = ('name', 'description', )
+    list_display = ('name', 'order', 'description', )
 
 
 class OrganizationSocialNetworkInline(admin.TabularInline):
