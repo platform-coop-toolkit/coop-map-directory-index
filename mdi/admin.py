@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from django.contrib.gis import admin
 from accounts.models import SocialNetwork
-from .models import Organization, OrganizationSocialNetwork, Tool, License, Pricing
+from .models import Category, Organization, OrganizationSocialNetwork, Tool, License, Pricing
 from django.db.models.functions import Lower
 
 
@@ -12,6 +12,11 @@ admin.site.index_title= 'Map / Directory / Index'
 
 
 # Create Admin-related classes
+@admin.register(Category)
+class CategoryNetworkAdmin(admin.ModelAdmin):
+    list_display = ('name', 'description', )
+
+
 class OrganizationSocialNetworkInline(admin.TabularInline):
     model = OrganizationSocialNetwork
     extra = 3
@@ -45,6 +50,7 @@ class LicenseAdmin(admin.ModelAdmin):
     list_display = ('spdx', 'name', 'url', )
     list_filter = ('spdx', )
     search_fields = ['spdx', 'name', ]
+
 
 @admin.register(Pricing)
 class PricingAdmin(admin.ModelAdmin):

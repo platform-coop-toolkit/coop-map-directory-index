@@ -58,10 +58,20 @@ class ToolSerializer(serializers.HyperlinkedModelSerializer):
     license = serializers.StringRelatedField(source='license.spdx')
     pricing = serializers.StringRelatedField(source='pricing.name')
     languages_supported = LanguageSerializer(many=True)
+    sectors = serializers.StringRelatedField(many=True)
 
     class Meta:
         model = Tool
-        fields = ('name', 'description', 'url', 'license', 'pricing', 'languages_supported', 'notes', )
+        fields = (
+            'name',
+            'description',
+            'url',
+            'license',
+            'pricing',
+            'languages_supported',
+            'sectors',
+            'notes',
+        )
 
 
 class OrganizationSerializer(CountryFieldMixin, GeoFeatureModelSerializer):
