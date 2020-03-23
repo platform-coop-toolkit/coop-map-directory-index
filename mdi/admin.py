@@ -25,7 +25,7 @@ class OrganizationSocialNetworkInline(admin.TabularInline):
 @admin.register(Organization)
 class OrganizationAdmin(admin.OSMGeoAdmin):
     list_display = ('name', 'city', 'country',)
-    list_filter = ('source', 'type', 'sectors', 'country',)
+    list_filter = ('source', 'category', 'type', 'sectors', 'country',)
     search_fields = ['name', 'description', ]
     inlines = [OrganizationSocialNetworkInline]
     ordering = [Lower('name'), ]
