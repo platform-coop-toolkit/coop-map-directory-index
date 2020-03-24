@@ -121,7 +121,7 @@ class Organization(models.Model):
     founded = models.DateTimeField(blank=True, null=True)
     num_workers = models.IntegerField(blank=True, null=True)
     # num_impacted = models.IntegerField(blank=True)
-    category = models.ForeignKey(Category, on_delete=models.CASCADE, blank=True, null=True)
+    categories = models.ManyToManyField(Category, blank=True, null=True)
     source = models.ForeignKey(Source, on_delete=models.CASCADE, blank=True, null=True)
     type = models.ForeignKey(Type, on_delete=models.CASCADE, blank=True, null=True)
     sectors = models.ManyToManyField(Sector, blank=True, null=True)
