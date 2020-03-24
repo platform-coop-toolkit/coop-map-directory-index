@@ -3,7 +3,7 @@ export const generateCards = (map, layers) => {
   if (visibleFeatures) {
     let htmlString = '<ul class="cards">\n';
     visibleFeatures.forEach(function (f) {
-      htmlString += `<li class="card__wrapper"><article id="${f.id}" class="card"><header><h3 class="card___title"><span class="card__format">${f.properties.category.toUpperCase()}</span><span class="screen-reader-text">: </span></h3></header><aside class="card__aside">\n<h4>${f.properties.name}</h4><br />`;
+      htmlString += `<li class="card__wrapper"><article id="${f.id}" class="card"><header><h3 class="card___title"><span class="card__format">${f.properties.categories.replace('[', '').replace(']', '').replace(/","/g, ', ').replace(/"/g, '').toUpperCase()}</span><span class="screen-reader-text">: </span></h3></header><aside class="card__aside">\n<h4>${f.properties.name}</h4><br />`;
       if (f.properties.sectors) {
         htmlString += `<strong>${f.properties.sectors.replace('[', '').replace(']', '').replace(/","/g, ', ').replace(/"/g, '')}</strong><br />`;
       }
@@ -52,14 +52,14 @@ export const generatePopupHtml = (f) => {
   if (f.properties.country) {
     htmlString += `${f.properties.country} `
   }
-  if (f.properties.type || f.properties.category || f.properties.sectors) {
+  if (f.properties.type || f.properties.categories || f.properties.sectors) {
     htmlString += '<hr>';
   }
   if (f.properties.type) {
     htmlString += `Type: ${f.properties.type}<br />`
   }
-  if (f.properties.category) {
-    htmlString += `Category: ${f.properties.category}<br />`
+  if (f.properties.categories) {
+    htmlString += `Category: ${f.properties.categories.replace('[', '').replace(']', '').replace(/","/g, ', ').replace(/"/g, '')}`;
   }
   if (f.properties.sectors) {
     htmlString += `Sectors: ${f.properties.sectors.replace('[', '').replace(']', '').replace(/","/g, ', ').replace(/"/g, '')}`;
