@@ -75,7 +75,7 @@ class ToolSerializer(serializers.HyperlinkedModelSerializer):
 
 
 class OrganizationSerializer(CountryFieldMixin, GeoFeatureModelSerializer):
-    category = serializers.StringRelatedField(source='category.name')
+    categories = serializers.StringRelatedField(many=True)
     source = serializers.StringRelatedField(source='source.name')
     type = serializers.StringRelatedField(source='type.name')
     sectors = serializers.StringRelatedField(many=True)
@@ -87,7 +87,7 @@ class OrganizationSerializer(CountryFieldMixin, GeoFeatureModelSerializer):
             'id',
             'name',
             'description',
-            'category',
+            'categories',
             'type',
             'sectors',
             'address',
