@@ -55,6 +55,7 @@ class SocialNetwork(models.Model):
     url = models.CharField(blank=False, max_length=255)
     format = models.CharField(blank=False, max_length=8, choices=[('handle', 'handle'), ('url', 'url')])
     base_url = models.CharField(blank=True, max_length=255)
+    font_awesome = models.CharField(blank=True, max_length=32)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 

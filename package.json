@@ -46,6 +46,7 @@
     "not dead"
   ],
   "dependencies": {
+    "@fortawesome/fontawesome-free": "^5.13.0",
     "d3": "^5.15.0",
     "mapbox-gl": "^1.8.1"
   },
