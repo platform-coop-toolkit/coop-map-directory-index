@@ -59,9 +59,9 @@
         <ul>
         {% for sn in user.usersocialnetwork_set.all %}
             {% if sn.socialnetwork.format == 'handle' %}
-            <li class="no-bullet">{{ sn.socialnetwork.name }}: <a href="{{ sn.socialnetwork.base_url }}{{ sn.identifier|cut:'@' }}">{{ sn.identifier }}</a></li>
+                <li class="no-bullet"><i class="fab fa-{{ sn.socialnetwork.font_awesome }}"></i><span class="screen-reader-text">{{ sn.socialnetwork.name }}</span> <a rel="external" href="{{ sn.socialnetwork.base_url }}{{ sn.identifier|cut:'@' }}">{{ sn.identifier }}</a></li>
             {% else %} {# sn.socialnetwork.format == 'url' #}
-            <li class="no-bullet">{{ sn.socialnetwork.name }}: <a href="{{ sn.identifier }}">{{ sn.identifier }}</a></li>
+                <li class="no-bullet"><i class="fab fa-{{ sn.socialnetwork.font_awesome }}"></i><span class="screen-reader-text">{{ sn.socialnetwork.name }}</span> <a rel="external" href="{{ sn.identifier }}">{{ sn.identifier }}</a></li>
             {% endif %}
         {% endfor %}
         </ul>
