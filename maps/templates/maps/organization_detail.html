@@ -21,8 +21,12 @@
     <div class="tags">
         <span class="badge">Services: Data not collected</span><br />
         <span class="badge">Type: {{ organization.type }}</span><br />
-        <span class="badge">Years in operation: Data not collected</span><br />
-        <span class="badge">Number of members: Data not collected</span><br />
+        {% if organization.founded %}
+        <span class="badge">Founded: {{ organization.founded }} (years in operation)</span><br />
+        {% endif %}
+        {% if organization.num_workers %}
+        <span class="badge">Number of members: {{ organization.num_workers }}</span><br />
+        {% endif %}
     </div>
 
     <h2>Description:</h2>
