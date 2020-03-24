@@ -30,7 +30,11 @@
     </div>
 
     <h2>Description:</h2>
+    {% if organization.description %}
     <p>{{ organization.description }}</p>
+    {% else %}
+    <p>In hac habitasse platea dictumst. Praesent non odio consequat, malesuada leo a, accumsan mi. Fusce iaculis eleifend luctus. Sed libero sem, convallis id ornare sit amet, tincidunt a est. Aliquam sagittis eleifend vulputate. Aenean volutpat nulla sit amet ligula rhoncus, nec interdum mi dignissim. </p>
+    {% endif %}
 
     <h2>Challenges:</h2>
     <p>Data not collected</p>
@@ -58,13 +62,11 @@
     {% endif %}
 
     <h2>Notes:</h2>
-    <p>{# organization.description #}</p>
-{#    {% if organization.notes %}#}
-{#    <h2>Notes:</h2>#}
-{#    <p>#}
-{#        {{ user.notes }}#}
-{#    </p>#}
-{#    {% endif %}#}
+    {% if organization.notes %}
+    <p>{{ organization.notes }}</p>
+    {% else %}
+    <p>Curabitur rhoncus felis eget orci aliquam efficitur. Aenean sit amet pellentesque massa, eu scelerisque arcu. Donec convallis gravida cursus. Praesent blandit est ante, sit amet blandit dui sodales sed. Vivamus efficitur at tortor in aliquet.</p>
+    {% endif %}
 
     <div class="spacer"></div>
     <small>Last updated: {{ organization.updated_at }}</small>

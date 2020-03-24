@@ -24,14 +24,14 @@
     </span>
 
     <div class="tags">
-        <span class="badge">Role: Data not collected</span><br />
+        <span class="badge">Role: {{ user.role }}</span><br />
     </div>
 
-    {% if user.bio %}
     <h2>Bio:</h2>
-    <p>
-        {{ user.bio }}
-    </p>
+    {% if user.bio %}
+    <p>{{ user.bio }}</p>
+    {% else %}
+    <p>Nam ligula ligula, accumsan eget libero nec, laoreet aliquam ante. Integer ac laoreet dui, eu tincidunt ante. Aenean vel augue eros. Duis sollicitudin velit sed tortor mollis, a vulputate urna facilisis. Morbi eu nisl et urna venenatis vehicula sed non nunc. Vestibulum id ornare diam. In sodales rhoncus lorem, vitae pulvinar sem molestie at. Sed cursus purus ac lacus auctor, vel ornare lorem feugiat.</p>
     {% endif %}
 
     <h2>Looking for:</h2>
@@ -67,11 +67,11 @@
         </ul>
     {% endif %}
 
-    {% if user.notes %}
     <h2>Notes:</h2>
-    <p>
-        {{ user.notes }}
-    </p>
+    {% if user.notes %}
+    <p>{{ user.notes }}</p>
+    {% else %}
+    <p>In hac habitasse platea dictumst. Praesent non odio consequat, malesuada leo a, accumsan mi. Fusce iaculis eleifend luctus. Sed libero sem, convallis id ornare sit amet, tincidunt a est. Aliquam sagittis eleifend vulputate. Aenean volutpat nulla sit amet ligula rhoncus, nec interdum mi dignissim. </p>
     {% endif %}
 
     <div class="spacer"></div>
