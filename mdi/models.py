@@ -27,12 +27,13 @@ class Category(models.Model):
 class LegalStatus(models.Model):
     name = models.CharField(blank=False, max_length=255, unique=True)
     description = models.CharField(blank=True, default='', max_length=255)
+    order = models.IntegerField()
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
         verbose_name_plural = "Legal Statuses"
-        ordering = ['name']
+        ordering = ['order']
 
     def __str__(self):
         return self.name
