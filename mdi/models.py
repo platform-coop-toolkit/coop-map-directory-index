@@ -17,7 +17,22 @@ class Category(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
+        verbose_name_plural = "Categories"
         ordering = ['order']
+
+    def __str__(self):
+        return self.name
+
+
+class LegalStatus(models.Model):
+    name = models.CharField(blank=False, max_length=255, unique=True)
+    description = models.CharField(blank=True, default='', max_length=255)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        verbose_name_plural = "Legal Statuses"
+        ordering = ['name']
 
     def __str__(self):
         return self.name
@@ -140,6 +155,7 @@ class Organization(models.Model):
     source = models.ForeignKey(Source, on_delete=models.CASCADE, blank=True, null=True)
     type = models.ForeignKey(Type, on_delete=models.CASCADE, blank=True, null=True)
     sectors = models.ManyToManyField(Sector, blank=True, null=True)
+    legal_status = models.ManyToManyField(LegalStatus, blank=True, null=True)
     socialnetworks = models.ManyToManyField(SocialNetwork, through='OrganizationSocialNetwork')
     notes = models.TextField(blank=True, default='')
     admin_email = models.CharField(default='', max_length=255)
