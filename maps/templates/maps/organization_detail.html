@@ -33,6 +33,14 @@
         {% if organization.num_workers %}
         <span class="badge">Number of members: {{ organization.num_workers }}</span><br />
         {% endif %}
+        {% if organization.stage %}
+        <span class="badge">
+            Stage: {{ organization.stage }}
+            <svg class="icon icon--info" aria-hidden="" viewBox="0 0 20 20" focusable="false">
+              <use href="{% static 'maps/images/info.svg#info' %}"/>
+            </svg>
+        </span><br />
+        {% endif %}
     </div>
 
     <h2>Description:</h2>
@@ -43,9 +51,6 @@
     {% endif %}
 
     <h2>Challenges:</h2>
-    <p>Data not collected</p>
-
-    <h2>Resources:</h2>
     <p>Data not collected</p>
 
     <h2>Contact:</h2>

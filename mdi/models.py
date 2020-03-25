@@ -22,6 +22,19 @@ class Category(models.Model):
         return self.name
 
 
+class Stage(models.Model):
+    name = models.CharField(blank=False, max_length=255, unique=True)
+    description = models.CharField(blank=True, default='', max_length=255)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ['name']
+
+    def __str__(self):
+        return self.name
+
+
 class Type(models.Model):
     name = models.CharField(blank=False, max_length=255, unique=True)
     description = models.CharField(blank=True, default='', max_length=255)
@@ -122,6 +135,7 @@ class Organization(models.Model):
     num_workers = models.IntegerField(blank=True, null=True)
     # num_impacted = models.IntegerField(blank=True)
     categories = models.ManyToManyField(Category, blank=True, null=True)
+    stage = models.ForeignKey(Stage, on_delete=models.CASCADE, blank=True, null=True)
     source = models.ForeignKey(Source, on_delete=models.CASCADE, blank=True, null=True)
     type = models.ForeignKey(Type, on_delete=models.CASCADE, blank=True, null=True)
     sectors = models.ManyToManyField(Sector, blank=True, null=True)
