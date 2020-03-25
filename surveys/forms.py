@@ -12,13 +12,20 @@ class UserForm(ModelForm):
             'middle_name',
             'last_name',
             'email',
-            'role'
+        ]
+
+
+class RoleForm(ModelForm):
+    class Meta:
+        model = User
+        fields = [
+            'role',
         ]
         labels = {
             'role': _('Are you a…'),
         }
         widgets = {
-            'role': RadioSelect()
+            'role': RadioSelect(attrs={ 'class': 'radio' })
         }
 
 
@@ -51,6 +58,3 @@ class OrganizationForm(ModelForm):
             'url': TextInput(attrs={'placeholder': 'e.g., https://example.coop/'}),
             'founded': DateTimeInput(format="%d/%m/%Y", attrs={'placeholder':"DD/MM/YY"})
         }
-
-
-

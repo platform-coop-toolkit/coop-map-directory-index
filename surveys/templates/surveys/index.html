@@ -44,6 +44,14 @@
             <p>Please provide the contact information for the best person to reach out to should we have follow-up questions about the answers you have provided to the short form of our survey. This contact information will not be part of the index. It will not be published online.</p>
             <div class="spacer"></div>
             {{ user_form }}
+            <ul class="input-group">
+            {% for radio in role_form.role %}
+                <li>{{ radio.tag }}
+                    <label for="{{ radio.id_for_label }}">{{ radio.choice_label }}</label>
+                </li>
+            {% endfor %}
+            </ul>
+
         </fieldset>
 
         <div class="spacer"></div>
