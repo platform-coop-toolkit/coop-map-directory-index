@@ -28,7 +28,7 @@
         <span class="badge">Services: Data not collected</span><br />
         <span class="badge">Type: {{ organization.type }}</span><br />
         {% if organization.founded %}
-        <span class="badge">Founded: {{ organization.founded }} (years in operation)</span><br />
+        <span class="badge">Years in operation: {{ organization.years_operating }}</span><br />
         {% endif %}
         {% if organization.num_workers %}
         <span class="badge">Number of members: {{ organization.num_workers }}</span><br />

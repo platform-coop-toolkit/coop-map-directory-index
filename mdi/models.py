@@ -2,6 +2,7 @@ from django.contrib.gis.db import models
 from accounts.models import User, SocialNetwork, Source
 from django.conf.global_settings import LANGUAGES
 from django_countries.fields import CountryField
+from datetime import date
 from django.core.exceptions import ValidationError
 from django.contrib.postgres.fields import HStoreField
 from django.urls import reverse
@@ -131,7 +132,7 @@ class Organization(models.Model):
     lat = models.FloatField(blank=True, null=True)
     lng = models.FloatField(blank=True, null=True)
     geom = models.PointField(blank=True, null=True)
-    founded = models.DateTimeField(blank=True, null=True)
+    founded = models.DateField(blank=True, null=True)
     num_workers = models.IntegerField(blank=True, null=True)
     # num_impacted = models.IntegerField(blank=True)
     categories = models.ManyToManyField(Category, blank=True, null=True)
@@ -144,6 +145,13 @@ class Organization(models.Model):
     admin_email = models.CharField(default='', max_length=255)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+    def years_operating(self):
+        if (self.founded):
+            return (date.today() - self.founded).days
+        else:
+            return None
+
 
     class Meta:
         ordering = ['name']
