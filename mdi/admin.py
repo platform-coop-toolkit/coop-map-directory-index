@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from django.contrib.gis import admin
 from accounts.models import SocialNetwork
-from .models import Category, LegalStatus, Organization, OrganizationSocialNetwork, Stage, Tool, License, Pricing
+from .models import Category, Challenges, LegalStatus, Organization, OrganizationSocialNetwork, Stage, Tool, License, Pricing
 from django.db.models.functions import Lower
 
 
@@ -17,9 +17,14 @@ class CategoryNetworkAdmin(admin.ModelAdmin):
     list_display = ('name', 'order', 'description', )
 
 
+@admin.register(Challenges)
+class LegalStatusAdmin(admin.ModelAdmin):
+    list_display = ('name', 'order', 'description', )
+
+
 @admin.register(LegalStatus)
 class LegalStatusAdmin(admin.ModelAdmin):
-    list_display = ('name', 'description',)
+    list_display = ('name', 'order', 'description', )
 
 
 class OrganizationSocialNetworkInline(admin.TabularInline):
