@@ -93,7 +93,7 @@ class License(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
-        ordering = ['spdx',]
+        ordering = ['spdx', ]
 
     def __str__(self):
         return self.spdx

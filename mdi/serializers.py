@@ -55,8 +55,8 @@ class LicenseSerializer(serializers.HyperlinkedModelSerializer):
 
 
 class ToolSerializer(serializers.HyperlinkedModelSerializer):
-    license = serializers.StringRelatedField(source='license.spdx')
-    pricing = serializers.StringRelatedField(source='pricing.name')
+    license = serializers.StringRelatedField()
+    pricing = serializers.StringRelatedField()
     languages_supported = LanguageSerializer(many=True)
     sectors = serializers.StringRelatedField(many=True)
 
@@ -76,8 +76,9 @@ class ToolSerializer(serializers.HyperlinkedModelSerializer):
 
 class OrganizationSerializer(CountryFieldMixin, GeoFeatureModelSerializer):
     categories = serializers.StringRelatedField(many=True)
-    source = serializers.StringRelatedField(source='source.name')
-    type = serializers.StringRelatedField(source='type.name')
+    source = serializers.StringRelatedField()
+    stage = serializers.StringRelatedField()
+    type = serializers.StringRelatedField()
     sectors = serializers.StringRelatedField(many=True)
 
     class Meta:
@@ -97,4 +98,5 @@ class OrganizationSerializer(CountryFieldMixin, GeoFeatureModelSerializer):
             'country',
             'url',
             'source',
+            'stage',
         )
