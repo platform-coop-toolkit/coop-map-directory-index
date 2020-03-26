@@ -30,25 +30,21 @@
         <tr><td><strong>Sectors:</strong> {{ organization.sectors_to_s }}</td></tr>
         <tr><td><strong>Type:</strong> {{ organization.type|default:'Unknown' }}</td></tr>
         <tr><td><strong>Years in operation:</strong> {{ organization.years_operating }}</td></tr>
-        {% if organization.num_workers %}
-          <tr><td><strong>Number of members:</strong> {{ organization.num_workers }}</td>
-        {% endif %}
-        {% if organization.stage %}
+        <tr><td><strong>Number of members:</strong> {{ organization.num_workers|default:'Unknown' }}</td>
         <tr><td>
-          <strong>Development stage:</strong> {{ organization.stage }}
+          <strong>Development stage:</strong> {{ organization.stage|default:'Unknown' }}
           <svg class="icon icon--info" aria-hidden="" viewBox="0 0 20 20" focusable="false">
             <use href="{% static 'maps/images/info.svg#info' %}"/>
           </svg>
       </td></tr>
-        {% endif %}
-        {% if organization.legal_status %}
-        <tr><td>
-          <strong>Legal status:</strong> {{ organization.legal_status_to_s }}
-          <svg class="icon icon--info" aria-hidden="" viewBox="0 0 20 20" focusable="false">
-            <use href="{% static 'maps/images/info.svg#info' %}"/>
-          </svg>
-        </td></tr>
-        {% endif %}
+      {% if organization.legal_status %}
+      <tr><td>
+        <strong>Legal status:</strong> {{ organization.legal_status_to_s }}
+        <svg class="icon icon--info" aria-hidden="" viewBox="0 0 20 20" focusable="false">
+          <use href="{% static 'maps/images/info.svg#info' %}"/>
+        </svg>
+      </td></tr>
+      {% endif %}
       </table>
     </div>
 
