@@ -33,23 +33,23 @@
         <span class="badge">Role: {{ user.role }}</span><br />
     </div>
 
-    <h2>Bio:</h2>
+    <h2>About me</h2>
     {% if user.bio %}
     <p>{{ user.bio }}</p>
     {% else %}
     <p>{% lorem %}</p>
     {% endif %}
 
-    <h2>Looking for:</h2>
+    <h2>Looking for</h2>
     <p>Data not collected</p>
 
-    <h2>Offering:</h2>
+    <h2>Offering</h2>
     <p>Data not collected</p>
 
-    <h2>Connections:</h2>
+    <h2>Connections</h2>
     <p>Data not collected</p>
 
-    <h2>Contact:</h2>
+    <h2>Contact</h2>
     {% if user.address or user.city or user.state or user.country or user.postal_code %}
         {% if user.address %}{{ user.address }}<br />{% endif %}
         {% if user.city %}{{ user.city }}, {% endif %}
@@ -61,7 +61,7 @@
     E: {{ user.email }}<br />
 
     {% if user.socialnetworks %}
-    <h2>Follow:</h2>
+    <h2>Follow</h2>
         <ul>
         {% for sn in user.usersocialnetwork_set.all %}
             {% if sn.socialnetwork.format == 'handle' %}
@@ -73,7 +73,7 @@
         </ul>
     {% endif %}
 
-    <h2>Notes:</h2>
+    <h2>Notes</h2>
     {% if user.notes %}
     <p>{{ user.notes }}</p>
     {% else %}

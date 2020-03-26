@@ -24,32 +24,32 @@
         </svg> {{ organization.city }}, {{ organization.country }}
     </span>
 
+    <div class="spacer"></div>
     <div class="tags">
-        <span class="badge"><strong>Sectors:</strong> {{ organization.sectors_to_s }}</span>
-        <span class="badge"><strong>Type:</strong> {{ organization.type }}</span><br />
-        <span class="badge"><strong>Years in operation:</strong> {{ organization.years_operating }}</span><br />
-
+      <table width="100%">
+        <tr><td><strong>Sectors:</strong> {{ organization.sectors_to_s }}</td></tr>
+        <tr><td><strong>Type:</strong> {{ organization.type|default:'Unknown' }}</td></tr>
+        <tr><td><strong>Years in operation:</strong> {{ organization.years_operating }}</td></tr>
         {% if organization.num_workers %}
-            <span class="badge"><strong>Number of members:</strong> {{ organization.num_workers }}</span><br />
+          <tr><td><strong>Number of members:</strong> {{ organization.num_workers }}</td>
         {% endif %}
-
         {% if organization.stage %}
-        <span class="badge">
-            <strong>Development stage:</strong> {{ organization.stage }}
-            <svg class="icon icon--info" aria-hidden="" viewBox="0 0 20 20" focusable="false">
-              <use href="{% static 'maps/images/info.svg#info' %}"/>
-            </svg>
-        </span><br />
+        <tr><td>
+          <strong>Development stage:</strong> {{ organization.stage }}
+          <svg class="icon icon--info" aria-hidden="" viewBox="0 0 20 20" focusable="false">
+            <use href="{% static 'maps/images/info.svg#info' %}"/>
+          </svg>
+      </td></tr>
         {% endif %}
-
         {% if organization.legal_status %}
-        <span class="badge">
-            <strong>Legal status:</strong> {{ organization.legal_status_to_s }}
-        <svg class="icon icon--info" aria-hidden="" viewBox="0 0 20 20" focusable="false">
-          <use href="{% static 'maps/images/info.svg#info' %}"/>
-        </svg>
-        </span><br />
+        <tr><td>
+          <strong>Legal status:</strong> {{ organization.legal_status_to_s }}
+          <svg class="icon icon--info" aria-hidden="" viewBox="0 0 20 20" focusable="false">
+            <use href="{% static 'maps/images/info.svg#info' %}"/>
+          </svg>
+        </td></tr>
         {% endif %}
+      </table>
     </div>
 
     <h2>Description</h2>
@@ -60,7 +60,7 @@
     {% endif %}
 
     <h2>Challenges</h2>
-    {% if organization.challenges %}
+    {% if organization.challenges.count > 0 %}
       <ul>
       {% for c in organization.challenges.all %}
         <li class="no-bullet">
@@ -73,6 +73,8 @@
         </li>
       {% endfor %}
       </ul>
+    {% else %}
+      <p>Unknown</p>
     {% endif %}
 
     <h2>Contact</h2>

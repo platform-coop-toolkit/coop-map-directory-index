@@ -186,22 +186,30 @@ class Organization(models.Model):
             return 'Unknown'
 
     def sectors_to_s(self):
-        sector_string = ''
-        for s in self.sectors.all():
-            sector_string += '{}, '.format(s)
-        return sector_string.rstrip(', ')
+        if self.sectors.count() > 0:
+            sector_string = ''
+            for s in self.sectors.all():
+                sector_string += '{}, '.format(s)
+            sector_string = sector_string.rstrip(', ')
+        else:
+            sector_string = 'Unknown'
+        return sector_string
 
     def legal_status_to_s(self):
-        legal_status_string = ''
-        for s in self.legal_status.all():
-            legal_status_string += '{}, '.format(s)
-        return legal_status_string.rstrip(', ')
+        if self.legal_status.count() > 0:
+            legal_status_string = ''
+            for ls in self.legal_status.all():
+                legal_status_string += '{}, '.format(ls)
+            legal_status_string = legal_status_string.rstrip(', ')
+        else:
+            legal_status_string = 'Unknown'
+        return legal_status_string
 
     class Meta:
         ordering = ['name']
 
     def __str__(self):
-        return '{}, {}'.format(self.name, self.city)
+        return self.name
 
 
 class OrganizationSocialNetwork(models.Model):
