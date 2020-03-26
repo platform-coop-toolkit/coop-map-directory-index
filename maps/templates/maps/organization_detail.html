@@ -25,42 +25,66 @@
     </span>
 
     <div class="tags">
-        <span class="badge">Services: Data not collected</span><br />
-        <span class="badge">Type: {{ organization.type }}</span><br />
-        {% if organization.founded %}
-        <span class="badge">Years in operation: {{ organization.years_operating }}</span><br />
-        {% endif %}
+        <span class="badge"><strong>Sectors:</strong> {{ organization.sectors_to_s }}</span>
+        <span class="badge"><strong>Type:</strong> {{ organization.type }}</span><br />
+        <span class="badge"><strong>Years in operation:</strong> {{ organization.years_operating }}</span><br />
+
         {% if organization.num_workers %}
-        <span class="badge">Number of members: {{ organization.num_workers }}</span><br />
+            <span class="badge"><strong>Number of members:</strong> {{ organization.num_workers }}</span><br />
         {% endif %}
+
         {% if organization.stage %}
         <span class="badge">
-            Stage: {{ organization.stage }}
+            <strong>Development stage:</strong> {{ organization.stage }}
             <svg class="icon icon--info" aria-hidden="" viewBox="0 0 20 20" focusable="false">
               <use href="{% static 'maps/images/info.svg#info' %}"/>
             </svg>
         </span><br />
         {% endif %}
+
+        {% if organization.legal_status %}
+        <span class="badge">
+            <strong>Legal status:</strong> {{ organization.legal_status_to_s }}
+        <svg class="icon icon--info" aria-hidden="" viewBox="0 0 20 20" focusable="false">
+          <use href="{% static 'maps/images/info.svg#info' %}"/>
+        </svg>
+        </span><br />
+        {% endif %}
     </div>
 
-    <h2>Description:</h2>
+    <h2>Description</h2>
     {% if organization.description %}
     <p>{{ organization.description }}</p>
     {% else %}
-    <p>In hac habitasse platea dictumst. Praesent non odio consequat, malesuada leo a, accumsan mi. Fusce iaculis eleifend luctus. Sed libero sem, convallis id ornare sit amet, tincidunt a est. Aliquam sagittis eleifend vulputate. Aenean volutpat nulla sit amet ligula rhoncus, nec interdum mi dignissim. </p>
+    <p>{% lorem %}</p>
     {% endif %}
 
-    <h2>Challenges:</h2>
-    <p>Data not collected</p>
+    <h2>Challenges</h2>
+    {% if organization.challenges %}
+      <ul>
+      {% for c in organization.challenges.all %}
+        <li class="no-bullet">
+          <span class="badge">
+            {{ c.name }}
+             <svg class="icon icon--author" aria-hidden="true" viewBox="0 0 20 20" focusable="false">
+                <use href="{% static 'maps/images/author.svg#author' %}"/>
+            </svg>
+          </span>
+        </li>
+      {% endfor %}
+      </ul>
+    {% endif %}
 
-    <h2>Contact:</h2>
-    {{ organization.address }}<br />
-    {{ organization.city }}, {{ organization.country }}<br />
-    T: +1 555 555 1212 {# organization.phone #}<br />
-    E: {{ organization.email }}<br />
+    <h2>Contact</h2>
+    <p>
+        {{ organization.address }}<br />
+        {{ organization.city }}, {{ organization.country }}<br />
+        T: +1 555 555 1212 {# organization.phone #}<br />
+        E: {{ organization.email }}<br />
+    </p>
 
     {% if organization.socialnetworks %}
-    <h2>Follow:</h2>
+    <h2>Follow</h2>
         <ul>
         {% for sn in organization.organizationsocialnetwork_set.all %}
             {% if sn.socialnetwork.format == 'handle' %}
@@ -72,11 +96,11 @@
         </ul>
     {% endif %}
 
-    <h2>Notes:</h2>
+    <h2>Notes</h2>
     {% if organization.notes %}
     <p>{{ organization.notes }}</p>
     {% else %}
-    <p>Curabitur rhoncus felis eget orci aliquam efficitur. Aenean sit amet pellentesque massa, eu scelerisque arcu. Donec convallis gravida cursus. Praesent blandit est ante, sit amet blandit dui sodales sed. Vivamus efficitur at tortor in aliquet.</p>
+    <p>{% lorem %}</p>
     {% endif %}
 
     <div class="spacer"></div>

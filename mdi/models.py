@@ -3,6 +3,7 @@ from accounts.models import User, SocialNetwork, Source
 from django.conf.global_settings import LANGUAGES
 from django_countries.fields import CountryField
 from datetime import date
+from itertools import accumulate
 from django.core.exceptions import ValidationError
 from django.contrib.postgres.fields import HStoreField
 from django.urls import reverse
@@ -179,11 +180,22 @@ class Organization(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     def years_operating(self):
-        if (self.founded):
-            return (date.today() - self.founded).days
+        if self.founded:
+            return round((date.today() - self.founded).days/365.2425)
         else:
-            return None
+            return 'Unknown'
 
+    def sectors_to_s(self):
+        sector_string = ''
+        for s in self.sectors.all():
+            sector_string += '{}, '.format(s)
+        return sector_string.rstrip(', ')
+
+    def legal_status_to_s(self):
+        legal_status_string = ''
+        for s in self.legal_status.all():
+            legal_status_string += '{}, '.format(s)
+        return legal_status_string.rstrip(', ')
 
     class Meta:
         ordering = ['name']
