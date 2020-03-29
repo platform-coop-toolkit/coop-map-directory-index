@@ -52,9 +52,9 @@ class Role(models.Model):
 class SocialNetwork(models.Model):
     name = models.CharField(blank=False, max_length=255)
     description = models.TextField(blank=True, default='')
-    url = models.CharField(blank=False, max_length=255)
+    url = models.URLField(blank=False, max_length=255)
     format = models.CharField(blank=False, max_length=8, choices=[('handle', 'handle'), ('url', 'url')])
-    base_url = models.CharField(blank=True, max_length=255)
+    base_url = models.URLField(blank=True, max_length=255)
     font_awesome = models.CharField(blank=True, max_length=32)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -69,7 +69,7 @@ class SocialNetwork(models.Model):
 class Source(models.Model):
     name = models.CharField(blank=False, max_length=255, unique=True)
     description = models.CharField(blank=True, max_length=255)
-    url = models.CharField(blank=True, max_length=255)
+    url = models.URLField(blank=True, max_length=255)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -93,9 +93,9 @@ class User(AbstractUser):
     state = models.CharField(blank=True, default='', max_length=255)
     postal_code = models.CharField(blank=True, default='', max_length=255)
     country = CountryField(blank=True)
-    url = models.CharField(blank=True, default='', max_length=255)
+    url = models.URLField(blank=True, default='', max_length=255)
     geom = models.PointField(blank=True, null=True)
-    role = models.ForeignKey(Role, on_delete=models.CASCADE)
+    role = models.ForeignKey(Role, blank=False, default='', on_delete=models.CASCADE)
     socialnetworks = models.ManyToManyField(SocialNetwork, through='UserSocialNetwork')
     notes = models.TextField(blank=True, default='')
     source = models.ForeignKey(Source, on_delete=models.CASCADE, default=5)
