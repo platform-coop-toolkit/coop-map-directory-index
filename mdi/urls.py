@@ -2,6 +2,7 @@ from django.urls import path, include
 from .views import api_root, UserViewSet, GroupViewSet, OrganizationViewSet, SectorViewSet, ToolViewSet
 from rest_framework.urlpatterns import format_suffix_patterns
 
+
 user_list = UserViewSet.as_view({
     'get': 'list'
 })
@@ -68,6 +69,5 @@ urlpatterns = [
 ]
 # Login and logout views for the browsable API
 urlpatterns += [
-    path('api-auth/', include('rest_framework.urls',
-namespace='rest_framework')),
+    path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
 ]
