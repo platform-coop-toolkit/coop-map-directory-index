@@ -13,7 +13,12 @@ var map = new mapboxgl.Map({
 
 let nav = new mapboxgl.NavigationControl({ showCompass: false });
 map.addControl(nav, 'top-right');
-let geo = new mapboxgl.GeolocateControl();
+
+let geo = new mapboxgl.GeolocateControl({
+  fitBoundsOptions: {
+    maxZoom: 10
+  }
+});
 map.addControl(geo, 'top-right');
 
 map.on('load', function () {
