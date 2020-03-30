@@ -13,6 +13,7 @@ var map = new mapboxgl.Map({
 
 let nav = new mapboxgl.NavigationControl({ showCompass: false });
 map.addControl(nav, 'top-right');
+let geolocation = new mapboxgl.GeolocateControl();
 
 map.on('load', function () {
   const
