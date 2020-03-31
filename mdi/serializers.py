@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from accounts.models import User, Source
 from django.contrib.auth.models import Group
-from mdi.models import Organization, SocialNetwork, Sector, Tool, License, Language
+from mdi.models import Organization, SocialNetwork, Sector, Tool, License, Language, Niche
 from rest_framework_gis.serializers import GeoFeatureModelSerializer
 from django_countries.serializers import CountryFieldMixin
 
@@ -25,7 +25,6 @@ class UserSerializer(CountryFieldMixin, GeoFeatureModelSerializer):
             'country',
             'url',
             'bio',
-            'notes',
             'source',
         )
 
@@ -54,9 +53,16 @@ class LicenseSerializer(serializers.HyperlinkedModelSerializer):
         fields = ('spdx', 'name', 'url',)
 
 
+class NicheSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = Niche
+        fields = ('name', 'description',)
+
+
 class ToolSerializer(serializers.HyperlinkedModelSerializer):
     license = serializers.StringRelatedField()
     pricing = serializers.StringRelatedField()
+    niches = NicheSerializer(many=True)
     languages_supported = LanguageSerializer(many=True)
     sectors = serializers.StringRelatedField(many=True)
 
@@ -68,9 +74,9 @@ class ToolSerializer(serializers.HyperlinkedModelSerializer):
             'url',
             'license',
             'pricing',
+            'niches',
             'languages_supported',
             'sectors',
-            'notes',
         )
 
 
