@@ -92,6 +92,20 @@ class Sector(models.Model):
         return self.name
 
 
+class Niche(models.Model):
+    '''The primary function of an object in the Tool class. To be matched with the needs of an Organization or Individual.'''
+    name = models.CharField(blank=False, max_length=255, unique=True)
+    description = models.CharField(blank=True, default='', max_length=255)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ['name']
+
+    def __str__(self):
+        return self.name
+
+
 class Pricing(models.Model):
     name = models.CharField(blank=False, max_length=255)
     description = models.CharField(blank=True, default='', max_length=255)
@@ -136,6 +150,7 @@ class Tool(models.Model):
     url = models.URLField(blank=False, max_length=255)
     license = models.ForeignKey(License, blank=True, null=True, on_delete=models.CASCADE)
     pricing = models.ForeignKey(Pricing, blank=True, null=True, on_delete=models.CASCADE)
+    niches = models.ManyToManyField(Niche)
     languages_supported = models.ManyToManyField(Language)
     sectors = models.ManyToManyField(Sector, blank=True, null=True)
     notes = models.TextField(blank=True, default='')
@@ -168,7 +183,7 @@ class Organization(models.Model):
     num_workers = models.IntegerField(blank=True, null=True)
     # num_impacted = models.IntegerField(blank=True)
     categories = models.ManyToManyField(Category, blank=True, null=True)
-    stage = models.ForeignKey(Stage, blank=False, default='', on_delete=models.CASCADE)
+    stage = models.ForeignKey(Stage, blank=True, null=True, on_delete=models.CASCADE)
     source = models.ForeignKey(Source, on_delete=models.CASCADE, blank=True, null=True)
     type = models.ForeignKey(Type, on_delete=models.CASCADE, blank=True, null=True)
     sectors = models.ManyToManyField(Sector, blank=True, null=True)
