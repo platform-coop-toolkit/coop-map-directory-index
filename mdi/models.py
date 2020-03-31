@@ -151,7 +151,7 @@ class Tool(models.Model):
     license = models.ForeignKey(License, blank=True, null=True, on_delete=models.CASCADE)
     pricing = models.ForeignKey(Pricing, blank=True, null=True, on_delete=models.CASCADE)
     niches = models.ManyToManyField(Niche)
-    languages_supported = models.ManyToManyField(Language)
+    languages_supported = models.ManyToManyField(Language, blank=True, null=True)
     sectors = models.ManyToManyField(Sector, blank=True, null=True)
     notes = models.TextField(blank=True, default='')
     created_at = models.DateTimeField(auto_now_add=True)
