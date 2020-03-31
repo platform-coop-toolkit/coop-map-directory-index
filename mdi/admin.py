@@ -61,7 +61,7 @@ class NicheAdmin(admin.ModelAdmin):
 @admin.register(Tool)
 class ToolAdmin(admin.ModelAdmin):
     list_display = ('name', 'license', )
-    list_filter = ('license', 'pricing') # 'languages_supported',)
+    list_filter = ('niches', 'license', 'pricing') # 'languages_supported',)
     search_fields = ['name', 'description',]
 
 
