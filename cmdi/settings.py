@@ -71,7 +71,7 @@ INSTALLED_APPS = [
     # 'allauth.socialaccount.providers.openid',
     # 'allauth.socialaccount.providers.reddit',
     'allauth.socialaccount.providers.stackexchange',
-    # 'allauth.socialaccount.providers.twitter',
+    'allauth.socialaccount.providers.twitter',
     'accounts',
     'mdi',
     'maps',
