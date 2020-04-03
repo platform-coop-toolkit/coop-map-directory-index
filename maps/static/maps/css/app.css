@@ -16,3 +16,7 @@ body {
 li.no-bullet {
   list-style: none;
 }
+
+#warning-cancel-warning {
+  visibility: collapse;
+}

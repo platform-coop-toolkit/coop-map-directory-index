@@ -1,6 +1,7 @@
 from django import forms
 from django.forms import CheckboxSelectMultiple, RadioSelect
 from django.utils.translation import gettext_lazy as _
+from django.template.defaultfilters import safe
 from accounts.models import User, Role
 
 
@@ -27,7 +28,7 @@ class BranchForm(forms.Form):
 class RoleForm(BaseForm):
     name = forms.ModelMultipleChoiceField(
         queryset=Role.objects.all(),
-        label='How would you describe yourself?',
+        label=safe('How would you describe yourself?<br /><div class="space"></div><small>Choose all that apply</small>'),
         widget=CheckboxSelectMultiple(attrs={'class': 'checkbox'})
     )
 

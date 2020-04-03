@@ -3,16 +3,16 @@
 {% load i18n %}
 {% load maps_extras %}
 
-{% block title %}{{ title|titlify }}{% endblock %}}
+{% block title %}{{ 'Basic information'|titlify }}{% endblock %}}
 
 {% block content %}
         <div class="page-header">
-          <h1><span class="pc-ff--sans pc-fw--normal">Platform Co-op</span><br/> Directory</h1>
+          <h1><span class="pc-ff--sans pc-fw--normal">Profile Editor</span><br/> Basic information</h1>
         </div>
-{% include 'maps/search.html' %}
         <form action="" method="post">
             {% csrf_token %}
             {{ wizard.management_form }}
+{% include 'maps/profiles/back_and_steps.html' %}
             {% if wizard.form.forms %}
                 {{ wizard.form.management_form }}
                 {% for form in wizard.form.forms %}
@@ -24,12 +24,8 @@
             </ul>
             {% endif %}
 
-            <div class="spacer"></div>
-            <p class="align-center">Page {{ wizard.steps.step1 }} of {{ wizard.steps.count }}</p>
-            <div class="spacer"></div>
-            <button id="button" type="submit" class="button">
-                <span class="button__label">{% trans "Next" %}</span>
-            </button>
+{% include 'maps/profiles/footer.html' %}
         </form>
+{% include 'maps/profiles/cancel.html' %}
 
 {% endblock %}

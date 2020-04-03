@@ -1,5 +1,6 @@
 import { generateCards, generatePopupHtml } from './cards.js';
 import './all.js'
+import './profiles.js'
 
 mapboxgl.accessToken = 'pk.eyJ1IjoiZXJpY3RoZWlzZSIsImEiOiJjazVvNGNmM2wxaGhjM2pvMGc0ZmIyaXN3In0.Jrt9t5UrY5aCbndSpq5JWw';
 var map = new mapboxgl.Map({
