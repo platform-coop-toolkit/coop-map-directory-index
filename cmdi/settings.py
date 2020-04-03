@@ -72,6 +72,7 @@ INSTALLED_APPS = [
     # 'allauth.socialaccount.providers.reddit',
     'allauth.socialaccount.providers.stackexchange',
     'allauth.socialaccount.providers.twitter',
+    'formtools',
     'accounts',
     'mdi',
     'maps',

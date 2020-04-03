@@ -1,26 +1,37 @@
 from django.http import HttpResponse, HttpResponseRedirect
 from django.template import loader
+from formtools.wizard.views import SessionWizardView
 from django.shortcuts import get_object_or_404, render
-
-from .forms import UserForm, RoleForm, OrganizationForm
+from .forms import IndividualForm, OrganizationForm, LegalStatusForm, StageForm, CategoryForm, SectorForm
 
 from accounts.models import User
 from mdi.models import Organization, Category, Sector, Type
 
 
-def index(request):
-    if request.method == 'POST':
-        form = UserForm(request.POST)
-        if form.is_valid():
-            return HttpResponseRedirect('/thanks/')
+class ContactWizard(SessionWizardView):
+    def done(self, form_list, **kwargs):
+        return render(self.request, 'surveys/done.html', {
+            'form_data': [form.cleaned_data for form in form_list],
+        })
 
-    else:
-        user_form = UserForm()
-        role_form = RoleForm()
-        organization_form = OrganizationForm()
 
-    return render(request, 'surveys/index.html', {
-        'user_form': user_form,
-        'role_form': role_form,
-        'organization_form': organization_form,
-    })
+FORMS = [
+    ('individual', IndividualForm),
+    ('organization', OrganizationForm),
+]
+
+TEMPLATES = {
+    'individual': 'surveys/individual.html',
+    'organization': 'surveys/index.html',
+}
+
+
+class SurveyWizard(SessionWizardView):
+    def get_template_names(self):
+        return [TEMPLATES[self.steps.current]]
+
+    def done(self, form_list, **kwargs):
+        return render(self.request, 'done.html', {
+            'form_data': [form.cleaned_data for form in form_list],
+        })
+

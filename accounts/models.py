@@ -35,6 +35,17 @@ class MyUserManager(UserManager):
         return user
 
 
+class Language(models.Model):
+    culture_code = models.CharField(primary_key=True, max_length=7, blank=False, null=False, unique=True, )
+    iso_name = models.CharField(max_length=64, blank=False, null=False, unique=True, )
+
+    class Meta:
+        ordering = ['iso_name']
+
+    def __str__(self):
+        return self.iso_name
+
+
 class Role(models.Model):
     name = models.CharField(blank=False, max_length=255, unique=True)
     description = models.CharField(blank=True, default='', max_length=255)
@@ -96,6 +107,7 @@ class User(AbstractUser):
     url = models.URLField(blank=True, default='', max_length=255)
     geom = models.PointField(blank=True, null=True)
     role = models.ForeignKey(Role, blank=False, default='', on_delete=models.CASCADE)
+    languages = models.ManyToManyField(Language, blank=True, null=True)
     socialnetworks = models.ManyToManyField(SocialNetwork, through='UserSocialNetwork')
     notes = models.TextField(blank=True, default='')
     source = models.ForeignKey(Source, on_delete=models.CASCADE, default=5)

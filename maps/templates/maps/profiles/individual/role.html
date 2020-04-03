@@ -1,0 +1,43 @@
+{% extends "maps/base.html" %}
+{% load static %}
+{% load i18n %}
+{% load maps_extras %}
+
+{% block title %}{{ title|titlify }}{% endblock %}}
+
+{% block content %}
+        <div class="page-header">
+            <h1><span class="pc-ff--sans pc-fw--normal">Platform Co-op</span><br/> Directory</h1>
+        </div>
+{% include 'maps/search.html' %}
+        <form action="" method="post">
+            {% csrf_token %}
+            {% if form.errors  %}
+            {{ form.errors }}
+            {% endif %}
+            {{ wizard.management_form }}
+            {% if wizard.form.forms %}
+                {{ wizard.form.management_form }}
+                {% for form in wizard.form.forms %}
+                    {{ form }}
+                {% endfor %}
+            {% else %}
+            <ul class="input-group">
+                <strong>{{ wizard.form.name.label }}</strong>
+                {% for checkbox in wizard.form.name %}
+                    <li>{{ checkbox.tag }}
+                        <label for="{{ checkbox.id_for_label }}">{{ checkbox.choice_label }}</label>
+                    </li>
+                {% endfor %}
+            </ul>
+            {% endif %}
+
+            <div class="spacer"></div>
+            <p class="align-center">Page {{ wizard.steps.step1 }} of {{ wizard.steps.count }}</p>
+            <div class="spacer"></div>
+            <button id="button" type="submit" name="submit" value="submit" class="button">
+                <span class="button__label">{% trans "Next" %}</span>
+            </button>
+        </form>
+
+{% endblock %}

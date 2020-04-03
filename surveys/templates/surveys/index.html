@@ -37,14 +37,16 @@
     </p>
 
     <div class="spacer"></div>
-    <form action="#" method="post">
+    <form action="{% url 'index' %}" method="post">
     {% csrf_token %}
+    {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
         <fieldset>
             <legend><strong>Your contact information</strong></legend>
             <p>Please provide the contact information for the best person to reach out to should we have follow-up questions about the answers you have provided to the short form of our survey. This contact information will not be part of the index. It will not be published online.</p>
             <div class="spacer"></div>
             {{ user_form }}
             <ul class="input-group">
+            <strong>{{ role_form.role.label }}</strong>
             {% for radio in role_form.role %}
                 <li>{{ radio.tag }}
                     <label for="{{ radio.id_for_label }}">{{ radio.choice_label }}</label>
@@ -55,9 +57,53 @@
         </fieldset>
 
         <div class="spacer"></div>
-         <fieldset>
+        <fieldset>
             <legend><strong>About your enterprise or project</strong></legend>
             {{ organization_form }}
+            <ul class="input-group">
+{% comment %}            {% for sn in socialnetworks_form.socialnetworks %}
+                <li>{{ sn.tag }}:
+{#                  <label for="{{ sn.id_for_label }}"> {{ sn.organization }}</label>#}
+                </li>
+            {% endfor %}{% endcomment %}
+            </ul>
+
+            <ul class="input-group">
+            <strong>{{ legal_status_form.legal_status.label }}</strong>
+            {% for checkbox in legal_status_form.legal_status %}
+                <li>{{ checkbox.tag }}
+                    <label for="{{ checkbox.id_for_label }}">{{ checkbox.choice_label }}</label>
+                </li>
+            {% endfor %}
+            </ul>
+
+            <ul class="input-group">
+            <strong>{{ stage_form.stage.label }}</strong>
+            {% for radio in stage_form.stage %}
+                <li>{{ radio.tag }}
+                    <label for="{{ radio.id_for_label }}">{{ radio.choice_label }}</label>
+                </li>
+            {% endfor %}
+            </ul>
+
+            <ul class="input-group">
+            <strong>{{ category_form.categories.label }}</strong>
+            {% for checkbox in category_form.categories %}
+                <li>{{ checkbox.tag }}
+                    <label for="{{ checkbox.id_for_label }}">{{ checkbox.choice_label }}</label>
+                </li>
+            {% endfor %}
+            </ul>
+
+            <ul class="input-group">
+            <strong>{{ sector_form.sectors.label }}</strong>
+            {% for checkbox in sector_form.sectors %}
+                <li>{{ checkbox.tag }}
+                    <label for="{{ checkbox.id_for_label }}">{{ checkbox.choice_label }}</label>
+                </li>
+            {% endfor %}
+            </ul>
+
         </fieldset>
 
         <div class="spacer"></div>

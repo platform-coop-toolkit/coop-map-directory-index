@@ -1,0 +1,8 @@
+{% extends 'maps/base.html' %}
+{% load static %}
+{% load i18n %}
+{% load maps_extras %}
+{% block title %}{{ 'Collected Profile Data'|titlify }}{% endblock %}
+{% block content %}
+  <pre>{{ form_data | pprint }}</pre>
+{% endblock %}
