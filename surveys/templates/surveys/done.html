@@ -1,0 +1,8 @@
+{% extends 'surveys/base.html' %}
+{% load static %}
+{% load i18n %}
+{% load maps_extras %}
+{% block title %}{{ '2020 Ecosystem Survey'|titlify }}{% endblock %}
+{% block content %}
+  <pre>{{ form_data | pprint }}</pre>
+{% endblock %}

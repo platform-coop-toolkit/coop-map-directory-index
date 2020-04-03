@@ -3,7 +3,7 @@ from django.conf.urls import url
 from . import views
 from .forms import IndividualForm, OrganizationForm, SocialNetworksForm
 from .preview import IndividualFormPreview, OrganizationFormPreview, SocialNetworksFormPreview
-from .views import SurveyWizard, FORMS, TEMPLATES, ContactWizard
+from .views import FORMS, SurveyWizard, ContactWizard
 
 
 urlpatterns = [
