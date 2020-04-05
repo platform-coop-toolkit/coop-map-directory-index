@@ -16,3 +16,8 @@ body {
 li.no-bullet {
   list-style: none;
 }
+
+select.multiple {
+  height: 10rem;
+  overflow-y: auto;
+}

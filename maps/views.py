@@ -1,11 +1,12 @@
+from django.conf import settings
 from django.http import HttpResponse
 from django.template import loader
 from django.views.generic import TemplateView
 from django.shortcuts import get_object_or_404, render, redirect
-from accounts.models import User
 from mdi.models import Organization
 from formtools.wizard.views import SessionWizardView
-from .forms import BranchForm, RoleForm, BasicInfoForm, DetailedInfoForm, ContactInfoForm
+from .forms import BranchForm, RoleForm, BasicInfoForm, DetailedInfoForm, ContactInfoForm, SocialNetworksForm
+from dal import autocomplete
 
 
 # Profile flow
@@ -31,7 +32,8 @@ INDIVIDUAL_FORMS = [
     ('role', RoleForm),
     ('basic_info', BasicInfoForm),
     ('detailed_info', DetailedInfoForm),
-    ('contact_info', ContactInfoForm)
+    ('contact_info', ContactInfoForm),
+    ('social_networks', SocialNetworksForm),
 ]
 
 INDIVIDUAL_TEMPLATES = {
@@ -39,6 +41,7 @@ INDIVIDUAL_TEMPLATES = {
     'basic_info': 'maps/profiles/individual/basic_info.html',
     'detailed_info': 'maps/profiles/individual/detailed_info.html',
     'contact_info': 'maps/profiles/individual/contact_info.html',
+    'social_networks': 'maps/profiles/individual/social_networks.html',
 }
 
 
@@ -50,6 +53,20 @@ class IndividualProfileWizard(SessionWizardView):
         return render(self.request, 'maps/profiles/done.html', {
             'form_data': [form.cleaned_data for form in form_list],
         })
+
+
+# Autocomplete views for profile creation.
+class OrganizationAutocomplete(autocomplete.Select2QuerySetView):
+    def get_queryset(self):
+        # if not self.request.user.is_authenticated():
+        #     return Organization.objects.none()
+
+        qs = Organization.objects.all()
+
+        if self.q:
+            qs = qs.filter(name__istartswith=self.q)
+
+        return qs
 
 
 def index(request):
@@ -69,7 +86,7 @@ def organization_detail(request, organization_id):
 
 # Individual
 def individual_detail(request, user_id):
-    user = get_object_or_404(User, pk=user_id)
+    user = get_object_or_404(settings.AUTH_USER_MODEL, pk=user_id)
     context = {
     }
     return render(request, 'maps/individual_detail.html', {'individual': user})

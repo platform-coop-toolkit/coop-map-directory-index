@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.contrib.gis.db import models
 from django.db.models.signals import pre_save
 from django.dispatch import receiver
@@ -33,17 +34,6 @@ class MyUserManager(UserManager):
         user.is_admin = True
         user.save(using=self._db)
         return user
-
-
-class Language(models.Model):
-    culture_code = models.CharField(primary_key=True, max_length=7, blank=False, null=False, unique=True, )
-    iso_name = models.CharField(max_length=64, blank=False, null=False, unique=True, )
-
-    class Meta:
-        ordering = ['iso_name']
-
-    def __str__(self):
-        return self.iso_name
 
 
 class Role(models.Model):
@@ -107,7 +97,13 @@ class User(AbstractUser):
     url = models.URLField(blank=True, default='', max_length=255)
     geom = models.PointField(blank=True, null=True)
     role = models.ForeignKey(Role, blank=False, default='', on_delete=models.CASCADE)
-    languages = models.ManyToManyField(Language, blank=True, null=True)
+    related_individuals = models.ManyToManyField('self', through='mdi.EntitiesEntities')
+    related_organizations = models.ManyToManyField(
+        'mdi.Organization',
+        through='mdi.EntitiesEntities',
+        through_fields=['from_ind', 'to_org']
+    )
+    languages = models.ManyToManyField('mdi.Language', blank=True,)
     socialnetworks = models.ManyToManyField(SocialNetwork, through='UserSocialNetwork')
     notes = models.TextField(blank=True, default='')
     source = models.ForeignKey(Source, on_delete=models.CASCADE, default=5)
@@ -135,9 +131,8 @@ def mirror_username_from_email(sender, instance, *args, **kwargs):
     instance.username = instance.email
 
 
-
 class UserSocialNetwork(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     socialnetwork = models.ForeignKey(SocialNetwork, on_delete=models.CASCADE)
     identifier = models.CharField(blank=False, max_length=255)
     created_at = models.DateTimeField(auto_now_add=True)

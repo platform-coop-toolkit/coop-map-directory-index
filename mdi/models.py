@@ -1,10 +1,9 @@
+from django.contrib.auth import get_user_model
 from django.contrib.gis.db import models
-from accounts.models import User, SocialNetwork, Source
-from django.conf.global_settings import LANGUAGES
+from accounts.models import SocialNetwork, Source
 from django_countries.fields import CountryField
 from datetime import date
 from django.core.exceptions import ValidationError
-from django.contrib.postgres.fields import HStoreField
 from django.urls import reverse
 from django.db.models import Manager as GeoManager
 
@@ -53,6 +52,21 @@ class LegalStatus(models.Model):
         return self.name
 
 
+class Service(models.Model):
+    '''A service provided by an Individual. Organization TBD.'''
+    name = models.CharField(blank=False, max_length=255, unique=True)
+    description = models.CharField(blank=True, default='', max_length=255)
+    order = models.IntegerField(blank=True, null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ['order']
+
+    def __str__(self):
+        return self.name
+
+
 class Stage(models.Model):
     name = models.CharField(blank=False, max_length=255, unique=True)
     description = models.CharField(blank=True, default='', max_length=255)
@@ -92,6 +106,21 @@ class Sector(models.Model):
         return self.name
 
 
+class Relationship(models.Model):
+    '''The character of the relationship between Individuals and Organizations.'''
+    name = models.CharField(blank=False, max_length=255, unique=True)
+    description = models.CharField(blank=True, default='', max_length=255)
+    order = models.IntegerField(blank=True, null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ['order', ]
+
+    def __str__(self):
+        return self.name
+
+
 class Niche(models.Model):
     '''The primary function of an object in the Tool class. To be matched with the needs of an Organization or Individual.'''
     name = models.CharField(blank=False, max_length=255, unique=True)
@@ -124,7 +153,7 @@ class Language(models.Model):
     iso_name = models.CharField(max_length=64, blank=False, null=False, unique=True,)
 
     class Meta:
-        ordering = ['culture_code']
+        ordering = ['iso_name']
 
     def __str__(self):
         return self.iso_name
@@ -151,8 +180,8 @@ class Tool(models.Model):
     license = models.ForeignKey(License, blank=True, null=True, on_delete=models.CASCADE)
     pricing = models.ForeignKey(Pricing, blank=True, null=True, on_delete=models.CASCADE)
     niches = models.ManyToManyField(Niche)
-    languages_supported = models.ManyToManyField(Language, blank=True, null=True)
-    sectors = models.ManyToManyField(Sector, blank=True, null=True)
+    languages_supported = models.ManyToManyField(Language, blank=True,)
+    sectors = models.ManyToManyField(Sector, blank=True,)
     notes = models.TextField(blank=True, default='')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -181,14 +210,20 @@ class Organization(models.Model):
     geom = models.PointField(blank=True, null=True)
     founded = models.DateField(blank=True, null=True)
     num_workers = models.IntegerField(blank=True, null=True)
+    related_individuals = models.ManyToManyField(
+        get_user_model(),
+        through='EntitiesEntities',
+        through_fields=['from_org', 'to_ind']
+    )
+    related_organizations = models.ManyToManyField('self', through='EntitiesEntities')
     # num_impacted = models.IntegerField(blank=True)
-    categories = models.ManyToManyField(Category, blank=True, null=True)
+    categories = models.ManyToManyField(Category, blank=True,)
     stage = models.ForeignKey(Stage, blank=True, null=True, on_delete=models.CASCADE)
     source = models.ForeignKey(Source, on_delete=models.CASCADE, blank=True, null=True)
     type = models.ForeignKey(Type, on_delete=models.CASCADE, blank=True, null=True)
-    sectors = models.ManyToManyField(Sector, blank=True, null=True)
-    legal_status = models.ManyToManyField(LegalStatus, blank=True, null=True)
-    challenges = models.ManyToManyField(Challenge, blank=True, null=True)
+    sectors = models.ManyToManyField(Sector, blank=True,)
+    legal_status = models.ManyToManyField(LegalStatus, blank=True,)
+    challenges = models.ManyToManyField(Challenge, blank=True,)
     socialnetworks = models.ManyToManyField(SocialNetwork, through='OrganizationSocialNetwork')
     notes = models.TextField(blank=True, default='')
     admin_email = models.EmailField(default='', max_length=255)
@@ -237,3 +272,17 @@ class OrganizationSocialNetwork(models.Model):
 
     class Meta:
         verbose_name = "Organization's Social Network"
+
+
+class EntitiesEntities(models.Model):
+    from_org = models.ForeignKey(Organization, blank=True, null=True, related_name='from_org_set', on_delete=models.CASCADE)
+    from_ind = models.ForeignKey(get_user_model(), blank=True, null=True, related_name='from_ind_set', on_delete=models.CASCADE)
+    to_org = models.ForeignKey(Organization, blank=True, null=True, related_name='to_org_set', on_delete=models.CASCADE)
+    to_ind = models.ForeignKey(get_user_model(), blank=True, null=True, related_name='to_ind_set', on_delete=models.CASCADE)
+    relationship = models.ForeignKey(Relationship, blank=True, on_delete=models.CASCADE)
+    vetted = models.BooleanField(default=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        verbose_name_plural = "Entity to Entity Relationships"

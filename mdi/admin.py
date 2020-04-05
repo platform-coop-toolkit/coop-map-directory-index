@@ -2,7 +2,8 @@
 from django.contrib.gis import admin
 from accounts.models import SocialNetwork
 from .models import \
-    Category, Challenge, LegalStatus, Organization, OrganizationSocialNetwork, Stage, Tool, License, Pricing, Niche
+    Category, Challenge, LegalStatus, Organization, OrganizationSocialNetwork, Stage, Tool, License, \
+    Pricing, Niche, Relationship, EntitiesEntities, Service
 from django.db.models.functions import Lower
 
 
@@ -28,6 +29,11 @@ class LegalStatusAdmin(admin.ModelAdmin):
     list_display = ('name', 'order', 'description', )
 
 
+@admin.register(Service)
+class ServiceAdmin(admin.ModelAdmin):
+    list_display = ('name', 'order', 'description', )
+
+
 class OrganizationSocialNetworkInline(admin.TabularInline):
     model = OrganizationSocialNetwork
     extra = 3
@@ -46,6 +52,16 @@ class OrganizationAdmin(admin.OSMGeoAdmin):
 class SocialNetworkAdmin(admin.ModelAdmin):
     list_filter = ('name', 'format', )
     search_fields = ['name','description', ]
+
+
+@admin.register(Relationship)
+class RelationshipAdmin(admin.ModelAdmin):
+    list_display = ('name', )
+
+
+@admin.register(EntitiesEntities)
+class EntitiesEntitiesAdmin(admin.ModelAdmin):
+    list_display = ('from_ind', 'from_org', 'relationship', 'to_ind', 'to_org', )
 
 
 @admin.register(Stage)

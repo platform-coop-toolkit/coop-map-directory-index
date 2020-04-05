@@ -1,8 +1,7 @@
-# -*- coding: utf-8 -*-
-# from django.contrib import admin
+from django.contrib.auth import get_user_model
 from django.contrib.auth.admin import UserAdmin
 from django.contrib.gis import admin
-from .models import User, UserSocialNetwork, Role, Source
+from .models import UserSocialNetwork, Role, Source
 from django.db.models.functions import Lower
 
 
@@ -17,7 +16,8 @@ class CustomUserAdmin(UserAdmin):
     list_filter = ['role', 'is_active', 'is_staff', ]
     UserAdmin.fieldsets = (
         (None, {'fields': ('email', 'password')}),
-        ('Personal info', {'fields': ('first_name', 'middle_name', 'last_name', 'bio', 'city', 'state', 'postal_code', 'country', 'url', 'geom', 'role', 'languages', 'source')}),
+        ('Personal info', {'fields': ('first_name', 'middle_name', 'last_name', 'bio', 'city', 'state', 'postal_code',
+                                      'country', 'url', 'geom', 'role', 'languages', 'source')}),
         ('Free text fields', {'fields': ('notes',)}),
         ('Permissions', {'fields': ('is_active', 'is_staff', 'is_superuser', 'groups', 'user_permissions')}),
         ('Important dates', {'fields': ('last_login', 'date_joined')}),
@@ -26,7 +26,7 @@ class CustomUserAdmin(UserAdmin):
     ordering = [Lower('email'), ]
 
 
-admin.site.register(User, CustomUserAdmin)
+admin.site.register(get_user_model(), CustomUserAdmin)
 
 
 @admin.register(Role)

@@ -1,5 +1,5 @@
+from django.contrib.auth import get_user_model
 from rest_framework import serializers
-from accounts.models import User, Source
 from django.contrib.auth.models import Group
 from mdi.models import Organization, SocialNetwork, Sector, Tool, License, Language, Niche
 from rest_framework_gis.serializers import GeoFeatureModelSerializer
@@ -10,7 +10,7 @@ class UserSerializer(CountryFieldMixin, GeoFeatureModelSerializer):
     source = serializers.StringRelatedField(source='source.name')
 
     class Meta:
-        model = User
+        model = get_user_model()
         geo_field = 'geom'
         fields = (
             'id',
