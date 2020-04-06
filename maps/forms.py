@@ -114,14 +114,16 @@ class ContactInfoForm(BaseModelForm):
             'state',
             'country',
             'postal_code',
+            'url',
         ]
         labels = {
             'address': _('Street address'),
+            'url': _('Website address (link)')
         }
 
 
 class UserSocialNetworkForm(BaseModelForm):
-    url = forms.TextInput(attrs={'label': 'Website address (link)', 'required': False})
+    # socialnetwork = forms.HiddenInput()
 
     class Meta:
         model = UserSocialNetwork
@@ -129,9 +131,6 @@ class UserSocialNetworkForm(BaseModelForm):
             'socialnetwork',
             'identifier',
         ]
-        labels = {
-            'socialnetwork': _('Social Network'),
-        }
 
 
-UserSocialNetworkFormSet = formset_factory(UserSocialNetworkForm, extra=SocialNetwork.objects.count())
+UserSocialNetworkFormSet = formset_factory(UserSocialNetworkForm, extra=0)

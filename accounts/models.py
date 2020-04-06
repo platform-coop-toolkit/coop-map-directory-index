@@ -57,6 +57,7 @@ class SocialNetwork(models.Model):
     format = models.CharField(blank=False, max_length=8, choices=[('handle', 'handle'), ('url', 'url')])
     base_url = models.URLField(blank=True, max_length=255)
     font_awesome = models.CharField(blank=True, max_length=32)
+    hint = models.CharField(blank=False, max_length=32)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -110,7 +111,7 @@ class User(AbstractUser):
     affiliation = models.TextField(blank=True, default='') # Only applies to Researchers. Much still TBD.
     projects = models.TextField(blank=True, default='') # Only applies to Researchers. Much still TBD.
     challenges = models.ManyToManyField('mdi.Challenge', blank=True,)
-    socialnetworks = models.ManyToManyField(SocialNetwork, through='UserSocialNetwork')
+    socialnetworks = models.ManyToManyField(SocialNetwork, blank=True, through='UserSocialNetwork')
     notes = models.TextField(blank=True, default='')
     source = models.ForeignKey(Source, on_delete=models.CASCADE, default=5)
     # created_at: would normally add this but django-registration gives us date_joined
@@ -139,8 +140,8 @@ def mirror_username_from_email(sender, instance, *args, **kwargs):
 
 class UserSocialNetwork(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    socialnetwork = models.ForeignKey(SocialNetwork, on_delete=models.CASCADE)
-    identifier = models.CharField(blank=False, max_length=255)
+    socialnetwork = models.ForeignKey(SocialNetwork, blank=True, on_delete=models.CASCADE)
+    identifier = models.CharField(blank=True, max_length=255)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 

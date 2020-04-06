@@ -8,7 +8,7 @@ from django.forms import inlineformset_factory
 from accounts.models import Role
 from mdi.models import Organization, SocialNetwork
 from formtools.wizard.views import SessionWizardView
-from .forms import BranchForm, RoleForm, BasicInfoForm, DetailedInfoForm, ContactInfoForm, UserSocialNetworkForm, UserSocialNetworkFormSet
+from .forms import BranchForm, RoleForm, BasicInfoForm, DetailedInfoForm, ContactInfoForm, UserSocialNetworkFormSet
 from dal import autocomplete
 
 
@@ -85,6 +85,16 @@ class IndividualProfileWizard(SessionWizardView):
                         'display_projects': True
                     })
         return context
+
+    # Attempt to solve SocialNetwork problem on profile pages.
+    def get_form_initial(self, step):
+        initial = []
+        if step == 'social_networks':
+            socialnetworks = SocialNetwork.objects.all()
+            for index, sn in enumerate(socialnetworks):
+                initial.append({'socialnetwork' : sn})
+            print(initial)
+        return self.initial_dict.get('social_networks', initial)
 
     def done(self, form_list, **kwargs):
         return render(self.request, 'maps/profiles/done.html', {
