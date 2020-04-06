@@ -3,25 +3,26 @@
 {% load i18n %}
 {% load maps_extras %}
 
-{% block title %}{{ 'Contact info'|titlify }}{% endblock %}}
+{% block title %}{{ 'Social media'|titlify }}{% endblock %}}
 
 {% block content %}
         <div class="page-header">
-          <h1><span class="pc-ff--sans pc-fw--normal">Profile Editor</span><br/> Contact info</h1>
+          <h1><span class="pc-ff--sans pc-fw--normal">Profile Editor</span><br/> Social media</h1>
         </div>
         <form action="" method="post">
             {% csrf_token %}
             {{ wizard.management_form }}
 {% include 'maps/profiles/back_and_steps.html' %}
             {% if wizard.form.forms %}
-                {{ wizard.form.management_form }}
-                {% for form in wizard.form.forms %}
-                    {{ form }}
-                {% endfor %}
+              {{ wizard.form.management_form }}
+              {% for form in wizard.form.forms %}
+                {{ form }}
+              {% endfor %}
             {% else %}
-            <ul class="input-group">
-                <strong>{{ wizard.form }}</strong>
-            </ul>
+
+            {% for sn in wizard.form.socialnetwork %}
+              <label for="{{ sn|lower }}">{{ sn }}</label><input type="text" id="{{ sn }}" name="{{ sn }}">
+            {% endfor %}
             {% endif %}
 
 {% include 'maps/profiles/footer.html' %}

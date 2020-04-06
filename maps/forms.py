@@ -1,10 +1,10 @@
 from django.contrib.auth import get_user_model
 from django import forms
-from django.forms import CheckboxSelectMultiple, RadioSelect, SelectMultiple
+from django.forms import CheckboxSelectMultiple, RadioSelect, SelectMultiple, TextInput, formset_factory
 from django.utils.translation import gettext_lazy as _
 from dal import autocomplete
 from django.template.defaultfilters import safe
-from accounts.models import Role
+from accounts.models import Role, SocialNetwork, UserSocialNetwork
 from mdi.models import Organization
 
 
@@ -72,14 +72,35 @@ class BasicInfoForm(BaseModelForm):
 
 
 class DetailedInfoForm(BaseModelForm):
+    worked_with = forms.ModelChoiceField(
+        queryset=Organization.objects.all(),
+        label='Coops you have worked/work with',
+        required=False
+    )
+
     class Meta:
         model = get_user_model()
         fields = [
             'bio',
-
+            'services',
+            'worked_with',
+            'field_of_study',
+            'affiliation',
+            'projects',
+            'challenges',
         ]
         labels = {
             'bio': _('Share a bit about yourself'),
+            'services': _('Services you provide'),
+            'field_of_study': _('Your field of study'),
+            'affiliation': _('Affiliation'),
+            'projects': _('Projects'),
+            'challenges': _('Challenges you are facing'),
+        }
+        widgets = {
+            'services': SelectMultiple(attrs={'size': 4, 'class': 'multiple'}),
+            'worked_with': autocomplete.ModelSelect2Multiple(url='organization-autocomplete'),
+            'challenges': SelectMultiple(attrs={'size': 4, 'class': 'multiple'}),
         }
 
 
@@ -87,7 +108,7 @@ class ContactInfoForm(BaseModelForm):
     class Meta:
         model = get_user_model()
         fields = [
-            # 'phone',
+            'phone',
             'address',
             'city',
             'state',
@@ -99,12 +120,18 @@ class ContactInfoForm(BaseModelForm):
         }
 
 
-class SocialNetworksForm(BaseModelForm):
+class UserSocialNetworkForm(BaseModelForm):
+    url = forms.TextInput(attrs={'label': 'Website address (link)', 'required': False})
+
     class Meta:
-        model = get_user_model()
+        model = UserSocialNetwork
         fields = [
-            'socialnetworks',
+            'socialnetwork',
+            'identifier',
         ]
         labels = {
-            'socialnetworks': _('socialnetworks'),
+            'socialnetwork': _('Social Network'),
         }
+
+
+UserSocialNetworkFormSet = formset_factory(UserSocialNetworkForm, extra=SocialNetwork.objects.count())

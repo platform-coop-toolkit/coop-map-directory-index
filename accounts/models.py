@@ -89,6 +89,7 @@ class User(AbstractUser):
     )
     middle_name = models.CharField(blank=True, max_length=255, unique=False)
     bio = models.TextField(blank=True, default='')
+    phone = models.CharField(blank=True, default='', max_length=255)
     address = models.CharField(blank=True, default='', max_length=255)
     city = models.CharField(blank=True, default='', max_length=255)
     state = models.CharField(blank=True, default='', max_length=255)
@@ -104,6 +105,11 @@ class User(AbstractUser):
         through_fields=['from_ind', 'to_org']
     )
     languages = models.ManyToManyField('mdi.Language', blank=True,)
+    services = models.ManyToManyField('mdi.Service', blank=True,)
+    field_of_study = models.CharField(blank=True, default='', max_length=254) # Only applies to Researchers. Much still TBD.
+    affiliation = models.TextField(blank=True, default='') # Only applies to Researchers. Much still TBD.
+    projects = models.TextField(blank=True, default='') # Only applies to Researchers. Much still TBD.
+    challenges = models.ManyToManyField('mdi.Challenge', blank=True,)
     socialnetworks = models.ManyToManyField(SocialNetwork, through='UserSocialNetwork')
     notes = models.TextField(blank=True, default='')
     source = models.ForeignKey(Source, on_delete=models.CASCADE, default=5)

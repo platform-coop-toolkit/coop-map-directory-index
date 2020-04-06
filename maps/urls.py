@@ -1,15 +1,15 @@
 from django.urls import path
 from django.conf.urls import url
-from .forms import BranchForm, RoleForm, BasicInfoForm
-
+from .forms import BranchForm, RoleForm, BasicInfoForm, UserSocialNetworkFormSet
 from . import views
 from .views import INDIVIDUAL_FORMS, IndividualProfileWizard, OrganizationAutocomplete,\
     PrivacyPolicyView, TermsOfServiceView
+from accounts.models import UserSocialNetwork
 
 urlpatterns = [
     path('', views.index, name='index'),
     path('profiles/', views.profile, name='profile-branch'),
-    path('profiles/individual', IndividualProfileWizard.as_view(INDIVIDUAL_FORMS), name='individual-profile'),
+    path('profiles/individual', IndividualProfileWizard.as_view(INDIVIDUAL_FORMS, instance_dict={'social_networks': UserSocialNetwork}), name='individual-profile'),
     path('profiles/organization', IndividualProfileWizard.as_view(INDIVIDUAL_FORMS), {'title': 'Organization'}, name='organization-profile'),
     url(r'^organization-autocomplete/$', OrganizationAutocomplete.as_view(create_field='name'), name='organization-autocomplete'),
     path('organizations/<int:organization_id>', views.organization_detail, name='organization_detail'),
