@@ -38,7 +38,7 @@ class GroupSerializer(serializers.HyperlinkedModelSerializer):
 
 
 class SectorSerializer(serializers.HyperlinkedModelSerializer):
-    sectors_in_taxonomy = SerializerMethodField()
+    # sectors_in_taxonomy = SerializerMethodField()
 
     # def get_sectors_in_taxonomy(self, Sector):
     #     sectors_in_taxonomy = Sector.objects.filter(name__regex=r'^[A-Z]')
