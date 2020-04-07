@@ -1,6 +1,6 @@
 from django.contrib.auth import get_user_model
 from django import forms
-from django.forms import CheckboxSelectMultiple, RadioSelect, SelectMultiple, TextInput, formset_factory
+from django.forms import CheckboxSelectMultiple, RadioSelect, SelectMultiple, HiddenInput, formset_factory
 from django.utils.translation import gettext_lazy as _
 from dal import autocomplete
 from django.template.defaultfilters import safe
@@ -123,14 +123,15 @@ class ContactInfoForm(BaseModelForm):
 
 
 class UserSocialNetworkForm(BaseModelForm):
-    # socialnetwork = forms.HiddenInput()
-
     class Meta:
         model = UserSocialNetwork
         fields = [
             'socialnetwork',
             'identifier',
         ]
+        widgets = {
+            'socialnetwork': HiddenInput(),
+        }
 
 
 UserSocialNetworkFormSet = formset_factory(UserSocialNetworkForm, extra=0)

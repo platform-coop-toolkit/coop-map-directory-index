@@ -92,8 +92,12 @@ class IndividualProfileWizard(SessionWizardView):
         if step == 'social_networks':
             socialnetworks = SocialNetwork.objects.all()
             for index, sn in enumerate(socialnetworks):
-                initial.append({'socialnetwork' : sn})
-            print(initial)
+                initial.append({
+                    'socialnetwork' : sn,
+                    'name': sn.name,
+                    'hint' : sn.hint,
+                })
+            # print(initial)
         return self.initial_dict.get('social_networks', initial)
 
     def done(self, form_list, **kwargs):

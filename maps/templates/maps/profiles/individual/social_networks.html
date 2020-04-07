@@ -19,7 +19,10 @@
             {% if wizard.form.forms %}
               {{ wizard.form.management_form }}
               {% for form in wizard.form.forms %}
-                <label>{{ form.socialnetwork.initial }} {{ form.identifier }}</label>
+                <label>{{ form.initial.name }}
+                    {{ form.identifier }}
+                    {{ form.socialnetwork }}
+                </label>
               {% endfor %}
             {% else %}
 
