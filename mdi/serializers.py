@@ -1,5 +1,6 @@
 from django.contrib.auth import get_user_model
 from rest_framework import serializers
+from rest_framework.serializers import SerializerMethodField
 from django.contrib.auth.models import Group
 from mdi.models import Organization, SocialNetwork, Sector, Tool, License, Language, Niche
 from rest_framework_gis.serializers import GeoFeatureModelSerializer
@@ -23,6 +24,7 @@ class UserSerializer(CountryFieldMixin, GeoFeatureModelSerializer):
             'state',
             'postal_code',
             'country',
+            'phone',
             'url',
             'bio',
             'source',
@@ -36,6 +38,12 @@ class GroupSerializer(serializers.HyperlinkedModelSerializer):
 
 
 class SectorSerializer(serializers.HyperlinkedModelSerializer):
+    sectors_in_taxonomy = SerializerMethodField()
+
+    # def get_sectors_in_taxonomy(self, Sector):
+    #     sectors_in_taxonomy = Sector.objects.filter(name__regex=r'^[A-Z]')
+    #     serializer =
+
     class Meta:
         model = Sector
         fields = ('name', 'description',)
@@ -85,7 +93,8 @@ class OrganizationSerializer(CountryFieldMixin, GeoFeatureModelSerializer):
     source = serializers.StringRelatedField()
     stage = serializers.StringRelatedField()
     type = serializers.StringRelatedField()
-    sectors = serializers.StringRelatedField(many=True)
+    sectors = SectorSerializer(many=True)
+    socialnetworks = serializers.StringRelatedField(many=True)
 
     class Meta:
         model = Organization
@@ -94,15 +103,16 @@ class OrganizationSerializer(CountryFieldMixin, GeoFeatureModelSerializer):
             'id',
             'name',
             'description',
-            'categories',
-            'type',
-            'sectors',
             'address',
             'city',
             'state',
             'postal_code',
             'country',
             'url',
-            'source',
+            'socialnetworks',
+            'categories',
+            'type',
+            'sectors',
             'stage',
+            'source',
         )

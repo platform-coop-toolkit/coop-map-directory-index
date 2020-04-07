@@ -24,35 +24,44 @@ def api_root(request, format=None):
 
 class UserViewSet(viewsets.ModelViewSet):
   """
-  API endpoint that allows users to be viewed or edited.
+  API endpoint that allows Users to be viewed.
   """
   queryset = get_user_model().objects.all().order_by('date_joined')
   serializer_class = UserSerializer
-  http_method_names = ['get']
+  http_method_names = ['get',]
 
 
 class GroupViewSet(viewsets.ModelViewSet):
   """
-  API endpoint that allows group to be viewed or edited.
+  API endpoint that allows Groups to be viewed.
   """
   queryset = Group.objects.all()
   serializer_class = GroupSerializer
-  http_method_names = ['get']
+  http_method_names = ['get',]
 
 
 class SectorViewSet(viewsets.ModelViewSet):
-    queryset = Sector.objects.all()
+    """
+    API endpoint that allows Sectors to be viewed.
+    """
+    queryset = Sector.objects.filter(name__regex=r'^[A-Z]')
     serializer_class = SectorSerializer
-    http_method_names = ['get']
+    http_method_names = ['get',]
 
 
 class ToolViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint that allows Tools to be viewed.
+    """
     queryset = Tool.objects.all()
     serializer_class = ToolSerializer
-    http_method_names = ['get']
+    http_method_names = ['get',]
 
 
 class OrganizationViewSet(viewsets.ModelViewSet):
-    queryset = Organization.objects.filter(geom__isnull=False)
+    """
+    API endpoint that allows Organizations to be viewed.
+    """
+    queryset = Organization.objects.all() # filter(geom__isnull=False)
     serializer_class  = OrganizationSerializer
-    http_method_names = ['get']
+    http_method_names = ['get',]
