@@ -12,16 +12,6 @@
 {% include 'maps/search.html' %}
         <form action="" method="post">
             {% csrf_token %}
-{#            {{ wizard.management_form }}#}
-{#            <ul class="input-group">#}
-{#                <strong>{{ wizard.form.profile_type.label }}</strong>#}
-{#                {% for radio in wizard.form.profile_type %}#}
-{#                    <li>{{ radio.tag }}#}
-{#                        <label for="{{ radio.id_for_label }}">{{ radio.choice_label }}</label>#}
-{#                    </li>#}
-{#                {% endfor %}#}
-{#            </ul>#}
-
             <ul class="input-group">
                 <strong>{{ profile_type_form.type.label }}</strong>
                 {% for radio in profile_type_form.type %}
@@ -39,4 +29,9 @@
             </button>
         </form>
 
+        <script type="application/javascript">
+        // Remove this once there's a working Organization profile flow.
+            let orgChoice = document.getElementById('id_type_0');
+            orgChoice.disabled = true;
+        </script>
 {% endblock %}
