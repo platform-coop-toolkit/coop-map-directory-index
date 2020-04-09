@@ -17,7 +17,7 @@ class CustomUserAdmin(UserAdmin):
     UserAdmin.fieldsets = (
         (None, {'fields': ('email', 'password')}),
         ('Personal info', {'fields': ('first_name', 'middle_name', 'last_name', 'bio', 'city', 'state', 'postal_code',
-                                      'country', 'url', 'geom', 'role', 'languages', 'source')}),
+                                      'country', 'url', 'geom', 'role', 'languages', 'services', 'challenges', 'source', )}),
         ('Free text fields', {'fields': ('notes',)}),
         ('Permissions', {'fields': ('is_active', 'is_staff', 'is_superuser', 'groups', 'user_permissions')}),
         ('Important dates', {'fields': ('last_login', 'date_joined')}),
