@@ -1,4 +1,6 @@
 from django.contrib.auth import get_user_model
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.conf import settings
 from django.http import HttpResponse, HttpResponseRedirect
 from django.template import loader
@@ -28,6 +30,7 @@ def manage_socialnetworks(request, user_id):
 
 # Profile flow
 # This trivially branches to either the Organization or Individual Profile `django-formtools` wizard.
+@login_required(login_url='/accounts/login/')
 def profile(request):
     if request.method == 'POST':
         if request.POST['type'] == 'org':
@@ -61,7 +64,7 @@ INDIVIDUAL_TEMPLATES = {
 }
 
 
-class IndividualProfileWizard(SessionWizardView):
+class IndividualProfileWizard(LoginRequiredMixin, SessionWizardView):
     def get_template_names(self):
         return [INDIVIDUAL_TEMPLATES[self.steps.current]]
 
@@ -72,12 +75,12 @@ class IndividualProfileWizard(SessionWizardView):
             role = self.get_cleaned_data_for_step('role')
             print('role.cleaned {}'.format(role))
             # Display `Services` if Individual is in Roles other than `Coop Founder` or `Coop Member`.
-            for r in role['name']:
-                if r.name not in ['Coop Founder', 'Coop Member']:
+            for r in role:
+                if r not in ['Coop Founder', 'Coop Member']:
                     context.update({'display_services': True})
-                if r.name == 'Service Provider':
+                if r == 'Service Provider':
                     context.update({'display_coops_worked_with': True})
-                if r.name == 'Researcher':
+                if r == 'Researcher':
                     context.update({
                         'display_field_of_study': True,
                         'display_affiliation': True,
@@ -99,10 +102,25 @@ class IndividualProfileWizard(SessionWizardView):
             # print(initial)
         return self.initial_dict.get('social_networks', initial)
 
-    def done(self, form_list, **kwargs):
-        return render(self.request, 'maps/profiles/done.html', {
-            'form_data': [form.cleaned_data for form in form_list],
-        })
+    def done(self, form_list, form_dict, **kwargs):
+        form_dict = self.get_all_cleaned_data()
+        user = self.request.user
+        print('\n  current user: {}\n'.format(user))
+        print('\n  form_list: {}\n'.format(form_list))
+        print('\n  form_dict: {}\n'.format(form_dict))
+        for k, v in form_dict.items():
+            if k not in ['role', 'languages', 'services', 'challenges', 'formset-social_networks', ]:
+                setattr(user, k, v)
+        user.save()
+        user.languages.set(form_dict['languages'])
+        user.services.set(form_dict['services'])
+        user.challenges.set(form_dict['challenges'])
+        for sn in form_dict['formset-social_networks']:
+            print('sn: {}'.format(sn))
+            
+            user.socialnetworks.set(sn)
+        user.role.set(form_dict['role'])
+        return HttpResponseRedirect('individual_detail')
 
 
 # Autocomplete views for profile creation.

@@ -23,8 +23,8 @@
                 {% endfor %}
             {% else %}
             <ul class="input-group">
-                <strong>{{ wizard.form.name.label }}</strong>
-                {% for checkbox in wizard.form.name %}
+                <strong>{{ wizard.form.role.label }}</strong>
+                {% for checkbox in wizard.form.role %}
                     <li>{{ checkbox.tag }}
                         <label for="{{ checkbox.id_for_label }}">{{ checkbox.choice_label }}</label>
                     </li>

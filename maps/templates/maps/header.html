@@ -19,22 +19,8 @@
           </button>
           <ul id="menu-primary-menu-english" class="menu menu--home">
             {% if user.is_authenticated %}
-            <li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children menu__submenu-wrapper">
-              <button class="menu__item" aria-expanded="false">
-                My connections
-                <svg class="icon icon--chevron-down" viewBox="0 0 20 20" aria-hidden="true" focusable="false">
-                  <use href="{% static 'maps/images/chevron-down.svg#chevron-down' %}" />
-                </svg>
-              </button>
-              <ul class="menu__submenu">
-                <li class=" menu-item menu-item-type-post_type menu-item-object-page"><a
-                    href="https://stage.commons.platform.coop/en/my-resources/favorites/" class="menu__item">Favorites</a>
-                </li>
-                <li class="menu-item menu-item-type-post_type menu-item-object-page"><a
-                    href="https://stage.commons.platform.coop/en/my-resources/saved-searches/" class="menu__item">Saved
-                  searches</a></li>
-              </ul>
-            </li>
+            <li class=" menu-item menu-item-type-post_type menu-item-object-page"><a
+                href="#" class="menu__item">{{ user.email }}</a></li>
             <li class=" menu-item menu-item-type-post_type menu-item-object-page"><a
                 href="{% url 'profile-branch' %}" class="menu__item">My profiles</a></li>
             <li class=" menu-item menu-item-type-post_type menu-item-object-page"><a
