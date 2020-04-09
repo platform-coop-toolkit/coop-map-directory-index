@@ -1,19 +1,36 @@
 from django import forms
-from django.forms import TextInput, ModelForm, RadioSelect, CheckboxSelectMultiple, DateTimeInput, URLInput, modelformset_factory
+from django.forms import RadioSelect, CheckboxSelectMultiple, DateTimeInput, HiddenInput, URLInput, formset_factory
 from django.utils.translation import gettext_lazy as _
+from django.template.defaultfilters import safe
 from accounts.models import User, Role
-from mdi.models import Organization, Sector, SocialNetwork
+from mdi.models import Organization, OrganizationSocialNetwork, Sector, SocialNetwork
 
 
-class IndividualForm(forms.Form):
+class BaseForm(forms.Form):
+    def __init__(self, *args, **kwargs):
+        kwargs.setdefault('label_suffix', '')  # globally override the Django >=1.6 default of ':'
+        super(BaseForm, self).__init__(*args, **kwargs)
+
+
+class BaseModelForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        kwargs.setdefault('label_suffix', '')  # globally override the Django >=1.6 default of ':'
+        super(BaseModelForm, self).__init__(*args, **kwargs)
+
+
+class ContactInfoForm(BaseForm):
     first_name = forms.CharField(max_length=254, required=False)
     middle_name = forms.CharField(max_length=254,required=False)
     last_name = forms.CharField(max_length=254, required=False)
     email = forms.EmailField(max_length=254, label='Email address')
-    role = forms.ChoiceField(choices=enumerate(Role.objects.all()), label='Are you/is this person a…', widget=RadioSelect(attrs={'class': 'radio'}))
+    role = forms.ModelMultipleChoiceField(
+        queryset=Role.objects.all(),
+        label=safe('Are you/is this person a…'),
+        widget=CheckboxSelectMultiple(attrs={'class': 'checkbox'})
+    )
 
 
-class OrganizationForm(ModelForm):
+class BasicOrganizationInfoForm(BaseModelForm):
     class Meta:
         model = Organization
         fields = [
@@ -34,6 +51,7 @@ class OrganizationForm(ModelForm):
             'url': _('What is the URL of your enterprise or project?'),
             'email': _('What is the general contact email address for your enterprise or project?'),
             'socialnetworks': _('What are the social media handles of your enterprise or project?'),
+            'address': _(safe('What is the physical address of the headquarters of your enterprise or project?<br/> Street')),
             'state': _('State or province'),
             'founded': _('When was your enterprise or project founded?'),
             'media_url': _('Paste a link to photos or any introductory video about your enterprise or project:'),
@@ -49,7 +67,7 @@ class OrganizationForm(ModelForm):
         }
 
 
-class SocialNetworksForm(ModelForm):
+class SocialNetworksForm(BaseModelForm):
     class Meta:
         model = SocialNetwork
         fields = [
@@ -58,7 +76,7 @@ class SocialNetworksForm(ModelForm):
         ]
 
 
-class LegalStatusForm(ModelForm):
+class LegalStatusForm(BaseModelForm):
     class Meta:
         model = Organization
         fields = [
@@ -72,7 +90,7 @@ class LegalStatusForm(ModelForm):
         }
 
 
-class StageForm(ModelForm):
+class StageForm(BaseModelForm):
     class Meta:
         model = Organization
         fields = [
@@ -86,7 +104,7 @@ class StageForm(ModelForm):
         }
 
 
-class CategoryForm(ModelForm):
+class CategoryForm(BaseModelForm):
     class Meta:
         model = Organization
         fields = [
@@ -100,7 +118,7 @@ class CategoryForm(ModelForm):
         }
 
 
-class SectorForm(ModelForm):
+class SectorForm(BaseModelForm):
     class Meta:
         model = Organization
         fields = [
@@ -112,3 +130,18 @@ class SectorForm(ModelForm):
         widgets = {
             'sectors': CheckboxSelectMultiple(attrs={'class': 'checkbox'})
         }
+
+
+class OrganizationSocialNetworkForm(BaseModelForm):
+    class Meta:
+        model = OrganizationSocialNetwork
+        fields = [
+            'socialnetwork',
+            'identifier',
+        ]
+        widgets = {
+            'socialnetwork': HiddenInput(),
+        }
+
+
+OrganizationSocialNetworkFormSet = formset_factory(OrganizationSocialNetworkForm, extra=0)

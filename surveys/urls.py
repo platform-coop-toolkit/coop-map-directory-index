@@ -1,16 +1,12 @@
 from django.urls import path
 from django.conf.urls import url
-from . import views
-from .forms import IndividualForm, OrganizationForm, SocialNetworksForm
-from .preview import IndividualFormPreview, OrganizationFormPreview, SocialNetworksFormPreview
-from .views import FORMS, SurveyWizard, ContactWizard
-
+from .forms import SocialNetworksForm
+from . views import index, ECOSYSTEM_FORMS, EcosystemWizard
+from mdi.models import OrganizationSocialNetwork
 
 urlpatterns = [
-    # path('', views.index, name='index'),
-    url(r'^ecosystem/$', SurveyWizard.as_view(FORMS)),
-    url(r'^preview/individual/$', IndividualFormPreview(IndividualForm)),
-    url(r'^preview/organization/$', OrganizationFormPreview(OrganizationForm)),
-    url(r'^preview/socialnetworks/$', SocialNetworksFormPreview(SocialNetworksForm)),
-    url(r'^ecosystem-2020/$', ContactWizard.as_view([IndividualForm, OrganizationForm, SocialNetworksForm])),
+    url(r'^$', index),
+    path(r'ecosystem-2020/',
+         EcosystemWizard.as_view(ECOSYSTEM_FORMS, instance_dict={'social_networks': OrganizationSocialNetwork}),
+         name='ecosystem-2020'),
 ]

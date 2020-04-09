@@ -1,0 +1,34 @@
+{% extends 'surveys/ecosystem_2020/base.html' %}
+{% load static %}
+{% load i18n %}
+{% load maps_extras %}
+{% block title %}{{ 'Basic Organization Information'|titlify }}{% endblock %}
+{% block content %}
+    <div class="page-header">
+        <h1><span class="pc-ff--sans pc-fw--normal">2020 Ecosystem Survey </span><br/> Basic Organization Information</h1>
+    </div>
+    <form action="" method="post">
+        {% csrf_token %}
+        {% if form.errors  %}
+        {{ form.errors }}
+        {% endif %}
+        {{ wizard.management_form }}
+{% include 'maps/profiles/back_and_steps.html' %}
+        {% if wizard.form.forms %}
+            {{ wizard.form.management_form }}
+            {% for form in wizard.form.forms %}
+                {{ form }}
+            {% endfor %}
+        {% else %}
+        <fieldset>
+            <legend><strong>Basic organization information</strong></legend>
+            <div class="spacer"></div>
+            {{ wizard.form }}
+          <div class="spacer"></div>
+        </fieldset>
+        {% endif %}
+
+{% include 'maps/profiles/footer.html' %}
+    </form>
+
+{% endblock %}

@@ -29,7 +29,6 @@ def manage_socialnetworks(request, user_id):
 # Profile flow
 # This trivially branches to either the Organization or Individual Profile `django-formtools` wizard.
 def profile(request):
-    print(request.POST)
     if request.method == 'POST':
         if request.POST['type'] == 'org':
             return redirect('organization-profile')

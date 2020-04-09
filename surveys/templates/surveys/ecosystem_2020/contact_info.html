@@ -1,0 +1,54 @@
+{% extends 'surveys/ecosystem_2020/base.html' %}
+{% load static %}
+{% load i18n %}
+{% load maps_extras %}
+{% block title %}{{ 'Contact Information'|titlify }}{% endblock %}
+{% block content %}
+    <div class="page-header">
+        <h1><span class="pc-ff--sans pc-fw--normal">2020 Ecosystem Survey </span><br/> Contact Information</h1>
+    </div>
+    <form action="" method="post">
+        {% csrf_token %}
+        {% if form.errors  %}
+        {{ form.errors }}
+        {% endif %}
+        {{ wizard.management_form }}
+{% include 'maps/profiles/back_and_steps.html' %}
+        {% if wizard.form.forms %}
+            {{ wizard.form.management_form }}
+            {% for form in wizard.form.forms %}
+                {{ form }}
+            {% endfor %}
+        {% else %}
+        <fieldset>
+            <legend><strong>Your contact information</strong></legend>
+            <p>Please provide the contact information for the best person to reach out to should we have follow-up questions about the answers you have provided to the short form of our survey. This contact information will not be part of the index. It will not be published online.</p>
+            <div class="spacer"></div>
+            <label for="{{ wizard.form.first_name.id_for_label }}">
+              {{ wizard.form.first_name.label }}{{ wizard.form.first_name }}
+            </label>
+            <label for="{{ wizard.form.middle_name.id_for_label }}">
+              {{ wizard.form.middle_name.label }}{{ wizard.form.middle_name }}
+            </label>
+            <label for="{{ wizard.form.last_name.id_for_label }}">
+              {{ wizard.form.last_name.label }}{{ wizard.form.last_name }}
+            </label>
+            <label for="{{ wizard.form.email.id_for_label }}">
+              {{ wizard.form.email.label }}{{ wizard.form.email }}
+            </label>
+            <ul class="input-group">
+            <strong>{{ wizard.form.role.label }}</strong>
+            {% for checkbox in wizard.form.role %}
+                <li>{{ checkbox.tag }}
+                    <label for="{{ checkbox.id_for_label }}">{{ checkbox.choice_label }}</label>
+                </li>
+            {% endfor %}
+            </ul>
+          <div class="spacer"></div>
+        </fieldset>
+        {% endif %}
+
+{% include 'maps/profiles/footer.html' %}
+    </form>
+
+{% endblock %}
