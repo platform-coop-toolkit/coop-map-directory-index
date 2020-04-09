@@ -117,7 +117,7 @@ class IndividualProfileWizard(LoginRequiredMixin, SessionWizardView):
         user.challenges.set(form_dict['challenges'])
         for sn in form_dict['formset-social_networks']:
             print('sn: {}'.format(sn))
-            
+
             user.socialnetworks.set(sn)
         user.role.set(form_dict['role'])
         return HttpResponseRedirect('individual_detail')
