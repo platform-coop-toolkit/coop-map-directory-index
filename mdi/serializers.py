@@ -93,7 +93,7 @@ class OrganizationSerializer(CountryFieldMixin, GeoFeatureModelSerializer):
     source = serializers.StringRelatedField()
     stage = serializers.StringRelatedField()
     type = serializers.StringRelatedField()
-    sectors = SectorSerializer(many=True)
+    sectors = serializers.StringRelatedField(many=True)
     socialnetworks = serializers.StringRelatedField(many=True)
 
     class Meta:
