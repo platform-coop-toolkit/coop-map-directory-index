@@ -98,7 +98,7 @@ class User(AbstractUser):
     country = CountryField(blank=True)
     url = models.URLField(blank=True, default='', max_length=255)
     geom = models.PointField(blank=True, null=True)
-    role = models.ForeignKey(Role, blank=False, default='', on_delete=models.CASCADE)
+    roles = models.ManyToManyField(Role, blank=True, )
     related_individuals = models.ManyToManyField('self', through='mdi.EntitiesEntities')
     related_organizations = models.ManyToManyField(
         'mdi.Organization',
