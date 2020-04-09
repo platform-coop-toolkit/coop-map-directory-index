@@ -1,5 +1,6 @@
 from django import forms
-from django.forms import RadioSelect, CheckboxSelectMultiple, DateTimeInput, HiddenInput, URLInput, formset_factory
+from django.forms import CheckboxSelectMultiple, DateTimeInput, HiddenInput, RadioSelect, SelectMultiple, \
+    URLInput, formset_factory
 from django.utils.translation import gettext_lazy as _
 from django.template.defaultfilters import safe
 from accounts.models import User, Role
@@ -67,67 +68,28 @@ class BasicOrganizationInfoForm(BaseModelForm):
         }
 
 
-class SocialNetworksForm(BaseModelForm):
-    class Meta:
-        model = SocialNetwork
-        fields = [
-            'name',
-            'description',
-        ]
-
-
-class LegalStatusForm(BaseModelForm):
+class CategoriesChallengesForm(BaseModelForm):
     class Meta:
         model = Organization
         fields = [
             'legal_status',
-        ]
-        labels = {
-            'legal_status': _('What is your status if you are a legally incorporated enterprise?'),
-        }
-        widgets = {
-            'legal_status': CheckboxSelectMultiple(attrs={'class': 'checkbox'})
-        }
-
-
-class StageForm(BaseModelForm):
-    class Meta:
-        model = Organization
-        fields = [
             'stage',
-        ]
-        labels = {
-            'stage': _('At what stage in the development process is your enterprise or project?'),
-        }
-        widgets = {
-            'stage': RadioSelect(attrs={'class': 'radio'})
-        }
-
-
-class CategoryForm(BaseModelForm):
-    class Meta:
-        model = Organization
-        fields = [
+            'challenges',
             'categories',
-        ]
-        labels = {
-            'categories': _('Which terms do you use to describe your project or enterprise?'),
-        }
-        widgets = {
-            'categories': CheckboxSelectMultiple(attrs={'class': 'checkbox'})
-        }
-
-
-class SectorForm(BaseModelForm):
-    class Meta:
-        model = Organization
-        fields = [
             'sectors',
         ]
         labels = {
+            'legal_status': _('What is your status if you are a legally incorporated enterprise?'),
+            'stage': _('At what stage in the development process is your enterprise or project?'),
+            'challenges': _('What challenges are you facing with your project or enterprise?'),
+            'categories': _('Which terms do you use to describe your project or enterprise?'),
             'sectors': _('In which industries or sectors do you operate?'),
         }
         widgets = {
+            'legal_status': CheckboxSelectMultiple(attrs={'class': 'checkbox'}),
+            'stage': RadioSelect(attrs={'class': 'radio'}),
+            'challenges': SelectMultiple(attrs={'size': 4, 'class': 'multiple'}),
+            'categories': CheckboxSelectMultiple(attrs={'class': 'checkbox'}),
             'sectors': CheckboxSelectMultiple(attrs={'class': 'checkbox'})
         }
 

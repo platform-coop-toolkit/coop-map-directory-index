@@ -3,7 +3,8 @@ from django.template import loader
 from django.views.generic import TemplateView
 from formtools.wizard.views import SessionWizardView
 from django.shortcuts import get_object_or_404, render, redirect
-from .forms import ContactInfoForm, BasicOrganizationInfoForm, OrganizationSocialNetworkFormSet, LegalStatusForm, StageForm, CategoryForm, SectorForm
+from .forms import ContactInfoForm, BasicOrganizationInfoForm, OrganizationSocialNetworkFormSet, \
+    CategoriesChallengesForm
 
 from accounts.models import User
 from mdi.models import Organization, Category, Sector, Type, SocialNetwork
@@ -13,12 +14,14 @@ ECOSYSTEM_FORMS = [
     ('contact_info', ContactInfoForm),
     ('basic_organization_info', BasicOrganizationInfoForm),
     ('social_networks', OrganizationSocialNetworkFormSet),
+    ('categories_challenges', CategoriesChallengesForm),
 ]
 
 ECOSYSTEM_TEMPLATES = {
     'contact_info': 'surveys/ecosystem_2020/contact_info.html',
     'basic_organization_info': 'surveys/ecosystem_2020/basic_organization_info.html',
     'social_networks': 'surveys/ecosystem_2020/social_networks.html',
+    'categories_challenges': 'surveys/ecosystem_2020/categories_challenges.html',
 }
 
 
@@ -44,7 +47,7 @@ class EcosystemWizard(SessionWizardView):
         return self.initial_dict.get('social_networks', initial)
 
     def done(self, form_list, **kwargs):
-        return render(self.request, 'done.html', {
+        return render(self.request, 'surveys/ecosystem_2020/done.html', {
             'form_data': [form.cleaned_data for form in form_list],
         })
 

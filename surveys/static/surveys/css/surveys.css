@@ -1,3 +1,8 @@
 fieldset > label {
   line-height: 3rem;
 }
+
+select.multiple {
+  height: 10rem;
+  overflow-y: auto;
+}

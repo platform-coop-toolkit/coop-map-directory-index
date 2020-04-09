@@ -224,7 +224,7 @@ class Organization(models.Model):
     sectors = models.ManyToManyField(Sector, blank=True,)
     legal_status = models.ManyToManyField(LegalStatus, blank=True,)
     challenges = models.ManyToManyField(Challenge, blank=True,)
-    socialnetworks = models.ManyToManyField(SocialNetwork, through='OrganizationSocialNetwork')
+    socialnetworks = models.ManyToManyField(SocialNetwork, blank=True, through='OrganizationSocialNetwork')
     notes = models.TextField(blank=True, default='')
     admin_email = models.EmailField(default='', max_length=255)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -265,8 +265,8 @@ class Organization(models.Model):
 
 class OrganizationSocialNetwork(models.Model):
     organization = models.ForeignKey(Organization, on_delete=models.CASCADE)
-    socialnetwork = models.ForeignKey(SocialNetwork, on_delete=models.CASCADE)
-    identifier = models.CharField(blank=False, max_length=255)
+    socialnetwork = models.ForeignKey(SocialNetwork, blank=True, on_delete=models.CASCADE)
+    identifier = models.CharField(blank=True, max_length=255)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 

@@ -1,6 +1,5 @@
 from django.urls import path
 from django.conf.urls import url
-from .forms import SocialNetworksForm
 from . views import index, ECOSYSTEM_FORMS, EcosystemWizard
 from mdi.models import OrganizationSocialNetwork
 

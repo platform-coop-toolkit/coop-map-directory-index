@@ -1,0 +1,79 @@
+{% extends 'surveys/ecosystem_2020/base.html' %}
+{% load static %}
+{% load i18n %}
+{% load maps_extras %}
+{% block title %}{{ 'Categories & Challenges'|titlify }}{% endblock %}
+{% block content %}
+    <div class="page-header">
+        <h1><span class="pc-ff--sans pc-fw--normal">2020 Ecosystem Survey </span><br/> Categories & Challenges</h1>
+    </div>
+    <form action="" method="post">
+        {% csrf_token %}
+        {% if form.errors  %}
+        {{ form.errors }}
+        {% endif %}
+        {{ wizard.management_form }}
+{% include 'maps/profiles/back_and_steps.html' %}
+        {% if wizard.form.forms %}
+            {{ wizard.form.management_form }}
+            {% for form in wizard.form.forms %}
+                {{ form }}
+            {% endfor %}
+        {% else %}
+        <fieldset>
+            <legend><strong>Incorporation</strong></legend>
+            <ul class="input-group">
+            <strong>{{ wizard.form.legal_status.label }}</strong>
+            {% for checkbox in wizard.form.legal_status %}
+                <li>{{ checkbox.tag }}
+                    <label for="{{ checkbox.id_for_label }}">{{ checkbox.choice_label }}</label>
+                </li>
+            {% endfor %}
+            </ul>
+        </fieldset>
+        <div class="spacer"></div>
+
+        <fieldset>
+            <legend><strong>Development stage and challenges</strong></legend>
+            <ul class="input-group">
+            <strong>{{ wizard.form.stage.label }}</strong>
+            {% for radio in wizard.form.stage %}
+                <li>{{ radio.tag }}
+                    <label for="{{ radio.id_for_label }}">{{ radio.choice_label }}</label>
+                </li>
+            {% endfor %}
+            </ul>
+          <div class="spacer"></div>
+
+          <strong>{{ wizard.form.challenges.label }}</strong>
+            {{ wizard.form.challenges }}
+        </fieldset>
+        <div class="spacer"></div>
+
+            <ul class="input-group">
+            <strong>{{ wizard.form.categories.label }}</strong>
+            {% for checkbox in wizard.form.categories %}
+                <li>{{ checkbox.tag }}
+                    <label for="{{ checkbox.id_for_label }}">{{ checkbox.choice_label }}</label>
+                </li>
+            {% endfor %}
+            </ul>
+          <div class="spacer"></div>
+          <div class="spacer"></div>
+            <ul class="input-group">
+            <strong>{{ wizard.form.sectors.label }}</strong>
+            {% for checkbox in wizard.form.sectors %}
+                <li>{{ checkbox.tag }}
+                    <label for="{{ checkbox.id_for_label }}">{{ checkbox.choice_label }}</label>
+                </li>
+            {% endfor %}
+            </ul>
+          <div class="spacer"></div>
+
+        </fieldset>
+        {% endif %}
+
+{% include 'maps/profiles/footer.html' %}
+    </form>
+
+{% endblock %}
