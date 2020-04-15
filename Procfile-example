@@ -1,0 +1,6 @@
+# A possible configuration for a production environment
+# web: gunicorn cmdi.wsgi
+
+# A possible configuration for a developement environment
+web: python manage.py runserver
+
