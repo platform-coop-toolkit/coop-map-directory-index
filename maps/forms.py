@@ -28,8 +28,8 @@ class BranchForm(forms.Form):
     )
 
 
-class RoleForm(BaseForm):
-    role = forms.ModelMultipleChoiceField(
+class RolesForm(BaseForm):
+    roles = forms.ModelMultipleChoiceField(
         queryset=Role.objects.all(),
         label=safe('How would you describe yourself?<br /><div class="space"></div><small>Choose all that apply</small>'),
         widget=CheckboxSelectMultiple(attrs={'class': 'checkbox'})

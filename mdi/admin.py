@@ -1,5 +1,5 @@
-# -*- coding: utf-8 -*-
 from django.contrib.gis import admin
+from django.contrib.gis.admin import ModelAdmin, OSMGeoAdmin, TabularInline
 from accounts.models import SocialNetwork
 from .models import \
     Category, Challenge, LegalStatus, Organization, OrganizationSocialNetwork, Stage, Tool, License, \
@@ -15,32 +15,32 @@ admin.site.index_title= 'Map / Directory / Index'
 
 # Create Admin-related classes
 @admin.register(Category)
-class CategoryNetworkAdmin(admin.ModelAdmin):
+class CategoryNetworkAdmin(ModelAdmin):
     list_display = ('name', 'order', 'description', )
 
 
 @admin.register(Challenge)
-class LegalStatusAdmin(admin.ModelAdmin):
+class LegalStatusAdmin(ModelAdmin):
     list_display = ('name', 'order', 'description', )
 
 
 @admin.register(LegalStatus)
-class LegalStatusAdmin(admin.ModelAdmin):
+class LegalStatusAdmin(ModelAdmin):
     list_display = ('name', 'order', 'description', )
 
 
 @admin.register(Service)
-class ServiceAdmin(admin.ModelAdmin):
+class ServiceAdmin(ModelAdmin):
     list_display = ('name', 'order', 'description', )
 
 
-class OrganizationSocialNetworkInline(admin.TabularInline):
+class OrganizationSocialNetworkInline(TabularInline):
     model = OrganizationSocialNetwork
     extra = 3
 
 
 @admin.register(Organization)
-class OrganizationAdmin(admin.OSMGeoAdmin):
+class OrganizationAdmin(OSMGeoAdmin):
     list_display = ('name', 'city', 'country',)
     list_filter = ('source', 'categories', 'type', 'sectors', 'country',)
     search_fields = ['name', 'description', ]
@@ -65,12 +65,12 @@ class EntitiesEntitiesAdmin(admin.ModelAdmin):
 
 
 @admin.register(Stage)
-class ToolAdmin(admin.ModelAdmin):
+class ToolAdmin(ModelAdmin):
     list_display = ('name', 'description', )
 
 
 @admin.register(Niche)
-class NicheAdmin(admin.ModelAdmin):
+class NicheAdmin(ModelAdmin):
     list_display = ('name', 'description', )
 
 

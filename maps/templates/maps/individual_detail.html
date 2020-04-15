@@ -18,7 +18,7 @@
 
     <div class="spacer"></div>
     <span>
-        <span class="screen-reader-text">location: </span>
+        <span class="screen-reader-text">location </span>
         <svg class="icon icon--location" aria-hidden="true" viewBox="0 0 20 20" focusable="false">
             <use href="{% static 'maps/images/location.svg#location' %}"/>
         </svg>
@@ -29,8 +29,25 @@
         {% endif %}
     </span>
 
-    <div class="tags">
-        <span class="badge">Role: {{ user.role }}</span><br />
+    <span>
+        <span class="screen-reader-text">languages </span>
+        <svg class="icon icon--location" aria-hidden="true" viewBox="0 0 32 32" focusable="false">
+            <use href="{% static 'maps/images/language.svg#language' %}"/>
+        </svg>
+        {% if user.languages.count > 0 %}
+            {% for l in user.languages.all %}
+            {{ l.iso_name }}
+            {% endfor %}
+        {% endif %}
+    </span>
+
+    <div>
+        <span class="screen-reader-text">roles </span>
+        {% if user.roles.count > 0 %}
+            {% for r in user.roles.all %}
+        <span class="badge">Role: {{ r.name }}</span><br />
+            {% endfor %}
+        {% endif %}
     </div>
 
     <h2>About me</h2>
@@ -40,14 +57,26 @@
     <p>{% lorem %}</p>
     {% endif %}
 
-    <h2>Looking for</h2>
-    <p>Data not collected</p>
 
-    <h2>Offering</h2>
-    <p>Data not collected</p>
+    <h2>Challenges</h2>
+    {% if user.challenges.count > 0 %}
+        {% for c in user.challenges.all %}
+    <span class="badge">Challenge: {{ c.name }}</span><br />
+        {% endfor %}
+    {% else %}
+    <p>{% lorem %}</p>
+    {% endif %}
 
-    <h2>Connections</h2>
-    <p>Data not collected</p>
+
+    <h2>Services provided</h2>
+    {% if user.services.count > 0 %}
+        {% for s in user.services.all %}
+    <span class="badge">Service: {{ s.name }}</span><br />
+        {% endfor %}
+    {% else %}
+    <p>{% lorem %}</p>
+    {% endif %}
+
 
     <h2>Contact</h2>
     {% if user.address or user.city or user.state or user.country or user.postal_code %}
@@ -71,13 +100,6 @@
             {% endif %}
         {% endfor %}
         </ul>
-    {% endif %}
-
-    <h2>Notes</h2>
-    {% if user.notes %}
-    <p>{{ user.notes }}</p>
-    {% else %}
-    <p>{% lorem %}</p>
     {% endif %}
 
     <div class="spacer"></div>

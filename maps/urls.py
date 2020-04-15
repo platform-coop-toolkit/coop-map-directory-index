@@ -1,6 +1,6 @@
 from django.urls import path
 from django.conf.urls import url
-from .forms import BranchForm, RoleForm, BasicInfoForm, UserSocialNetworkFormSet
+from .forms import BranchForm, RolesForm, BasicInfoForm, UserSocialNetworkFormSet
 from . import views
 from .views import INDIVIDUAL_FORMS, IndividualProfileWizard, OrganizationAutocomplete,\
     PrivacyPolicyView, TermsOfServiceView

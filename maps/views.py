@@ -7,10 +7,10 @@ from django.template import loader
 from django.views.generic import TemplateView
 from django.shortcuts import get_object_or_404, render, redirect
 from django.forms import inlineformset_factory
-from accounts.models import Role
+from accounts.models import UserSocialNetwork
 from mdi.models import Organization, SocialNetwork
 from formtools.wizard.views import SessionWizardView
-from .forms import BranchForm, RoleForm, BasicInfoForm, DetailedInfoForm, ContactInfoForm, UserSocialNetworkFormSet
+from .forms import BranchForm, RolesForm, BasicInfoForm, DetailedInfoForm, ContactInfoForm, UserSocialNetworkFormSet
 from dal import autocomplete
 
 
@@ -48,7 +48,7 @@ def profile(request):
 
 # This operates the Individual Profile wizard via `django-formtools`.
 INDIVIDUAL_FORMS = [
-    ('role', RoleForm),
+    ('roles', RolesForm),
     ('basic_info', BasicInfoForm),
     ('detailed_info', DetailedInfoForm),
     ('contact_info', ContactInfoForm),
@@ -56,7 +56,7 @@ INDIVIDUAL_FORMS = [
 ]
 
 INDIVIDUAL_TEMPLATES = {
-    'role': 'maps/profiles/individual/role.html',
+    'roles': 'maps/profiles/individual/roles.html',
     'basic_info': 'maps/profiles/individual/basic_info.html',
     'detailed_info': 'maps/profiles/individual/detailed_info.html',
     'contact_info': 'maps/profiles/individual/contact_info.html',
@@ -72,10 +72,10 @@ class IndividualProfileWizard(LoginRequiredMixin, SessionWizardView):
         context = super().get_context_data(form=form, **kwargs)
 
         if self.steps.current == 'detailed_info':
-            role = self.get_cleaned_data_for_step('role')
-            print('role.cleaned {}'.format(role))
+            roles = self.get_cleaned_data_for_step('roles')
+            print('roles.cleaned {}'.format(roles))
             # Display `Services` if Individual is in Roles other than `Coop Founder` or `Coop Member`.
-            for r in role:
+            for r in roles:
                 if r not in ['Coop Founder', 'Coop Member']:
                     context.update({'display_services': True})
                 if r == 'Service Provider':
@@ -103,24 +103,22 @@ class IndividualProfileWizard(LoginRequiredMixin, SessionWizardView):
         return self.initial_dict.get('social_networks', initial)
 
     def done(self, form_list, form_dict, **kwargs):
-        form_dict = self.get_all_cleaned_data()
         user = self.request.user
-        print('\n  current user: {}\n'.format(user))
-        print('\n  form_list: {}\n'.format(form_list))
-        print('\n  form_dict: {}\n'.format(form_dict))
+        form_dict = self.get_all_cleaned_data()
         for k, v in form_dict.items():
-            if k not in ['role', 'languages', 'services', 'challenges', 'formset-social_networks', ]:
+            if k not in ['roles', 'languages', 'services', 'challenges', 'formset-social_networks', ]:
                 setattr(user, k, v)
         user.save()
+        user.roles.set(form_dict['roles'])
         user.languages.set(form_dict['languages'])
         user.services.set(form_dict['services'])
         user.challenges.set(form_dict['challenges'])
-        for sn in form_dict['formset-social_networks']:
-            print('sn: {}'.format(sn))
 
-            user.socialnetworks.set(sn)
-        user.role.set(form_dict['role'])
-        return HttpResponseRedirect('individual_detail')
+        for sn in form_dict['formset-social_networks']:
+            if sn['identifier'] != '':
+                UserSocialNetwork.objects.create(user=user, socialnetwork=sn['socialnetwork'], identifier=sn['identifier'])
+
+        return redirect('individual_detail', user_id=user.id)
 
 
 # Autocomplete views for profile creation.
@@ -154,7 +152,7 @@ def organization_detail(request, organization_id):
 
 # Individual
 def individual_detail(request, user_id):
-    user = get_object_or_404(settings.AUTH_USER_MODEL, pk=user_id)
+    user = get_object_or_404(get_user_model(), pk=user_id)
     context = {
     }
     return render(request, 'maps/individual_detail.html', {'individual': user})
