@@ -15,7 +15,7 @@
 		<title>Checkboxes: Default (Inverse) | Pinecone</title>
 	</head>
 
-	<body class="has-blue-500-background-color">
+	<body class="has-dark-mint-500-background-color">
 		<header role="banner">
 			<div class="container">
 			</div>
@@ -23,11 +23,16 @@
 		<div class="wrap container" role="document">
       		<div class="content">
 				<main>
-<ul class="input-group ">
-	<li><input id="checkbox" type="checkbox" name="checkbox[]" value="checkbox"  /><label for="checkbox">Checkbox</label></li>
-	<li><input id="checkbox" type="checkbox" name="checkbox[]" value="checkbox"  checked /><label for="checkbox">Checkbox</label></li>
-	<li><input id="indeterminate" type="checkbox" name="checkbox[]" value="indeterminate"  /><label for="indeterminate">Checkbox</label></li>
-	<li><input id="checkbox" type="checkbox" name="checkbox[]" value="checkbox"  disabled /><label for="checkbox">Checkbox</label></li>
+<ul class="input-group input-group--inverse">
+	<li><input id="unchecked" type="checkbox" name="unchecked" value="checkbox" />
+<label for="unchecked">Initially unchecked</label>
+</li>
+	<li><input id="checked" type="checkbox" name="checked" value="checkbox" checked />
+<label for="checked">Initially checked</label>
+</li>
+	<li><input id="disabled" type="checkbox" name="disabled" value="checkbox" disabled />
+<label for="disabled">Disabled checkbox</label>
+</li>
 </ul>
 <script type="text/javascript">
 	document.getElementById('indeterminate').indeterminate = true;
