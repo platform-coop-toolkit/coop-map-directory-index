@@ -28,7 +28,7 @@ class UserViewSet(viewsets.ModelViewSet):
   """
   queryset = get_user_model().objects.all().order_by('date_joined')
   serializer_class = UserSerializer
-  http_method_names = ['get',]
+  http_method_names = ['get', ]
 
 
 class GroupViewSet(viewsets.ModelViewSet):
@@ -37,7 +37,7 @@ class GroupViewSet(viewsets.ModelViewSet):
   """
   queryset = Group.objects.all()
   serializer_class = GroupSerializer
-  http_method_names = ['get',]
+  http_method_names = ['get', ]
 
 
 class SectorViewSet(viewsets.ModelViewSet):
@@ -46,7 +46,7 @@ class SectorViewSet(viewsets.ModelViewSet):
     """
     queryset = Sector.objects.filter(name__regex=r'^[A-Z]')
     serializer_class = SectorSerializer
-    http_method_names = ['get',]
+    http_method_names = ['get', ]
 
 
 class ToolViewSet(viewsets.ModelViewSet):
@@ -55,7 +55,7 @@ class ToolViewSet(viewsets.ModelViewSet):
     """
     queryset = Tool.objects.all()
     serializer_class = ToolSerializer
-    http_method_names = ['get',]
+    http_method_names = ['get', ]
 
 
 class OrganizationViewSet(viewsets.ModelViewSet):
@@ -64,4 +64,4 @@ class OrganizationViewSet(viewsets.ModelViewSet):
     """
     queryset = Organization.objects.all() # filter(geom__isnull=False)
     serializer_class  = OrganizationSerializer
-    http_method_names = ['get',]
+    http_method_names = ['get', ]
