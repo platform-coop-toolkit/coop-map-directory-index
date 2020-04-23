@@ -20,17 +20,17 @@
           </button>
           <ul id="menu-primary-menu-english" class="menu menu--home">
             {% if user.is_authenticated %}
-            <li class=" menu-item menu-item-type-post_type menu-item-object-page"><a
+            <li class="menu-item menu-item-type-post_type menu-item-object-page"><a
                 href="#" class="menu__item">{{ user.email }}</a></li>
-            <li class=" menu-item menu-item-type-post_type menu-item-object-page"><a
+            <li class="menu-item menu-item-type-post_type menu-item-object-page"><a
                 href="{% url 'profile-branch' %}" class="menu__item">My profiles</a></li>
-            <li class=" menu-item menu-item-type-post_type menu-item-object-page"><a
+            <li class="menu-item menu-item-type-post_type menu-item-object-page"><a
                 href="/accounts/logout/" class="menu__item">Logout</a></li>
             {% else %}
-            <li class=" menu-item menu-item-type-post_type menu-item-object-page"><a
+            <li class="menu-item menu-item-type-post_type menu-item-object-page"><a
                 href="/accounts/login/" class="menu__item">Login</a></li>
             {% endif %}
-            <li class=" menu-item menu-item-type-post_type menu-item-object-page"><a
+            <li class="menu-item menu-item-type-post_type menu-item-object-page"><a
                 href="#" class="menu__item">About</a></li>
             <li class="menu-item menu-item--languages menu__submenu-wrapper">
               <button class="menu__item" aria-expanded="false">
