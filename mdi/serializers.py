@@ -85,6 +85,7 @@ class ToolSerializer(serializers.HyperlinkedModelSerializer):
             'niches',
             'languages_supported',
             'sectors',
+            'use_count',
         )
 
 
@@ -95,6 +96,7 @@ class OrganizationSerializer(CountryFieldMixin, GeoFeatureModelSerializer):
     type = serializers.StringRelatedField()
     sectors = serializers.StringRelatedField(many=True)
     socialnetworks = serializers.StringRelatedField(many=True)
+    tools = serializers.StringRelatedField(many=True)
 
     class Meta:
         model = Organization
@@ -114,5 +116,6 @@ class OrganizationSerializer(CountryFieldMixin, GeoFeatureModelSerializer):
             'type',
             'sectors',
             'stage',
+            'tools',
             'source',
         )

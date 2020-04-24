@@ -1,8 +1,10 @@
 from django.contrib.auth import get_user_model
 from django.contrib.gis.db import models
+from datetime import date
+from django.utils import timezone
 from accounts.models import SocialNetwork, Source
 from django_countries.fields import CountryField
-from datetime import date
+
 from django.core.exceptions import ValidationError
 from django.urls import reverse
 from django.db.models import Manager as GeoManager
@@ -186,6 +188,9 @@ class Tool(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+    def use_count(self):
+        return self.organization_set.count()
+
     class Meta:
         ordering = ['name']
 
@@ -225,6 +230,7 @@ class Organization(models.Model):
     legal_status = models.ManyToManyField(LegalStatus, blank=True,)
     challenges = models.ManyToManyField(Challenge, blank=True,)
     socialnetworks = models.ManyToManyField(SocialNetwork, blank=True, through='OrganizationSocialNetwork')
+    tools = models.ManyToManyField(Tool, blank=True, )
     notes = models.TextField(blank=True, default='')
     admin_email = models.EmailField(default='', max_length=255)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -255,6 +261,22 @@ class Organization(models.Model):
         else:
             legal_status_string = 'Unknown'
         return legal_status_string
+    
+    def murmurate(self):
+        return {
+            'name': self.name,
+            'url': self.url,
+            'tagline': '',
+            'mission': self.description,
+            'nodeTypes': 'co-op', # needs smarter mapping to Murmurations types
+            'location': '{} {} {} {}'.format(self.address, self.city, self.state, self.country, self.postal_code).strip(),
+            'logo': self.logo_url,
+            'feed': '',
+            'tags': self.sectors_to_s(),
+            'lat': self.geom.y,
+            'lon': self.geom.x,
+            'updated': timezone.now().timestamp()
+        }
 
     class Meta:
         ordering = ['name']
