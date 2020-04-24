@@ -11,7 +11,7 @@ urlpatterns = [
     path('profiles/organization', IndividualProfileWizard.as_view(INDIVIDUAL_FORMS), {'title': 'Organization'}, name='organization-profile'),
     url(r'^organization-autocomplete/$', OrganizationAutocomplete.as_view(create_field='name'), name='organization-autocomplete'),
     path('organizations/<int:organization_id>', views.organization_detail, name='organization_detail'),
-    path('individuals/<int:user_id>', views.individual_detail, name='individual_detail'),
+    path('individuals/<int:user_id>', views.individual_detail, name='individual-detail'),
     path('privacy-policy/', PrivacyPolicyView.as_view(), {'title': 'Privacy Policy'}, name='privacy_policy'),
     path('terms-of-service/', TermsOfServiceView.as_view(), {'title': 'Terms of Service'}, name='terms_of_service'),
 ]

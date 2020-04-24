@@ -101,7 +101,7 @@ class IndividualProfileWizard(LoginRequiredMixin, SessionWizardView):
             if sn['identifier'] != '':
                 UserSocialNetwork.objects.create(user=user, socialnetwork=sn['socialnetwork'], identifier=sn['identifier'])
 
-        return redirect('individual_detail', user_id=user.id)
+        return redirect('individual-detail', user_id=user.id)
 
 
 # Autocomplete views for profile creation.

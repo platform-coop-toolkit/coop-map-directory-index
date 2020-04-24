@@ -30,16 +30,19 @@
                 <a class="menu__item" href="#">My profiles</a>
                 <ul class="menu__submenu">
                     <li>
-                      <h2>Personal</h2>
-                      You do not have a profile in the directory
+                      <p><strong>Personal</strong></p>
+                      {% if not user.has_profile %}
+                      <p>You do not have a profile in the directory</p>
                       <a class="menu__item" href="{% url 'individual-profile' %}">Create personal profile</a>
+                      {% else %}
+                      <a class="menu__item" href="{% url 'individual-detail' user.id %}">{{ user.first_name }} {{ user.last_name }}</a>
+                      {% endif %}
                       <hr class="is-style-hairline has-blue-500-background-color" />
                     </li>
 
                     <li>
-                      <h3>Organisations</h3>
-                      You have not created any organisational profiles
-
+                      <p><strong>Organisations</strong></p>
+                      <p>You have not created any organisational profiles</p>
                       <a class="menu__item" href="#">Create organisational profile</a>
                     </li>
                 </ul>
