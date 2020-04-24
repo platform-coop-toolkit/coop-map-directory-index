@@ -25,3 +25,11 @@
     </div>
   </footer>
 <script src="{% static 'maps/dist/js/site.js' %}"></script>
+<script>
+  const menu = document.querySelector('.menu');
+  const menuToggle = document.querySelector('.menu-toggle');
+
+  if (menu && menuToggle) {
+    new Pinecone.Menu(menu, menuToggle);
+  }
+</script>
