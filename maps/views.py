@@ -10,7 +10,7 @@ from django.forms import inlineformset_factory
 from accounts.models import UserSocialNetwork
 from mdi.models import Organization, SocialNetwork
 from formtools.wizard.views import SessionWizardView
-from .forms import BranchForm, RolesForm, BasicInfoForm, DetailedInfoForm, ContactInfoForm, UserSocialNetworkFormSet
+from .forms import RolesForm, BasicInfoForm, DetailedInfoForm, ContactInfoForm, UserSocialNetworkFormSet
 from dal import autocomplete
 
 
@@ -29,23 +29,6 @@ def manage_socialnetworks(request, user_id):
 
 
 # Profile flow
-# This trivially branches to either the Organization or Individual Profile `django-formtools` wizard.
-@login_required(login_url='/accounts/login/')
-def profile(request):
-    if request.method == 'POST':
-        if request.POST['type'] == 'org':
-            return redirect('organization-profile')
-        else:
-            return redirect('individual-profile')
-
-    else:
-        profile_type_form = BranchForm()
-        return render(request, 'maps/profiles/branch.html', {
-            'profile_type_form': profile_type_form,
-            'title': 'Organisation or Individual?'
-        })
-
-
 # This operates the Individual Profile wizard via `django-formtools`.
 INDIVIDUAL_FORMS = [
     ('roles', RolesForm),

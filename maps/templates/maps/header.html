@@ -26,8 +26,23 @@
               <li class="menu-item menu-item-type-post_type menu-item-object-page"><span
                   class="menu__item">{{ user.email }}</span></li>
 
-            <li class="menu-item menu-item-type-post_type menu-item-object-page"><a
-                href="{% url 'profile-branch' %}" class="menu__item">My profiles</a>
+            <li class="menu__submenu-wrapper">
+                <a class="menu__item" href="#">My profiles</a>
+                <ul class="menu__submenu">
+                    <li>
+                      <h2>Personal</h2>
+                      You do not have a profile in the directory
+                      <a class="menu__item" href="{% url 'individual-profile' %}">Create personal profile</a>
+                      <hr class="is-style-hairline has-blue-500-background-color" />
+                    </li>
+
+                    <li>
+                      <h3>Organisations</h3>
+                      You have not created any organisational profiles
+
+                      <a class="menu__item" href="#">Create organisational profile</a>
+                    </li>
+                </ul>
             </li>
 
             <li class="menu-item menu-item-type-post_type menu-item-object-page"><a
@@ -54,7 +69,7 @@
               </a>
               <ul class="menu__submenu">
                 <li class="menu-item"><a aria-current="true" href="/en/" class="menu__item">English</a></li>
-                <li disabled class="menu-item"><a href="#" class="menu__item">Português</a></li>
+                <li class="menu-item"><a href="#" class="menu__item">Português</a></li>
                 <li class="menu-item"><a href="#" class="menu__item">Svenska</a></li>
                 <li class="menu-item"><a href="#" class="menu__item">Italiano</a></li>
                 <li class="menu-item"><a href="#" class="menu__item">Español</a></li>

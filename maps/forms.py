@@ -20,14 +20,6 @@ class BaseModelForm(forms.ModelForm):
         super(BaseModelForm, self).__init__(*args, **kwargs)
 
 
-class BranchForm(forms.Form):
-    type = forms.ChoiceField(
-        choices=[('org', 'Organisation'), ('ind', 'Individual')],
-        label='Are you creating a profile for an organisation, or for an individual?',
-        widget=RadioSelect(attrs={'class': 'radio'}),
-    )
-
-
 class RolesForm(BaseForm):
     roles = forms.ModelMultipleChoiceField(
         queryset=Role.objects.all(),
