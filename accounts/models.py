@@ -88,6 +88,7 @@ class User(AbstractUser):
       max_length=255,
       unique=True,
     )
+    has_profile = models.BooleanField(default=False)
     middle_name = models.CharField(blank=True, max_length=255, unique=False)
     bio = models.TextField(blank=True, default='')
     phone = models.CharField(blank=True, default='', max_length=255)
