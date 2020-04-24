@@ -91,6 +91,7 @@ class IndividualProfileWizard(LoginRequiredMixin, SessionWizardView):
         for k, v in form_dict.items():
             if k not in ['roles', 'languages', 'services', 'challenges', 'formset-social_networks', ]:
                 setattr(user, k, v)
+        user.has_profile = True
         user.save()
         user.roles.set(form_dict['roles'])
         user.languages.set(form_dict['languages'])
