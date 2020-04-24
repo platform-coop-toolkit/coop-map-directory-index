@@ -22,6 +22,7 @@ class CustomUserAdmin(UserAdmin, OSMGeoAdmin):
             'first_name',
             'middle_name',
             'last_name',
+            'has_profile',
             'bio',
             'address',
             'city',
