@@ -37,7 +37,9 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 SECRET_KEY = 'l0)^62hh%f$&$=z(gsnlwcffbf0e!vgfhzqnobtj34jh8d^1yv'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.environ['DEBUG']
+# Environment variable values are strings, not Booleans, so we test the value of the string.
+# See https://stackoverflow.com/questions/30015462/django-ignoring-debug-value-when-i-use-os-environ-why
+DEBUG = os.environ['DEBUG'] == 'True'
 
 ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS')
 if ALLOWED_HOSTS != '':
