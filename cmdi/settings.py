@@ -34,7 +34,7 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'l0)^62hh%f$&$=z(gsnlwcffbf0e!vgfhzqnobtj34jh8d^1yv'
+SECRET_KEY = os.environ['SECRET_KEY']
 
 # SECURITY WARNING: don't run with debug turned on in production!
 # Environment variable values are strings, not Booleans, so we test the value of the string.
