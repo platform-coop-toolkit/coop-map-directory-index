@@ -37,7 +37,7 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 SECRET_KEY = 'l0)^62hh%f$&$=z(gsnlwcffbf0e!vgfhzqnobtj34jh8d^1yv'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.environ['DEBUG']
 
 ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS')
 if ALLOWED_HOSTS != '':
