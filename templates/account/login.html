@@ -28,9 +28,11 @@
 {% get_providers as socialaccount_providers %}
 {% if socialaccount_providers %}
 <div class="spacer"></div>
-<div class="login-or">{% trans 'or' %}</div>
-<p>{% blocktrans with site.name as site_name %}sign in with one
-of your existing third party accounts. {% endblocktrans %}</p>
+<div class="login-or">
+  <p class="align-center">
+    {% trans 'OR' %}
+  </p>
+</div>
 
 <div class="socialaccount_ballot">
   <ul class="socialaccount_providers">

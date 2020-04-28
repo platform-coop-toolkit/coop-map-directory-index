@@ -1,3 +1,4 @@
+{% load static %}
 {% load socialaccount %}
 
 {% get_providers as socialaccount_providers %}
@@ -6,15 +7,34 @@
 {% if provider.id == "openid" %}
 {% for brand in provider.get_brands %}
 <li>
-  <a title="{{brand.name}}" 
+  <a title="{{brand.name}}"
      class="socialaccount_provider {{provider.id}} {{brand.id}}" 
      href="{% provider_login_url provider.id openid=brand.openid_url process=process %}"
      >{{brand.name}}</a>
 </li>
 {% endfor %}
 {% endif %}
-<li>
-  <a title="{{provider.name}}" class="socialaccount_provider {{provider.id}}" 
-     href="{% provider_login_url provider.id process=process scope=scope auth_params=auth_params %}">{{provider.name}}</a>
+<li class="no-bullet">
+  <a type="button" class="button" title="{{provider.name}}" class="socialaccount_provider {{provider.id}}"
+     href="{% provider_login_url provider.id process=process scope=scope auth_params=auth_params %}">
+    {% if provider.name == 'Facebook' %}
+    <i class="fab fa-facebook-square"></i>
+    {% elif provider.name == 'GitHub' %}
+    <i class="fab fa-github-square"></i>
+    {% elif provider.name == 'Instagram' %}
+    <i class="fab fa-instagram-square"></i>
+    {% elif provider.name == 'LinkedIn' %}
+    <i class="fab fa-linkedin"></i>
+    {% elif provider.name == 'Medium' %}
+    <i class="fab fa-medium"></i>
+    {% elif provider.name == 'Reddit' %}
+    <i class="fab fa-reddit-square"></i>
+    {% elif provider.name == 'Stack Exchange' %}
+    <i class="fab fa-stack-overflow"></i>
+    {% elif provider.name == 'Twitter' %}
+    <i class="fab fa-twitter-square"></i>
+    {% endif %}
+    Log in with {{provider.name}}
+  </a>
 </li>
 {% endfor %}
