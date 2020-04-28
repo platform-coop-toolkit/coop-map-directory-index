@@ -21,10 +21,32 @@
             <span id="menu-primary-label" class="menu-toggle__label">Menu</span>
           </button>
 
+          <form role="search" method="get" class="search-form search-form--inverse" action="#">
+            <label>
+              <span class="screen-reader-text">search</span>
+              <input id="s" name="s" type="search" disabled/>
+            </label>
+            <button type="submit" class="button button--search" disabled><span class="screen-reader-text">submit search</span>
+              <svg
+                  class="icon icon--search"
+                  aria-hidden="true"
+                  viewBox="0 0 20 20"
+                  focusable="false"
+              >
+                <use href="{% static 'maps/images/search.svg#search' %}" />
+              </svg>
+            </button>
+          </form>
+
           <ul id="menu-primary-menu-english" class="menu menu--home">
+            <li class="menu__submenu-wrapper">
+                <a class="menu__item" href="#">Explore</a>
+            </li>
+
             {% if user.is_authenticated %}
-              <li class="menu-item menu-item-type-post_type menu-item-object-page"><span
-                  class="menu__item">{{ user.email }}</span></li>
+            <li class="menu__submenu-wrapper">
+                <a class="menu__item" href="#">My Favorites</a>
+            </li>
 
             <li class="menu__submenu-wrapper">
                 <a class="menu__item" href="#">My profiles</a>
@@ -43,43 +65,29 @@
                     <li>
                       <p><strong>Organisations</strong></p>
                       <p>You have not created any organisational profiles</p>
-                      <a class="menu__item" href="#">Create organisational profile</a>
+                      <a class="menu__item" href="#"  class="menu__item">Create organisational profile</a>
                     </li>
                 </ul>
             </li>
-
-            <li class="menu-item menu-item-type-post_type menu-item-object-page"><a
-                href="/accounts/logout/" class="menu__item">Logout</a></li>
-            {% else %}
-            <li class="menu-item menu-item-type-post_type menu-item-object-page"><a
-                href="/accounts/login/" class="menu__item">Login</a></li>
             {% endif %}
 
             <li class="menu-item menu-item-type-post_type menu-item-object-page"><a
                 href="#" class="menu__item">About</a></li>
 
-            <li class="menu-item menu-item--languages menu__submenu-wrapper">
-              <a class="menu__item" href="/en/settings/language/">
-                <span class="menu__label">Language</span>
-                <svg
-                    class="icon icon--language icon--lg"
-                    aria-hidden="true"
-                    viewBox="0 0 30 30"
-                    focusable="false"
-                >
-                  <use href="{% static 'maps/images/language.svg#language' %}" />
-                </svg>
-              </a>
-              <ul class="menu__submenu">
-                <li class="menu-item"><a aria-current="true" href="/en/" class="menu__item">English</a></li>
-                <li class="menu-item"><a href="#" class="menu__item">Português</a></li>
-                <li class="menu-item"><a href="#" class="menu__item">Svenska</a></li>
-                <li class="menu-item"><a href="#" class="menu__item">Italiano</a></li>
-                <li class="menu-item"><a href="#" class="menu__item">Español</a></li>
-                <li class="menu-item"><a href="#" class="menu__item">Français</a></li>
-                <li class="menu-item"><a href="#" class="menu__item">Deutsch</a></li>
-              </ul>
+            {% if user.is_authenticated %}
+            <li class="menu__submenu-wrapper">
+                <a class="menu__item" href="#">Settings</a>
+                <ul class="menu__submenu">
+                  <li class="menu-item menu-item-type-post_type menu-item-object-page"><a
+                      href="/accounts/logout/" class="menu__item">Log out</a>
+                  </li>
+                </ul>
+            {% else %}
+
+            <li class="menu-item menu-item-type-post_type menu-item-object-page"><a
+                href="/accounts/login/" class="menu__item">Login / Sign up</a>
             </li>
+            {% endif %}
 
           </ul>
         </nav>
