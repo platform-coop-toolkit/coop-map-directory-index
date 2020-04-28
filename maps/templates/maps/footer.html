@@ -32,4 +32,15 @@
   if (menu && menuToggle) {
     new Pinecone.Menu(menu, menuToggle);
   }
+
+  if (icons) {
+    Array.prototype.forEach.call(icons, icon => {
+      new Pinecone.Icon(icon);
+    });
+  }
+
+  const searchToggle = document.querySelector('.search-toggle');
+  if (searchToggle) {
+    new Pinecone.SearchToggle(searchToggle, searchToggle.nextElementSibling);
+  }
 </script>

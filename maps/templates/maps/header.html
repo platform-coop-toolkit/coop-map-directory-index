@@ -7,90 +7,109 @@
         <svg class="icon icon--pcc icon--lg" viewBox="0 0 32 32" aria-hidden="" focusable="">
             <use href="{% static 'maps/images/pcc.svg#pcc' %}" />
         </svg>
-        <span class="brand__title screen-reader-text">Platform Cooperatives Worldwide</span></a>
+        <span class="brand__title screen-reader-text">Platform Cooperativism Consortium</span></a>
 
       <div class="inner">
+        <button class="button button--borderless search-toggle" aria-expanded="false"><span
+      class="screen-reader-text">Search </span>
+          <svg
+              class="icon icon--search"
+              viewBox="0 0 20 20"
+              focusable="false"
+          >
+           <use href="{% static 'maps/images/search.svg#search' %}" />
+          </svg>
+        </button>
+
+        <form role="search" method="get" class="search-form search-form--inverse" action="#">
+          <label>
+            <span class="screen-reader-text">search</span>
+            <input id="s" name="s" type="search" disabled/>
+          </label>
+          <button type="submit" class="button button--search" disabled><span class="screen-reader-text">submit search</span>
+            <svg
+                class="icon icon--search"
+                aria-hidden="true"
+                viewBox="0 0 20 20"
+                focusable="false"
+            >
+              <use href="{% static 'maps/images/search.svg#search' %}" />
+            </svg>
+          </button>
+        </form>
+
         <nav class="nav" aria-labelledby="menu-primary-label">
           <button class="button button--borderless menu-toggle" aria-expanded="false">
-            <svg class="icon icon--open" viewBox="0 0 20 20" focusable="false" aria-hidden="true">
-             <use href="{% static 'maps/images/menu.svg#menu' %}" />
+            <svg
+                class="icon icon--open"
+                aria-hidden="true"
+                viewBox="0 0 20 20"
+                focusable="false"
+            >
+              <use href="/images/menu.svg#menu"/>
             </svg>
-            <svg class="icon icon--close" viewBox="0 0 20 20" aria-hidden="true" focusable="false">
-              <use href="{% static 'maps/images/close.svg#close' %}" />
+            <svg
+                class="icon icon--close"
+                aria-hidden="true"
+                viewBox="0 0 20 20"
+                focusable="false"
+            >
+              <use href="/images/menu.svg#menu"/>
             </svg>
             <span id="menu-primary-label" class="menu-toggle__label">Menu</span>
           </button>
 
           <ul class="menu">
-            <form role="search" method="get" class="search-form search-form--inverse" action="#">
-              <label>
-                <span class="screen-reader-text">search</span>
-                <input id="s" name="s" type="search" disabled/>
-              </label>
-              <button type="submit" class="button button--search" disabled><span class="screen-reader-text">submit search</span>
-                <svg
-                    class="icon icon--search"
-                    aria-hidden="true"
-                    viewBox="0 0 20 20"
-                    focusable="false"
-                >
-                  <use href="{% static 'maps/images/search.svg#search' %}" />
-                </svg>
-              </button>
-            </form>
+            <li class="menu__submenu-wrapper current_page_ancestor current-menu-ancestor">
+              <a class="menu__item" aria-current="page" href="#explore">Explore</a>
+            </li>
 
-            <ul id="menu-primary-menu-english" class="menu menu--home">
-              <li class="menu__submenu-wrapper">
-                  <a class="menu__item" href="#">Explore</a>
-              </li>
+            {% if user.is_authenticated %}
+            <li class="menu__submenu-wrapper">
+                <a class="menu__item" href="#">My Favorites</a>
+            </li>
 
-              {% if user.is_authenticated %}
-              <li class="menu__submenu-wrapper">
-                  <a class="menu__item" href="#">My Favorites</a>
-              </li>
-
-              <li class="menu__submenu-wrapper">
-                  <a class="menu__item" href="#">My profiles</a>
-                  <ul class="menu__submenu">
-                      <li>
-                        <p><strong>Personal</strong></p>
-                        {% if not user.has_profile %}
-                        <p>You do not have a profile in the directory</p>
-                        <a class="menu__item" href="{% url 'individual-profile' %}">Create personal profile</a>
-                        {% else %}
-                        <a class="menu__item" href="{% url 'individual-detail' user.id %}">{{ user.first_name }} {{ user.last_name }}</a>
-                        {% endif %}
-                        <hr class="is-style-hairline has-blue-500-background-color" />
-                      </li>
-
-                      <li>
-                        <p><strong>Organisations</strong></p>
-                        <p>You have not created any organisational profiles</p>
-                        <a class="menu__item" href="#"  class="menu__item">Create organisational profile</a>
-                      </li>
-                  </ul>
-              </li>
-              {% endif %}
-
-              <li class="menu-item menu-item-type-post_type menu-item-object-page"><a
-                  href="#" class="menu__item">About</a></li>
-
-              {% if user.is_authenticated %}
-              <li class="menu__submenu-wrapper">
-                  <a class="menu__item" href="#">Settings</a>
-                  <ul class="menu__submenu">
-                    <li class="menu-item menu-item-type-post_type menu-item-object-page"><a
-                        href="/accounts/logout/" class="menu__item">Log out</a>
+            <li class="menu__submenu-wrapper">
+                <a class="menu__item" href="#">My profiles</a>
+                <ul class="menu__submenu">
+                    <li>
+                      <p><strong>Personal</strong></p>
+                      {% if not user.has_profile %}
+                      <p>You do not have a profile in the directory</p>
+                      <a class="menu__item" href="{% url 'individual-profile' %}">Create personal profile</a>
+                      {% else %}
+                      <a class="menu__item" href="{% url 'individual-detail' user.id %}">{{ user.first_name }} {{ user.last_name }}</a>
+                      {% endif %}
+                      <hr class="is-style-hairline has-blue-500-background-color" />
                     </li>
-                  </ul>
-              {% else %}
 
-              <li class="menu-item menu-item-type-post_type menu-item-object-page"><a
-                  href="/accounts/login/" class="menu__item">Login / Sign up</a>
-              </li>
-              {% endif %}
+                    <li>
+                      <p><strong>Organisations</strong></p>
+                      <p>You have not created any organisational profiles</p>
+                      <a class="menu__item" href="#"  class="menu__item">Create organisational profile</a>
+                    </li>
+                </ul>
+            </li>
+            {% endif %}
 
-            </ul>
+            <li class="menu-item menu-item-type-post_type menu-item-object-page"><a
+                href="#" class="menu__item">About</a></li>
+
+            {% if user.is_authenticated %}
+            <li class="menu__submenu-wrapper">
+                <a class="menu__item" href="#">Settings</a>
+                <ul class="menu__submenu">
+                  <li class="menu-item menu-item-type-post_type menu-item-object-page"><a
+                      href="/accounts/logout/" class="menu__item">Log out</a>
+                  </li>
+                </ul>
+            {% else %}
+
+            <li class="menu-item menu-item-type-post_type menu-item-object-page"><a
+                href="/accounts/login/" class="menu__item">Login / Sign up</a>
+            </li>
+            {% endif %}
+
           </ul>
         </nav>
       </div>
