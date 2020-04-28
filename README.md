@@ -18,6 +18,14 @@ This project requires Python 3 (it's been running under 3.6 & 3.7), PostgreSQL w
 10. For a local installation simply start the server: `honcho start`
 
 
+### Contributing
+
+* be consistent in using American English for interface elements
+* be consistent in using sentence case for interface elements and headers
+
+Ultimately the Directory will be presented in multiple, translated languages.
+
+
 ### Data
 
 __19 March 2020__: Flipped the switch on account creation in production and so the flow of definitive data has reversed, now it's from production to development.
