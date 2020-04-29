@@ -1,7 +1,6 @@
 from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.conf import settings
 from django.http import HttpResponse, HttpResponseRedirect
 from django.template import loader
 from django.views.generic import TemplateView
@@ -10,9 +9,11 @@ from django.forms import inlineformset_factory
 from accounts.models import UserSocialNetwork
 from mdi.models import Organization, SocialNetwork
 from formtools.wizard.views import SessionWizardView
-from .forms import RolesForm, BasicInfoForm, DetailedInfoForm, ContactInfoForm, UserSocialNetworkFormSet
+from .forms import RolesForm, BasicInfoForm, DetailedInfoForm, ContactInfoForm, YouAreHereForm, UserSocialNetworkFormSet
+from django_countries import countries
+import os
+import requests
 from dal import autocomplete
-
 
 # Inline Formset for SocialNetworks.
 def manage_socialnetworks(request, user_id):
@@ -35,6 +36,7 @@ INDIVIDUAL_FORMS = [
     ('basic_info', BasicInfoForm),
     ('detailed_info', DetailedInfoForm),
     ('contact_info', ContactInfoForm),
+    ('you_are_here', YouAreHereForm),
     ('social_networks', UserSocialNetworkFormSet),
 ]
 
@@ -43,6 +45,7 @@ INDIVIDUAL_TEMPLATES = {
     'basic_info': 'maps/profiles/individual/basic_info.html',
     'detailed_info': 'maps/profiles/individual/detailed_info.html',
     'contact_info': 'maps/profiles/individual/contact_info.html',
+    'you_are_here': 'maps/profiles/individual/you_are_here.html',
     'social_networks': 'maps/profiles/individual/social_networks.html',
 }
 
@@ -56,7 +59,6 @@ class IndividualProfileWizard(LoginRequiredMixin, SessionWizardView):
 
         if self.steps.current == 'detailed_info':
             roles = self.get_cleaned_data_for_step('roles')
-            print('roles.cleaned {}'.format(roles))
             # Display `Services` if Individual is in Roles other than `Coop Founder` or `Coop Member`.
             for r in roles:
                 if r not in ['Coop Founder', 'Coop Member']:
@@ -69,6 +71,26 @@ class IndividualProfileWizard(LoginRequiredMixin, SessionWizardView):
                         'display_affiliation': True,
                         'display_projects': True
                     })
+        elif self.steps.current == 'you_are_here':
+            you_are_here = self.get_cleaned_data_for_step('contact_info')
+            address_string = ''
+            if you_are_here['address'] != '':
+                address_string += '{}, '.format(you_are_here['address'])
+            if you_are_here['city'] != '':
+                address_string += '{}, '.format(you_are_here['city'])
+            if you_are_here['state'] != '':
+                address_string += '{}, '.format(you_are_here['state'])
+            if you_are_here['country'] != '':
+                address_string += '{}, '.format(dict(countries)[you_are_here['country']])
+            if you_are_here['postal_code'] != '':
+                address_string += '{}, '.format(you_are_here['postal_code'])
+            address_string = address_string.rstrip(', ')
+
+            URL = 'https://geocode.search.hereapi.com/v1/geocode'
+            PARAMS = {'apiKey': os.environ['HERE_API_KEY'], 'q': address_string}
+            r = requests.get(url=URL, params=PARAMS)
+            data = r.json()
+            print(data)
         return context
 
     # Attempt to solve SocialNetwork problem on profile pages.

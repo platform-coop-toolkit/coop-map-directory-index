@@ -114,6 +114,14 @@ class ContactInfoForm(BaseModelForm):
         }
 
 
+class YouAreHereForm(BaseModelForm):
+    class Meta:
+        model = get_user_model()
+        fields = [
+            'geom'
+        ]
+
+
 class UserSocialNetworkForm(BaseModelForm):
     class Meta:
         model = UserSocialNetwork
