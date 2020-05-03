@@ -62,7 +62,7 @@ class BasicOrganizationInfoForm(BaseModelForm):
         }
         widgets = {
             'url': URLInput(attrs={'placeholder': 'e.g., https://example.coop/'}),
-            'founded': DateTimeInput(format="%d/%m/%Y", attrs={'placeholder': "DD/MM/YY"}),
+            'founded': DateTimeInput(format="%d/%m/%Y", attrs={'placeholder': "MM/DD/YYYY"}),
             'media_url': URLInput(attrs={'placeholder': 'e.g., https://www.youtube.com/watch?v=qcPUARqRsVM'}),
             'logo_url': URLInput(attrs={'placeholder': 'e.g., https://example.coop/logo.png'}),
         }
