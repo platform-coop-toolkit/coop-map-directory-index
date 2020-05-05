@@ -4,16 +4,22 @@ from django.forms import CheckboxSelectMultiple, DateTimeInput, HiddenInput, Rad
 from django.utils.translation import gettext_lazy as _
 from django.template.defaultfilters import safe
 from accounts.models import User, Role
-from mdi.models import Organization, OrganizationSocialNetwork, Sector, SocialNetwork
+from mdi.models import Organization, OrganizationSocialNetwork, Sector, SocialNetwork, Stage
 
 
 class BaseForm(forms.Form):
+    error_css_class = 'error'
+    required_css_class = 'required'
+
     def __init__(self, *args, **kwargs):
         kwargs.setdefault('label_suffix', '')  # globally override the Django >=1.6 default of ':'
         super(BaseForm, self).__init__(*args, **kwargs)
 
 
 class BaseModelForm(forms.ModelForm):
+    error_css_class = 'error'
+    required_css_class = 'required'
+
     def __init__(self, *args, **kwargs):
         kwargs.setdefault('label_suffix', '')  # globally override the Django >=1.6 default of ':'
         super(BaseModelForm, self).__init__(*args, **kwargs)
@@ -88,7 +94,7 @@ class CategoriesChallengesForm(BaseModelForm):
         widgets = {
             'legal_status': CheckboxSelectMultiple(attrs={'class': 'checkbox'}),
             'stage': RadioSelect(attrs={'class': 'radio'}),
-            'challenges': SelectMultiple(attrs={'size': 4, 'class': 'multiple'}),
+            'challenges': CheckboxSelectMultiple(attrs={'class': 'checkbox'}),
             'categories': CheckboxSelectMultiple(attrs={'class': 'checkbox'}),
             'sectors': CheckboxSelectMultiple(attrs={'class': 'checkbox'})
         }

@@ -223,7 +223,7 @@ class Organization(models.Model):
     related_organizations = models.ManyToManyField('self', through='EntitiesEntities')
     # num_impacted = models.IntegerField(blank=True)
     categories = models.ManyToManyField(Category, blank=True,)
-    stage = models.ForeignKey(Stage, blank=True, null=True, on_delete=models.CASCADE)
+    stage = models.ForeignKey(Stage, blank=True, null=True, default=None, on_delete=models.CASCADE)
     source = models.ForeignKey(Source, on_delete=models.CASCADE, blank=True, null=True)
     type = models.ForeignKey(Type, on_delete=models.CASCADE, blank=True, null=True)
     sectors = models.ManyToManyField(Sector, blank=True,)

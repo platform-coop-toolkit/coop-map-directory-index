@@ -5,7 +5,7 @@
 {% block title %}{{ 'Contact Information'|titlify }}{% endblock %}
 {% block content %}
     <div class="page-header">
-        <h1><span class="pc-ff--sans pc-fw--normal">2020 Ecosystem Survey </span><br/> Contact Information</h1>
+        <h1>Contact Information</h1>
     </div>
     <form action="" method="post">
         {% csrf_token %}
@@ -34,10 +34,10 @@
               {{ wizard.form.last_name.label }}{{ wizard.form.last_name }}
             </label>
             <label for="{{ wizard.form.email.id_for_label }}">
-              {{ wizard.form.email.label }}{{ wizard.form.email }}
-            </label>
+              {{ wizard.form.email.label }}<span class="required"> *</span></label>{{ wizard.form.email }}
+
             <ul class="input-group">
-            <strong>{{ wizard.form.role.label }}</strong>
+              <strong>{{ wizard.form.role.label }}</strong><span class="required"> *</span>
             {% for checkbox in wizard.form.role %}
                 <li>{{ checkbox.tag }}
                     <label for="{{ checkbox.id_for_label }}">{{ checkbox.choice_label }}</label>
