@@ -45,9 +45,6 @@ class CustomUserAdmin(UserAdmin, OSMGeoAdmin):
     ordering = [Lower('email'), ]
 
 
-# admin.site.register(get_user_model(), CustomUserAdmin)
-
-
 @admin.register(Role)
 class RoleAdmin(ModelAdmin):
     list_display = ('name', 'order', 'description')

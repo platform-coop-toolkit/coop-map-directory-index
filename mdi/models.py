@@ -1,3 +1,4 @@
+from django.contrib.postgres.fields import IntegerRangeField
 from django.contrib.auth import get_user_model
 from django.contrib.gis.db import models
 from datetime import date
@@ -213,15 +214,27 @@ class Organization(models.Model):
     lat = models.FloatField(blank=True, null=True)
     lng = models.FloatField(blank=True, null=True)
     geom = models.PointField(blank=True, null=True)
+    # founded_ min_ and max_dates are a strategy to represent date specificity (to the year, month, day).
+    # See https://softwareengineering.stackexchange.com/a/194294/365490
     founded = models.DateField(blank=True, null=True)
-    num_workers = models.IntegerField(blank=True, null=True)
+    founded_min_date = models.DateField(blank=True, null=True)
+    founded_max_date = models.DateField(blank=True, null=True)
+    num_workers = models.IntegerField(blank=True, null=True, verbose_name='Number of workers', )
     related_individuals = models.ManyToManyField(
         get_user_model(),
         through='EntitiesEntities',
         through_fields=['from_org', 'to_ind']
     )
     related_organizations = models.ManyToManyField('self', through='EntitiesEntities')
-    # num_impacted = models.IntegerField(blank=True)
+    geo_scope = models.CharField(blank=True, max_length=16,
+                             choices=[(0, 'Local'), (1, 'Regional'), (2, 'National'), (3, 'International')],
+                                 verbose_name='Geographic scope', )
+    geo_scope_city = models.CharField(blank=True, default='', max_length=255, verbose_name='Geographic scope – City', )
+    geo_scope_region = models.CharField(blank=True, default='', max_length=255, verbose_name='Geographic scope – Region', )
+    geo_scope_country = CountryField(blank=True, verbose_name='Geographic scope – Country', )
+    impacted_range = IntegerRangeField(blank=True, null=True, default=None)
+    impacted_exact_number = models.IntegerField(blank=True, null=True, default=None)
+    code_availability = models.CharField(blank=True, max_length=8, choices=[(0, 'Yes'), (1, 'Partially'), (2, 'No')])
     categories = models.ManyToManyField(Category, blank=True,)
     stage = models.ForeignKey(Stage, blank=True, null=True, default=None, on_delete=models.CASCADE)
     source = models.ForeignKey(Source, on_delete=models.CASCADE, blank=True, null=True)
