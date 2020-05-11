@@ -8,7 +8,7 @@ select.multiple {
 }
 
 /* Identifying required fields in forms. */
-.required {
+span.required {
   color: red;
 }
 

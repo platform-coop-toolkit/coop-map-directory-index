@@ -5,6 +5,48 @@ from django.utils.translation import gettext_lazy as _
 from django.template.defaultfilters import safe
 from accounts.models import User, Role
 from mdi.models import Organization, OrganizationSocialNetwork, Sector, SocialNetwork, Stage
+from datetime import date
+from django.utils import timezone
+
+
+class DateSelectorWidget(forms.MultiWidget):
+    def __init__(self, attrs=None):
+        years = [(0, 'Select a year…')] + [(year, year) for year in reversed(range(1844, timezone.now().year + 2))]
+        months = [
+            (0, 'Select a month…'),
+            (1, 'January'),
+            (2, 'February'),
+            (3, 'March'),
+            (4, 'April'),
+            (5, 'May'),
+            (6, 'June'),
+            (7, 'July'),
+            (8, 'August'),
+            (9, 'September'),
+            (10, 'October'),
+            (11, 'November'),
+            (12, 'December'),
+        ]
+        days = [(0, 'Select a day…')] +  [(day, day) for day in range(1, 32)]
+        widgets = [
+            forms.Select(attrs={'class': 'required'}, choices=years),
+            forms.Select(attrs=attrs, choices=months),
+            forms.Select(attrs=attrs, choices=days),
+        ]
+        super().__init__(widgets, attrs)
+
+    def decompress(self, value):
+        if isinstance(value, date):
+            return [value.year, value.month, value.day]
+        elif isinstance(value, str):
+            year, month, day = value.split('-')
+            return [year, month, day]
+        return [None, None, None]
+
+    def value_from_datadict(self, data, files, name):
+        year, month, day = super().value_from_datadict(data, files, name)
+        # DateField expects a single string that it can parse into a date.
+        return '{}-{}-{}'.format(year, month, day)
 
 
 class BaseForm(forms.Form):
@@ -60,7 +102,7 @@ class BasicOrganizationInfoForm(BaseModelForm):
             'socialnetworks': _('What are the social media handles of your enterprise or project?'),
             'address': _(safe('What is the physical address of the headquarters of your enterprise or project?<br/> Street')),
             'state': _('State or province'),
-            'founded': _('When was your enterprise or project founded?'),
+            'founded': _(safe('When was your enterprise or project founded? (Year required. <span class="required"> *</span>)')),
             'media_url': _('Paste a link to photos or any introductory video about your enterprise or project:'),
             'logo_url': _('Paste a link to the logo for your enterprise or project:'),
         }
@@ -68,7 +110,7 @@ class BasicOrganizationInfoForm(BaseModelForm):
         }
         widgets = {
             'url': URLInput(attrs={'placeholder': 'e.g., https://example.coop/'}),
-            'founded': DateTimeInput(format="%d/%m/%Y", attrs={'placeholder': "MM/DD/YYYY"}),
+            'founded': DateSelectorWidget(),
             'media_url': URLInput(attrs={'placeholder': 'e.g., https://www.youtube.com/watch?v=qcPUARqRsVM'}),
             'logo_url': URLInput(attrs={'placeholder': 'e.g., https://example.coop/logo.png'}),
         }
