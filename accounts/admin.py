@@ -15,7 +15,7 @@ class UserSocialNetworkInline(admin.TabularInline):
 @admin.register(get_user_model())
 class CustomUserAdmin(UserAdmin, OSMGeoAdmin):
     list_display = ['username', 'first_name', 'middle_name', 'last_name', 'is_active', ]
-    list_filter = ['roles', 'is_active', 'is_staff', ]
+    list_filter = ['roles', 'source', 'is_active', 'is_staff', ]
     UserAdmin.fieldsets = (
         (None, {'fields': ('email', 'password')}),
         ('Personal info', {'fields': (
