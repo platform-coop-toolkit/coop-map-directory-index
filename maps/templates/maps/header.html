@@ -60,10 +60,6 @@
           </button>
 
           <ul class="menu">
-            <li class="menu__submenu-wrapper current_page_ancestor current-menu-ancestor">
-              <a class="menu__item" aria-current="page" href="#explore">Explore</a>
-            </li>
-
             {% if user.is_authenticated %}
             <li class="menu__submenu-wrapper">
                 <a class="menu__item" href="#">My favorites</a>
@@ -97,7 +93,7 @@
 
             {% if user.is_authenticated %}
             <li class="menu__submenu-wrapper">
-                <a class="menu__item" href="#">Settings</a>
+                <a class="menu__item" href="#">Account</a>
                 <ul class="menu__submenu">
                   <li class="menu-item menu-item-type-post_type menu-item-object-page"><a
                       href="/accounts/logout/" class="menu__item">Log out</a>
