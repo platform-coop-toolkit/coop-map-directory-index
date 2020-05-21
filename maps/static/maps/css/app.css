@@ -21,3 +21,7 @@ select.multiple {
   height: 10rem;
   overflow-y: auto;
 }
+
+.blocks {
+  justify-content: center;
+}

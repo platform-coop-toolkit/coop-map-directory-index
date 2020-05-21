@@ -93,11 +93,11 @@
       _classCallCheck(this, Accordion);
 
       this.container = container;
-      this.config = _objectSpread2({}, {
+      this.config = _objectSpread2(_objectSpread2({}, {
         headingSelector: '.accordion__heading',
         paneSelector: '.accordion__pane',
         controlSelector: '.accordion__control'
-      }, {}, options);
+      }), options);
       this.panes = this.container.querySelectorAll(this.config.paneSelector);
       Array.prototype.forEach.call(this.panes, function (pane) {
         _this.initPane(pane);
@@ -177,9 +177,9 @@
       _classCallCheck(this, Card);
 
       this.card = card;
-      this.config = _objectSpread2({}, {
+      this.config = _objectSpread2(_objectSpread2({}, {
         cardLinkSelector: '.card__link'
-      }, {}, options);
+      }), options);
       this.initCard(card);
     }
     /**
@@ -229,7 +229,7 @@
       _classCallCheck(this, DeselectAll);
 
       this.btn = btn;
-      this.config = _objectSpread2({}, {}, {}, options);
+      this.config = _objectSpread2(_objectSpread2({}, {}), options);
       this.handleClick = this.handleClick.bind(this);
       this.addEventListeners();
     }
@@ -297,7 +297,7 @@
       _classCallCheck(this, Dialog);
 
       this.btn = btn;
-      this.config = _objectSpread2({}, {
+      this.config = _objectSpread2(_objectSpread2({}, {
         title: 'Confirm action',
         question: 'Do you want to do this?',
         dismiss: 'No',
@@ -316,7 +316,7 @@
             console.error('Callback not provided.'); // eslint-disable-line
           }
         }
-      }, {}, options);
+      }), options);
       this.invokeDialog = this.invokeDialog.bind(this);
       this.handleClick = this.handleClick.bind(this);
       this.addEventListeners();
@@ -452,11 +452,11 @@
 
       this.label = label;
       this.container = this.label.parentNode;
-      this.config = _objectSpread2({}, {
+      this.config = _objectSpread2(_objectSpread2({}, {
         controlSelector: '.disclosure-button',
         buttonVariant: 'button--borderless',
         visuallyHiddenLabel: false
-      }, {}, options);
+      }), options);
       this.initDisclosure();
       this.handleClick = this.handleClick.bind(this);
       this.addEventListeners();
@@ -524,10 +524,10 @@
       this.container = container;
       this.showCtrl = showCtrl;
       this.hideCtrl = hideCtrl;
-      this.config = _objectSpread2({}, {
+      this.config = _objectSpread2(_objectSpread2({}, {
         showCtrlSelector: '#show-filters',
         hideCtrlSelector: '#hide-filters'
-      }, {}, options);
+      }), options);
       this.handleOverlay = this.handleOverlay.bind(this);
       this.handleResize = this.handleResize.bind(this);
       this.addEventListeners();
@@ -636,8 +636,8 @@
       _classCallCheck(this, Icon);
 
       this.icon = icon;
-      this.config = _objectSpread2({}, {// TODO
-      }, {}, options);
+      this.config = _objectSpread2(_objectSpread2({}, {// TODO
+      }), options);
       this.inlineSvg(icon);
     }
     /**
@@ -699,12 +699,12 @@
 
       this.menu = menu;
       this.toggle = toggle;
-      this.config = _objectSpread2({}, {
+      this.config = _objectSpread2(_objectSpread2({}, {
         menuToggleSelector: '.menu-toggle',
         dropdownButtonSelector: '.menu__item',
         parentMenuSelector: '.menu__submenu-wrapper',
         childMenuSelector: '.menu__submenu'
-      }, {}, options);
+      }), options);
       this.parents = document.querySelectorAll(this.config.parentMenuSelector);
       Array.prototype.forEach.call(this.parents, function (parent) {
         _this.initDropdown(parent);
@@ -931,6 +931,20 @@
     return getBoundingClientRect(getDocumentElement(element)).left + getWindowScroll(element).scrollLeft;
   }
 
+  function getComputedStyle(element) {
+    return getWindow(element).getComputedStyle(element);
+  }
+
+  function isScrollParent(element) {
+    // Firefox wants us to check `-x` and `-y` variations as well
+    var _getComputedStyle = getComputedStyle(element),
+        overflow = _getComputedStyle.overflow,
+        overflowX = _getComputedStyle.overflowX,
+        overflowY = _getComputedStyle.overflowY;
+
+    return /auto|scroll|overlay|hidden/.test(overflow + overflowY + overflowX);
+  }
+
   // Composite means it takes into account transforms as well as layout.
 
   function getCompositeRect(elementOrVirtualElement, offsetParent, isFixed) {
@@ -938,7 +952,7 @@
       isFixed = false;
     }
 
-    var documentElement;
+    var documentElement = getDocumentElement(offsetParent);
     var rect = getBoundingClientRect(elementOrVirtualElement);
     var scroll = {
       scrollLeft: 0,
@@ -950,7 +964,8 @@
     };
 
     if (!isFixed) {
-      if (getNodeName(offsetParent) !== 'body') {
+      if (getNodeName(offsetParent) !== 'body' || // https://github.com/popperjs/popper-core/issues/1078
+      isScrollParent(documentElement)) {
         scroll = getNodeScroll(offsetParent);
       }
 
@@ -958,7 +973,7 @@
         offsets = getBoundingClientRect(offsetParent);
         offsets.x += offsetParent.clientLeft;
         offsets.y += offsetParent.clientTop;
-      } else if (documentElement = getDocumentElement(offsetParent)) {
+      } else if (documentElement) {
         offsets.x = getWindowScrollBarX(documentElement);
       }
     }
@@ -998,26 +1013,14 @@
     );
   }
 
-  function getComputedStyle(element) {
-    return getWindow(element).getComputedStyle(element);
-  }
-
   function getScrollParent(node) {
     if (['html', 'body', '#document'].indexOf(getNodeName(node)) >= 0) {
       // $FlowFixMe: assume body is always available
       return node.ownerDocument.body;
     }
 
-    if (isHTMLElement(node)) {
-      // Firefox wants us to check `-x` and `-y` variations as well
-      var _getComputedStyle = getComputedStyle(node),
-          overflow = _getComputedStyle.overflow,
-          overflowX = _getComputedStyle.overflowX,
-          overflowY = _getComputedStyle.overflowY;
-
-      if (/auto|scroll|overlay|hidden/.test(overflow + overflowY + overflowX)) {
-        return node;
-      }
+    if (isHTMLElement(node) && isScrollParent(node)) {
+      return node;
     }
 
     return getScrollParent(getParentNode(node));
@@ -1031,7 +1034,7 @@
     var scrollParent = getScrollParent(element);
     var isBody = getNodeName(scrollParent) === 'body';
     var win = getWindow(scrollParent);
-    var target = isBody ? [win].concat(win.visualViewport || []) : scrollParent;
+    var target = isBody ? [win].concat(win.visualViewport || [], isScrollParent(scrollParent) ? scrollParent : []) : scrollParent;
     var updatedList = list.concat(target);
     return isBody ? updatedList : // $FlowFixMe: isBody tells us target will be an HTMLElement here
     updatedList.concat(listScrollParents(getParentNode(target)));
@@ -1406,7 +1409,8 @@
         window.removeEventListener('resize', instance.update, passive);
       }
     };
-  }
+  } // eslint-disable-next-line import/no-unused-modules
+
 
   var eventListeners = {
     name: 'eventListeners',
@@ -1503,7 +1507,8 @@
       strategy: 'absolute',
       placement: state.placement
     });
-  }
+  } // eslint-disable-next-line import/no-unused-modules
+
 
   var popperOffsets$1 = {
     name: 'popperOffsets',
@@ -1603,13 +1608,15 @@
       popper: state.elements.popper,
       popperRect: state.rects.popper,
       gpuAcceleration: gpuAcceleration
-    }; // popper offsets are always available
+    };
 
-    state.styles.popper = Object.assign({}, state.styles.popper, {}, mapToStyles(Object.assign({}, commonStyles, {
-      offsets: state.modifiersData.popperOffsets,
-      position: state.options.strategy,
-      adaptive: adaptive
-    }))); // arrow offsets may not be available
+    if (state.modifiersData.popperOffsets != null) {
+      state.styles.popper = Object.assign({}, state.styles.popper, {}, mapToStyles(Object.assign({}, commonStyles, {
+        offsets: state.modifiersData.popperOffsets,
+        position: state.options.strategy,
+        adaptive: adaptive
+      })));
+    }
 
     if (state.modifiersData.arrow != null) {
       state.styles.arrow = Object.assign({}, state.styles.arrow, {}, mapToStyles(Object.assign({}, commonStyles, {
@@ -1622,7 +1629,8 @@
     state.attributes.popper = Object.assign({}, state.attributes.popper, {
       'data-popper-placement': state.placement
     });
-  }
+  } // eslint-disable-next-line import/no-unused-modules
+
 
   var computeStyles$1 = {
     name: 'computeStyles',
@@ -1705,7 +1713,8 @@
         });
       });
     };
-  }
+  } // eslint-disable-next-line import/no-unused-modules
+
 
   var applyStyles$1 = {
     name: 'applyStyles',
@@ -1750,10 +1759,15 @@
     var _data$state$placement = data[state.placement],
         x = _data$state$placement.x,
         y = _data$state$placement.y;
-    state.modifiersData.popperOffsets.x += x;
-    state.modifiersData.popperOffsets.y += y;
+
+    if (state.modifiersData.popperOffsets != null) {
+      state.modifiersData.popperOffsets.x += x;
+      state.modifiersData.popperOffsets.y += y;
+    }
+
     state.modifiersData[name] = data;
-  }
+  } // eslint-disable-next-line import/no-unused-modules
+
 
   var offset$1 = {
     name: 'offset',
@@ -1787,12 +1801,22 @@
 
   function getViewportRect(element) {
     var win = getWindow(element);
-    var visualViewport = win.visualViewport || {};
+    var visualViewport = win.visualViewport;
+    var width = win.innerWidth;
+    var height = win.innerHeight; // We don't know which browsers have buggy or odd implementations of this, so
+    // for now we're only applying it to iOS to fix the keyboard issue.
+    // Investigation required
+
+    if (visualViewport && /iPhone|iPod|iPad/.test(navigator.platform)) {
+      width = visualViewport.width;
+      height = visualViewport.height;
+    }
+
     return {
-      width: visualViewport.width || win.innerWidth,
-      height: visualViewport.height || win.innerHeight,
-      x: visualViewport.offsetLeft || 0,
-      y: visualViewport.offsetTop || 0
+      width: width,
+      height: height,
+      x: 0,
+      y: 0
     };
   }
 
@@ -2002,11 +2026,9 @@
     return overflowOffsets;
   }
 
-  /*::
-  type OverflowsMap = {
-    [ComputedPlacement]: number,
-  };
-  */
+  /*:: type OverflowsMap = { [ComputedPlacement]: number }; */
+
+  /*;; type OverflowsMap = { [key in ComputedPlacement]: number }; */
 
   function computeAutoPlacement(state, options) {
     if (options === void 0) {
@@ -2060,7 +2082,11 @@
       return;
     }
 
-    var specifiedFallbackPlacements = options.fallbackPlacements,
+    var _options$mainAxis = options.mainAxis,
+        checkMainAxis = _options$mainAxis === void 0 ? true : _options$mainAxis,
+        _options$altAxis = options.altAxis,
+        checkAltAxis = _options$altAxis === void 0 ? true : _options$altAxis,
+        specifiedFallbackPlacements = options.fallbackPlacements,
         padding = options.padding,
         boundary = options.boundary,
         rootBoundary = options.rootBoundary,
@@ -2110,7 +2136,15 @@
       }
 
       var altVariationSide = getOppositePlacement(mainVariationSide);
-      var checks = [overflow[_basePlacement] <= 0, overflow[mainVariationSide] <= 0, overflow[altVariationSide] <= 0];
+      var checks = [];
+
+      if (checkMainAxis) {
+        checks.push(overflow[_basePlacement] <= 0);
+      }
+
+      if (checkAltAxis) {
+        checks.push(overflow[mainVariationSide] <= 0, overflow[altVariationSide] <= 0);
+      }
 
       if (checks.every(function (check) {
         return check;
@@ -2156,7 +2190,8 @@
       state.placement = firstFittingPlacement;
       state.reset = true;
     }
-  }
+  } // eslint-disable-next-line import/no-unused-modules
+
 
   var flip$1 = {
     name: 'flip',
@@ -2215,6 +2250,10 @@
       y: 0
     };
 
+    if (!popperOffsets) {
+      return;
+    }
+
     if (checkMainAxis) {
       var mainSide = mainAxis === 'y' ? top : left;
       var altSide = mainAxis === 'y' ? bottom : right;
@@ -2266,12 +2305,13 @@
 
       var _preventedOffset = within(_min, _offset, _max);
 
-      state.modifiersData.popperOffsets[altAxis] = _preventedOffset;
+      popperOffsets[altAxis] = _preventedOffset;
       data[altAxis] = _preventedOffset - _offset;
     }
 
     state.modifiersData[name] = data;
-  }
+  } // eslint-disable-next-line import/no-unused-modules
+
 
   var preventOverflow$1 = {
     name: 'preventOverflow',
@@ -2293,7 +2333,7 @@
     var isVertical = [left, right].indexOf(basePlacement) >= 0;
     var len = isVertical ? 'height' : 'width';
 
-    if (!arrowElement) {
+    if (!arrowElement || !popperOffsets) {
       return;
     }
 
@@ -2303,7 +2343,7 @@
     var maxProp = axis === 'y' ? bottom : right;
     var endDiff = state.rects.reference[len] + state.rects.reference[axis] - popperOffsets[axis] - state.rects.popper[len];
     var startDiff = popperOffsets[axis] - state.rects.reference[axis];
-    var arrowOffsetParent = state.elements.arrow && getOffsetParent(state.elements.arrow);
+    var arrowOffsetParent = getOffsetParent(arrowElement);
     var clientSize = arrowOffsetParent ? axis === 'y' ? arrowOffsetParent.clientHeight || 0 : arrowOffsetParent.clientWidth || 0 : 0;
     var centerToReference = endDiff / 2 - startDiff / 2; // Make sure the arrow doesn't overflow the popper if the center point is
     // outside of the popper bounds
@@ -2324,7 +2364,12 @@
     var _options$element = options.element,
         arrowElement = _options$element === void 0 ? '[data-popper-arrow]' : _options$element,
         _options$padding = options.padding,
-        padding = _options$padding === void 0 ? 0 : _options$padding; // CSS selector
+        padding = _options$padding === void 0 ? 0 : _options$padding;
+
+    if (arrowElement == null) {
+      return;
+    } // CSS selector
+
 
     if (typeof arrowElement === 'string') {
       arrowElement = state.elements.popper.querySelector(arrowElement);
@@ -2343,7 +2388,8 @@
     state.modifiersData[name + "#persistent"] = {
       padding: mergePaddingObject(typeof padding !== 'number' ? padding : expandToHashMap(padding, basePlacements))
     };
-  }
+  } // eslint-disable-next-line import/no-unused-modules
+
 
   var arrow$1 = {
     name: 'arrow',
@@ -2403,7 +2449,8 @@
       'data-popper-reference-hidden': isReferenceHidden,
       'data-popper-escaped': hasPopperEscaped
     });
-  }
+  } // eslint-disable-next-line import/no-unused-modules
+
 
   var hide$1 = {
     name: 'hide',
@@ -2438,11 +2485,11 @@
 
       this.container = container;
       this.label = this.container.querySelector('.menu-button__label');
-      this.config = _objectSpread2({}, {
+      this.config = _objectSpread2(_objectSpread2({}, {
         placement: 'auto',
         preventOverflow: true,
         boundariesElement: document.querySelector('main')
-      }, {}, options);
+      }), options);
 
       var _this$initMenuButton = this.initMenuButton(),
           btn = _this$initMenuButton.btn,
@@ -2599,9 +2646,9 @@
       this.label = this.input.nextElementSibling;
       this.subInputs = subInputs;
       this.subGroup = this.container.querySelector('.input-group__descendant');
-      this.config = _objectSpread2({}, {
+      this.config = _objectSpread2(_objectSpread2({}, {
         disclosureButtonSelector: '.disclosure-button'
-      }, {}, options);
+      }), options);
       this.initCustomCheckbox();
       this.handleChange = this.handleChange.bind(this);
       this.handleClick = this.handleClick.bind(this);
@@ -2645,7 +2692,16 @@
     }, {
       key: "getCustomState",
       value: function getCustomState() {
-        return false;
+        var checkedSubInputs = this.subGroup.querySelectorAll('[type="checkbox"]:checked');
+        var state = false;
+
+        if (checkedSubInputs.length === this.subInputs.length) {
+          state = true;
+        } else if (0 < checkedSubInputs.length) {
+          state = 'mixed';
+        }
+
+        return state;
       }
       /**
        * Handler for mixed checkboxes.
@@ -2763,7 +2819,7 @@
     function Notification(options) {
       _classCallCheck(this, Notification);
 
-      this.config = _objectSpread2({}, {}, {}, options);
+      this.config = _objectSpread2(_objectSpread2({}, {}), options);
       this.handleClick = this.handleClick.bind(this);
       this.addEventListeners();
     }
@@ -2814,7 +2870,7 @@
 
       this.btn = btn;
       this.container = container;
-      this.config = _objectSpread2({}, {}, {}, options);
+      this.config = _objectSpread2(_objectSpread2({}, {}), options);
       this.handleClick = this.handleClick.bind(this);
       this.handleBlur = this.handleBlur.bind(this);
       this.handleKeyDown = this.handleKeyDown.bind(this);
@@ -2881,6 +2937,617 @@
     return SearchToggle;
   }();
 
+  /**
+   * Toggle Button class.
+   */
+  var ToggleButton =
+  /*#__PURE__*/
+  function () {
+    /**
+     * Constructor.
+     *
+     * @param {Object} options
+     */
+    function ToggleButton(options) {
+      _classCallCheck(this, ToggleButton);
+
+      this.config = _objectSpread2(_objectSpread2({}, {
+        selector: '.button--toggle'
+      }), options);
+      this.handleClick = this.handleClick.bind(this);
+      this.addEventListeners();
+    }
+    /**
+     * Handle click.
+     *
+     * @param {Event} event
+     */
+
+
+    _createClass(ToggleButton, [{
+      key: "handleClick",
+      value: function handleClick(event) {
+        if (!event.target.closest(this.config.selector)) return;
+        var btn = event.target.closest(this.config.selector);
+        var pressed = 'true' === btn.getAttribute('aria-pressed') || false;
+        btn.setAttribute('aria-pressed', !pressed);
+      }
+      /**
+       * Add event listeners.
+       */
+
+    }, {
+      key: "addEventListeners",
+      value: function addEventListeners() {
+        document.addEventListener('click', this.handleClick);
+      }
+    }]);
+
+    return ToggleButton;
+  }();
+
+  /**
+   * Radio Grou class.
+   */
+  var RadioGroup =
+  /*#__PURE__*/
+  function () {
+    /**
+     * Constructor.
+     *
+     * @param {DomNode} container
+     * @param {Object} options
+     */
+    function RadioGroup(container, options) {
+      _classCallCheck(this, RadioGroup);
+
+      this.radioGroup = container;
+      this.keyCode = Object.freeze({
+        'LEFT': 37,
+        'UP': 38,
+        'RIGHT': 39,
+        'DOWN': 40
+      });
+      this.config = _objectSpread2(_objectSpread2({}, {
+        groupSelector: '.radio-group'
+      }), options);
+      this.handleClick = this.handleClick.bind(this);
+      this.handleKeyDown = this.handleKeyDown.bind(this);
+      this.setCheckedToPreviousItem = this.setCheckedToPreviousItem.bind(this);
+      this.setCheckedToNextItem = this.setCheckedToNextItem.bind(this);
+      this.addEventListeners();
+    }
+    /**
+     * Handle click.
+     *
+     * @param {Event} event
+     */
+
+
+    _createClass(RadioGroup, [{
+      key: "handleClick",
+      value: function handleClick(event) {
+        if (!event.target.closest(this.config.groupSelector)) return;
+        if ('BUTTON' !== event.target.nodeName) return;
+        var checkedItem = this.radioGroup.querySelector('[aria-checked="true"]');
+
+        if ('false' === event.target.getAttribute('aria-checked') && checkedItem) {
+          checkedItem.setAttribute('aria-checked', false);
+          event.target.setAttribute('aria-checked', true);
+        }
+      }
+      /**
+       * Handle keydown.
+       *
+       * @param {Event} event
+       */
+
+    }, {
+      key: "handleKeyDown",
+      value: function handleKeyDown(event) {
+        if (!document.activeElement.closest(this.config.groupSelector)) return;
+
+        switch (event.keyCode) {
+          case this.keyCode.UP:
+            this.setCheckedToPreviousItem(document.activeElement);
+            break;
+
+          case this.keyCode.DOWN:
+            this.setCheckedToNextItem(document.activeElement);
+            break;
+
+          case this.keyCode.LEFT:
+            this.setCheckedToPreviousItem(document.activeElement);
+            break;
+
+          case this.keyCode.RIGHT:
+            this.setCheckedToNextItem(document.activeElement);
+            break;
+        }
+      }
+      /**
+       * Move checked state to previous item.
+       */
+
+    }, {
+      key: "setCheckedToPreviousItem",
+      value: function setCheckedToPreviousItem() {
+        var previousItem = document.activeElement.previousElementSibling;
+
+        if (!previousItem) {
+          var buttons = this.radioGroup.querySelectorAll('button');
+          previousItem = buttons[buttons.length - 1];
+        }
+
+        var checkedItem = this.radioGroup.querySelector('[aria-checked="true"]');
+        checkedItem.setAttribute('aria-checked', false);
+        previousItem.setAttribute('aria-checked', true);
+        previousItem.focus();
+      }
+      /**
+       * Move checked state to next item.
+       */
+
+    }, {
+      key: "setCheckedToNextItem",
+      value: function setCheckedToNextItem() {
+        var nextItem = document.activeElement.nextElementSibling;
+
+        if (!nextItem) {
+          var button = this.radioGroup.querySelector('button');
+          nextItem = button;
+        }
+
+        var checkedItem = this.radioGroup.querySelector('[aria-checked="true"]');
+        checkedItem.setAttribute('aria-checked', false);
+        nextItem.setAttribute('aria-checked', true);
+        nextItem.focus();
+      }
+      /**
+       * Add event listeners.
+       */
+
+    }, {
+      key: "addEventListeners",
+      value: function addEventListeners() {
+        document.addEventListener('click', this.handleClick);
+        document.addEventListener('keydown', this.handleKeyDown);
+      }
+    }]);
+
+    return RadioGroup;
+  }();
+
+  /**
+   * Tabs class.
+   *
+   * @see https://github.com/zachleat/seven-minute-tabs/
+   */
+  var Tabs =
+  /*#__PURE__*/
+  function () {
+    /**
+     * Constructor.
+     *
+     * @param {DomNode} container
+     * @param {Object} options
+     */
+    function Tabs(container, options) {
+      _classCallCheck(this, Tabs);
+
+      this.container = container;
+      this.tablist = this.container.querySelector('[role="tablist"]');
+      this.buttons = this.container.querySelectorAll('[role="tab"]');
+      this.panels = this.container.querySelectorAll('[role="tabpanel"]');
+      this.delay = this.determineDelay();
+      this.config = _objectSpread2(_objectSpread2({}, {
+        groupSelector: '.tabs'
+      }), options);
+      this.handleClick = this.handleClick.bind(this);
+      this.handleKeyDown = this.handleKeyDown.bind(this);
+      this.handleKeyUp = this.handleKeyUp.bind(this);
+      this.initButtons = this.initButtons.bind(this);
+      this.initPanels = this.initPanels.bind(this);
+      this.initButtons();
+      this.initPanels();
+    }
+    /**
+     * Enumerate key codes that we need to detect.
+     */
+
+
+    _createClass(Tabs, [{
+      key: "initButtons",
+
+      /**
+       * Initialize buttons.
+       */
+      value: function initButtons() {
+        var count = 0;
+        var _iteratorNormalCompletion = true;
+        var _didIteratorError = false;
+        var _iteratorError = undefined;
+
+        try {
+          for (var _iterator = this.buttons[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+            var button = _step.value;
+            var isSelected = 'true' === button.getAttribute('aria-selected');
+            button.setAttribute('tabindex', isSelected ? '0' : '-1');
+            button.addEventListener('click', this.handleClick);
+            button.addEventListener('keydown', this.handleKeyDown);
+            button.addEventListener('keyup', this.handleKeyUp);
+            button.index = count++;
+          }
+        } catch (err) {
+          _didIteratorError = true;
+          _iteratorError = err;
+        } finally {
+          try {
+            if (!_iteratorNormalCompletion && _iterator["return"] != null) {
+              _iterator["return"]();
+            }
+          } finally {
+            if (_didIteratorError) {
+              throw _iteratorError;
+            }
+          }
+        }
+      }
+      /**
+       * Initialize panels.
+       */
+
+    }, {
+      key: "initPanels",
+      value: function initPanels() {
+        var selectedPanelId = this.container.querySelector('[role="tab"][aria-selected="true"]').getAttribute('aria-controls');
+        var _iteratorNormalCompletion2 = true;
+        var _didIteratorError2 = false;
+        var _iteratorError2 = undefined;
+
+        try {
+          for (var _iterator2 = this.panels[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
+            var panel = _step2.value;
+
+            if (panel.getAttribute('id') !== selectedPanelId) {
+              panel.setAttribute('hidden', '');
+            }
+
+            panel.setAttribute('tabindex', '0');
+          }
+        } catch (err) {
+          _didIteratorError2 = true;
+          _iteratorError2 = err;
+        } finally {
+          try {
+            if (!_iteratorNormalCompletion2 && _iterator2["return"] != null) {
+              _iterator2["return"]();
+            }
+          } finally {
+            if (_didIteratorError2) {
+              throw _iteratorError2;
+            }
+          }
+        }
+      }
+      /**
+       * Handle click.
+       *
+       * @param {Event} event
+       */
+
+    }, {
+      key: "handleClick",
+      value: function handleClick(event) {
+        var button = event.target;
+
+        if ('A' === button.tagName) {
+          event.preventDefault();
+        }
+
+        this.activateTab(button, false);
+      }
+      /**
+       * Deactivate all tabs.
+       */
+
+    }, {
+      key: "deactivateTabs",
+      value: function deactivateTabs() {
+        var _iteratorNormalCompletion3 = true;
+        var _didIteratorError3 = false;
+        var _iteratorError3 = undefined;
+
+        try {
+          for (var _iterator3 = this.buttons[Symbol.iterator](), _step3; !(_iteratorNormalCompletion3 = (_step3 = _iterator3.next()).done); _iteratorNormalCompletion3 = true) {
+            var button = _step3.value;
+            button.setAttribute('tabindex', '-1');
+            button.setAttribute('aria-selected', 'false');
+            button.removeEventListener('focus', this.focusEventHandler.bind(this));
+          }
+        } catch (err) {
+          _didIteratorError3 = true;
+          _iteratorError3 = err;
+        } finally {
+          try {
+            if (!_iteratorNormalCompletion3 && _iterator3["return"] != null) {
+              _iterator3["return"]();
+            }
+          } finally {
+            if (_didIteratorError3) {
+              throw _iteratorError3;
+            }
+          }
+        }
+
+        var _iteratorNormalCompletion4 = true;
+        var _didIteratorError4 = false;
+        var _iteratorError4 = undefined;
+
+        try {
+          for (var _iterator4 = this.panels[Symbol.iterator](), _step4; !(_iteratorNormalCompletion4 = (_step4 = _iterator4.next()).done); _iteratorNormalCompletion4 = true) {
+            var panel = _step4.value;
+            panel.setAttribute('hidden', 'hidden');
+          }
+        } catch (err) {
+          _didIteratorError4 = true;
+          _iteratorError4 = err;
+        } finally {
+          try {
+            if (!_iteratorNormalCompletion4 && _iterator4["return"] != null) {
+              _iterator4["return"]();
+            }
+          } finally {
+            if (_didIteratorError4) {
+              throw _iteratorError4;
+            }
+          }
+        }
+      }
+      /**
+       * Handle focus events.
+       *
+       * @param {Event} event
+       */
+
+    }, {
+      key: "focusEventHandler",
+      value: function focusEventHandler(event) {
+        var target = event.target;
+        setTimeout(this.checkTabFocus.bind(this), this.delay, target);
+      }
+      /**
+       * Activate a tab.
+       *
+       * @param {DomNode} tab
+       * @param {Boolean} setFocus
+       */
+
+    }, {
+      key: "activateTab",
+      value: function activateTab(tab, setFocus) {
+        if ('tab' !== tab.getAttribute('role')) {
+          tab = tab.closest('[role="tab"]');
+        }
+
+        setFocus = setFocus || true;
+        this.deactivateTabs();
+        tab.removeAttribute('tabindex');
+        tab.setAttribute('aria-selected', 'true');
+        var controls = tab.getAttribute('aria-controls');
+        document.getElementById(controls).removeAttribute('hidden');
+
+        if (setFocus) {
+          tab.focus();
+        }
+      }
+      /**
+       * Handle keydown.
+       *
+       * @param {Event} event
+       */
+
+    }, {
+      key: "handleKeyDown",
+      value: function handleKeyDown(event) {
+        var key = event.keyCode;
+
+        switch (key) {
+          case this.keys.end:
+            event.preventDefault();
+            this.activateTab(this.buttons[this.buttons.length - 1]);
+            break;
+
+          case this.keys.home:
+            event.preventDefault();
+            this.activateTab(this.buttons[0]);
+            break;
+
+          case this.keys.up:
+          case this.keys.down:
+            this.determineOrientation(event);
+            break;
+        }
+      }
+      /**
+       * Handle keyup.
+       *
+       * @param {Event} event
+       */
+
+    }, {
+      key: "handleKeyUp",
+      value: function handleKeyUp(event) {
+        var key = event.keyCode;
+
+        switch (key) {
+          case this.keys.left:
+          case this.keys.right:
+            this.determineOrientation(event);
+            break;
+        }
+      }
+      /**
+       * Check which orientation we're in.
+       *
+       * @param {Event} event
+       */
+
+    }, {
+      key: "determineOrientation",
+      value: function determineOrientation(event) {
+        var key = event.keyCode;
+        var vertical = 'vertical' == this.tablist.getAttribute('aria-orientation');
+        var proceed = false;
+
+        if (vertical) {
+          if (key === this.keys.up || key === this.keys.down) {
+            event.preventDefault();
+            proceed = true;
+          }
+        } else {
+          if (key === this.keys.left || key === this.keys.right) {
+            proceed = true;
+          }
+        }
+
+        if (proceed) {
+          this.switchTabOnArrowPress(event);
+        }
+      }
+      /**
+       * Switch tab when arrow key is pressed.
+       *
+       * @param {Event} event
+       */
+
+    }, {
+      key: "switchTabOnArrowPress",
+      value: function switchTabOnArrowPress(event) {
+        var pressed = event.keyCode;
+        var _iteratorNormalCompletion5 = true;
+        var _didIteratorError5 = false;
+        var _iteratorError5 = undefined;
+
+        try {
+          for (var _iterator5 = this.buttons[Symbol.iterator](), _step5; !(_iteratorNormalCompletion5 = (_step5 = _iterator5.next()).done); _iteratorNormalCompletion5 = true) {
+            var button = _step5.value;
+            button.addEventListener('focus', this.focusEventHandler.bind(this));
+          }
+        } catch (err) {
+          _didIteratorError5 = true;
+          _iteratorError5 = err;
+        } finally {
+          try {
+            if (!_iteratorNormalCompletion5 && _iterator5["return"] != null) {
+              _iterator5["return"]();
+            }
+          } finally {
+            if (_didIteratorError5) {
+              throw _iteratorError5;
+            }
+          }
+        }
+
+        if (this.direction[pressed]) {
+          var target = event.target;
+
+          if (target.index !== undefined) {
+            if (this.buttons[target.index + this.direction[pressed]]) {
+              this.buttons[target.index + this.direction[pressed]].focus();
+            } else if (pressed === this.keys.left || pressed === this.keys.up) {
+              this.focusLastTab();
+            } else if (pressed === this.keys.right || pressed == this.keys.down) {
+              this.focusFirstTab();
+            }
+          }
+        }
+      }
+      /**
+       * Focus the first tab.
+       */
+
+    }, {
+      key: "focusFirstTab",
+      value: function focusFirstTab() {
+        this.buttons[0].focus();
+      }
+      /**
+       * Focus the last tab.
+       */
+
+    }, {
+      key: "focusLastTab",
+      value: function focusLastTab() {
+        this.buttons[this.buttons.length - 1].focus();
+      }
+      /**
+       * Determine if there should be a delay.
+       */
+
+    }, {
+      key: "determineDelay",
+      value: function determineDelay() {
+        var hasDelay = this.tablist.hasAttribute('data-delay');
+        var delay = 0;
+
+        if (hasDelay) {
+          var delayValue = this.tablist.getAttribute('data-delay');
+
+          if (delayValue) {
+            delay = delayValue;
+          } else {
+            delay = 300;
+          }
+        }
+
+        return delay;
+      }
+      /**
+       *
+       * @param {DomNode} target
+       */
+
+    }, {
+      key: "checkTabFocus",
+      value: function checkTabFocus(target) {
+        var focused = document.activeElement;
+
+        if (target === focused) {
+          this.activateTab(target, false);
+        }
+      }
+    }, {
+      key: "keys",
+      get: function get() {
+        return {
+          end: 35,
+          home: 36,
+          left: 37,
+          up: 38,
+          right: 39,
+          down: 40
+        };
+      }
+      /**
+       * Determine direction based on key pressed.
+       */
+
+    }, {
+      key: "direction",
+      get: function get() {
+        return {
+          37: -1,
+          38: -1,
+          39: 1,
+          40: 1
+        };
+      }
+    }]);
+
+    return Tabs;
+  }();
+
   var index = {
     Accordion: Accordion,
     Card: Card,
@@ -2893,7 +3560,10 @@
     MenuButton: MenuButton,
     NestedCheckbox: NestedCheckbox,
     Notification: Notification,
-    SearchToggle: SearchToggle
+    SearchToggle: SearchToggle,
+    ToggleButton: ToggleButton,
+    RadioGroup: RadioGroup,
+    Tabs: Tabs
   };
 
   return index;

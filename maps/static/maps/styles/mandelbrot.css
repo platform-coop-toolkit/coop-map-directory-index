@@ -24,3 +24,7 @@ a:hover {
 .Pen-previewLink svg {
 	fill: var(--blue-400);
 }
+
+.Prose a:hover {
+	color: var(--blue-400);
+}

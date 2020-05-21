@@ -35,7 +35,7 @@
 		<li class="global-nav__list-item">
 			<a class="global-nav__link" aria-current="true" rel="home" href="https://resources.platform.coop/">Resource Library</a>
 		</li>
-	</ul class="global-nav__list">
+	</ul>
 </nav>
 <a href="/" class="link link--brand">
 <svg
@@ -94,8 +94,8 @@
 		<span id="menu-primary-label" class="menu-toggle__label">Menu</span>
 	</button>
 	<ul class="menu">
-		<li class="menu__submenu-wrapper current_page_ancestor current-menu-ancestor">
-			<a class="menu__item" aria-current="page" href="#explore">Explore</a>
+		<li class="menu__submenu-wrapper">
+			<a class="menu__item" href="#explore">Explore</a>
 			<ul class="menu__submenu">
 				<li><a aria-current="page"class="menu__item" href="#browse-all">Browse all</a></li>
 				<li><a class="menu__item" href="#topics">Topics</a></li>
@@ -119,7 +119,7 @@
 			</ul>
 		</li>
 		<li>
-			<a class="menu__item" href="#about">About</a>
+			<a class="menu__item" aria-current="page" href="#about">About</a>
 		</li>
 		<li class="menu__submenu-wrapper">
 			<a class="menu__item" href="#settings">Settings</a>
@@ -256,8 +256,8 @@
 							<input type="checkbox" name="goals[]" id="goals-learn-the-basics-of-platform-cooperativism" value="learn-the-basics-of-platform-cooperativism"><label for="goals-learn-the-basics-of-platform-cooperativism">Learn the basics of platform cooperativism</label>
 					</li>
 					<li>
-<input id="goals" type="checkbox" name="goals" value="build-a-co-op" />
-<label for="goals">Build a co-op</label>
+<input id="build-a-co-op" type="checkbox" name="build-a-co-op" value="build-a-co-op" />
+<label for="build-a-co-op">Build a co-op</label>
 							<span class="filter-disclosure-label" hidden>show 7 subtopics for "Build a co-op"</span>
 							<span class="supplementary-label" hidden> (and 7 subtopics)</span>
 							<ul class="input-group input-group__descendant">
@@ -285,8 +285,8 @@
 							</ul>
 					</li>
 					<li>
-<input id="goals" type="checkbox" name="goals" value="build-a-platform" />
-<label for="goals">Build a platform</label>
+<input id="build-a-platform" type="checkbox" name="build-a-platform" value="build-a-platform" />
+<label for="build-a-platform">Build a platform</label>
 							<span class="filter-disclosure-label" hidden>show 5 subtopics for "Build a platform"</span>
 							<span class="supplementary-label" hidden> (and 5 subtopics)</span>
 							<ul class="input-group input-group__descendant">
@@ -323,8 +323,8 @@
 <span class="button__label">Deselect All<span class="screen-reader-text"> Topics</span></span></button>
 				<ul id="topics" class="input-group input-group__parent topics">
 					<li>
-<input id="topics" type="checkbox" name="topics" value="cooperative-essentials" />
-<label for="topics">Cooperative essentials</label>
+<input id="cooperative-essentials" type="checkbox" name="cooperative-essentials" value="cooperative-essentials" />
+<label for="cooperative-essentials">Cooperative essentials</label>
 							<span class="filter-disclosure-label" hidden>show 5 subtopics for "Cooperative essentials"</span>
 							<span class="supplementary-label" hidden> (and 5 subtopics)</span>
 							<ul class="input-group input-group__descendant">
@@ -346,8 +346,8 @@
 							</ul>
 					</li>
 					<li>
-<input id="topics" type="checkbox" name="topics" value="business-operations" />
-<label for="topics">Business operations</label>
+<input id="business-operations" type="checkbox" name="business-operations" value="business-operations" />
+<label for="business-operations">Business operations</label>
 							<span class="filter-disclosure-label" hidden>show 6 subtopics for "Business operations"</span>
 							<span class="supplementary-label" hidden> (and 6 subtopics)</span>
 							<ul class="input-group input-group__descendant">
@@ -372,8 +372,8 @@
 							</ul>
 					</li>
 					<li>
-<input id="topics" type="checkbox" name="topics" value="technology-and-platforms" />
-<label for="topics">Technology &amp; Platforms</label>
+<input id="technology-and-platforms" type="checkbox" name="technology-and-platforms" value="technology-and-platforms" />
+<label for="technology-and-platforms">Technology &amp; Platforms</label>
 							<span class="filter-disclosure-label" hidden>show 9 subtopics for "Technology &amp; Platforms"</span>
 							<span class="supplementary-label" hidden> (and 9 subtopics)</span>
 							<ul class="input-group input-group__descendant">
@@ -407,8 +407,8 @@
 							</ul>
 					</li>
 					<li>
-<input id="topics" type="checkbox" name="topics" value="law-and-policy" />
-<label for="topics">Law &amp; Policy</label>
+<input id="law-and-policy" type="checkbox" name="law-and-policy" value="law-and-policy" />
+<label for="law-and-policy">Law &amp; Policy</label>
 							<span class="filter-disclosure-label" hidden>show 4 subtopics for "Law &amp; Policy"</span>
 							<span class="supplementary-label" hidden> (and 4 subtopics)</span>
 							<ul class="input-group input-group__descendant">
@@ -427,8 +427,8 @@
 							</ul>
 					</li>
 					<li>
-<input id="topics" type="checkbox" name="topics" value="fair-labour" />
-<label for="topics">Fair labour</label>
+<input id="fair-labour" type="checkbox" name="fair-labour" value="fair-labour" />
+<label for="fair-labour">Fair labour</label>
 							<span class="filter-disclosure-label" hidden>show 3 subtopics for "Fair labour"</span>
 							<span class="supplementary-label" hidden> (and 3 subtopics)</span>
 							<ul class="input-group input-group__descendant">
@@ -444,8 +444,8 @@
 							</ul>
 					</li>
 					<li>
-<input id="topics" type="checkbox" name="topics" value="platform-co-op-theory" />
-<label for="topics">Platform co-op theory</label>
+<input id="platform-co-op-theory" type="checkbox" name="platform-co-op-theory" value="platform-co-op-theory" />
+<label for="platform-co-op-theory">Platform co-op theory</label>
 							<span class="filter-disclosure-label" hidden>show 7 subtopics for "Platform co-op theory"</span>
 							<span class="supplementary-label" hidden> (and 7 subtopics)</span>
 							<ul class="input-group input-group__descendant">
@@ -608,8 +608,8 @@
 							<input type="checkbox" name="sectors[]" id="sectors-sports-fitness-and-recreation" value="sports-fitness-and-recreation"><label for="sectors-sports-fitness-and-recreation">Sports fitness and recreation</label>
 					</li>
 					<li>
-<input id="sectors" type="checkbox" name="sectors" value="technology" />
-<label for="sectors">Technology</label>
+<input id="technology" type="checkbox" name="technology" value="technology" />
+<label for="technology">Technology</label>
 							<span class="filter-disclosure-label" hidden>show 5 subtopics for "Technology"</span>
 							<span class="supplementary-label" hidden> (and 5 subtopics)</span>
 							<ul class="input-group input-group__descendant">
@@ -722,7 +722,7 @@ Sort by</h2>
 		<article class="card card--resource">
 			<header>
 				<h3 class="card__title" >
-					<a class="card__link" href="resource">Vel Et Voluptatum Et</a>
+					<a class="card__link" href="resource">Labore Voluptatum Et Voluptate Dignissimos</a>
 				</h3>
 					<p class="card__byline"><svg
 	class="icon icon--author"
@@ -732,7 +732,7 @@ Sort by</h2>
 >
 	<use href="/images/author.svg#author"/>
 </svg>
- By Claudine Schuppe</p>
+ By Bernita Doyle</p>
 			</header>
 			<aside class="card__aside">
 				<div class="card__meta">
@@ -745,7 +745,7 @@ Sort by</h2>
 	<use href="/images/audio.svg#audio"/>
 </svg>
 Audio</span><span class="separator">.</span>
-					<span class="card__publisher"><span class="screen-reader-text">publisher: </span>Beahan Group</span>
+					<span class="card__publisher"><span class="screen-reader-text">publisher: </span>Purdy - Gibson</span>
 				</div>
 				<div class="card__meta">
 					<span class="card__locality"><span class="screen-reader-text">location of relevance: </span><svg
@@ -756,17 +756,17 @@ Audio</span><span class="separator">.</span>
 >
 	<use href="/images/location.svg#location"/>
 </svg>
-South Georgia and the South Sandwich Islands</span>
+Republic of Korea</span>
 				</div>
 				<div class="card__tags tags">
 					<div class="badge">
-						<span class="screen-reader-text">Topic: </span>Capability
+						<span class="screen-reader-text">Topic: </span>Intranet
 					</div>
 					<div class="badge">
-						<span class="screen-reader-text">Topic: </span>Graphic Interface
+						<span class="screen-reader-text">Topic: </span>Capability
 					</div>
 					<span class="overflow">
-						+4 more
+						+1 more
 					</span>
 				</div>
 				<div class="card__meta">
@@ -779,7 +779,7 @@ South Georgia and the South Sandwich Islands</span>
 		<article class="card card--resource">
 			<header>
 				<h3 class="card__title" >
-					<a class="card__link" href="resource">Ipsam Corporis Minima Veniam Et Quia Libero Molestiae Minima Rerum Porro</a>
+					<a class="card__link" href="resource">Est Rerum Perferendis Ut Corrupti Expedita Earum Ullam</a>
 				</h3>
 				<p class="card__meta card__subscription"><svg
 	class="icon icon--lock"
@@ -798,7 +798,7 @@ South Georgia and the South Sandwich Islands</span>
 >
 	<use href="/images/author.svg#author"/>
 </svg>
- By Horacio Brown</p>
+ By Keegan Hettinger</p>
 			</header>
 			<aside class="card__aside">
 				<div class="card__meta">
@@ -811,7 +811,7 @@ South Georgia and the South Sandwich Islands</span>
 	<use href="/images/case-study.svg#case-study"/>
 </svg>
 Case Study</span><span class="separator">.</span>
-					<span class="card__publisher"><span class="screen-reader-text">publisher: </span>Schmitt and Sons</span>
+					<span class="card__publisher"><span class="screen-reader-text">publisher: </span>Bechtelar LLC</span>
 				</div>
 				<div class="card__meta">
 					<span class="card__locality"><span class="screen-reader-text">location of relevance: </span><svg
@@ -822,17 +822,17 @@ Case Study</span><span class="separator">.</span>
 >
 	<use href="/images/location.svg#location"/>
 </svg>
-Ecuador</span>
+Austria</span>
 				</div>
 				<div class="card__tags tags">
 					<div class="badge">
-						<span class="screen-reader-text">Topic: </span>Info Mediaries
+						<span class="screen-reader-text">Topic: </span>System Engine
 					</div>
 					<div class="badge">
-						<span class="screen-reader-text">Topic: </span>Intranet
+						<span class="screen-reader-text">Topic: </span>Complexity
 					</div>
 					<span class="overflow">
-						+4 more
+						+5 more
 					</span>
 				</div>
 				<div class="card__meta">
@@ -845,7 +845,7 @@ Ecuador</span>
 		<article class="card card--resource">
 			<header>
 				<h3 class="card__title" >
-					<a class="card__link" href="resource">Consequuntur Voluptatibus Odit Non Totam Et Aut Animi</a>
+					<a class="card__link" href="resource">Sit Odio Ea Sed</a>
 				</h3>
 					<p class="card__byline"><svg
 	class="icon icon--author"
@@ -855,7 +855,7 @@ Ecuador</span>
 >
 	<use href="/images/author.svg#author"/>
 </svg>
- By Heath Olson</p>
+ By Enrico Runolfsson</p>
 			</header>
 			<aside class="card__aside">
 				<div class="card__meta">
@@ -868,7 +868,7 @@ Ecuador</span>
 	<use href="/images/toolkit.svg#toolkit"/>
 </svg>
 Toolkit</span><span class="separator">.</span>
-					<span class="card__publisher"><span class="screen-reader-text">publisher: </span>Schinner - Murazik</span>
+					<span class="card__publisher"><span class="screen-reader-text">publisher: </span>Daniel - Shanahan</span>
 				</div>
 				<div class="card__meta">
 					<span class="card__locality"><span class="screen-reader-text">location of relevance: </span><svg
@@ -879,14 +879,14 @@ Toolkit</span><span class="separator">.</span>
 >
 	<use href="/images/location.svg#location"/>
 </svg>
-Egypt</span>
+French Guiana</span>
 				</div>
 				<div class="card__tags tags">
 					<div class="badge">
-						<span class="screen-reader-text">Topic: </span>Archive
+						<span class="screen-reader-text">Topic: </span>Neural Net
 					</div>
 					<div class="badge">
-						<span class="screen-reader-text">Topic: </span>Support
+						<span class="screen-reader-text">Topic: </span>Superstructure
 					</div>
 					<span class="overflow">
 						+5 more
@@ -902,7 +902,7 @@ Egypt</span>
 		<article class="card card--resource">
 			<header>
 				<h3 class="card__title" >
-					<a class="card__link" href="resource">Sapiente Ad Voluptas Qui</a>
+					<a class="card__link" href="resource">Aut Voluptas Ut Reiciendis Accusantium Aut Incidunt Exercitationem Tenetur Aliquid Ut Aut</a>
 				</h3>
 				<p class="card__meta card__subscription"><svg
 	class="icon icon--lock"
@@ -921,7 +921,7 @@ Egypt</span>
 >
 	<use href="/images/author.svg#author"/>
 </svg>
- By Kenny Dickens</p>
+ By Kelli Von</p>
 			</header>
 			<aside class="card__aside">
 				<div class="card__meta">
@@ -934,7 +934,7 @@ Egypt</span>
 	<use href="/images/template.svg#template"/>
 </svg>
 Template</span><span class="separator">.</span>
-					<span class="card__publisher"><span class="screen-reader-text">publisher: </span>Hintz, Fritsch and Miller</span>
+					<span class="card__publisher"><span class="screen-reader-text">publisher: </span>Bechtelar, Sipes and Connelly</span>
 				</div>
 				<div class="card__meta">
 					<span class="card__locality"><span class="screen-reader-text">location of relevance: </span><svg
@@ -945,71 +945,14 @@ Template</span><span class="separator">.</span>
 >
 	<use href="/images/location.svg#location"/>
 </svg>
-Morocco</span>
+Turkey</span>
 				</div>
 				<div class="card__tags tags">
 					<div class="badge">
-						<span class="screen-reader-text">Topic: </span>Interface
+						<span class="screen-reader-text">Topic: </span>Hierarchy
 					</div>
 					<div class="badge">
-						<span class="screen-reader-text">Topic: </span>Database
-					</div>
-					<span class="overflow">
-						+5 more
-					</span>
-				</div>
-				<div class="card__meta">
-				    <span class="card__added">Added January 1, 2020</span>
-				</div>
-			</aside>
-		</article>
-	</li>
-	<li class="card__wrapper">
-		<article class="card card--resource">
-			<header>
-				<h3 class="card__title" >
-					<a class="card__link" href="resource">Quos Tempora Facilis Ipsam Ratione Et</a>
-				</h3>
-					<p class="card__byline"><svg
-	class="icon icon--author"
-	aria-hidden="true"
-	viewBox="0 0 20 20"
-	focusable="false"
->
-	<use href="/images/author.svg#author"/>
-</svg>
- By Maybell Dietrich</p>
-			</header>
-			<aside class="card__aside">
-				<div class="card__meta">
-					<span class="card__format"><span class="screen-reader-text">resource format: </span><svg
-	class="icon icon--curriculum"
-	aria-hidden="true"
-	viewBox="0 0 20 20"
-	focusable="false"
->
-	<use href="/images/curriculum.svg#curriculum"/>
-</svg>
-Educational Curriculum</span><span class="separator">.</span>
-					<span class="card__publisher"><span class="screen-reader-text">publisher: </span>Schamberger LLC</span>
-				</div>
-				<div class="card__meta">
-					<span class="card__locality"><span class="screen-reader-text">location of relevance: </span><svg
-	class="icon icon--location"
-	aria-hidden="true"
-	viewBox="0 0 20 20"
-	focusable="false"
->
-	<use href="/images/location.svg#location"/>
-</svg>
-Chad</span>
-				</div>
-				<div class="card__tags tags">
-					<div class="badge">
-						<span class="screen-reader-text">Topic: </span>Synergy
-					</div>
-					<div class="badge">
-						<span class="screen-reader-text">Topic: </span>Core
+						<span class="screen-reader-text">Topic: </span>Parallelism
 					</div>
 					<span class="overflow">
 						+4 more
@@ -1025,17 +968,8 @@ Chad</span>
 		<article class="card card--resource">
 			<header>
 				<h3 class="card__title" >
-					<a class="card__link" href="resource">Veritatis Aut Dolores Labore Commodi Quas</a>
+					<a class="card__link" href="resource">Reprehenderit Eligendi Et Eveniet Ea</a>
 				</h3>
-				<p class="card__meta card__subscription"><svg
-	class="icon icon--lock"
-	aria-hidden="true"
-	viewBox="0 0 20 20"
-	focusable="false"
->
-	<use href="/images/lock.svg#lock"/>
-</svg>
- <span aria-hidden="true">Subscription required</span><span class="screen-reader-text">Subscription required to access this resource</span></p>
 					<p class="card__byline"><svg
 	class="icon icon--author"
 	aria-hidden="true"
@@ -1044,20 +978,20 @@ Chad</span>
 >
 	<use href="/images/author.svg#author"/>
 </svg>
- By Isac Turcotte</p>
+ By Nick Haag</p>
 			</header>
 			<aside class="card__aside">
 				<div class="card__meta">
 					<span class="card__format"><span class="screen-reader-text">resource format: </span><svg
-	class="icon icon--video"
+	class="icon icon--curriculum"
 	aria-hidden="true"
 	viewBox="0 0 20 20"
 	focusable="false"
 >
-	<use href="/images/video.svg#video"/>
+	<use href="/images/curriculum.svg#curriculum"/>
 </svg>
-Video</span><span class="separator">.</span>
-					<span class="card__publisher"><span class="screen-reader-text">publisher: </span>Wisozk LLC</span>
+Educational Curriculum</span><span class="separator">.</span>
+					<span class="card__publisher"><span class="screen-reader-text">publisher: </span>MacGyver - Kiehn</span>
 				</div>
 				<div class="card__meta">
 					<span class="card__locality"><span class="screen-reader-text">location of relevance: </span><svg
@@ -1068,14 +1002,14 @@ Video</span><span class="separator">.</span>
 >
 	<use href="/images/location.svg#location"/>
 </svg>
-Netherlands</span>
+Romania</span>
 				</div>
 				<div class="card__tags tags">
 					<div class="badge">
-						<span class="screen-reader-text">Topic: </span>Archive
+						<span class="screen-reader-text">Topic: </span>Function
 					</div>
 					<div class="badge">
-						<span class="screen-reader-text">Topic: </span>Architecture
+						<span class="screen-reader-text">Topic: </span>Flexibility
 					</div>
 					<span class="overflow">
 						+3 more
@@ -1091,64 +1025,7 @@ Netherlands</span>
 		<article class="card card--resource">
 			<header>
 				<h3 class="card__title" >
-					<a class="card__link" href="resource">Ratione Ut Cumque Ab Doloribus Culpa</a>
-				</h3>
-					<p class="card__byline"><svg
-	class="icon icon--author"
-	aria-hidden="true"
-	viewBox="0 0 20 20"
-	focusable="false"
->
-	<use href="/images/author.svg#author"/>
-</svg>
- By Onie Hessel</p>
-			</header>
-			<aside class="card__aside">
-				<div class="card__meta">
-					<span class="card__format"><span class="screen-reader-text">resource format: </span><svg
-	class="icon icon--article"
-	aria-hidden="true"
-	viewBox="0 0 20 20"
-	focusable="false"
->
-	<use href="/images/article.svg#article"/>
-</svg>
-Article</span><span class="separator">.</span>
-					<span class="card__publisher"><span class="screen-reader-text">publisher: </span>Tillman - Haag</span>
-				</div>
-				<div class="card__meta">
-					<span class="card__locality"><span class="screen-reader-text">location of relevance: </span><svg
-	class="icon icon--location"
-	aria-hidden="true"
-	viewBox="0 0 20 20"
-	focusable="false"
->
-	<use href="/images/location.svg#location"/>
-</svg>
-Bahamas</span>
-				</div>
-				<div class="card__tags tags">
-					<div class="badge">
-						<span class="screen-reader-text">Topic: </span>Toolset
-					</div>
-					<div class="badge">
-						<span class="screen-reader-text">Topic: </span>Structure
-					</div>
-					<span class="overflow">
-						+2 more
-					</span>
-				</div>
-				<div class="card__meta">
-				    <span class="card__added">Added January 1, 2020</span>
-				</div>
-			</aside>
-		</article>
-	</li>
-	<li class="card__wrapper">
-		<article class="card card--resource">
-			<header>
-				<h3 class="card__title" >
-					<a class="card__link" href="resource">Autem Et Asperiores Quas Ab Quos Rerum Modi Perspiciatis Est</a>
+					<a class="card__link" href="resource">Quae Recusandae Illo Dicta Iure</a>
 				</h3>
 				<p class="card__meta card__subscription"><svg
 	class="icon icon--lock"
@@ -1167,20 +1044,20 @@ Bahamas</span>
 >
 	<use href="/images/author.svg#author"/>
 </svg>
- By Oliver Abshire</p>
+ By Daniela Pfeffer</p>
 			</header>
 			<aside class="card__aside">
 				<div class="card__meta">
 					<span class="card__format"><span class="screen-reader-text">resource format: </span><svg
-	class="icon icon--book"
+	class="icon icon--video"
 	aria-hidden="true"
 	viewBox="0 0 20 20"
 	focusable="false"
 >
-	<use href="/images/book.svg#book"/>
+	<use href="/images/video.svg#video"/>
 </svg>
-Book</span><span class="separator">.</span>
-					<span class="card__publisher"><span class="screen-reader-text">publisher: </span>West Group</span>
+Video</span><span class="separator">.</span>
+					<span class="card__publisher"><span class="screen-reader-text">publisher: </span>Franecki - Skiles</span>
 				</div>
 				<div class="card__meta">
 					<span class="card__locality"><span class="screen-reader-text">location of relevance: </span><svg
@@ -1191,71 +1068,14 @@ Book</span><span class="separator">.</span>
 >
 	<use href="/images/location.svg#location"/>
 </svg>
-Guatemala</span>
+Panama</span>
 				</div>
 				<div class="card__tags tags">
 					<div class="badge">
-						<span class="screen-reader-text">Topic: </span>Conglomeration
+						<span class="screen-reader-text">Topic: </span>Firmware
 					</div>
 					<div class="badge">
-						<span class="screen-reader-text">Topic: </span>Access
-					</div>
-					<span class="overflow">
-						+5 more
-					</span>
-				</div>
-				<div class="card__meta">
-				    <span class="card__added">Added January 1, 2020</span>
-				</div>
-			</aside>
-		</article>
-	</li>
-	<li class="card__wrapper">
-		<article class="card card--resource">
-			<header>
-				<h3 class="card__title" >
-					<a class="card__link" href="resource">Eveniet Quas Sed Perferendis Repellendus Libero</a>
-				</h3>
-					<p class="card__byline"><svg
-	class="icon icon--author"
-	aria-hidden="true"
-	viewBox="0 0 20 20"
-	focusable="false"
->
-	<use href="/images/author.svg#author"/>
-</svg>
- By Anjali Von</p>
-			</header>
-			<aside class="card__aside">
-				<div class="card__meta">
-					<span class="card__format"><span class="screen-reader-text">resource format: </span><svg
-	class="icon icon--document"
-	aria-hidden="true"
-	viewBox="0 0 20 20"
-	focusable="false"
->
-	<use href="/images/document.svg#document"/>
-</svg>
-Document</span><span class="separator">.</span>
-					<span class="card__publisher"><span class="screen-reader-text">publisher: </span>Macejkovic, Abernathy and Abernathy</span>
-				</div>
-				<div class="card__meta">
-					<span class="card__locality"><span class="screen-reader-text">location of relevance: </span><svg
-	class="icon icon--location"
-	aria-hidden="true"
-	viewBox="0 0 20 20"
-	focusable="false"
->
-	<use href="/images/location.svg#location"/>
-</svg>
-Cuba</span>
-				</div>
-				<div class="card__tags tags">
-					<div class="badge">
-						<span class="screen-reader-text">Topic: </span>Frame
-					</div>
-					<div class="badge">
-						<span class="screen-reader-text">Topic: </span>Software
+						<span class="screen-reader-text">Topic: </span>Adapter
 					</div>
 					<span class="overflow">
 						+1 more
@@ -1271,17 +1091,8 @@ Cuba</span>
 		<article class="card card--resource">
 			<header>
 				<h3 class="card__title" >
-					<a class="card__link" href="resource">Nihil Asperiores Eveniet Facilis Illum Qui Nobis Quam Praesentium Veniam Velit Illo</a>
+					<a class="card__link" href="resource">Nobis Et Quisquam Dolores Eos Consectetur Laudantium Optio Perspiciatis Fuga Et Et</a>
 				</h3>
-				<p class="card__meta card__subscription"><svg
-	class="icon icon--lock"
-	aria-hidden="true"
-	viewBox="0 0 20 20"
-	focusable="false"
->
-	<use href="/images/lock.svg#lock"/>
-</svg>
- <span aria-hidden="true">Subscription required</span><span class="screen-reader-text">Subscription required to access this resource</span></p>
 					<p class="card__byline"><svg
 	class="icon icon--author"
 	aria-hidden="true"
@@ -1290,20 +1101,20 @@ Cuba</span>
 >
 	<use href="/images/author.svg#author"/>
 </svg>
- By America Bednar</p>
+ By Kaitlin Kuhn</p>
 			</header>
 			<aside class="card__aside">
 				<div class="card__meta">
 					<span class="card__format"><span class="screen-reader-text">resource format: </span><svg
-	class="icon icon--academic"
+	class="icon icon--article"
 	aria-hidden="true"
 	viewBox="0 0 20 20"
 	focusable="false"
 >
-	<use href="/images/academic.svg#academic"/>
+	<use href="/images/article.svg#article"/>
 </svg>
-Academic Paper</span><span class="separator">.</span>
-					<span class="card__publisher"><span class="screen-reader-text">publisher: </span>Reichel Inc</span>
+Article</span><span class="separator">.</span>
+					<span class="card__publisher"><span class="screen-reader-text">publisher: </span>Toy LLC</span>
 				</div>
 				<div class="card__meta">
 					<span class="card__locality"><span class="screen-reader-text">location of relevance: </span><svg
@@ -1314,14 +1125,14 @@ Academic Paper</span><span class="separator">.</span>
 >
 	<use href="/images/location.svg#location"/>
 </svg>
-Gambia</span>
+Martinique</span>
 				</div>
 				<div class="card__tags tags">
 					<div class="badge">
-						<span class="screen-reader-text">Topic: </span>Product
+						<span class="screen-reader-text">Topic: </span>Internet Solution
 					</div>
 					<div class="badge">
-						<span class="screen-reader-text">Topic: </span>Support
+						<span class="screen-reader-text">Topic: </span>Initiative
 					</div>
 					<span class="overflow">
 						+4 more
@@ -1337,64 +1148,7 @@ Gambia</span>
 		<article class="card card--resource">
 			<header>
 				<h3 class="card__title" >
-					<a class="card__link" href="resource">Consectetur Omnis Qui Consequuntur Et Libero</a>
-				</h3>
-					<p class="card__byline"><svg
-	class="icon icon--author"
-	aria-hidden="true"
-	viewBox="0 0 20 20"
-	focusable="false"
->
-	<use href="/images/author.svg#author"/>
-</svg>
- By Carlo Corkery</p>
-			</header>
-			<aside class="card__aside">
-				<div class="card__meta">
-					<span class="card__format"><span class="screen-reader-text">resource format: </span><svg
-	class="icon icon--report"
-	aria-hidden="true"
-	viewBox="0 0 20 20"
-	focusable="false"
->
-	<use href="/images/report.svg#report"/>
-</svg>
-Report</span><span class="separator">.</span>
-					<span class="card__publisher"><span class="screen-reader-text">publisher: </span>Treutel Inc</span>
-				</div>
-				<div class="card__meta">
-					<span class="card__locality"><span class="screen-reader-text">location of relevance: </span><svg
-	class="icon icon--location"
-	aria-hidden="true"
-	viewBox="0 0 20 20"
-	focusable="false"
->
-	<use href="/images/location.svg#location"/>
-</svg>
-Costa Rica</span>
-				</div>
-				<div class="card__tags tags">
-					<div class="badge">
-						<span class="screen-reader-text">Topic: </span>Functionalities
-					</div>
-					<div class="badge">
-						<span class="screen-reader-text">Topic: </span>Time Frame
-					</div>
-					<span class="overflow">
-						+1 more
-					</span>
-				</div>
-				<div class="card__meta">
-				    <span class="card__added">Added January 1, 2020</span>
-				</div>
-			</aside>
-		</article>
-	</li>
-	<li class="card__wrapper">
-		<article class="card card--resource">
-			<header>
-				<h3 class="card__title" >
-					<a class="card__link" href="resource">Ut Est Quis Eos</a>
+					<a class="card__link" href="resource">Quis Commodi Nisi Ratione Assumenda Esse Reprehenderit Autem Dolores Ut</a>
 				</h3>
 				<p class="card__meta card__subscription"><svg
 	class="icon icon--lock"
@@ -1413,7 +1167,253 @@ Costa Rica</span>
 >
 	<use href="/images/author.svg#author"/>
 </svg>
- By Reginald Koelpin</p>
+ By Herman Parker</p>
+			</header>
+			<aside class="card__aside">
+				<div class="card__meta">
+					<span class="card__format"><span class="screen-reader-text">resource format: </span><svg
+	class="icon icon--book"
+	aria-hidden="true"
+	viewBox="0 0 20 20"
+	focusable="false"
+>
+	<use href="/images/book.svg#book"/>
+</svg>
+Book</span><span class="separator">.</span>
+					<span class="card__publisher"><span class="screen-reader-text">publisher: </span>Hermann, Mann and Kshlerin</span>
+				</div>
+				<div class="card__meta">
+					<span class="card__locality"><span class="screen-reader-text">location of relevance: </span><svg
+	class="icon icon--location"
+	aria-hidden="true"
+	viewBox="0 0 20 20"
+	focusable="false"
+>
+	<use href="/images/location.svg#location"/>
+</svg>
+Taiwan</span>
+				</div>
+				<div class="card__tags tags">
+					<div class="badge">
+						<span class="screen-reader-text">Topic: </span>Productivity
+					</div>
+					<div class="badge">
+						<span class="screen-reader-text">Topic: </span>Orchestration
+					</div>
+					<span class="overflow">
+						+1 more
+					</span>
+				</div>
+				<div class="card__meta">
+				    <span class="card__added">Added January 1, 2020</span>
+				</div>
+			</aside>
+		</article>
+	</li>
+	<li class="card__wrapper">
+		<article class="card card--resource">
+			<header>
+				<h3 class="card__title" >
+					<a class="card__link" href="resource">Magnam Eos Nam Quis Mollitia</a>
+				</h3>
+					<p class="card__byline"><svg
+	class="icon icon--author"
+	aria-hidden="true"
+	viewBox="0 0 20 20"
+	focusable="false"
+>
+	<use href="/images/author.svg#author"/>
+</svg>
+ By Elnora Reichert</p>
+			</header>
+			<aside class="card__aside">
+				<div class="card__meta">
+					<span class="card__format"><span class="screen-reader-text">resource format: </span><svg
+	class="icon icon--document"
+	aria-hidden="true"
+	viewBox="0 0 20 20"
+	focusable="false"
+>
+	<use href="/images/document.svg#document"/>
+</svg>
+Document</span><span class="separator">.</span>
+					<span class="card__publisher"><span class="screen-reader-text">publisher: </span>Smith, Gerlach and Rodriguez</span>
+				</div>
+				<div class="card__meta">
+					<span class="card__locality"><span class="screen-reader-text">location of relevance: </span><svg
+	class="icon icon--location"
+	aria-hidden="true"
+	viewBox="0 0 20 20"
+	focusable="false"
+>
+	<use href="/images/location.svg#location"/>
+</svg>
+Iran</span>
+				</div>
+				<div class="card__tags tags">
+					<div class="badge">
+						<span class="screen-reader-text">Topic: </span>Project
+					</div>
+					<div class="badge">
+						<span class="screen-reader-text">Topic: </span>Complexity
+					</div>
+					<span class="overflow">
+						+3 more
+					</span>
+				</div>
+				<div class="card__meta">
+				    <span class="card__added">Added January 1, 2020</span>
+				</div>
+			</aside>
+		</article>
+	</li>
+	<li class="card__wrapper">
+		<article class="card card--resource">
+			<header>
+				<h3 class="card__title" >
+					<a class="card__link" href="resource">Voluptate Mollitia Expedita Tenetur</a>
+				</h3>
+				<p class="card__meta card__subscription"><svg
+	class="icon icon--lock"
+	aria-hidden="true"
+	viewBox="0 0 20 20"
+	focusable="false"
+>
+	<use href="/images/lock.svg#lock"/>
+</svg>
+ <span aria-hidden="true">Subscription required</span><span class="screen-reader-text">Subscription required to access this resource</span></p>
+					<p class="card__byline"><svg
+	class="icon icon--author"
+	aria-hidden="true"
+	viewBox="0 0 20 20"
+	focusable="false"
+>
+	<use href="/images/author.svg#author"/>
+</svg>
+ By Jessica Pollich</p>
+			</header>
+			<aside class="card__aside">
+				<div class="card__meta">
+					<span class="card__format"><span class="screen-reader-text">resource format: </span><svg
+	class="icon icon--academic"
+	aria-hidden="true"
+	viewBox="0 0 20 20"
+	focusable="false"
+>
+	<use href="/images/academic.svg#academic"/>
+</svg>
+Academic Paper</span><span class="separator">.</span>
+					<span class="card__publisher"><span class="screen-reader-text">publisher: </span>Herzog, Murazik and Vandervort</span>
+				</div>
+				<div class="card__meta">
+					<span class="card__locality"><span class="screen-reader-text">location of relevance: </span><svg
+	class="icon icon--location"
+	aria-hidden="true"
+	viewBox="0 0 20 20"
+	focusable="false"
+>
+	<use href="/images/location.svg#location"/>
+</svg>
+Denmark</span>
+				</div>
+				<div class="card__tags tags">
+					<div class="badge">
+						<span class="screen-reader-text">Topic: </span>Service Desk
+					</div>
+					<div class="badge">
+						<span class="screen-reader-text">Topic: </span>Instruction Set
+					</div>
+					<span class="overflow">
+						+5 more
+					</span>
+				</div>
+				<div class="card__meta">
+				    <span class="card__added">Added January 1, 2020</span>
+				</div>
+			</aside>
+		</article>
+	</li>
+	<li class="card__wrapper">
+		<article class="card card--resource">
+			<header>
+				<h3 class="card__title" >
+					<a class="card__link" href="resource">Nobis Ea Molestias Ipsa Dicta Laboriosam</a>
+				</h3>
+					<p class="card__byline"><svg
+	class="icon icon--author"
+	aria-hidden="true"
+	viewBox="0 0 20 20"
+	focusable="false"
+>
+	<use href="/images/author.svg#author"/>
+</svg>
+ By Delta Grady</p>
+			</header>
+			<aside class="card__aside">
+				<div class="card__meta">
+					<span class="card__format"><span class="screen-reader-text">resource format: </span><svg
+	class="icon icon--report"
+	aria-hidden="true"
+	viewBox="0 0 20 20"
+	focusable="false"
+>
+	<use href="/images/report.svg#report"/>
+</svg>
+Report</span><span class="separator">.</span>
+					<span class="card__publisher"><span class="screen-reader-text">publisher: </span>Hagenes, Heaney and Stark</span>
+				</div>
+				<div class="card__meta">
+					<span class="card__locality"><span class="screen-reader-text">location of relevance: </span><svg
+	class="icon icon--location"
+	aria-hidden="true"
+	viewBox="0 0 20 20"
+	focusable="false"
+>
+	<use href="/images/location.svg#location"/>
+</svg>
+Democratic People&#39;s Republic of Korea</span>
+				</div>
+				<div class="card__tags tags">
+					<div class="badge">
+						<span class="screen-reader-text">Topic: </span>Complexity
+					</div>
+					<div class="badge">
+						<span class="screen-reader-text">Topic: </span>Synergy
+					</div>
+					<span class="overflow">
+						+2 more
+					</span>
+				</div>
+				<div class="card__meta">
+				    <span class="card__added">Added January 1, 2020</span>
+				</div>
+			</aside>
+		</article>
+	</li>
+	<li class="card__wrapper">
+		<article class="card card--resource">
+			<header>
+				<h3 class="card__title" >
+					<a class="card__link" href="resource">Et Quisquam Autem Et Rerum Velit Velit Qui Autem Eos Dicta</a>
+				</h3>
+				<p class="card__meta card__subscription"><svg
+	class="icon icon--lock"
+	aria-hidden="true"
+	viewBox="0 0 20 20"
+	focusable="false"
+>
+	<use href="/images/lock.svg#lock"/>
+</svg>
+ <span aria-hidden="true">Subscription required</span><span class="screen-reader-text">Subscription required to access this resource</span></p>
+					<p class="card__byline"><svg
+	class="icon icon--author"
+	aria-hidden="true"
+	viewBox="0 0 20 20"
+	focusable="false"
+>
+	<use href="/images/author.svg#author"/>
+</svg>
+ By Hipolito Hessel</p>
 			</header>
 			<aside class="card__aside">
 				<div class="card__meta">
@@ -1426,7 +1426,7 @@ Costa Rica</span>
 	<use href="/images/audio.svg#audio"/>
 </svg>
 Audio</span><span class="separator">.</span>
-					<span class="card__publisher"><span class="screen-reader-text">publisher: </span>Cartwright, Kuhlman and Walter</span>
+					<span class="card__publisher"><span class="screen-reader-text">publisher: </span>Bashirian and Sons</span>
 				</div>
 				<div class="card__meta">
 					<span class="card__locality"><span class="screen-reader-text">location of relevance: </span><svg
@@ -1437,17 +1437,17 @@ Audio</span><span class="separator">.</span>
 >
 	<use href="/images/location.svg#location"/>
 </svg>
-Mongolia</span>
+Nepal</span>
 				</div>
 				<div class="card__tags tags">
 					<div class="badge">
-						<span class="screen-reader-text">Topic: </span>Functionalities
+						<span class="screen-reader-text">Topic: </span>Standardization
 					</div>
 					<div class="badge">
-						<span class="screen-reader-text">Topic: </span>Info Mediaries
+						<span class="screen-reader-text">Topic: </span>Capability
 					</div>
 					<span class="overflow">
-						+5 more
+						+4 more
 					</span>
 				</div>
 				<div class="card__meta">
