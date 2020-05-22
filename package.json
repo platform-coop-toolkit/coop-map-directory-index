@@ -4,7 +4,7 @@
   "description": "The Map/Directory/Index component of the Platform Cooperative Development Kit.",
   "main": "index.js",
   "scripts": {
-    "build": "cross-env NODE_ENV=development run-s clean mix",
+    "build": "cross-env NODE_ENV=development run-s mix",
     "build:production": "cross-env NODE_ENV=production run-s clean mix",
     "clean": "rimraf maps/static/maps/dist",
     "dev": "concurrently --raw \"./manage.py runserver\" \"npm run watch\"",

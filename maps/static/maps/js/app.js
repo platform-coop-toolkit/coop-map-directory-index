@@ -1,6 +1,6 @@
 import Pinecone from '@platform-coop-toolkit/pinecone';
 import { generateCards, generatePopupHtml } from './cards.js';
-import './all.js';
+import '@fortawesome/fontawesome-free/js/all.js';
 
 const menu = document.querySelector('.menu');
 const menuToggle = document.querySelector('.menu-toggle');
