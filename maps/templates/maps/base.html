@@ -10,10 +10,9 @@
   <script src="https://api.mapbox.com/mapbox-gl-js/v1.7.0/mapbox-gl.js"></script>
   <link href="https://api.mapbox.com/mapbox-gl-js/v1.7.0/mapbox-gl.css" rel="stylesheet"/>
   <script src="https://d3js.org/d3.v5.min.js"></script>
-  <script src="{% static 'maps/scripts/pinecone.umd.js' %}"></script>
-  <link href="{% static 'maps/styles/pinecone.css' %}" rel="stylesheet">
-  <link href="{% static 'maps/css/app.css' %}" rel="stylesheet">
-  <link rel="shortcut icon" href="{% static 'maps/images/favicon.png' %}" type="image/x-icon">
+  {# <script src="{% static 'maps/scripts/pinecone.umd.js' %}"></script> #}
+  <link href="{% static 'maps/dist/css/app.css' %}" rel="stylesheet">
+  <link rel="shortcut icon" href="{% static 'maps/dist/images/favicon.png' %}" type="image/x-icon">
 </head>
 <body class="home page">
 {% include 'maps/global_nav.html' %}

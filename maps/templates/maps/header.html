@@ -5,7 +5,7 @@
 
       <a class="link link--brand" aria-current="page" href="{% url 'index' %}">
         <svg class="icon icon--pcc icon--lg" viewBox="0 0 32 32" aria-hidden="" focusable="">
-            <use href="{% static 'maps/images/pcc.svg#pcc' %}" />
+            <use href="{% static 'maps/dist/images/pcc.svg#pcc' %}" />
         </svg>
         <span class="brand__title screen-reader-text">Platform Cooperativism Consortium</span></a>
 
@@ -17,7 +17,7 @@
               viewBox="0 0 20 20"
               focusable="false"
           >
-           <use href="{% static 'maps/images/search.svg#search' %}" />
+           <use href="{% static 'maps/dist/images/search.svg#search' %}" />
           </svg>
         </button>
 
@@ -33,7 +33,7 @@
                 viewBox="0 0 20 20"
                 focusable="false"
             >
-              <use href="{% static 'maps/images/search.svg#search' %}" />
+              <use href="{% static 'maps/dist/images/search.svg#search' %}" />
             </svg>
           </button>
         </form>
@@ -46,7 +46,7 @@
                 viewBox="0 0 20 20"
                 focusable="false"
             >
-              <use href="/images/menu.svg#menu"/>
+              <use href="{% static 'maps/dist/images/menu.svg#menu' %}"/>
             </svg>
             <svg
                 class="icon icon--close"
@@ -54,7 +54,7 @@
                 viewBox="0 0 20 20"
                 focusable="false"
             >
-              <use href="/images/menu.svg#menu"/>
+              <use href="{% static 'maps/dist/images/close.svg#close' %}"/>
             </svg>
             <span id="menu-primary-label" class="menu-toggle__label">Menu</span>
           </button>
