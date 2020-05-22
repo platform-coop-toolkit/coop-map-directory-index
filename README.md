@@ -45,7 +45,7 @@ __January 2020__: Data is being managed outside of this repository. A locally-in
 
 Local:
 ```
-pg_dump -f scratch/cmdi.sql --clean --if-exists --no-privileges --no-acl --no-owner cmdi && bzip2 -9 --force scratch/cmdi.sql
+pg_dump -U cmdi -h localhost -f scratch/cmdi.sql --clean --if-exists cmdi && bzip2 -9 --force scratch/cmdi.sql
 scp scratch/cmdi.sql.bz2 ubuntu@awshost:/home/ubuntu/coop-map-directory-index/scratch
 ```
 
