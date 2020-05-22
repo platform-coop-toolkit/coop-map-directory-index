@@ -10,8 +10,13 @@
     <h1>{% trans "Sign In" %}</h1>
 </div>
 
+<div class="spacer"></div>
+{% get_providers as socialaccount_providers %}
+{% if socialaccount_providers %}
+<div class="blocks">
+<div class="blocks__block">
+{% endif %}
 <p>Please sign in with your email address and password</p>
-
 <form class="login" method="POST" action="{% url 'account_login' %}">
     {% csrf_token %}
     {{ form.as_p }}
@@ -25,24 +30,21 @@
     </button>
 </form>
 
-{% get_providers as socialaccount_providers %}
 {% if socialaccount_providers %}
-<div class="spacer"></div>
-<div class="login-or">
-  <p class="align-center">
-    {% trans 'OR' %}
-  </p>
 </div>
-
-<div class="socialaccount_ballot">
+<div class="blocks__block--divider">
+  <span>{% trans 'OR' %}
+</div>
+<div class="blocks__block socialaccount_ballot">
   <ul class="socialaccount_providers">
     {% include "socialaccount/snippets/provider_list.html" with process="login" %}
   </ul>
 </div>
 
 {% include "socialaccount/snippets/login_extra.html" %}
-
+</div>
 {% endif %}
+<div class="spacer"></div>
 
     <p><a href="{% url 'account_reset_password' %}">Lost password?</a></p>
     <p><a href="{{ signup_url }}">Create an account</a></p>

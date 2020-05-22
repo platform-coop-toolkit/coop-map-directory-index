@@ -5,7 +5,7 @@
         <div class="column">
           <a class="logo link--inverse" rel="external" href="https://platform.coop/">
             <svg class="logo__image" viewBox="0 0 282.08 78.75" aria-hidden="true" focusable="false">
-                <use href="{% static 'maps/images/logo.svg#logo' %}" />
+                <use href="{% static 'maps/dist/images/logo.svg#logo' %}" />
             </svg>
           <span class="screen-reader-text">Platform Cooperativism Consortium</span>
           </a>
@@ -24,24 +24,4 @@
       </div>
     </div>
   </footer>
-<script src="{% static 'maps/dist/js/site.js' %}"></script>
-<script>
-  const menu = document.querySelector('.menu');
-  const menuToggle = document.querySelector('.menu-toggle');
-
-  if (menu && menuToggle) {
-    new Pinecone.Menu(menu, menuToggle);
-  }
-
-  const icons = document.querySelectorAll( 'svg' );
-  if (icons) {
-    Array.prototype.forEach.call(icons, icon => {
-      new Pinecone.Icon(icon);
-    });
-  }
-
-  const searchToggle = document.querySelector('.search-toggle');
-  if (searchToggle) {
-    new Pinecone.SearchToggle(searchToggle, searchToggle.nextElementSibling);
-  }
-</script>
+<script src="{% static 'maps/dist/js/app.js' %}"></script>
