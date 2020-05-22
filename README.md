@@ -2,20 +2,21 @@
 
 ### Prerequisites
 
-This project requires Python 3 (it's been running under 3.6 & 3.7), PostgreSQL with PostGIS extensions, and a Mapbox developer key.
+This project requires Python 3 (it's been running under 3.6 & 3.7), PostgreSQL with PostGIS extensions, Node 12.x and NPM, and a Mapbox developer key.
 
 ### Installation
 
 1. `git clone` this repository and change into the resulting directory.
 2. Create a virtual environment: `python3 -m venv .cmdi`
-3. Activiate the virtual environment: `source .cmdi/bin/activate`
+3. Activate the virtual environment: `source .cmdi/bin/activate`
 4. Install the Python requirements: `pip install -r requirements.txt`
 5. Create a PostgreSQL role for this project: `createuser --password cmdi`
 6. Create the PostgreSQL database: `createdb --owner cmdi cmdi`
 7. Import the current database: `bunzip2 < scratch/cmdi.sql.bz2 | psql --set ON_ERROR_STOP=on -h localhost cmdi`
 8. Copy `.env-example` to `.env` and fill in the appropriate credentials.
 9. Copy `Procfile-example` to `Procfile` and make sure the appropriate section for your environment is uncommented.
-10. For a local installation simply start the server: `honcho start`
+10. Install and build assets: `npm install && npm run build`
+11. For a local installation, start the server: `honcho start`
 
 
 ### Contributing
