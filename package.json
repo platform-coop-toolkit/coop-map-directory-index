@@ -18,7 +18,7 @@
     "url": "git+https://github.com/platform-coop-toolkit/coop-map-directory-index.git"
   },
   "author": "Eric Theise",
-  "license": "ISC",
+  "license": "BSD-3-Clause",
   "bugs": {
     "url": "https://github.com/platform-coop-toolkit/coop-map-directory-index/issues"
   },
