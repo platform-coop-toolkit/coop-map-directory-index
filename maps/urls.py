@@ -2,7 +2,7 @@ from django.urls import path
 from django.conf.urls import url
 from . import views
 from .views import INDIVIDUAL_FORMS, IndividualProfileWizard, OrganizationAutocomplete,\
-    PrivacyPolicyView, TermsOfServiceView
+    PrivacyPolicyView, TermsOfServiceView, AboutPageView
 from accounts.models import UserSocialNetwork
 
 urlpatterns = [
@@ -12,6 +12,7 @@ urlpatterns = [
     url(r'^organization-autocomplete/$', OrganizationAutocomplete.as_view(create_field='name'), name='organization-autocomplete'),
     path('organizations/<int:organization_id>', views.organization_detail, name='organization_detail'),
     path('individuals/<int:user_id>', views.individual_detail, name='individual-detail'),
+    path('about/', AboutPageView.as_view(), {'title': 'About'}, name='about'),
     path('privacy-policy/', PrivacyPolicyView.as_view(), {'title': 'Privacy Policy'}, name='privacy_policy'),
     path('terms-of-service/', TermsOfServiceView.as_view(), {'title': 'Terms of Service'}, name='terms_of_service'),
 ]
