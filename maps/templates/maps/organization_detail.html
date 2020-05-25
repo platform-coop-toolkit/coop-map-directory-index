@@ -4,9 +4,7 @@
 {% block title %}{{ organization.name|titlify }}{% endblock %}
 {% block content %}
     <div class="page-header">
-        <p>
-            <div class="spacer"></div><a class="link--inverse" href="{% url 'index' %}">Home</a>
-        </p>
+        <p><a class="link--breadcrumb" href="{% url 'index' %}">Home</a></p>
         <h1><span class="pc-ff--sans pc-fw--normal">Platform Co-op</span><br/> Directory</h1>
     </div>
     {% include 'maps/search.html' %}
