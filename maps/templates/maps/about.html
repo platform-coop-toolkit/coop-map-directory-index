@@ -1,0 +1,19 @@
+{% extends 'maps/base.html' %}
+{% load static %}
+{% load maps_extras %}
+{% block title %}{{ title |titlify }}{% endblock %}
+{% block content %}
+    <div class="page-header">
+        <p><a class="link--breadcrumb" href="/">Home</a></p>
+        <h1>About</h1>
+    </div>
+    <p>The Platform Co-op Directory is a place where you can search for and connect with cooperatives and other members of the cooperative community.
+    <h2>Who this is for</h2>
+    <p>The directory is for anyone and everyone who wants to learn more about the cooperative community, to connect with others in that community, and/or to share information with the cooperative community about themselves or their organisation.</p>
+    <h2>Who curates this</h2>
+    <p>Directory entries are created by the organizations and individuals who wish to share their information with others in the community. Initial entries have also been gathered through surveys and entries that existed in a previous incarnation of the directory.</p>
+    <h2>How this was built</h2>
+    <p>The Directory was built in partnership with the <a href="https://platform.coop/" rel="external">Platform Cooperative Consortium</a>, the <a href="https://idrc.ocadu.ca" rel="external">Inclusive Design Research Centre</a>, and a group of co-designers from the cooperative community with whom we have engaged throughout the design process and to whom we are very grateful.</p>
+    <h2><a href="https://platform.coop/" rel="external">Learn more about us</a></h2>
+
+{% endblock %}

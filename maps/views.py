@@ -150,4 +150,6 @@ class PrivacyPolicyView(TemplateView):
 class TermsOfServiceView(TemplateView):
     template_name = "maps/terms_of_service.html"
 
+class AboutPageView(TemplateView):
+    template_name = "maps/about.html"
 
