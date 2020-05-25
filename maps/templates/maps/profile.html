@@ -1,8 +1,9 @@
 {% extends 'maps/base.html' %}
 {% load static %}
+{% load i18n %}
 {% block content %}
     <div class="page-header">
-        <p><a class="link--breadcrumb" href="{% url 'index' %}">Home</a></p>
+        <p><a class="link--breadcrumb" href="{% url 'index' %}">{% trans "Home" %}</a></p>
         <h1><span class="pc-ff--sans pc-fw--normal">Platform Co-op</span><br/> Directory</h1>
     </div>
     {% include 'maps/search.html' %}

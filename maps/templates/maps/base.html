@@ -14,7 +14,8 @@
   <link href="{% static 'maps/dist/css/app.css' %}" rel="stylesheet">
   <link rel="shortcut icon" href="{% static 'maps/dist/images/favicon.png' %}" type="image/x-icon">
 </head>
-<body class="home page">
+{% url 'index' as home_url %}
+<body class="page{% if request.get_full_path == home_url %} home{% endif %}">
 {% include 'maps/global_nav.html' %}
 {% include 'maps/header.html' %}
   <div class="wrap container" role="document">
