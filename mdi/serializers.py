@@ -83,6 +83,7 @@ class ToolSerializer(serializers.HyperlinkedModelSerializer):
             'pricing',
             'niches',
             'languages_supported',
+            'sectors',
             'coop_made',
             'use_count',
         )
