@@ -29,5 +29,6 @@ jobs:
       run: |
         python manage.py test
       env:
+        ALLOWED_HOSTS: ''
         DEBUG: 'True'
         SECRET_KEY: ${{ secrets.SECRET_KEY }}
