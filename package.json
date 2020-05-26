@@ -12,7 +12,7 @@
     "lint:js": "eslint maps/static/maps/js/*.js",
     "lint": "run-s lint:*",
     "mix": "webpack --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
-    "test": "run-s lint",
+    "test": "run-s lint:*",
     "watch": "cross-env NODE_ENV=development run-s \"mix -- --watch\""
   },
   "repository": {
