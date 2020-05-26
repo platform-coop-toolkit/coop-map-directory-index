@@ -184,7 +184,7 @@ class Tool(models.Model):
     pricing = models.ForeignKey(Pricing, blank=True, null=True, on_delete=models.CASCADE)
     niches = models.ManyToManyField(Niche)
     languages_supported = models.ManyToManyField(Language, blank=True)
-    coop_made = models.CharField(blank=False, default=0, max_length=16,
+    coop_made = models.CharField(blank=True, default=0, max_length=16,
                              choices=[(0, 'Not sure'), (1, 'Yes'), (2, 'No')], verbose_name='Made by a cooperative')
     notes = models.TextField(blank=True, default='')
     created_at = models.DateTimeField(auto_now_add=True)
