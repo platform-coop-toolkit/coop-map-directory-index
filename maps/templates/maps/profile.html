@@ -1,6 +1,7 @@
 {% extends 'maps/base.html' %}
 {% load static %}
 {% load i18n %}
+{% block bodyclass %}page{% endblock %}
 {% block content %}
     <div class="page-header">
         <p><a class="link--breadcrumb" href="{% url 'index' %}">{% trans "Home" %}</a></p>
