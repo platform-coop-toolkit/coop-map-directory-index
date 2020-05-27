@@ -1,0 +1,10 @@
+{% extends 'maps/base.html' %}
+{% load static %}
+{% load i18n %}
+{% block content %}
+    <div class="page-header">
+        <p><a class="link--breadcrumb" href="{% url 'index' %}">{% trans "Home" %}</a></p>
+        <h1>Page Not Found</h1>
+    </div>
+    <p>The page you requested could not be found.</p>
+{% endblock %}
