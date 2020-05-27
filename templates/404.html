@@ -1,0 +1,15 @@
+{% extends 'maps/base.html' %}
+{% load static %}
+{% load maps_extras %}
+{% load i18n %}
+{% block title %}{{ 'Page not found' | titlify }}{% endblock %}
+{% block bodyclass %}error404{% endblock %}
+{% block content %}
+    <div class="page-header">
+        <p><a class="link--breadcrumb" href="{% url 'index' %}">{% trans "Home" %}</a></p>
+        <h1>{% trans "Not Found" %}</h1>
+    </div>
+    <div class="alert alert-warning">{% trans "Sorry, but the page you were trying to view does not exist." %}</div>
+    <div class="spacer"></div>
+    {% include 'maps/search.html' %}
+{% endblock %}
