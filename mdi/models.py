@@ -213,6 +213,7 @@ class Organization(models.Model):
     postal_code = models.CharField(blank=True, default='', max_length=255)
     country = CountryField()
     email = models.EmailField(max_length=255)
+    phone = models.CharField(blank=True, default='', max_length=255)
     url = models.URLField(blank=True, default='', max_length=255)
     media_url = models.URLField(blank=True, default='', max_length=255)
     logo_url = models.URLField(blank=True, default='', max_length=255)
