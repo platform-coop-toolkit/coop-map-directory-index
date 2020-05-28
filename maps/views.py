@@ -10,7 +10,7 @@ from django.forms import inlineformset_factory
 from accounts.models import UserSocialNetwork
 from mdi.models import Organization, SocialNetwork
 from formtools.wizard.views import SessionWizardView
-from .forms import RolesForm, BasicInfoForm, DetailedInfoForm, ContactInfoForm, UserSocialNetworkFormSet
+from .forms import RolesForm, BasicInfoForm, DetailedInfoForm, ContactInfoForm, UserSocialNetworkFormSet, OrganizationBasicInfoForm, OrganizationMoreInfoForm
 from dal import autocomplete
 
 
@@ -46,6 +46,15 @@ INDIVIDUAL_TEMPLATES = {
     'social_networks': 'maps/profiles/individual/social_networks.html',
 }
 
+ORGANIZATION_FORMS = [
+    ('basic_info', OrganizationBasicInfoForm),
+    ('more_info', OrganizationMoreInfoForm)
+]    
+
+ORGANIZATION_TEMPLATES = {
+    'basic_info': 'maps/profiles/organization/basic_info.html',
+    'more_info': 'maps/profiles/organization/more_info.html'
+}
 
 class IndividualProfileWizard(LoginRequiredMixin, SessionWizardView):
     def get_template_names(self):
@@ -118,6 +127,13 @@ class OrganizationAutocomplete(autocomplete.Select2QuerySetView):
 
         return qs
 
+class OrganizationProfileWizard(LoginRequiredMixin, SessionWizardView):
+    def get_template_names(self):
+        return [ORGANIZATION_TEMPLATES[self.steps.current]]
+
+    def get_context_data(self, form, **kwargs):
+        context = super().get_context_data(form=form, **kwargs)
+        return context
 
 def index(request):
     template = loader.get_template('maps/index.html')

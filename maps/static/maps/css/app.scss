@@ -26,3 +26,17 @@ select.multiple {
 .blocks {
   justify-content: center;
 }
+
+.form-wizard {
+  form {
+    @include breakpoint-up(lg) {
+      margin-left: auto;
+      margin-right: auto;
+      width: 50%;
+    }
+  }
+
+  [type="submit"] {
+    max-width: 100%;
+  }
+}

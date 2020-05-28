@@ -5,7 +5,7 @@ from django.utils.translation import gettext_lazy as _
 from dal import autocomplete
 from django.template.defaultfilters import safe
 from accounts.models import Role, SocialNetwork, UserSocialNetwork
-from mdi.models import Organization
+from mdi.models import Organization, Category
 
 
 class BaseForm(forms.Form):
@@ -19,6 +19,28 @@ class BaseModelForm(forms.ModelForm):
         kwargs.setdefault('label_suffix', '')  # globally override the Django >=1.6 default of ':'
         super(BaseModelForm, self).__init__(*args, **kwargs)
 
+class OrganizationBasicInfoForm(BaseModelForm):
+    class Meta:
+        model = Organization
+        fields = [
+            'name',
+            'url',
+            'email',
+        ]
+        labels = {
+            'name': _('Name of Cooperative (required)'),
+            'url': _('Website address')
+        }
+        help_texts = {
+            'name': _('Full legal name of the cooperative. This field is required.')
+        }
+class OrganizationMoreInfoForm(BaseModelForm):
+    class Meta:
+        model = Organization
+        fields = [
+            'sectors'
+        ]
+
 
 class RolesForm(BaseForm):
     roles = forms.ModelMultipleChoiceField(
@@ -26,7 +48,6 @@ class RolesForm(BaseForm):
         label=safe('How would you describe yourself?<br /><div class="space"></div><small>Choose all that apply</small>'),
         widget=CheckboxSelectMultiple(attrs={'class': 'checkbox'})
     )
-
 
 class BasicInfoForm(BaseModelForm):
     member_of = forms.ModelChoiceField(

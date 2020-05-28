@@ -1,0 +1,6 @@
+{% load i18n %}
+{% if wizard.steps.prev %}
+<p>
+  <button  class="button button--secondary" name="wizard_goto_step" type="submit" value="{{ wizard.steps.prev }}">{% trans "Previous" %}</button>
+</p>
+{% endif %}
