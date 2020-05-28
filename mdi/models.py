@@ -180,7 +180,7 @@ class Tool(models.Model):
     name = models.CharField(blank=False, max_length=255)
     description = models.TextField(blank=True, default='')
     url = models.URLField(blank=False, max_length=255)
-    license_type = models.CharField(blank=True, default=0, max_length=64,
+    license_type = models.CharField(blank=True, default='', max_length=64,
                              choices=[('proprietary', 'Proprietary'), ('proprietary-with-floss-integration-tools', 'Proprietary with free / libre / open source integration tools'), ('floss', 'Free / libre / open source')], verbose_name='License type')
     license = models.ForeignKey(License, blank=True, null=True, on_delete=models.CASCADE, verbose_name='Free / libre / open source license')
     pricing = models.ForeignKey(Pricing, blank=True, null=True, on_delete=models.CASCADE)
