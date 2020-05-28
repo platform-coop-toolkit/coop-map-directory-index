@@ -206,6 +206,7 @@ class Tool(models.Model):
 class Organization(models.Model):
     name = models.CharField(blank=False, max_length=255)
     description = models.TextField(blank=True, default='')
+    languages = models.ManyToManyField(Language, blank=True, verbose_name='Operating language')
     address = models.CharField(blank=True, default='', max_length=255)
     city = models.CharField(blank=True, default='', max_length=255)
     state = models.CharField(blank=True, default='', max_length=255)
