@@ -1,0 +1,41 @@
+name: demo.directory.platform.coop
+
+on:
+  push:
+    branches:
+      - master
+
+env:
+  PROJECT_ID: demo
+  PROJECT_SMOKETEST_URL: https://demo.directory.platform.coop
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Deploy stack
+        uses: appleboy/ssh-action@master
+        with:
+          host:     ${{ secrets.SSH_HOSTNAME }}
+          username: ${{ secrets.SSH_USERNAME }}
+          key:      ${{ secrets.SSH_PRIVATE_KEY }}
+          port:     ${{ secrets.SSH_PORT }}
+          envs:     PROJECT_ID
+          script: |
+            cd /srv/demo.directory.platform.coop                          && \
+            git checkout master                                           && \
+            git pull                                                      && \
+            source deploy.env                                             && \
+            /usr/local/bin/docker-compose -p $PROJECT_ID                     \
+                                          -f docker-compose.yml              \
+                                          up --force-recreate --build -d  && \
+            /usr/local/bin/docker-compose -p $PROJECT_ID                     \
+                                          -f docker-compose.yml              \
+                                          run app python3 manage.py migrate
+
+      - name: Wait
+        run: sleep 15
+
+      - name: Smoke test
+        run: curl --location --no-buffer --retry 120 --retry-delay 1 $PROJECT_SMOKETEST_URL
