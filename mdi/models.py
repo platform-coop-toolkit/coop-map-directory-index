@@ -226,6 +226,8 @@ class Organization(models.Model):
     founded_min_date = models.DateField(blank=True, null=True)
     founded_max_date = models.DateField(blank=True, null=True)
     num_workers = models.IntegerField(blank=True, null=True, verbose_name='Number of workers', )
+    worker_distribution = models.CharField(blank=True, default='', max_length=64,
+                             choices=[('colocated', 'Co-located'), ('regional', 'Regionally distributed'), ('national', 'Nationally distributed'), ('international', 'Internationally distributed')])
     related_individuals = models.ManyToManyField(
         get_user_model(),
         through='EntitiesEntities',
