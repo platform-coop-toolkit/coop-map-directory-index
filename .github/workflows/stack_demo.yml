@@ -32,7 +32,7 @@ jobs:
                                           up --force-recreate --build -d  && \
             /usr/local/bin/docker-compose -p $PROJECT_ID                     \
                                           -f docker-compose.yml              \
-                                          run app python3 manage.py migrate
+                                          run app python manage.py migrate
 
       - name: Wait
         run: sleep 15
