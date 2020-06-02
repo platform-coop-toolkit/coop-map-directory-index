@@ -9,7 +9,7 @@
   <p>This site is not publicly available yet.</p>
 
   {% if form %}
-  <form action="" method="post">{% csrf_token %}
+  <form class="form" action="" method="post">{% csrf_token %}
       <label for="user">User: </label>
       <input id="user" type="text"/>
     {{ form.as_p }}
