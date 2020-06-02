@@ -1,4 +1,4 @@
-FROM node:12 AS static_assets
+FROM node:12.18.0 AS static_assets
 
 WORKDIR /app
 
@@ -12,7 +12,7 @@ RUN npm run build
 
 
 
-FROM python:3
+FROM python:3.8.3
 
 ENV PYTHONUNBUFFERED 1
 
