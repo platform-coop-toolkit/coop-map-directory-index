@@ -14,7 +14,7 @@
     {% if form.errors  %}
     {{ form.errors }}
     {% endif %}
-    <form action="" method="post">
+    <form class="form" action="" method="post">
         {% csrf_token %}
         {{ wizard.management_form }}
         {% if wizard.form.forms %}

@@ -9,7 +9,7 @@
         <div class="page-header">
           <h1><span class="pc-ff--sans pc-fw--normal">Profile Editor</span><br/> Contact info</h1>
         </div>
-        <form action="" method="post">
+        <form class="form" action="" method="post">
             {% csrf_token %}
             {{ wizard.management_form }}
 {% include 'maps/profiles/back_and_steps.html' %}

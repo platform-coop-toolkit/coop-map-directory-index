@@ -9,7 +9,7 @@
         <div class="page-header">
             <h1><span class="pc-ff--sans pc-fw--normal">Profile Editor</span><br/> Individual role</h1>
         </div>
-        <form action="" method="post">
+        <form class="form" action="" method="post">
             {% csrf_token %}
             {% if form.errors  %}
             {{ form.errors }}
