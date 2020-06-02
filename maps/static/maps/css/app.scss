@@ -27,16 +27,64 @@ select.multiple {
   justify-content: center;
 }
 
+.align-center .button {
+  display: inline-block;
+  margin-left: 0;
+  margin-right: 0;
+}
+
 .form-wizard {
-  form {
-    @include breakpoint-up(lg) {
+  .wrap.container {
+    background: $off-white;
+  }
+
+  .page-header {
+    @include full-width-background();
+
+    padding-bottom: rem(50);
+    position: relative;
+    z-index: 0;
+
+    @include breakpoint-up(md) {
+      padding-bottom: rem(65);
+    }
+  }
+
+  .form__content,
+  .page-header {
+    @include breakpoint-up(md) {
       margin-left: auto;
       margin-right: auto;
       width: 50%;
     }
   }
 
-  [type="submit"] {
-    max-width: 100%;
+  .form__content {
+    padding-top: rem(50);
+
+    @include breakpoint-up(md) {
+      padding-top: rem(65);
+    }
   }
+
+  input + label,
+  textarea + label,
+  select + label,
+  .helptext + label {
+    margin-top: rem(45);
+  }
+
+  input + br,
+  textarea + br,
+  select + br {
+    display: none;
+  }
+}
+
+select[multiple] {
+  width: 100%;
+}
+
+.button--auto {
+  width: auto;
 }

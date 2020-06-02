@@ -6,28 +6,28 @@
 {% block title %}{{ 'More information'|titlify }}{% endblock %}}
 
 {% block content %}
-    <div class="page-header">
-        {% include 'maps/profiles/back.html' %}
-        <h1>Create a profile: Cooperative</h1>
-        {% include 'maps/profiles/steps.html' %}
-    </div>
-    {% if form.errors  %}
-    {{ form.errors }}
-    {% endif %}
-    <form class="form" action="" method="post">
+    <form class="form" action="" method="post" novalidate>
+        <div class="page-header">
+            {% include 'maps/profiles/back.html' %}
+            <h1>Create a profile: Cooperative</h1>
+            {% include 'maps/profiles/steps.html' %}
+        </div>
+        {% if form.errors  %}
+        {{ form.errors }}
+        {% endif %}
         {% csrf_token %}
         {{ wizard.management_form }}
+        <div class="form__content">
         {% if wizard.form.forms %}
             {{ wizard.form.management_form }}
             {% for form in wizard.form.forms %}
                 {{ form }}
             {% endfor %}
         {% else %}
-        <div class="input-group">
             {{ wizard.form }}
-        </div>
         {% endif %}
         {% include 'maps/profiles/footer.html' %}
+        </div>
     </form>
     {% include 'maps/profiles/cancel.html' %}
 {% endblock %}

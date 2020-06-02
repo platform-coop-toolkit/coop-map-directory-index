@@ -1,7 +1,7 @@
 {% load i18n %}
             {% if wizard.steps.prev %}
-            <p class="align-left">
-              <button  class="button button--secondary" name="wizard_goto_step" type="submit" value="{{ wizard.steps.prev }}">{% trans "Previous" %}</button>
+            <p>
+              <button class="button button--secondary" name="wizard_goto_step" type="submit" value="{{ wizard.steps.prev }}">{% trans "Previous" %}</button>
             </p>
             {% endif %}
             <p class="align-right">Page {{ wizard.steps.step1 }} of {{ wizard.steps.count }}</p>

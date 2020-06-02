@@ -24,29 +24,50 @@ class OrganizationBasicInfoForm(BaseModelForm):
         model = Organization
         fields = [
             'name',
+            'languages',
             'url',
             'email',
+            'phone',
+            'address',
+            'city',
+            'country',
+            'state',
+            'postal_code'
         ]
         labels = {
             'name': _('Name of Cooperative (required)'),
-            'url': _('Website address')
+            'languages': _('Working languages (required)'),
+            'url': _('Website address'),
+            'email': _('Email (required)'),
+            'city': _('City or town'),
+            'state': _('State or province')
         }
-        help_texts = {
-            'name': _('Full legal name of the cooperative. This field is required.')
+        widgets = {
+            'languages': SelectMultiple(attrs={'required': ''}),
         }
 class OrganizationMoreInfoForm(BaseModelForm):
     class Meta:
         model = Organization
         fields = [
-            'sectors'
+            'sectors',
+            'num_workers',
+            'num_members'
         ]
+        labels = {
+            'sectors': _('Co-op sector')
+        }
+        help_texts = {
+            'sectors': _('If you operate in more than one sector, please choose the primary sector.'),
+            'num_workers': _('Please provide your best estimate.'),
+            'num_members': _('Please provide your best estimate.')
+      }
 
 
 class RolesForm(BaseForm):
     roles = forms.ModelMultipleChoiceField(
         queryset=Role.objects.all(),
-        label=safe('How would you describe yourself?<br /><div class="space"></div><small>Choose all that apply</small>'),
-        widget=CheckboxSelectMultiple(attrs={'class': 'checkbox'})
+        label=safe('How would you describe yourself? Choose all that apply.'),
+        widget=CheckboxSelectMultiple(attrs={'class': 'input-group checkbox'}),
     )
 
 class BasicInfoForm(BaseModelForm):

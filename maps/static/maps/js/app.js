@@ -16,6 +16,16 @@ if (icons) {
   });
 }
 
+const dialogBtn = document.getElementById('invoke-dialog');
+if (dialogBtn) {
+    new Pinecone.Dialog(dialogBtn, {
+        title: 'Cancel',
+        question: 'Are you sure you want to exit the profile editor and delete all of your information?',
+        confirm: 'Yes, exit and delete all info',
+        dismiss: 'No, return to profile editor'
+    });
+}
+
 const searchToggle = document.querySelector('.search-toggle');
 if (searchToggle) {
   new Pinecone.SearchToggle(searchToggle, searchToggle.nextElementSibling);

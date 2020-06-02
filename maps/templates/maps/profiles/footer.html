@@ -1,9 +1,8 @@
 {% load i18n %}
+<div class="spacer"></div>
 <div class="align-center">
     <p>Page {{ wizard.steps.step1 }} of {{ wizard.steps.count }}</p>
     <p>
-        <button id="button" type="submit" name="submit" value="submit" class="button">
-            <span class="button__label">{% trans "Next" %}</span>
-        </button>
+        <button id="button" type="submit" name="submit" value="submit" class="button">{% trans "Next" %}</button>
     </p>
 </div>
