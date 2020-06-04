@@ -10,7 +10,7 @@ from django.forms import inlineformset_factory
 from accounts.models import UserSocialNetwork
 from mdi.models import Organization, SocialNetwork
 from formtools.wizard.views import SessionWizardView
-from .forms import IndividualRolesForm, IndividualBasicInfoForm, IndividualDetailedInfoForm, IndividualContactInfoForm, IndividualSocialNetworkFormSet, OrganizationBasicInfoForm, OrganizationContactInfoForm, OrganizationDetailedInfoForm
+from .forms import IndividualRolesForm, IndividualBasicInfoForm, IndividualMoreAboutYouForm, IndividualDetailedInfoForm, IndividualContactInfoForm, IndividualSocialNetworkFormSet, OrganizationBasicInfoForm, OrganizationContactInfoForm, OrganizationDetailedInfoForm
 from dal import autocomplete
 
 
@@ -31,18 +31,20 @@ def manage_socialnetworks(request, user_id):
 # Profile flow
 # This operates the Individual Profile wizard via `django-formtools`.
 INDIVIDUAL_FORMS = [
-    ('roles', IndividualRolesForm),
     ('basic_info', IndividualBasicInfoForm),
-    ('detailed_info', IndividualDetailedInfoForm),
     ('contact_info', IndividualContactInfoForm),
+    ('roles', IndividualRolesForm),
+    ('more_about_you', IndividualMoreAboutYouForm),
+    ('detailed_info', IndividualDetailedInfoForm),
     ('social_networks', IndividualSocialNetworkFormSet),
 ]
 
 INDIVIDUAL_TEMPLATES = {
-    'roles': 'maps/profiles/individual/roles.html',
     'basic_info': 'maps/profiles/individual/basic_info.html',
-    'detailed_info': 'maps/profiles/individual/detailed_info.html',
     'contact_info': 'maps/profiles/individual/contact_info.html',
+    'roles': 'maps/profiles/individual/roles.html',
+    'more_about_you': 'maps/profiles/individual/more_about_you.html',
+    'detailed_info': 'maps/profiles/individual/detailed_info.html',
     'social_networks': 'maps/profiles/individual/social_networks.html',
 }
 

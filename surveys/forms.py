@@ -67,7 +67,7 @@ class BaseModelForm(forms.ModelForm):
         super(BaseModelForm, self).__init__(*args, **kwargs)
 
 
-class IndividualContactInfoForm(BaseForm):
+class ContactInfoForm(BaseForm):
     first_name = forms.CharField(max_length=254, required=False)
     middle_name = forms.CharField(max_length=254,required=False)
     last_name = forms.CharField(max_length=254, required=False)

@@ -1,4 +1,5 @@
 {% load static %}
+{% load maps_extras %}
 {% load i18n %}
 {% for field in form %}
     {% if field.errors %}
@@ -7,7 +8,9 @@
             <use href="{% static 'maps/dist/images/close.svg#close' %}" />
         </svg>
         <span class="button__label screen-reader-text">{% trans 'Close notification' %}</span></button>
-        <p class="notification__title">{{ field.label }}</p>
+        <p class="notification__title"><svg class="icon icon--error" aria-hidden="true" viewBox="0 0 20 20" focusable="false">
+            <use href="{% static 'maps/dist/images/error.svg#error' %}" />
+        </svg>{{ field.label | safe }}</p>
         <div class="notification__content">
             {% for error in field.errors %}
             {{ error | escape }}

@@ -109,6 +109,10 @@ select.multiple {
     background-image: url(../images/chevron-down--error.svg);
   }
 
+  label.required::after {
+    content: " (required)";
+  }
+
   input + label,
   textarea + label,
   select + label,

@@ -1,22 +1,29 @@
 from django.contrib.auth import get_user_model
 from django import forms
-from django.forms import CheckboxSelectMultiple, RadioSelect, SelectMultiple, HiddenInput, formset_factory
+from django.forms import CharField, CheckboxSelectMultiple, RadioSelect, SelectMultiple, HiddenInput, formset_factory
 from django.utils.translation import gettext_lazy as _
 from dal import autocomplete
 from django.template.defaultfilters import safe
 from accounts.models import Role, SocialNetwork, UserSocialNetwork
-from mdi.models import Organization, Category
-
+from mdi.models import Organization, Category, Language
 
 class BaseForm(forms.Form):
+    error_css_class = 'error'
+    required_css_class = 'required'
+
     def __init__(self, *args, **kwargs):
         kwargs.setdefault('label_suffix', '')  # globally override the Django >=1.6 default of ':'
+
         super(BaseForm, self).__init__(*args, **kwargs)
 
 
 class BaseModelForm(forms.ModelForm):
+    error_css_class = 'error'
+    required_css_class = 'required'
+
     def __init__(self, *args, **kwargs):
         kwargs.setdefault('label_suffix', '')  # globally override the Django >=1.6 default of ':'
+
         super(BaseModelForm, self).__init__(*args, **kwargs)
 
 class OrganizationBasicInfoForm(BaseModelForm):
@@ -27,8 +34,8 @@ class OrganizationBasicInfoForm(BaseModelForm):
             'languages'
         ]
         labels = {
-            'name': _('Name of cooperative (required)'),
-            'languages': _('Working languages (required)')
+            'name': _('Name of cooperative'),
+            'languages': _('Working languages')
         }
         widgets = {
             'languages': SelectMultiple(attrs={'required': ''}),
@@ -52,9 +59,9 @@ class OrganizationContactInfoForm(BaseModelForm):
         ]
         labels = {
             'url': _('Website address'),
-            'email': _('Email (required)'),
+            'email': _('Email'),
             'city': _('City or town'),
-            'country': _('Country (required)'),
+            'country': _('Country'),
             'state': _('State or province')
         }
 
@@ -71,9 +78,9 @@ class OrganizationDetailedInfoForm(BaseModelForm):
         ]
         labels = {
             'sectors': _('Co-op sector'),
-            'categories': _('Co-op type (required)'),
-            'num_workers': _('Number of workers (required)'),
-            'num_members': _('Number of members (required)'),
+            'categories': _('Co-op type'),
+            'num_workers': _('Number of workers'),
+            'num_members': _('Number of members'),
             'stage': _('Stage of development')
         }
         widgets = {
@@ -87,6 +94,26 @@ class OrganizationDetailedInfoForm(BaseModelForm):
             'num_members': _('Please provide your best estimate.')
       }
 
+class IndividualBasicInfoForm(BaseModelForm):
+    first_name = CharField(required=True, label=_('First name'))
+    last_name = CharField(required=True, label=_('Last name'))
+    languages = forms.ModelMultipleChoiceField(
+        queryset=Language.objects.all(),
+        required=True,
+        label=_('Languages you speak'),
+        help_text=_('Hold down the <kbd>ctrl</kbd> (Windows) or <kbd>command</kbd> (macOS) key to select multiple options.')
+    )
+    class Meta:
+        model = get_user_model()
+        fields = [
+            'first_name',
+            'middle_name',
+            'last_name',
+            'languages',
+        ]
+        labels = {
+            'middle_name': _('Middle name')
+        }
 
 class IndividualRolesForm(BaseForm):
     roles = forms.ModelMultipleChoiceField(
@@ -96,7 +123,8 @@ class IndividualRolesForm(BaseForm):
         widget=CheckboxSelectMultiple(attrs={'class': 'input-group checkbox'}),
     )
 
-class IndividualBasicInfoForm(BaseModelForm):
+
+class IndividualMoreAboutYouForm(BaseModelForm):
     member_of = forms.ModelChoiceField(
         queryset=Organization.objects.all(),
         label='Name of your co-operative',
@@ -107,33 +135,17 @@ class IndividualBasicInfoForm(BaseModelForm):
         label='Name of co-ops you have founded',
         required=False
     )
-
     class Meta:
         model = get_user_model()
         fields = [
-            'first_name', # TODO: make this required
-            'middle_name',
-            'last_name', # TODO: make this required
-            'languages',
             'member_of',
             'founder_of',
         ]
-        labels = {
-            'first_name': _('First name (required)'),
-            'middle_name': _('Middle name'),
-            'last_name': _('Last name (required)'),
-            'languages': _('Language(s) you speak (required)'),
-        }
+
         widgets = {
-            'languages': SelectMultiple(attrs={'required': ''}),
             'member_of': autocomplete.ModelSelect2Multiple(url='organization-autocomplete'),
             'founder_of': autocomplete.ModelSelect2Multiple(url='organization-autocomplete'),
         }
-        help_texts = {
-            'languages': _('Hold down the <kbd>ctrl</kbd> (Windows) or <kbd>command</kbd> (macOS) key to select multiple options.'),
-        }
-
-
 class IndividualDetailedInfoForm(BaseModelForm):
     worked_with = forms.ModelChoiceField(
         queryset=Organization.objects.all(),
