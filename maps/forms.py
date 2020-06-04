@@ -24,7 +24,23 @@ class OrganizationBasicInfoForm(BaseModelForm):
         model = Organization
         fields = [
             'name',
-            'languages',
+            'languages'
+        ]
+        labels = {
+            'name': _('Name of cooperative (required)'),
+            'languages': _('Working languages (required)')
+        }
+        widgets = {
+            'languages': SelectMultiple(attrs={'required': ''}),
+        }
+        help_texts = {
+            'languages': _('Hold down the <kbd>ctrl</kbd> (Windows) or <kbd>command</kbd> (macOS) key to select multiple options.'),
+        }
+
+class OrganizationContactInfoForm(BaseModelForm):
+    class Meta:
+        model = Organization
+        fields = [
             'url',
             'email',
             'phone',
@@ -35,42 +51,52 @@ class OrganizationBasicInfoForm(BaseModelForm):
             'postal_code'
         ]
         labels = {
-            'name': _('Name of Cooperative (required)'),
-            'languages': _('Working languages (required)'),
             'url': _('Website address'),
             'email': _('Email (required)'),
             'city': _('City or town'),
+            'country': _('Country (required)'),
             'state': _('State or province')
         }
-        widgets = {
-            'languages': SelectMultiple(attrs={'required': ''}),
-        }
-class OrganizationMoreInfoForm(BaseModelForm):
+
+class OrganizationDetailedInfoForm(BaseModelForm):
     class Meta:
         model = Organization
         fields = [
             'sectors',
+            'categories',
             'num_workers',
-            'num_members'
+            'num_members',
+            'stage',
+            'worker_distribution'
         ]
         labels = {
-            'sectors': _('Co-op sector')
+            'sectors': _('Co-op sector'),
+            'categories': _('Co-op type (required)'),
+            'num_workers': _('Number of workers (required)'),
+            'num_members': _('Number of members (required)'),
+            'stage': _('Stage of development')
+        }
+        widgets = {
+            'categories': CheckboxSelectMultiple(attrs={'class': 'input-group checkbox'}),
+            'stage': RadioSelect(attrs={'class': 'input-group radio'}),
+            'worker_distribution': RadioSelect(attrs={'class': 'input-group radio'})
         }
         help_texts = {
-            'sectors': _('If you operate in more than one sector, please choose the primary sector.'),
+            'sectors': _('Hold down the <kbd>ctrl</kbd> (Windows) or <kbd>command</kbd> (macOS) key to select multiple options.'),
             'num_workers': _('Please provide your best estimate.'),
             'num_members': _('Please provide your best estimate.')
       }
 
 
-class RolesForm(BaseForm):
+class IndividualRolesForm(BaseForm):
     roles = forms.ModelMultipleChoiceField(
         queryset=Role.objects.all(),
-        label=safe('How would you describe yourself? Choose all that apply.'),
+        label=safe('How would you describe yourself?'),
+        help_text=safe('Choose all that apply.'),
         widget=CheckboxSelectMultiple(attrs={'class': 'input-group checkbox'}),
     )
 
-class BasicInfoForm(BaseModelForm):
+class IndividualBasicInfoForm(BaseModelForm):
     member_of = forms.ModelChoiceField(
         queryset=Organization.objects.all(),
         label='Name of your co-operative',
@@ -85,27 +111,30 @@ class BasicInfoForm(BaseModelForm):
     class Meta:
         model = get_user_model()
         fields = [
-            'first_name',
+            'first_name', # TODO: make this required
             'middle_name',
-            'last_name',
+            'last_name', # TODO: make this required
             'languages',
             'member_of',
             'founder_of',
         ]
         labels = {
-            'first_name': _('First name'),
+            'first_name': _('First name (required)'),
             'middle_name': _('Middle name'),
-            'last_name': _('Last name'),
-            'languages': _('Language(s) you speak'),
+            'last_name': _('Last name (required)'),
+            'languages': _('Language(s) you speak (required)'),
         }
         widgets = {
-            'languages': SelectMultiple(attrs={'size': 4, 'class': 'multiple'}),
+            'languages': SelectMultiple(attrs={'required': ''}),
             'member_of': autocomplete.ModelSelect2Multiple(url='organization-autocomplete'),
             'founder_of': autocomplete.ModelSelect2Multiple(url='organization-autocomplete'),
         }
+        help_texts = {
+            'languages': _('Hold down the <kbd>ctrl</kbd> (Windows) or <kbd>command</kbd> (macOS) key to select multiple options.'),
+        }
 
 
-class DetailedInfoForm(BaseModelForm):
+class IndividualDetailedInfoForm(BaseModelForm):
     worked_with = forms.ModelChoiceField(
         queryset=Organization.objects.all(),
         label='Coops you have worked/work with',
@@ -138,7 +167,7 @@ class DetailedInfoForm(BaseModelForm):
         }
 
 
-class ContactInfoForm(BaseModelForm):
+class IndividualContactInfoForm(BaseModelForm):
     class Meta:
         model = get_user_model()
         fields = [
@@ -156,7 +185,7 @@ class ContactInfoForm(BaseModelForm):
         }
 
 
-class UserSocialNetworkForm(BaseModelForm):
+class IndividualSocialNetworkForm(BaseModelForm):
     class Meta:
         model = UserSocialNetwork
         fields = [
@@ -168,4 +197,4 @@ class UserSocialNetworkForm(BaseModelForm):
         }
 
 
-UserSocialNetworkFormSet = formset_factory(UserSocialNetworkForm, extra=0)
+IndividualSocialNetworkFormSet = formset_factory(IndividualSocialNetworkForm, extra=0)

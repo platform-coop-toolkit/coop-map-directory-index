@@ -9,15 +9,16 @@
     <form class="form" action="" method="post" novalidate>
         <div class="page-header">
             {% include 'maps/profiles/back.html' %}
-            <h1>Create a profile: Individual</h1>
+            <h1>Create a profile: individual</h1>
             {% include 'maps/profiles/steps.html' %}
         </div>
-        {% if form.errors  %}
-        {{ form.errors }}
-        {% endif %}
-        {% csrf_token %}
-        {{ wizard.management_form }}
         <div class="form__content">
+        {% if form.errors  %}
+        {% include 'maps/profiles/errors.html' %}
+        {% endif %}
+        <h2>Detailed information</h2>
+        {{ wizard.management_form }}
+        {% csrf_token %}
         {% if wizard.form.forms %}
             {{ wizard.form.management_form }}
             {% for form in wizard.form.forms %}

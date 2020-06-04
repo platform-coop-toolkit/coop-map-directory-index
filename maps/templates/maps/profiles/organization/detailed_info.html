@@ -3,20 +3,20 @@
 {% load i18n %}
 {% load maps_extras %}
 {% block bodyclass %}form-wizard{% endblock %}
-{% block title %}{{ 'Basic information'|titlify }}{% endblock %}}
+{% block title %}{{ 'Detailed information'|titlify }}{% endblock %}}
 
 {% block content %}
     <form class="form" action="" method="post" novalidate>
         <div class="page-header">
             {% include 'maps/profiles/back.html' %}
-            <h1>Create a profile: organization</h1>
+            <h1>Create a profile: Cooperative</h1>
             {% include 'maps/profiles/steps.html' %}
         </div>
         <div class="form__content">
         {% if form.errors  %}
         {% include 'maps/profiles/errors.html' %}
         {% endif %}
-        <h2>Basic information</h2>
+        <h2>Detailed information</h2>
         {{ wizard.management_form }}
         {% csrf_token %}
         {% if wizard.form.forms %}

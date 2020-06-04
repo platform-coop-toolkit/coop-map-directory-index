@@ -3,21 +3,22 @@
 {% load i18n %}
 {% load maps_extras %}
 {% block bodyclass %}form-wizard{% endblock %}
-{% block title %}{{ 'More information'|titlify }}{% endblock %}}
+{% block title %}{{ 'Contact information'|titlify }}{% endblock %}}
 
 {% block content %}
     <form class="form" action="" method="post" novalidate>
         <div class="page-header">
             {% include 'maps/profiles/back.html' %}
-            <h1>Create a profile: Cooperative</h1>
+            <h1>Create a profile: organization</h1>
             {% include 'maps/profiles/steps.html' %}
         </div>
-        {% if form.errors  %}
-        {{ form.errors }}
-        {% endif %}
-        {% csrf_token %}
-        {{ wizard.management_form }}
         <div class="form__content">
+        {% if form.errors  %}
+        {% include 'maps/profiles/errors.html' %}
+        {% endif %}
+        <h2>Contact information</h2>
+        {{ wizard.management_form }}
+        {% csrf_token %}
         {% if wizard.form.forms %}
             {{ wizard.form.management_form }}
             {% for form in wizard.form.forms %}
