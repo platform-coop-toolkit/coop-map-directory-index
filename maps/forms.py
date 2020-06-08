@@ -4,6 +4,7 @@ from django.forms import CharField, CheckboxSelectMultiple, RadioSelect, SelectM
 from django.utils.translation import gettext_lazy as _
 from dal import autocomplete
 from django.template.defaultfilters import safe
+from django_countries.fields import CountryField
 from accounts.models import Role, SocialNetwork, UserSocialNetwork
 from mdi.models import Organization, Category, Language
 
@@ -56,6 +57,15 @@ class IndividualBasicInfoForm(BaseModelForm):
         }
 
 class IndividualContactInfoForm(BaseModelForm):
+    city = CharField(
+        required=True,
+        label=_('City or town')
+    )
+    state = CharField(
+        required=True,
+        label=_('State or province')
+    )
+    country = CountryField(blank=False).formfield()
     class Meta:
         model = get_user_model()
         fields = [
@@ -63,18 +73,19 @@ class IndividualContactInfoForm(BaseModelForm):
             'email',
             'phone',
             'address',
-            'city', # TODO: required
-            'state', # TODO: required
-            'country', # TODO: required
+            'city',
+            'state',
+            'country',
             'postal_code'
         ]
         labels = {
             'email': _('Email'),
             'url': _('Website address'),
             'address': _('Street address'),
-            'city': _('City or town'),
-            'state': _('State or province'),
             'postal_code': _('ZIP or postal code')
+        }
+        widgets = {
+
         }
 
 class IndividualRolesForm(BaseForm):
