@@ -185,6 +185,15 @@ class OrganizationBasicInfoForm(BaseModelForm):
         }
 
 class OrganizationContactInfoForm(BaseModelForm):
+    city = CharField(
+        required=True,
+        label=_('City or town')
+    )
+    state = CharField(
+        required=True,
+        label=_('State or province')
+    )
+    country = CountryField(blank=False).formfield()
     class Meta:
         model = Organization
         fields = [
@@ -200,9 +209,6 @@ class OrganizationContactInfoForm(BaseModelForm):
         labels = {
             'url': _('Website address'),
             'email': _('Email'),
-            'city': _('City or town'),
-            'country': _('Country'),
-            'state': _('State or province'),
             'address': _('Street address'),
             'postal_code': _('ZIP or postal code')
         }
