@@ -67,16 +67,20 @@ class IndividualProfileWizard(LoginRequiredMixin, SessionWizardView):
     def get_context_data(self, form, **kwargs):
         context = super().get_context_data(form=form, **kwargs)
 
-        if self.steps.current == 'detailed_info':
-            roles = self.get_cleaned_data_for_step('roles')
+        if self.steps.current in ['more_about_you', 'detailed_info']:
+            roles = self.get_cleaned_data_for_step('roles')['roles']
             print('roles.cleaned {}'.format(roles))
-            # Display `Services` if Individual is in Roles other than `Coop Founder` or `Coop Member`.
             for r in roles:
-                if r not in ['Coop Founder', 'Coop Member']:
-                    context.update({'display_services': True})
-                if r == 'Service Provider':
-                    context.update({'display_coops_worked_with': True})
-                if r == 'Researcher':
+                if r.name == 'Coop Member':
+                    context.update({'display_member_of': True})
+                if r.name == 'Coop Founder':
+                    context.update({'display_founder_of': True})
+                if r.name == 'Service Provider':
+                    context.update({
+                        'display_services': True,
+                        'display_coops_worked_with': True
+                    })
+                if r.name == 'Researcher':
                     context.update({
                         'display_field_of_study': True,
                         'display_affiliation': True,

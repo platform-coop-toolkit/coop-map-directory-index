@@ -25,7 +25,18 @@
                 {{ form }}
             {% endfor %}
         {% else %}
-            {{ wizard.form }}
+            {{ wizard.form.bio.label_tag }}
+            {{ wizard.form.bio }}
+            {% if wizard.form.bio.help_text %}
+            <span class="helptext">{{ wizard.form.bio.help_text | safe }}</span>
+            {% endif %}
+            {% if display_projects %}
+                {{ wizard.form.projects.label_tag }}
+                {{ wizard.form.projects }}
+                {% if wizard.form.projects.help_text %}
+                <span class="helptext">{{ wizard.form.projects.help_text | safe }}</span>
+                {% endif %}
+            {% endif %}
         {% endif %}
         {% include 'maps/profiles/footer.html' %}
         </div>

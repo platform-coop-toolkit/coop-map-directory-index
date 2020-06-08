@@ -26,6 +26,135 @@ class BaseModelForm(forms.ModelForm):
 
         super(BaseModelForm, self).__init__(*args, **kwargs)
 
+# Individual forms.
+
+class IndividualBasicInfoForm(BaseModelForm):
+    first_name = CharField(
+        required=True,
+        label=_('First name')
+    )
+    last_name = CharField(
+        required=True,
+        label=_('Last name')
+    )
+    languages = forms.ModelMultipleChoiceField(
+        queryset=Language.objects.all(),
+        required=True,
+        label=_('Languages you speak'),
+        help_text=_('Hold down the <kbd>ctrl</kbd> (Windows) or <kbd>command</kbd> (macOS) key to select multiple options.')
+    )
+    class Meta:
+        model = get_user_model()
+        fields = [
+            'first_name',
+            'middle_name',
+            'last_name',
+            'languages',
+        ]
+        labels = {
+            'middle_name': _('Middle name')
+        }
+
+class IndividualContactInfoForm(BaseModelForm):
+    class Meta:
+        model = get_user_model()
+        fields = [
+            'url',
+            'email',
+            'phone',
+            'address',
+            'city', # TODO: required
+            'state', # TODO: required
+            'country', # TODO: required
+            'postal_code'
+        ]
+        labels = {
+            'email': _('Email'),
+            'url': _('Website address'),
+            'address': _('Street address'),
+            'city': _('City or town'),
+            'state': _('State or province'),
+            'postal_code': _('ZIP or postal code')
+        }
+
+class IndividualRolesForm(BaseForm):
+    roles = forms.ModelMultipleChoiceField(
+        queryset=Role.objects.all(),
+        label=safe('How would you describe yourself?'),
+        widget=CheckboxSelectMultiple(attrs={'class': 'input-group checkbox'}),
+    )
+
+
+class IndividualMoreAboutYouForm(BaseModelForm):
+    member_of = forms.ModelChoiceField(
+        queryset=Organization.objects.all(),
+        label=_('Co-operative(s) you are a currently a member of'),
+        required=False
+    )
+
+    founder_of = forms.ModelChoiceField(
+        queryset=Organization.objects.all(),
+        label=_('Co-operative(s) you are a founder of'),
+        required=False
+    )
+
+    worked_with = forms.ModelChoiceField(
+        queryset=Organization.objects.all(),
+        label=_('Co-operative(s) you have worked with'),
+        required=False
+    )
+    class Meta:
+        model = get_user_model()
+        fields = [
+            'member_of',
+            'founder_of',
+            'worked_with',
+            'services',
+            # TODO: Add community skills
+            'field_of_study',
+            'affiliation',
+            # TODO: Add URL for affiliated organization
+        ]
+        labels = {
+            'worked_with': autocomplete.ModelSelect2Multiple(url='organization-autocomplete'),
+            'services': _('Services you provide'),
+            'field_of_study': _('What is your field of research?'),
+            'affiliation': _('Are you affiliated with a research organisation or institution?'),
+        }
+        widgets = {
+            'member_of': autocomplete.ModelSelect2Multiple(url='organization-autocomplete'),
+            'founder_of': autocomplete.ModelSelect2Multiple(url='organization-autocomplete'),
+            'services': SelectMultiple(attrs={'size': 4, 'class': 'multiple'}),
+        }
+class IndividualDetailedInfoForm(BaseModelForm):
+    class Meta:
+        model = get_user_model()
+        fields = [
+            'bio',
+            'projects',
+        ]
+        labels = {
+            'bio': _('Bio'),
+            'projects': _('Projects'),
+        }
+        help_texts = {
+            'bio': _('Share a bit about yourself.'),
+            'projects': _('List any current or past projects you would like to share with others.')
+        }
+
+class IndividualSocialNetworkForm(BaseModelForm):
+    class Meta:
+        model = UserSocialNetwork
+        fields = [
+            'socialnetwork',
+            'identifier',
+        ]
+        widgets = {
+            'socialnetwork': HiddenInput(),
+        }
+
+IndividualSocialNetworkFormSet = formset_factory(IndividualSocialNetworkForm, extra=0)
+
 class OrganizationBasicInfoForm(BaseModelForm):
     class Meta:
         model = Organization
@@ -53,8 +182,8 @@ class OrganizationContactInfoForm(BaseModelForm):
             'phone',
             'address',
             'city',
-            'country',
             'state',
+            'country',
             'postal_code'
         ]
         labels = {
@@ -62,7 +191,9 @@ class OrganizationContactInfoForm(BaseModelForm):
             'email': _('Email'),
             'city': _('City or town'),
             'country': _('Country'),
-            'state': _('State or province')
+            'state': _('State or province'),
+            'address': _('Street address'),
+            'postal_code': _('ZIP or postal code')
         }
 
 class OrganizationDetailedInfoForm(BaseModelForm):
@@ -93,120 +224,3 @@ class OrganizationDetailedInfoForm(BaseModelForm):
             'num_workers': _('Please provide your best estimate.'),
             'num_members': _('Please provide your best estimate.')
       }
-
-class IndividualBasicInfoForm(BaseModelForm):
-    first_name = CharField(required=True, label=_('First name'))
-    last_name = CharField(required=True, label=_('Last name'))
-    languages = forms.ModelMultipleChoiceField(
-        queryset=Language.objects.all(),
-        required=True,
-        label=_('Languages you speak'),
-        help_text=_('Hold down the <kbd>ctrl</kbd> (Windows) or <kbd>command</kbd> (macOS) key to select multiple options.')
-    )
-    class Meta:
-        model = get_user_model()
-        fields = [
-            'first_name',
-            'middle_name',
-            'last_name',
-            'languages',
-        ]
-        labels = {
-            'middle_name': _('Middle name')
-        }
-
-class IndividualRolesForm(BaseForm):
-    roles = forms.ModelMultipleChoiceField(
-        queryset=Role.objects.all(),
-        label=safe('How would you describe yourself?'),
-        help_text=safe('Choose all that apply.'),
-        widget=CheckboxSelectMultiple(attrs={'class': 'input-group checkbox'}),
-    )
-
-
-class IndividualMoreAboutYouForm(BaseModelForm):
-    member_of = forms.ModelChoiceField(
-        queryset=Organization.objects.all(),
-        label='Name of your co-operative',
-        required=False
-    )
-    founder_of = forms.ModelChoiceField(
-        queryset=Organization.objects.all(),
-        label='Name of co-ops you have founded',
-        required=False
-    )
-    class Meta:
-        model = get_user_model()
-        fields = [
-            'member_of',
-            'founder_of',
-        ]
-
-        widgets = {
-            'member_of': autocomplete.ModelSelect2Multiple(url='organization-autocomplete'),
-            'founder_of': autocomplete.ModelSelect2Multiple(url='organization-autocomplete'),
-        }
-class IndividualDetailedInfoForm(BaseModelForm):
-    worked_with = forms.ModelChoiceField(
-        queryset=Organization.objects.all(),
-        label='Coops you have worked/work with',
-        required=False
-    )
-
-    class Meta:
-        model = get_user_model()
-        fields = [
-            'bio',
-            'services',
-            'worked_with',
-            'field_of_study',
-            'affiliation',
-            'projects',
-            'challenges',
-        ]
-        labels = {
-            'bio': _('Share a bit about yourself'),
-            'services': _('Services you provide'),
-            'field_of_study': _('Your field of study'),
-            'affiliation': _('Affiliation'),
-            'projects': _('Projects'),
-            'challenges': _('Challenges you are facing'),
-        }
-        widgets = {
-            'services': SelectMultiple(attrs={'size': 4, 'class': 'multiple'}),
-            'worked_with': autocomplete.ModelSelect2Multiple(url='organization-autocomplete'),
-            'challenges': SelectMultiple(attrs={'size': 4, 'class': 'multiple'}),
-        }
-
-
-class IndividualContactInfoForm(BaseModelForm):
-    class Meta:
-        model = get_user_model()
-        fields = [
-            'phone',
-            'address',
-            'city',
-            'state',
-            'country',
-            'postal_code',
-            'url',
-        ]
-        labels = {
-            'address': _('Street address'),
-            'url': _('Website address (link)')
-        }
-
-
-class IndividualSocialNetworkForm(BaseModelForm):
-    class Meta:
-        model = UserSocialNetwork
-        fields = [
-            'socialnetwork',
-            'identifier',
-        ]
-        widgets = {
-            'socialnetwork': HiddenInput(),
-        }
-
-
-IndividualSocialNetworkFormSet = formset_factory(IndividualSocialNetworkForm, extra=0)

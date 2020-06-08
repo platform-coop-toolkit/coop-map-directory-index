@@ -3,7 +3,7 @@
 {% load i18n %}
 {% load maps_extras %}
 {% block bodyclass %}form-wizard{% endblock %}
-{% block title %}{{ 'Roles'|titlify }}{% endblock %}}
+{% block title %}{{ 'Describe your role'|titlify }}{% endblock %}}
 
 {% block content %}
     <form class="form" action="" method="post" novalidate>
@@ -16,7 +16,7 @@
         {% if form.errors  %}
         {% include 'maps/profiles/errors.html' %}
         {% endif %}
-        <h2>Roles</h2>
+        <h2>Describe your role</h2>
         {{ wizard.management_form }}
         {% csrf_token %}
         {% if wizard.form.forms %}
