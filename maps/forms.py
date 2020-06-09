@@ -1,6 +1,6 @@
 from django.contrib.auth import get_user_model
 from django import forms
-from django.forms import CharField, CheckboxSelectMultiple, RadioSelect, SelectMultiple, HiddenInput, formset_factory
+from django.forms import CharField, CheckboxSelectMultiple, IntegerField, RadioSelect, SelectMultiple, HiddenInput, formset_factory
 from django.utils.translation import gettext_lazy as _
 from dal import autocomplete
 from django.template.defaultfilters import safe
@@ -166,7 +166,24 @@ class IndividualSocialNetworkForm(BaseModelForm):
 
 IndividualSocialNetworkFormSet = formset_factory(IndividualSocialNetworkForm, extra=0)
 
+class OrganizationTypeForm(BaseForm):
+    org_type = forms.ChoiceField(
+        choices=[
+            ('1', 'Cooperative'),
+            ('2', 'Business Looking to Convert to a Co-operative')
+        ],
+        initial='cooperative',
+        label=_('How would you describe your organization?'),
+        required=True,
+        widget=RadioSelect(attrs={'class': 'input-group radio', 'default': '1'})
+    )
 class OrganizationBasicInfoForm(BaseModelForm):
+    languages = forms.ModelMultipleChoiceField(
+        queryset=Language.objects.all(),
+        required=True,
+        label=_('Working languages'),
+        help_text=_('Hold down the <kbd>ctrl</kbd> (Windows) or <kbd>command</kbd> (macOS) key to select multiple options.')
+    )
     class Meta:
         model = Organization
         fields = [
@@ -175,10 +192,6 @@ class OrganizationBasicInfoForm(BaseModelForm):
         ]
         labels = {
             'name': _('Name of cooperative'),
-            'languages': _('Working languages')
-        }
-        widgets = {
-            'languages': SelectMultiple(attrs={'required': ''}),
         }
         help_texts = {
             'languages': _('Hold down the <kbd>ctrl</kbd> (Windows) or <kbd>command</kbd> (macOS) key to select multiple options.'),
@@ -214,6 +227,17 @@ class OrganizationContactInfoForm(BaseModelForm):
         }
 
 class OrganizationDetailedInfoForm(BaseModelForm):
+    num_workers = IntegerField(
+        required=True,
+        label=_('Number of workers'),
+        help_text=_('Please provide your best estimate.')
+    )
+
+    num_members = IntegerField(
+        required=True,
+        label=_('Number of members'),
+        help_text=_('Please provide your best estimate.')
+    )
     class Meta:
         model = Organization
         fields = [
@@ -227,8 +251,6 @@ class OrganizationDetailedInfoForm(BaseModelForm):
         labels = {
             'sectors': _('Co-op sector'),
             'categories': _('Co-op type'),
-            'num_workers': _('Number of workers'),
-            'num_members': _('Number of members'),
             'stage': _('Stage of development')
         }
         widgets = {
@@ -238,6 +260,4 @@ class OrganizationDetailedInfoForm(BaseModelForm):
         }
         help_texts = {
             'sectors': _('Hold down the <kbd>ctrl</kbd> (Windows) or <kbd>command</kbd> (macOS) key to select multiple options.'),
-            'num_workers': _('Please provide your best estimate.'),
-            'num_members': _('Please provide your best estimate.')
       }

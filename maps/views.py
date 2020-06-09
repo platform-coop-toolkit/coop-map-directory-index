@@ -10,7 +10,7 @@ from django.forms import inlineformset_factory
 from accounts.models import UserSocialNetwork
 from mdi.models import Organization, SocialNetwork
 from formtools.wizard.views import SessionWizardView
-from .forms import IndividualRolesForm, IndividualBasicInfoForm, IndividualMoreAboutYouForm, IndividualDetailedInfoForm, IndividualContactInfoForm, IndividualSocialNetworkFormSet, OrganizationBasicInfoForm, OrganizationContactInfoForm, OrganizationDetailedInfoForm
+from .forms import IndividualRolesForm, IndividualBasicInfoForm, IndividualMoreAboutYouForm, IndividualDetailedInfoForm, IndividualContactInfoForm, IndividualSocialNetworkFormSet, OrganizationTypeForm, OrganizationBasicInfoForm, OrganizationContactInfoForm, OrganizationDetailedInfoForm
 from dal import autocomplete
 
 
@@ -49,12 +49,14 @@ INDIVIDUAL_TEMPLATES = {
 }
 
 ORGANIZATION_FORMS = [
+    ('org_type', OrganizationTypeForm),
     ('basic_info', OrganizationBasicInfoForm),
     ('contact_info', OrganizationContactInfoForm),
     ('detailed_info', OrganizationDetailedInfoForm)
 ]    
 
 ORGANIZATION_TEMPLATES = {
+    'org_type': 'maps/profiles/organization/org_type.html',
     'basic_info': 'maps/profiles/organization/basic_info.html',
     'contact_info': 'maps/profiles/organization/contact_info.html',
     'detailed_info': 'maps/profiles/organization/detailed_info.html'
