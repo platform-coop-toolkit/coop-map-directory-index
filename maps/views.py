@@ -87,6 +87,8 @@ class IndividualProfileWizard(LoginRequiredMixin, SessionWizardView):
                         'display_affiliation': True,
                         'display_projects': True
                     })
+                if r.name in ['Funder', 'Policymaker']:
+                    context.update({'display_affiliation': True})
         return context
 
     # Attempt to solve SocialNetwork problem on profile pages.

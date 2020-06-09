@@ -130,7 +130,7 @@ class IndividualMoreAboutYouForm(BaseModelForm):
             'worked_with': autocomplete.ModelSelect2Multiple(url='organization-autocomplete'),
             'services': _('Services you provide'),
             'field_of_study': _('What is your field of research?'),
-            'affiliation': _('Are you affiliated with a research organisation or institution?'),
+            'affiliation': _('Are you affiliated with an organisation or institution?'),
         }
         widgets = {
             'member_of': autocomplete.ModelSelect2Multiple(url='organization-autocomplete'),
