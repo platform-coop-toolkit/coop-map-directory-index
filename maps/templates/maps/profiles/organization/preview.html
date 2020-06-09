@@ -1,0 +1,12 @@
+{% extends "maps/base.html" %}
+{% load static %}
+{% load i18n %}
+{% load maps_extras %}
+{% block bodyclass %}form-wizard{% endblock %}
+{% block title %}{{ 'Preview organization'|titlify }}{% endblock %}}
+
+{# TODO: Remove this once form is complete. #}
+
+{% block content %}
+    {{ form_dict }}
+{% endblock %}

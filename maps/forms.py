@@ -172,10 +172,10 @@ class OrganizationTypeForm(BaseForm):
             ('1', 'Cooperative'),
             ('2', 'Business Looking to Convert to a Co-operative')
         ],
-        initial='cooperative',
+        initial='1',
         label=_('How would you describe your organization?'),
         required=True,
-        widget=RadioSelect(attrs={'class': 'input-group radio', 'default': '1'})
+        widget=RadioSelect(attrs={'class': 'input-group radio'})
     )
 class OrganizationBasicInfoForm(BaseModelForm):
     languages = forms.ModelMultipleChoiceField(

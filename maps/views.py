@@ -71,7 +71,6 @@ class IndividualProfileWizard(LoginRequiredMixin, SessionWizardView):
 
         if self.steps.current in ['more_about_you', 'detailed_info']:
             roles = self.get_cleaned_data_for_step('roles')['roles']
-            print('roles.cleaned {}'.format(roles))
             for r in roles:
                 if r.name == 'Coop Member':
                     context.update({'display_member_of': True})
@@ -115,7 +114,6 @@ class IndividualProfileWizard(LoginRequiredMixin, SessionWizardView):
         user.roles.set(form_dict['roles'])
         user.languages.set(form_dict['languages'])
         user.services.set(form_dict['services'])
-        user.challenges.set(form_dict['challenges'])
 
         for sn in form_dict['formset-social_networks']:
             if sn['identifier'] != '':
@@ -143,7 +141,18 @@ class OrganizationProfileWizard(LoginRequiredMixin, SessionWizardView):
 
     def get_context_data(self, form, **kwargs):
         context = super().get_context_data(form=form, **kwargs)
+
+        if self.steps.current in ['basic_info', 'contact_info', 'detailed_info']:
+            org_type = self.get_cleaned_data_for_step('org_type')['org_type']
+            if org_type == '1':
+                context.update({'is_coop': True})
+
         return context
+
+    def done(self, form_list, form_dict, **kwargs):
+        return render(self.request, 'maps/profiles/organization/preview.html', {
+            'form_dict': self.get_all_cleaned_data()
+        })
 
 def index(request):
     template = loader.get_template('maps/index.html')
