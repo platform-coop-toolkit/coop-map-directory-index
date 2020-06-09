@@ -100,19 +100,22 @@ class IndividualMoreAboutYouForm(BaseModelForm):
     member_of = forms.ModelChoiceField(
         queryset=Organization.objects.all(),
         label=_('Co-operative(s) you are a currently a member of'),
-        required=False
+        required=False,
+        widget=SelectMultiple(attrs={'size': 4, 'class': 'multiple'})
     )
 
     founder_of = forms.ModelChoiceField(
         queryset=Organization.objects.all(),
         label=_('Co-operative(s) you are a founder of'),
-        required=False
+        required=False,
+        widget=SelectMultiple(attrs={'size': 4, 'class': 'multiple'})
     )
 
     worked_with = forms.ModelChoiceField(
         queryset=Organization.objects.all(),
         label=_('Co-operative(s) you have worked with'),
-        required=False
+        required=False,
+        widget=SelectMultiple(attrs={'size': 4, 'class': 'multiple'})
     )
     class Meta:
         model = get_user_model()
