@@ -143,7 +143,7 @@ class IndividualMoreAboutYouForm(BaseModelForm):
             'services': SelectMultiple(attrs={'size': 4, 'class': 'multiple'}),
         }
         help_texts = {
-            'community_skills' = _('Provide a short description.')
+            'community_skills': _('Provide a short description.')
         }
 class IndividualDetailedInfoForm(BaseModelForm):
     class Meta:
