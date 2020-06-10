@@ -127,13 +127,14 @@ class IndividualMoreAboutYouForm(BaseModelForm):
             # TODO: Add community skills
             'field_of_study',
             'affiliation',
-            # TODO: Add URL for affiliated organization
+            'affiliation_url'
         ]
         labels = {
             'worked_with': autocomplete.ModelSelect2Multiple(url='organization-autocomplete'),
             'services': _('Services you provide'),
             'field_of_study': _('What is your field of research?'),
             'affiliation': _('Are you affiliated with an organisation or institution?'),
+            'affiliation_url': _('What is the website address of your affiliated organisation or institution?'),
         }
         widgets = {
             'member_of': autocomplete.ModelSelect2Multiple(url='organization-autocomplete'),

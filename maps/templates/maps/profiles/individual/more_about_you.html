@@ -65,7 +65,12 @@
                 {{ wizard.form.affiliation }}
                 {% if wizard.form.affiliation.help_text %}
                 <span class="helptext">{{ wizard.form.affiliation.help_text | safe }}</span>
-            {% endif %}
+                {% endif %}
+                {{ wizard.form.affiliation_url.label_tag }}
+                {{ wizard.form.affiliation_url }}
+                {% if wizard.form.affiliation_url.help_text %}
+                <span class="helptext">{{ wizard.form.affiliation_url.help_text | safe }}</span>
+                {% endif %}
             {% endif %}
         {% endif %}
         {% include 'maps/profiles/footer.html' %}
