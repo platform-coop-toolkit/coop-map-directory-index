@@ -10,7 +10,7 @@ from django.forms import inlineformset_factory
 from accounts.models import UserSocialNetwork
 from mdi.models import Organization, SocialNetwork
 from formtools.wizard.views import SessionWizardView
-from .forms import IndividualRolesForm, IndividualBasicInfoForm, IndividualMoreAboutYouForm, IndividualDetailedInfoForm, IndividualContactInfoForm, IndividualSocialNetworkFormSet, OrganizationTypeForm, OrganizationBasicInfoForm, OrganizationContactInfoForm, OrganizationDetailedInfoForm
+from .forms import IndividualRolesForm, IndividualBasicInfoForm, IndividualMoreAboutYouForm, IndividualDetailedInfoForm, IndividualContactInfoForm, IndividualSocialNetworkFormSet, OrganizationTypeForm, OrganizationBasicInfoForm, OrganizationContactInfoForm, OrganizationDetailedInfoForm, OrganizationSocialNetworkFormSet
 from dal import autocomplete
 
 
@@ -52,14 +52,16 @@ ORGANIZATION_FORMS = [
     ('org_type', OrganizationTypeForm),
     ('basic_info', OrganizationBasicInfoForm),
     ('contact_info', OrganizationContactInfoForm),
-    ('detailed_info', OrganizationDetailedInfoForm)
+    ('detailed_info', OrganizationDetailedInfoForm),
+    ('social_networks', OrganizationSocialNetworkFormSet),
 ]    
 
 ORGANIZATION_TEMPLATES = {
     'org_type': 'maps/profiles/organization/org_type.html',
     'basic_info': 'maps/profiles/organization/basic_info.html',
     'contact_info': 'maps/profiles/organization/contact_info.html',
-    'detailed_info': 'maps/profiles/organization/detailed_info.html'
+    'detailed_info': 'maps/profiles/organization/detailed_info.html',
+    'social_networks': 'maps/profiles/organization/social_networks.html'
 }
 
 class IndividualProfileWizard(LoginRequiredMixin, SessionWizardView):
@@ -150,6 +152,20 @@ class OrganizationProfileWizard(LoginRequiredMixin, SessionWizardView):
                 context.update({'is_coop': True})
 
         return context
+    
+    # Attempt to solve SocialNetwork problem on profile pages.
+    def get_form_initial(self, step):
+        initial = []
+        if step == 'social_networks':
+            socialnetworks = SocialNetwork.objects.all()
+            for index, sn in enumerate(socialnetworks):
+                initial.append({
+                    'socialnetwork' : sn,
+                    'name': sn.name,
+                    'hint' : sn.hint,
+                })
+            # print(initial)
+        return self.initial_dict.get('social_networks', initial)
 
     def done(self, form_list, form_dict, **kwargs):
         return render(self.request, 'maps/profiles/organization/preview.html', {

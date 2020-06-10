@@ -6,7 +6,7 @@ from dal import autocomplete
 from django.template.defaultfilters import safe
 from django_countries.fields import CountryField
 from accounts.models import Role, SocialNetwork, UserSocialNetwork
-from mdi.models import Organization, Category, Language
+from mdi.models import Organization, Category, Language, OrganizationSocialNetwork
 
 class BaseForm(forms.Form):
     error_css_class = 'error'
@@ -264,3 +264,16 @@ class OrganizationDetailedInfoForm(BaseModelForm):
         help_texts = {
             'sectors': _('Hold down the <kbd>ctrl</kbd> (Windows) or <kbd>command</kbd> (macOS) key to select multiple options.'),
       }
+
+class OrganizationSocialNetworkForm(BaseModelForm):
+    class Meta:
+        model = OrganizationSocialNetwork
+        fields = [
+            'socialnetwork',
+            'identifier',
+        ]
+        widgets = {
+            'socialnetwork': HiddenInput(),
+        }
+
+OrganizationSocialNetworkFormSet = formset_factory(OrganizationSocialNetworkForm, extra=0)
