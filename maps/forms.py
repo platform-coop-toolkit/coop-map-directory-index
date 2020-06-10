@@ -309,7 +309,11 @@ class OrganizationScopeAndImpactForm(BaseModelForm):
         labels = {
             'geo_scope_city': _('City or town'),
             'geo_scope_region': _('State or province'),
-            'geo_scope_country': _('Country')
+            'geo_scope_country': _('Country'),
+            'impacted_exact_number': _('Number of people your co-operative impacts (directly and indirectly)')
+        }
+        help_texts = {
+            'impacted_exact_number': _('Include clients and users as well as their family members or others indirectly impacted by the work of your co-operative.')
         }
         
 class OrganizationSocialNetworkForm(BaseModelForm):

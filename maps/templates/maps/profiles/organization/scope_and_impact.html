@@ -46,6 +46,11 @@
             {% if wizard.form.geo_scope_country.help_text %}
             <span class="helptext">{{ wizard.form.geo_scope_country.help_text | safe }}</span>
             {% endif %}
+            {{ wizard.form.impacted_exact_number.label_tag }}
+            {{ wizard.form.impacted_exact_number }}
+            {% if wizard.form.impacted_exact_number.help_text %}
+            <span class="helptext">{{ wizard.form.impacted_exact_number.help_text | safe }}</span>
+            {% endif %}
         {% endif %}
         {% include 'maps/profiles/footer.html' %}
         </div>
