@@ -34,6 +34,7 @@ class CustomUserAdmin(UserAdmin, OSMGeoAdmin):
             'roles',
             'languages',
             'services',
+            'community_skills',
             'challenges',
             'source',
         )}),
