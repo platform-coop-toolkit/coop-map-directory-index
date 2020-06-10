@@ -41,6 +41,11 @@
             {% if wizard.form.languages.help_text %}
             <span class="helptext">{{ wizard.form.languages.help_text | safe }}</span>
             {% endif %}
+            {{ wizard.form.url.label_tag }}
+            {{ wizard.form.url }}
+            {% if wizard.form.url.help_text %}
+            <span class="helptext">{{ wizard.form.url.help_text | safe }}</span>
+            {% endif %}
         {% endif %}
         {% include 'maps/profiles/footer.html' %}
         </div>

@@ -51,9 +51,11 @@ class IndividualBasicInfoForm(BaseModelForm):
             'middle_name',
             'last_name',
             'languages',
+            'url'
         ]
         labels = {
-            'middle_name': _('Middle name')
+            'middle_name': _('Middle name'),
+            'url': _('Website address')
         }
 
 class IndividualContactInfoForm(BaseModelForm):
@@ -69,7 +71,6 @@ class IndividualContactInfoForm(BaseModelForm):
     class Meta:
         model = get_user_model()
         fields = [
-            'url',
             'email',
             'phone',
             'address',
@@ -80,7 +81,6 @@ class IndividualContactInfoForm(BaseModelForm):
         ]
         labels = {
             'email': _('Email'),
-            'url': _('Website address'),
             'address': _('Street address'),
             'postal_code': _('ZIP or postal code')
         }
@@ -191,10 +191,12 @@ class OrganizationBasicInfoForm(BaseModelForm):
         model = Organization
         fields = [
             'name',
-            'languages'
+            'languages',
+            'url'
         ]
         labels = {
             'name': _('Name of cooperative'),
+            'url': _('Website address')
         }
         help_texts = {
             'languages': _('Hold down the <kbd>ctrl</kbd> (Windows) or <kbd>command</kbd> (macOS) key to select multiple options.'),
@@ -213,7 +215,6 @@ class OrganizationContactInfoForm(BaseModelForm):
     class Meta:
         model = Organization
         fields = [
-            'url',
             'email',
             'phone',
             'address',
@@ -223,7 +224,6 @@ class OrganizationContactInfoForm(BaseModelForm):
             'postal_code'
         ]
         labels = {
-            'url': _('Website address'),
             'email': _('Email'),
             'address': _('Street address'),
             'postal_code': _('ZIP or postal code')
