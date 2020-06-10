@@ -64,6 +64,14 @@ ORGANIZATION_TEMPLATES = {
     'social_networks': 'maps/profiles/organization/social_networks.html'
 }
 
+def show_more_about_you_condition(wizard):
+    roles = wizard.get_cleaned_data_for_step('roles')['roles']
+    if (len(roles) == 1 and roles[0].name == 'Other'):
+        return False
+    
+    return True
+
+
 class IndividualProfileWizard(LoginRequiredMixin, SessionWizardView):
     def get_template_names(self):
         return [INDIVIDUAL_TEMPLATES[self.steps.current]]
