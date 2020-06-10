@@ -124,7 +124,7 @@ class IndividualMoreAboutYouForm(BaseModelForm):
             'founder_of',
             'worked_with',
             'services',
-            # TODO: Add community skills
+            'community_skills',
             'field_of_study',
             'affiliation',
             'affiliation_url'

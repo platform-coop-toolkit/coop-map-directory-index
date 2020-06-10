@@ -89,6 +89,8 @@ class IndividualProfileWizard(LoginRequiredMixin, SessionWizardView):
                         'display_affiliation': True,
                         'display_projects': True
                     })
+                if r.name == 'Community Builder':
+                    context.update({'display_community_skills': True})
                 if r.name in ['Funder', 'Policymaker']:
                     context.update({'display_affiliation': True})
         return context

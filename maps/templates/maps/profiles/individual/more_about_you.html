@@ -53,6 +53,13 @@
                 <span class="helptext">{{ wizard.form.services.help_text | safe }}</span>
                 {% endif %}
             {% endif %}
+            {% if display_community_skills %}
+                {{ wizard.form.community_skills.label_tag }}
+                {{ wizard.form.community_skills }}
+                {% if wizard.form.community_skills.help_text %}
+                <span class="helptext">{{ wizard.form.community_skills.help_text | safe }}</span>
+                {% endif %}
+            {% endif %}
             {% if display_field_of_study %}
                 {{ wizard.form.field_of_study.label_tag }}
                 {{ wizard.form.field_of_study }}
