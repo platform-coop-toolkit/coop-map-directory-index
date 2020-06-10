@@ -1,12 +1,12 @@
 from django.contrib.auth import get_user_model
 from django import forms
-from django.forms import CharField, CheckboxSelectMultiple, IntegerField, RadioSelect, SelectMultiple, HiddenInput, formset_factory
+from django.forms import CharField, CheckboxSelectMultiple, IntegerField, ModelChoiceField, RadioSelect, SelectMultiple, HiddenInput, formset_factory
 from django.utils.translation import gettext_lazy as _
 from dal import autocomplete
 from django.template.defaultfilters import safe
 from django_countries.fields import CountryField
 from accounts.models import Role, SocialNetwork, UserSocialNetwork
-from mdi.models import Organization, Category, Language, OrganizationSocialNetwork
+from mdi.models import Organization, Category, Language, OrganizationSocialNetwork, Stage
 
 class BaseForm(forms.Form):
     error_css_class = 'error'
@@ -241,6 +241,26 @@ class OrganizationDetailedInfoForm(BaseModelForm):
         label=_('Number of members'),
         help_text=_('Please provide your best estimate.')
     )
+
+    stage = ModelChoiceField(
+        Stage.objects.all(),
+        empty_label=_('Not sure'),
+        required=False,
+        widget=RadioSelect(attrs={'class': 'input-group radio'}),
+        label=_('Stage of development')
+    )
+
+    worker_distribution = forms.ChoiceField(
+        choices=[
+            ('', _('Not sure')),
+            ('colocated', _('Co-located')),
+            ('regional', _('Regionally distributed')),
+            ('national', _('Nationally distributed')),
+            ('international', _('Internationally distributed'))
+        ],
+        required=False,
+        widget=RadioSelect(attrs={'class': 'input-group radio'})
+    )
     class Meta:
         model = Organization
         fields = [
@@ -254,12 +274,11 @@ class OrganizationDetailedInfoForm(BaseModelForm):
         labels = {
             'sectors': _('Co-op sector'),
             'categories': _('Co-op type'),
-            'stage': _('Stage of development')
         }
         widgets = {
             'categories': CheckboxSelectMultiple(attrs={'class': 'input-group checkbox'}),
-            'stage': RadioSelect(attrs={'class': 'input-group radio'}),
-            'worker_distribution': RadioSelect(attrs={'class': 'input-group radio'})
+            # 'stage': RadioSelect(attrs={'class': 'input-group radio'}),
+            # 'worker_distribution': RadioSelect(attrs={'class': 'input-group radio'})
         }
         help_texts = {
             'sectors': _('Hold down the <kbd>ctrl</kbd> (Windows) or <kbd>command</kbd> (macOS) key to select multiple options.'),
