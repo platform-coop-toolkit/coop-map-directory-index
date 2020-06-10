@@ -35,6 +35,8 @@ class CustomUserAdmin(UserAdmin, OSMGeoAdmin):
             'languages',
             'services',
             'community_skills',
+            'affiliation',
+            'affiliation_url',
             'challenges',
             'source',
         )}),

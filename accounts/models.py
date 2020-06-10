@@ -111,6 +111,7 @@ class User(AbstractUser):
     community_skills = models.TextField(blank=True, default='') # Only applies to Community Builders.
     field_of_study = models.CharField(blank=True, default='', max_length=254) # Only applies to Researchers. Much still TBD.
     affiliation = models.TextField(blank=True, default='') # Only applies to Researchers. Much still TBD.
+    affiliation_url = models.URLField(blank=True, default='', max_length=255)
     projects = models.TextField(blank=True, default='') # Only applies to Researchers. Much still TBD.
     challenges = models.ManyToManyField('mdi.Challenge', blank=True,)
     socialnetworks = models.ManyToManyField(SocialNetwork, blank=True, through='UserSocialNetwork')
