@@ -281,14 +281,37 @@ class OrganizationDetailedInfoForm(BaseModelForm):
             'categories': _('Co-op type'),
         }
         widgets = {
-            'categories': CheckboxSelectMultiple(attrs={'class': 'input-group checkbox'}),
-            # 'stage': RadioSelect(attrs={'class': 'input-group radio'}),
-            # 'worker_distribution': RadioSelect(attrs={'class': 'input-group radio'})
+            'categories': CheckboxSelectMultiple(attrs={'class': 'input-group checkbox'})
         }
         help_texts = {
             'sectors': _('Hold down the <kbd>ctrl</kbd> (Windows) or <kbd>command</kbd> (macOS) key to select multiple options.'),
       }
 
+class OrganizationScopeAndImpactForm(BaseModelForm):
+    geo_scope = forms.ChoiceField(
+        choices=[
+            ('', _('Not sure')), (0, _('Local')), (1, _('Regional')), (2, _('National')), (3, _('International'))
+        ],
+        required=False,
+        label=_('Primary geographic scope'),
+        help_text=_('Choose primary scope.'),
+        widget=RadioSelect(attrs={'class': 'input-group radio'})
+    )
+    class Meta:
+        model = Organization
+        fields = [
+            'geo_scope',
+            'geo_scope_city',
+            'geo_scope_region',
+            'geo_scope_country',
+            'impacted_exact_number'
+        ]
+        labels = {
+            'geo_scope_city': _('City or town'),
+            'geo_scope_region': _('State or province'),
+            'geo_scope_country': _('Country')
+        }
+        
 class OrganizationSocialNetworkForm(BaseModelForm):
     class Meta:
         model = OrganizationSocialNetwork

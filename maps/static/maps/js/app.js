@@ -33,6 +33,50 @@ if (searchToggle) {
   new Pinecone.SearchToggle(searchToggle, searchToggle.nextElementSibling);
 }
 
+const geoScopeCity = document.getElementById('id_scope_and_impact-geo_scope_city');
+const geoScopeRegion = document.getElementById('id_scope_and_impact-geo_scope_region');
+const geoScopeCountry = document.getElementById('id_scope_and_impact-geo_scope_country');
+
+if (geoScopeCity && geoScopeRegion && geoScopeCountry) {
+  const form = document.getElementById('scope-and-impact');
+
+  const showHideFieldsForValue = (value) => {
+    switch(value) {
+      case '0':
+        form.classList.add('show-city');
+        form.classList.add('show-region');
+        form.classList.add('show-country');
+        break;
+      case '1':
+        form.classList.remove('show-city');
+        form.classList.add('show-region');
+        form.classList.add('show-country');
+        break;
+      case '2':
+        form.classList.remove('show-city');
+        form.classList.remove('show-region');
+        form.classList.add('show-country');
+        break;
+      case '3':
+      case '':
+      default:
+        form.classList.remove('show-city');
+        form.classList.remove('show-region');
+        form.classList.remove('show-country');
+    }
+  };
+
+  const scopes = form.querySelectorAll('[name="scope_and_impact-geo_scope"]');
+  const currentScope = form.querySelector('[name="scope_and_impact-geo_scope"]:checked').value;
+  showHideFieldsForValue(currentScope);
+  const scopeList = Array.from(scopes);
+  scopeList.forEach(scope => {
+    scope.addEventListener('change', (event) => {
+      showHideFieldsForValue(event.target.value);
+    });
+  });
+}
+
 mapboxgl.accessToken = 'pk.eyJ1IjoiZXJpY3RoZWlzZSIsImEiOiJjazVvNGNmM2wxaGhjM2pvMGc0ZmIyaXN3In0.Jrt9t5UrY5aCbndSpq5JWw';
 var map = new mapboxgl.Map({
   container: 'map',

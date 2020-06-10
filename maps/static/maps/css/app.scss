@@ -138,3 +138,35 @@ select[multiple] {
 .button--auto {
   width: auto;
 }
+
+#scope-and-impact {
+  [for="id_scope_and_impact-geo_scope_city"],
+  #id_scope_and_impact-geo_scope_city,
+  [for="id_scope_and_impact-geo_scope_region"],
+  #id_scope_and_impact-geo_scope_region,
+  [for="id_scope_and_impact-geo_scope_country"],
+  #id_scope_and_impact-geo_scope_country {
+    display: none;
+  }
+}
+
+#scope-and-impact.show-city {
+  [for="id_scope_and_impact-geo_scope_city"],
+  #id_scope_and_impact-geo_scope_city {
+    display: block;
+  }
+}
+
+#scope-and-impact.show-region {
+  [for="id_scope_and_impact-geo_scope_region"],
+  #id_scope_and_impact-geo_scope_region {
+    display: block;
+  }
+}
+
+#scope-and-impact.show-country {
+  [for="id_scope_and_impact-geo_scope_country"],
+  #id_scope_and_impact-geo_scope_country {
+    display: block;
+  }
+}

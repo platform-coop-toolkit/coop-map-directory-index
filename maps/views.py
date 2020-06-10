@@ -10,7 +10,7 @@ from django.forms import inlineformset_factory
 from accounts.models import UserSocialNetwork
 from mdi.models import Organization, SocialNetwork
 from formtools.wizard.views import SessionWizardView
-from .forms import IndividualRolesForm, IndividualBasicInfoForm, IndividualMoreAboutYouForm, IndividualDetailedInfoForm, IndividualContactInfoForm, IndividualSocialNetworkFormSet, OrganizationTypeForm, OrganizationBasicInfoForm, OrganizationContactInfoForm, OrganizationDetailedInfoForm, OrganizationSocialNetworkFormSet
+from .forms import IndividualRolesForm, IndividualBasicInfoForm, IndividualMoreAboutYouForm, IndividualDetailedInfoForm, IndividualContactInfoForm, IndividualSocialNetworkFormSet, OrganizationTypeForm, OrganizationBasicInfoForm, OrganizationContactInfoForm, OrganizationDetailedInfoForm, OrganizationScopeAndImpactForm, OrganizationSocialNetworkFormSet
 from dal import autocomplete
 
 
@@ -53,6 +53,7 @@ ORGANIZATION_FORMS = [
     ('basic_info', OrganizationBasicInfoForm),
     ('contact_info', OrganizationContactInfoForm),
     ('detailed_info', OrganizationDetailedInfoForm),
+    ('scope_and_impact', OrganizationScopeAndImpactForm),
     ('social_networks', OrganizationSocialNetworkFormSet),
 ]    
 
@@ -61,16 +62,23 @@ ORGANIZATION_TEMPLATES = {
     'basic_info': 'maps/profiles/organization/basic_info.html',
     'contact_info': 'maps/profiles/organization/contact_info.html',
     'detailed_info': 'maps/profiles/organization/detailed_info.html',
+    'scope_and_impact': 'maps/profiles/organization/scope_and_impact.html',
     'social_networks': 'maps/profiles/organization/social_networks.html'
 }
 
 def show_more_about_you_condition(wizard):
-    roles = wizard.get_cleaned_data_for_step('roles')['roles']
-    if (len(roles) == 1 and roles[0].name == 'Other'):
+    cleaned_data = wizard.get_cleaned_data_for_step('roles') or {'roles': []}
+    if (len(cleaned_data['roles']) == 1 and cleaned_data['roles'][0].name == 'Other'):
         return False
     
     return True
 
+def show_scope_and_impact_condition(wizard):
+    cleaned_data = wizard.get_cleaned_data_for_step('org_type') or {'org_type': False}
+    if (cleaned_data['org_type'] == '1'):
+        return True
+    
+    return False
 
 class IndividualProfileWizard(LoginRequiredMixin, SessionWizardView):
     def get_template_names(self):

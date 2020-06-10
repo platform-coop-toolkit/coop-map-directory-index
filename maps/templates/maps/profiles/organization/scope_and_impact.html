@@ -1,0 +1,54 @@
+{% extends "maps/base.html" %}
+{% load static %}
+{% load i18n %}
+{% load maps_extras %}
+{% block bodyclass %}form-wizard{% endblock %}
+{% block title %}{{ 'Scope and impact'|titlify }}{% endblock %}}
+
+{% block content %}
+    <form id="scope-and-impact" class="form" action="" method="post" novalidate>
+        <div class="page-header">
+            {% include 'maps/profiles/back.html' %}
+            <h1>{% trans 'Create a profile: cooperative' %}</h1>
+            {% include 'maps/profiles/steps.html' %}
+        </div>
+        <div class="form__content">
+        {% if form.errors  %}
+        {% include 'maps/profiles/errors.html' %}
+        {% endif %}
+        <h2>{% trans 'Scope and impact' %}</h2>
+        <p>{% trans 'This information will help prospective supporters understand the significance and impact of your project.' %}</p>
+        {{ wizard.management_form }}
+        {% csrf_token %}
+        {% if wizard.form.forms %}
+            {{ wizard.form.management_form }}
+            {% for form in wizard.form.forms %}
+                {{ form }}
+            {% endfor %}
+        {% else %}
+            <label for="{{ wizard.form.geo_scope.id_for_label }}"><h3>{% trans 'Geographical scope of your users or clients' %}</h3></label>
+            {% if wizard.form.geo_scope.help_text %}
+            <span class="helptext">{{ wizard.form.geo_scope.help_text | safe }}</span>
+            {% endif %}
+            {{ wizard.form.geo_scope }}
+            {{ wizard.form.geo_scope_city.label_tag }}
+            {{ wizard.form.geo_scope_city }}
+            {% if wizard.form.geo_scope_city.help_text %}
+            <span class="helptext">{{ wizard.form.geo_scope_city.help_text | safe }}</span>
+            {% endif %}
+            {{ wizard.form.geo_scope_region.label_tag }}
+            {{ wizard.form.geo_scope_region }}
+            {% if wizard.form.geo_scope_region.help_text %}
+            <span class="helptext">{{ wizard.form.geo_scope_region.help_text | safe }}</span>
+            {% endif %}
+            {{ wizard.form.geo_scope_country.label_tag }}
+            {{ wizard.form.geo_scope_country }}
+            {% if wizard.form.geo_scope_country.help_text %}
+            <span class="helptext">{{ wizard.form.geo_scope_country.help_text | safe }}</span>
+            {% endif %}
+        {% endif %}
+        {% include 'maps/profiles/footer.html' %}
+        </div>
+    </form>
+    {% include 'maps/profiles/cancel.html' %}
+{% endblock %}
