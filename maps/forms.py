@@ -132,6 +132,7 @@ class IndividualMoreAboutYouForm(BaseModelForm):
         labels = {
             'worked_with': autocomplete.ModelSelect2Multiple(url='organization-autocomplete'),
             'services': _('Services you provide'),
+            'community_skills': _('What community building skills do you have to offer?'),
             'field_of_study': _('What is your field of research?'),
             'affiliation': _('Are you affiliated with an organisation or institution?'),
             'affiliation_url': _('What is the website address of your affiliated organisation or institution?'),
@@ -140,6 +141,9 @@ class IndividualMoreAboutYouForm(BaseModelForm):
             'member_of': autocomplete.ModelSelect2Multiple(url='organization-autocomplete'),
             'founder_of': autocomplete.ModelSelect2Multiple(url='organization-autocomplete'),
             'services': SelectMultiple(attrs={'size': 4, 'class': 'multiple'}),
+        }
+        help_texts = {
+            'community_skills' = _('Provide a short description.')
         }
 class IndividualDetailedInfoForm(BaseModelForm):
     class Meta:
