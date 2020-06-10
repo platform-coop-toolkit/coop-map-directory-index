@@ -1,3 +1,4 @@
+from datetime import datetime
 from django.contrib.auth import get_user_model
 from django import forms
 from django.forms import CharField, CheckboxSelectMultiple, IntegerField, ModelChoiceField, RadioSelect, SelectMultiple, HiddenInput, formset_factory
@@ -192,11 +193,81 @@ class OrganizationBasicInfoForm(BaseModelForm):
         label=_('Working languages'),
         help_text=_('Hold down the <kbd>ctrl</kbd> (Windows) or <kbd>command</kbd> (macOS) key to select multiple options.')
     )
+
+    year_founded = IntegerField(
+        required=True,
+        label=_('Year'),
+        max_value=datetime.now().year
+    )
+
+    month_founded = forms.ChoiceField(
+        choices=[
+            ('', _('Not sure')),
+            ('01', _('January')),
+            ('02', _('February')),
+            ('03', _('March')),
+            ('04', _('April')),
+            ('05', _('May')),
+            ('06', _('June')),
+            ('07', _('July')),
+            ('08', _('August')),
+            ('09', _('September')),
+            ('10', _('October')),
+            ('11', _('November')),
+            ('12', _('December'))
+        ],
+        required=False,
+        label=_('Month')
+    )
+
+    day_founded = forms.ChoiceField(
+        choices=[
+            ('', _('Not sure')),
+            ('01', '1'),
+            ('02', '2'),
+            ('03', '3'),
+            ('04', '4'),
+            ('05', '5'),
+            ('06', '6'),
+            ('07', '7'),
+            ('08', '8'),
+            ('09', '9'),
+            ('10', '10'),
+            ('11', '11'),
+            ('12', '12'),
+            ('13', '13'),
+            ('14', '14'),
+            ('15', '15'),
+            ('16', '16'),
+            ('17', '17'),
+            ('18', '18'),
+            ('19', '19'),
+            ('20', '20'),
+            ('21', '21'),
+            ('22', '22'),
+            ('23', '23'),
+            ('24', '24'),
+            ('25', '25'),
+            ('26', '26'),
+            ('27', '27'),
+            ('28', '28'),
+            ('29', '29'),
+            ('30', '30'),
+            ('31', '31')
+        ],
+        required=False,
+        label=_('Day')
+    )
     class Meta:
         model = Organization
         fields = [
             'name',
             'languages',
+            'year_founded',
+            'month_founded',
+            'founded',
+            'founded_min_date',
+            'founded_max_date',
             'url'
         ]
         labels = {
@@ -205,6 +276,11 @@ class OrganizationBasicInfoForm(BaseModelForm):
         }
         help_texts = {
             'languages': _('Hold down the <kbd>ctrl</kbd> (Windows) or <kbd>command</kbd> (macOS) key to select multiple options.'),
+        }
+        widgets = {
+            'founded': HiddenInput(),
+            'founded_min_date': HiddenInput(),
+            'founded_max_date': HiddenInput()
         }
 
 class OrganizationContactInfoForm(BaseModelForm):

@@ -33,14 +33,10 @@ if (searchToggle) {
   new Pinecone.SearchToggle(searchToggle, searchToggle.nextElementSibling);
 }
 
-const geoScopeCity = document.getElementById('id_scope_and_impact-geo_scope_city');
-const geoScopeRegion = document.getElementById('id_scope_and_impact-geo_scope_region');
-const geoScopeCountry = document.getElementById('id_scope_and_impact-geo_scope_country');
+const scopeAndImpact = document.getElementById('scope-and-impact');
 
-if (geoScopeCity && geoScopeRegion && geoScopeCountry) {
-  const form = document.getElementById('scope-and-impact');
-
-  const showHideFieldsForValue = (value) => {
+if (scopeAndImpact) {
+  const showHideFieldsForValue = (value, form) => {
     switch(value) {
       case '0':
         form.classList.add('show-city');
@@ -66,16 +62,69 @@ if (geoScopeCity && geoScopeRegion && geoScopeCountry) {
     }
   };
 
-  const scopes = form.querySelectorAll('[name="scope_and_impact-geo_scope"]');
-  const currentScope = form.querySelector('[name="scope_and_impact-geo_scope"]:checked').value;
-  showHideFieldsForValue(currentScope);
+  const scopes = scopeAndImpact.querySelectorAll('[name="scope_and_impact-geo_scope"]');
+  const currentScope = scopeAndImpact.querySelector('[name="scope_and_impact-geo_scope"]:checked').value;
+  showHideFieldsForValue(currentScope, scopeAndImpact);
   const scopeList = Array.from(scopes);
   scopeList.forEach(scope => {
     scope.addEventListener('change', (event) => {
-      showHideFieldsForValue(event.target.value);
+      showHideFieldsForValue(event.target.value, scopeAndImpact);
     });
   });
 }
+
+const basicInfo = document.getElementById('basic-info');
+
+if (basicInfo) {
+  const year = document.getElementById('id_basic_info-year_founded');
+  const month = document.getElementById('id_basic_info-month_founded');
+  const day = document.getElementById('id_basic_info-day_founded');
+  const founded = document.getElementById('id_basic_info-founded');
+  const foundedMin = document.getElementById('id_basic_info-founded_min_date');
+  const foundedMax = document.getElementById('id_basic_info-founded_max_date');
+
+  const daysInMonth = (y, m) => {
+    return new Date(y, m, 0).getDate();
+  };
+
+  const updateDaysField = (y, m) => {
+    const days = daysInMonth(y, m);
+    // TODO: Trim or restore options to day selector.
+  };
+
+  const updateFoundedDates = () => {
+    if (year.value && month.value && day.value) {
+      founded.value = `${year.value}-${month.value}-${day.value}`;
+      foundedMin.value = `${year.value}-${month.value}-${day.value}`;
+      foundedMax.value = `${year.value}-${month.value}-${day.value}`;
+    } else if (year.value && month.value) {
+      const days = daysInMonth(year.value, month.value);
+      founded.value = '';
+      foundedMin.value = `${year.value}-${month.value}-01`;
+      foundedMax.value = `${year.value}-${month.value}-${days}`;
+    } else {
+      founded.value = '';
+      foundedMin.value = `${year.value}-01-01`;
+      foundedMax.value = `${year.value}-12-31`;
+    }
+  };
+
+
+  year.addEventListener('change', () => {
+    updateFoundedDates();
+    updateDaysField(year.value, month.value);
+  });
+
+  month.addEventListener('change', () => {
+    updateFoundedDates();
+    updateDaysField(year.value, month.value);
+  });
+
+  day.addEventListener('change', () => {
+    updateFoundedDates();
+  });
+}
+
 
 mapboxgl.accessToken = 'pk.eyJ1IjoiZXJpY3RoZWlzZSIsImEiOiJjazVvNGNmM2wxaGhjM2pvMGc0ZmIyaXN3In0.Jrt9t5UrY5aCbndSpq5JWw';
 var map = new mapboxgl.Map({
