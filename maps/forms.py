@@ -102,14 +102,14 @@ class IndividualMoreAboutYouForm(BaseModelForm):
         queryset=Organization.objects.all(),
         label=_('Co-operative(s) you are a currently a member of'),
         required=False,
-        widget=SelectMultiple(attrs={'size': 4, 'class': 'multiple'})
+        # widget=SelectMultiple(attrs={'size': 4, 'class': 'multiple'})
     )
 
     founder_of = forms.ModelChoiceField(
         queryset=Organization.objects.all(),
         label=_('Co-operative(s) you are a founder of'),
         required=False,
-        widget=SelectMultiple(attrs={'size': 4, 'class': 'multiple'})
+        # widget=SelectMultiple(attrs={'size': 4, 'class': 'multiple'})
     )
 
     worked_with = forms.ModelChoiceField(
@@ -131,7 +131,6 @@ class IndividualMoreAboutYouForm(BaseModelForm):
             'affiliation_url'
         ]
         labels = {
-            'worked_with': autocomplete.ModelSelect2Multiple(url='organization-autocomplete'),
             'services': _('Services you provide'),
             'community_skills': _('What community building skills do you have to offer?'),
             'field_of_study': _('What is your field of research?'),
@@ -139,8 +138,6 @@ class IndividualMoreAboutYouForm(BaseModelForm):
             'affiliation_url': _('What is the website address of your affiliated organisation or institution?'),
         }
         widgets = {
-            'member_of': autocomplete.ModelSelect2Multiple(url='organization-autocomplete'),
-            'founder_of': autocomplete.ModelSelect2Multiple(url='organization-autocomplete'),
             'services': SelectMultiple(attrs={'size': 4, 'class': 'multiple'}),
         }
         help_texts = {

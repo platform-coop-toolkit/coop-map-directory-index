@@ -8,7 +8,7 @@ from django.views.generic import TemplateView
 from django.shortcuts import get_object_or_404, render, redirect
 from django.forms import inlineformset_factory
 from accounts.models import UserSocialNetwork
-from mdi.models import Organization, SocialNetwork
+from mdi.models import Organization, SocialNetwork, OrganizationSocialNetwork
 from formtools.wizard.views import SessionWizardView
 from .forms import IndividualRolesForm, IndividualBasicInfoForm, IndividualMoreAboutYouForm, IndividualDetailedInfoForm, IndividualContactInfoForm, IndividualSocialNetworkFormSet, OrganizationTypeForm, OrganizationBasicInfoForm, OrganizationContactInfoForm, OrganizationDetailedInfoForm, OrganizationScopeAndImpactForm, OrganizationSocialNetworkFormSet
 from dal import autocomplete
@@ -186,9 +186,21 @@ class OrganizationProfileWizard(LoginRequiredMixin, SessionWizardView):
         return self.initial_dict.get('social_networks', initial)
 
     def done(self, form_list, form_dict, **kwargs):
-        return render(self.request, 'maps/profiles/organization/preview.html', {
-            'form_dict': self.get_all_cleaned_data()
-        })
+        user = self.request.user
+        form_dict = self.get_all_cleaned_data()
+        org = Organization(admin_email=user.email)
+        for k, v in form_dict.items():
+            if k not in ['languages', 'categories', 'sectors', 'formset-social_networks']:
+                setattr(org, k, v)
+        org.save()
+        org.languages.set(form_dict['languages'])
+        org.categories.set(form_dict['categories'])
+        org.sectors.set(form_dict['sectors'])
+        for sn in form_dict['formset-social_networks']:
+            if sn['identifier'] != '':
+                OrganizationSocialNetwork.objects.create(organization=org, socialnetwork=sn['socialnetwork'], identifier=sn['identifier'])
+
+        return redirect('organization-detail', organization_id=org.id)
 
 def index(request):
     template = loader.get_template('maps/index.html')
