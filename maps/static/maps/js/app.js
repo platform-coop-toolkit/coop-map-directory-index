@@ -145,6 +145,10 @@ if (basicInfo) {
       founded.value = '';
       foundedMin.value = `${year.value}-01-01`;
       foundedMax.value = `${year.value}-12-31`;
+    } else {
+      founded.value = '';
+      foundedMin.value = '';
+      foundedMax.value = '';
     }
   };
 
