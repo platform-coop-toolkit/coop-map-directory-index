@@ -83,13 +83,52 @@ if (basicInfo) {
   const foundedMin = document.getElementById('id_basic_info-founded_min_date');
   const foundedMax = document.getElementById('id_basic_info-founded_max_date');
 
+  if (year.value == '') {
+    month.setAttribute('disabled', '');
+  }
+  if (month.value == '') {
+    day.setAttribute('disabled', '');
+  }
+
   const daysInMonth = (y, m) => {
     return new Date(y, m, 0).getDate();
   };
 
   const updateDaysField = (y, m) => {
-    const days = daysInMonth(y, m);
-    // TODO: Trim or restore options to day selector.
+    if (m == '') {
+      day.value = '';
+    } else {
+      const days = daysInMonth(y, m);
+      const none = day.querySelector('option[value=""]');
+      const currentDay = day.value;
+      day.innerHTML = '';
+      day.appendChild(none);
+      for ( let i = 1; i < days + 1; i++ ) {
+				const option = document.createElement( 'option' );
+				const val = 9 > i ? `0${i}` : i;
+				option.setAttribute( 'value', val );
+				option.innerText = i;
+				day.appendChild( option );
+			}
+      if (currentDay > days) {
+        day.value = '';
+      } else {
+        day.value = currentDay;
+      }
+    }
+  };
+
+  const updateDisabledStatus = () => {
+    if (year.value == '') {
+      month.setAttribute('disabled', '');
+    } else {
+      month.removeAttribute('disabled');
+    }
+    if (month.value == '') {
+      day.setAttribute('disabled', '');
+    } else {
+      day.removeAttribute('disabled');
+    }
   };
 
   const updateFoundedDates = () => {
@@ -102,7 +141,7 @@ if (basicInfo) {
       founded.value = '';
       foundedMin.value = `${year.value}-${month.value}-01`;
       foundedMax.value = `${year.value}-${month.value}-${days}`;
-    } else {
+    } else if (year.value) {
       founded.value = '';
       foundedMin.value = `${year.value}-01-01`;
       foundedMax.value = `${year.value}-12-31`;
@@ -112,16 +151,19 @@ if (basicInfo) {
 
   year.addEventListener('change', () => {
     updateFoundedDates();
+    updateDisabledStatus();
     updateDaysField(year.value, month.value);
   });
 
   month.addEventListener('change', () => {
     updateFoundedDates();
+    updateDisabledStatus();
     updateDaysField(year.value, month.value);
   });
 
   day.addEventListener('change', () => {
     updateFoundedDates();
+    updateDisabledStatus();
   });
 }
 
