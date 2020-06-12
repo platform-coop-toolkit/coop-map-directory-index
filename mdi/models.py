@@ -236,7 +236,7 @@ class Organization(models.Model):
     )
     related_organizations = models.ManyToManyField('self', through='EntitiesEntities')
     geo_scope = models.CharField(blank=True, max_length=16,
-                             choices=[(0, 'Local'), (1, 'Regional'), (2, 'National'), (3, 'International')],
+                             choices=[('Local', 'Local'), ('Regional', 'Regional'), ('National', 'National'), ('International', 'International')],
                                  verbose_name='Geographic scope', )
     geo_scope_city = models.CharField(blank=True, default='', max_length=255, verbose_name='Geographic scope – City', )
     geo_scope_region = models.CharField(blank=True, default='', max_length=255, verbose_name='Geographic scope – Region', )
