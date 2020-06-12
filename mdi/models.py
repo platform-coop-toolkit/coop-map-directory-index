@@ -243,7 +243,7 @@ class Organization(models.Model):
     geo_scope_country = CountryField(blank=True, verbose_name='Geographic scope – Country', )
     impacted_range = IntegerRangeField(blank=True, null=True, default=None)
     impacted_exact_number = models.IntegerField(blank=True, null=True, default=None)
-    code_availability = models.CharField(blank=True, max_length=9, choices=[(0, 'Yes'), (1, 'Partially'), (2, 'No')])
+    code_availability = models.CharField(blank=True, max_length=9, choices=[('Yes', 'Yes'), ('Partially', 'Partially'), ('No', 'No')])
     categories = models.ManyToManyField(Category, blank=True,)
     stage = models.ForeignKey(Stage, blank=True, null=True, default=None, on_delete=models.CASCADE)
     source = models.ForeignKey(Source, on_delete=models.CASCADE, blank=True, null=True)
