@@ -363,7 +363,7 @@ class OrganizationDetailedInfoForm(BaseModelForm):
 class OrganizationScopeAndImpactForm(BaseModelForm):
     geo_scope = forms.ChoiceField(
         choices=[
-            ('', _('Not sure')), (0, _('Local')), (1, _('Regional')), (2, _('National')), (3, _('International'))
+            ('', _('Not sure')), ('Local', 'Local'), ('Regional', 'Regional'), ('National', 'National'), ('International', 'International')
         ],
         required=False,
         label=_('Primary geographic scope'),
