@@ -8,7 +8,7 @@ from django.views.generic import TemplateView
 from django.shortcuts import get_object_or_404, render, redirect
 from django.forms import inlineformset_factory
 from accounts.models import UserSocialNetwork
-from mdi.models import Organization, SocialNetwork, OrganizationSocialNetwork
+from mdi.models import Organization, SocialNetwork, OrganizationSocialNetwork, Relationship, EntitiesEntities
 from formtools.wizard.views import SessionWizardView
 from .forms import IndividualRolesForm, IndividualBasicInfoForm, IndividualMoreAboutYouForm, IndividualDetailedInfoForm, IndividualContactInfoForm, IndividualSocialNetworkFormSet, OrganizationTypeForm, OrganizationBasicInfoForm, OrganizationContactInfoForm, OrganizationDetailedInfoForm, OrganizationScopeAndImpactForm, OrganizationSocialNetworkFormSet
 from dal import autocomplete
@@ -136,7 +136,21 @@ class IndividualProfileWizard(LoginRequiredMixin, SessionWizardView):
         user.roles.set(form_dict['roles'])
         user.languages.set(form_dict['languages'])
         user.services.set(form_dict['services'])
-
+        for org in form_dict['member_of']:
+            member_of_relationship = Relationship.objects.get(name="Member of")
+            rel = EntitiesEntities(from_ind=user, to_org=org, relationship=member_of_relationship)
+            rel.save()
+            user.related_organizations.add(org)
+        for org in form_dict['founder_of']:
+            founder_of_relationship = Relationship.objects.get(name="Founder of")
+            rel = EntitiesEntities(from_ind=user, to_org=org, relationship=founder_of_relationship)
+            rel.save()
+            user.related_organizations.add(org)
+        for org in form_dict['worked_with']:
+            worked_with_relationship = Relationship.objects.get(name="Worked with")
+            rel = EntitiesEntities(from_ind=user, to_org=org, relationship=worked_with_relationship)
+            rel.save()
+            user.related_organizations.add(org)
         for sn in form_dict['formset-social_networks']:
             if sn['identifier'] != '':
                 UserSocialNetwork.objects.create(user=user, socialnetwork=sn['socialnetwork'], identifier=sn['identifier'])

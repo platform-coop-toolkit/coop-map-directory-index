@@ -98,21 +98,21 @@ class IndividualRolesForm(BaseForm):
 
 
 class IndividualMoreAboutYouForm(BaseModelForm):
-    member_of = forms.ModelChoiceField(
+    member_of = forms.ModelMultipleChoiceField(
         queryset=Organization.objects.all(),
         label=_('Co-operative(s) you are a currently a member of'),
         required=False,
-        # widget=SelectMultiple(attrs={'size': 4, 'class': 'multiple'})
+        widget=SelectMultiple(attrs={'size': 4, 'class': 'multiple'})
     )
 
-    founder_of = forms.ModelChoiceField(
+    founder_of = forms.ModelMultipleChoiceField(
         queryset=Organization.objects.all(),
         label=_('Co-operative(s) you are a founder of'),
         required=False,
-        # widget=SelectMultiple(attrs={'size': 4, 'class': 'multiple'})
+        widget=SelectMultiple(attrs={'size': 4, 'class': 'multiple'})
     )
 
-    worked_with = forms.ModelChoiceField(
+    worked_with = forms.ModelMultipleChoiceField(
         queryset=Organization.objects.all(),
         label=_('Co-operative(s) you have worked with'),
         required=False,
