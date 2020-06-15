@@ -214,7 +214,7 @@ class OrganizationProfileWizard(LoginRequiredMixin, SessionWizardView):
             if sn['identifier'] != '':
                 OrganizationSocialNetwork.objects.create(organization=org, socialnetwork=sn['socialnetwork'], identifier=sn['identifier'])
 
-        return redirect('organization-detail', organization_id=org.id)
+        return redirect('/organizations/' + str(org.id))
 
 def index(request):
     template = loader.get_template('maps/index.html')
