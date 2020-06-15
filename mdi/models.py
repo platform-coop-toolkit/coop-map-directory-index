@@ -13,6 +13,8 @@ from django.db.models import Manager as GeoManager
 
 class Category(models.Model):
     name = models.CharField(blank=False, max_length=255, unique=True)
+    category_group = models.CharField(blank=False, default='cooperatives', max_length=64,
+                            choices=[('cooperatives', 'Cooperatives'), ('potential-cooperatives', 'Potential cooperatives'), ('other-organizations', 'Other organizations')], verbose_name='Category group')
     description = models.CharField(blank=True, default='', max_length=255)
     order = models.IntegerField()
     created_at = models.DateTimeField(auto_now_add=True)
@@ -236,14 +238,14 @@ class Organization(models.Model):
     )
     related_organizations = models.ManyToManyField('self', through='EntitiesEntities')
     geo_scope = models.CharField(blank=True, max_length=16,
-                             choices=[(0, 'Local'), (1, 'Regional'), (2, 'National'), (3, 'International')],
+                             choices=[('Local', 'Local'), ('Regional', 'Regional'), ('National', 'National'), ('International', 'International')],
                                  verbose_name='Geographic scope', )
     geo_scope_city = models.CharField(blank=True, default='', max_length=255, verbose_name='Geographic scope – City', )
     geo_scope_region = models.CharField(blank=True, default='', max_length=255, verbose_name='Geographic scope – Region', )
     geo_scope_country = CountryField(blank=True, verbose_name='Geographic scope – Country', )
     impacted_range = IntegerRangeField(blank=True, null=True, default=None)
     impacted_exact_number = models.IntegerField(blank=True, null=True, default=None)
-    code_availability = models.CharField(blank=True, max_length=9, choices=[(0, 'Yes'), (1, 'Partially'), (2, 'No')])
+    code_availability = models.CharField(blank=True, max_length=9, choices=[('Yes', 'Yes'), ('Partially', 'Partially'), ('No', 'No')])
     categories = models.ManyToManyField(Category, blank=True,)
     stage = models.ForeignKey(Stage, blank=True, null=True, default=None, on_delete=models.CASCADE)
     source = models.ForeignKey(Source, on_delete=models.CASCADE, blank=True, null=True)
