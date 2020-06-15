@@ -15,8 +15,8 @@ admin.site.index_title= 'Map / Directory / Index'
 
 # Create Admin-related classes
 @admin.register(Category)
-class CategoryNetworkAdmin(ModelAdmin):
-    list_display = ('name', 'order', 'description', )
+class CategoryAdmin(ModelAdmin):
+    list_display = ('name', 'order', 'category_group', 'description' )
 
 
 @admin.register(Challenge)
