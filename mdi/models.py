@@ -13,6 +13,9 @@ from django.db.models import Manager as GeoManager
 
 class Category(models.Model):
     name = models.CharField(blank=False, max_length=255, unique=True)
+    category_group = models.CharField(blank=False, default='cooperatives', max_length=64,
+                            choices=[('cooperatives', 'Cooperatives'), ('potential-cooperatives', 'Potential cooperatives'), ('other-organizations', 'Other organizations')], verbose_name='Category group')
+
     description = models.CharField(blank=True, default='', max_length=255)
     order = models.IntegerField()
     created_at = models.DateTimeField(auto_now_add=True)
