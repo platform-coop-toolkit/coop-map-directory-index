@@ -182,7 +182,6 @@ class OrganizationProfileWizard(LoginRequiredMixin, SessionWizardView):
             org_type = self.get_cleaned_data_for_step('org_type')['org_type']
             if org_type == '1':
                 context.update({'is_coop': True})
-
         return context
     
     # Attempt to solve SocialNetwork problem on profile pages.
@@ -208,7 +207,10 @@ class OrganizationProfileWizard(LoginRequiredMixin, SessionWizardView):
                 setattr(org, k, v)
         org.save()
         org.languages.set(form_dict['languages'])
-        org.categories.set(form_dict['categories'])
+        if form_dict['coop_categories']:
+            org.categories.set(form_dict['coop_categories'])
+        if form_dict['potential_coop_categories']:
+            org.categories.set(form_dict['potential_coop_categories'])
         org.sectors.set(form_dict['sectors'])
         for sn in form_dict['formset-social_networks']:
             if sn['identifier'] != '':

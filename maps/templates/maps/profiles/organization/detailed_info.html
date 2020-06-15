@@ -37,10 +37,16 @@
             <span class="helptext">{{ wizard.form.sectors.help_text | safe }}</span>
             {% endif %}
             {% if is_coop %}
-                {{ wizard.form.categories.label_tag }}
-                {{ wizard.form.categories }}
-                {% if wizard.form.categories.help_text %}
-                <span class="helptext">{{ wizard.form.categories.help_text | safe }}</span>
+                {{ wizard.form.coop_categories.label_tag }}
+                {{ wizard.form.coop_categories }}
+                {% if wizard.form.coop_categories.help_text %}
+                <span class="helptext">{{ wizard.form.coop_categories.help_text | safe }}</span>
+                {% endif %}
+            {% else %}
+                {{ wizard.form.potential_coop_categories.label_tag }}
+                {{ wizard.form.potential_coop_categories }}
+                {% if wizard.form.potential_coop_categories.help_text %}
+                <span class="helptext">{{ wizard.form.potential_coop_categories.help_text | safe }}</span>
                 {% endif %}
             {% endif %}
             {{ wizard.form.num_workers.label_tag }}

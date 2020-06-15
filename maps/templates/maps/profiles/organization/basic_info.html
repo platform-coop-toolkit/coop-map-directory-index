@@ -41,18 +41,16 @@
             {% if wizard.form.languages.help_text %}
             <span class="helptext">{{ wizard.form.languages.help_text | safe }}</span>
             {% endif %}
-            {% if is_coop %}
-                <p class="h4">{% trans 'Date founded' %}</p>
-                {{ wizard.form.year_founded.label_tag }}
-                {{ wizard.form.year_founded }}
-                {{ wizard.form.month_founded.label_tag }}
-                {{ wizard.form.month_founded }}
-                {{ wizard.form.day_founded.label_tag }}
-                {{ wizard.form.day_founded }}
-                {{ wizard.form.founded }}
-                {{ wizard.form.founded_min_date }}
-                {{ wizard.form.founded_max_date }}
-            {% endif %}
+            <p class="h4">{% trans 'Date founded' %}</p>
+            {{ wizard.form.year_founded.label_tag }}
+            {{ wizard.form.year_founded }}
+            {{ wizard.form.month_founded.label_tag }}
+            {{ wizard.form.month_founded }}
+            {{ wizard.form.day_founded.label_tag }}
+            {{ wizard.form.day_founded }}
+            {{ wizard.form.founded }}
+            {{ wizard.form.founded_min_date }}
+            {{ wizard.form.founded_max_date }}
             {{ wizard.form.url.label_tag }}
             {{ wizard.form.url }}
             {% if wizard.form.url.help_text %}

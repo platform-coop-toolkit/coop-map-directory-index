@@ -308,6 +308,30 @@ class OrganizationContactInfoForm(BaseModelForm):
         }
 
 class OrganizationDetailedInfoForm(BaseModelForm):
+    coop_categories = ModelChoiceField(
+        Category.objects.filter(category_group='cooperatives'),
+        empty_label=None,
+        required=False,
+        label=_('Co-op type'),
+        widget=CheckboxSelectMultiple(attrs={'class': 'input-group checkbox'})
+    )
+
+    potential_coop_categories = ModelChoiceField(
+        Category.objects.filter(category_group='potential-cooperatives'),
+        empty_label=None,
+        required=False,
+        label=_('Organization type'),
+        widget=CheckboxSelectMultiple(attrs={'class': 'input-group checkbox'})
+    )
+
+    other_org_categories = ModelChoiceField(
+        Category.objects.filter(category_group='other-organizations'),
+        empty_label=None,
+        required=False,
+        label=_('Organization type'),
+        widget=CheckboxSelectMultiple(attrs={'class': 'input-group checkbox'})
+    )
+
     num_workers = IntegerField(
         required=True,
         label=_('Number of workers'),
@@ -315,7 +339,7 @@ class OrganizationDetailedInfoForm(BaseModelForm):
     )
 
     num_members = IntegerField(
-        required=True,
+        required=False,
         label=_('Number of members'),
         help_text=_('Please provide your best estimate.')
     )
@@ -343,7 +367,9 @@ class OrganizationDetailedInfoForm(BaseModelForm):
         model = Organization
         fields = [
             'sectors',
-            'categories',
+            'coop_categories',
+            'potential_coop_categories',
+            'other_org_categories',
             'num_workers',
             'num_members',
             'stage',
@@ -351,10 +377,6 @@ class OrganizationDetailedInfoForm(BaseModelForm):
         ]
         labels = {
             'sectors': _('Co-op sector'),
-            'categories': _('Co-op type'),
-        }
-        widgets = {
-            'categories': CheckboxSelectMultiple(attrs={'class': 'input-group checkbox'})
         }
         help_texts = {
             'sectors': _('Hold down the <kbd>ctrl</kbd> (Windows) or <kbd>command</kbd> (macOS) key to select multiple options.'),
