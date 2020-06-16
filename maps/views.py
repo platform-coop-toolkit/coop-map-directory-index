@@ -3,8 +3,10 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.conf import settings
 from django.http import HttpResponse, HttpResponseRedirect
+from django.urls import reverse_lazy
 from django.template import loader
 from django.views.generic import TemplateView
+from django.views.generic.edit import DeleteView
 from django.shortcuts import get_object_or_404, render, redirect
 from django.forms import inlineformset_factory
 from accounts.models import UserSocialNetwork
@@ -140,6 +142,10 @@ def individual_detail(request, user_id):
     }
     return render(request, 'maps/individual_detail.html', {'individual': user})
 
+class OrganizationDelete(DeleteView):
+    model = Organization
+    success_url = reverse_lazy('my-profiles')
+
 # My Profiles
 @login_required
 def my_profiles(request):
@@ -149,6 +155,7 @@ def my_profiles(request):
         'user_orgs': user_orgs
     }
     return render(request, 'maps/my_profiles.html', context)
+
 
 # Static pages
 class PrivacyPolicyView(TemplateView):

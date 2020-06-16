@@ -66,4 +66,16 @@
             {% endif %}
         </div>
     </div>
+    <div class="align-left">
+        <form method="POST" action="{% url 'organization-delete' pk=org.id %}">
+        {% csrf_token %}
+        {# TODO: add confirmation dialog #}
+        <button class="button button--borderless button--destructive delete-profile" type="submit">
+            <svg class="icon icon--delete" aria-hidden="true" viewBox="0 0 20 20" focusable="false">
+                <use href="{% static 'maps/dist/images/delete.svg#delete' %}" />
+            </svg>
+            Delete <span class="screen-reader-text">organizational profile</span>
+        </button>
+        </form>
+    </div>
 </li>
