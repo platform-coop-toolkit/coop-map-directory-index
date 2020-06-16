@@ -11,7 +11,7 @@ urlpatterns = [
     path('profiles/individual', IndividualProfileWizard.as_view(INDIVIDUAL_FORMS, condition_dict={'more_about_you': show_more_about_you_condition}, instance_dict={'social_networks': UserSocialNetwork}), name='individual-profile'),
     path('profiles/organization', OrganizationProfileWizard.as_view(ORGANIZATION_FORMS, condition_dict={'scope_and_impact': show_scope_and_impact_condition}, instance_dict={'social_networks': UserSocialNetwork}), name='organization-profile'),
     url(r'^organization-autocomplete/$', OrganizationAutocomplete.as_view(create_field='name'), name='organization-autocomplete'),
-    path('organizations/<int:organization_id>', views.organization_detail, name='organization_detail'),
+    path('organizations/<int:organization_id>', views.organization_detail, name='organization-detail'),
     path('individuals/<int:user_id>', views.individual_detail, name='individual-detail'),
     path('about/', AboutPageView.as_view(), {'title': 'About'}, name='about'),
     path('privacy-policy/', PrivacyPolicyView.as_view(), {'title': 'Privacy Policy'}, name='privacy_policy'),
