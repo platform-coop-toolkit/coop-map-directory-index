@@ -118,7 +118,6 @@ class OrganizationAutocomplete(autocomplete.Select2QuerySetView):
 
         return qs
 
-
 def index(request):
     template = loader.get_template('maps/index.html')
     context = {
@@ -142,6 +141,7 @@ def individual_detail(request, user_id):
     return render(request, 'maps/individual_detail.html', {'individual': user})
 
 # My Profiles
+@login_required
 def my_profiles(request):
     user = request.user
     user_orgs = Organization.objects.filter(admin_email=user.email)
