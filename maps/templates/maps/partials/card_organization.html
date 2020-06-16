@@ -1,0 +1,69 @@
+{% load static %}
+<li class="card__wrapper">
+    <div class="card">
+        <header>
+            <h3 class="card__title">
+                <a class="card__link" href="/organizations/{{ org.id }}">{{ org.name }}</a>
+            </h3>
+        </header>
+        <p class="card__meta card__type">
+            <span class="screen-reader-text">roles: </span>
+            <svg class="icon icon--cooperative" aria-hidden="true" viewBox="0 0 20 20" focusable="false">
+                <use href="{% static 'maps/dist/images/cooperative.svg#cooperative' %}" />
+            </svg>
+            {{ org.type | capfirst }}
+        </p>
+        <div class="card__aside">
+            {% if org.city or org.state or org.country %}
+            <div class="card__meta">
+                <span class="card__locality">
+                    <span class="screen-reader-text">location: </span>
+                    <svg class="icon icon--location" aria-hidden="true" viewBox="0 0 20 20" focusable="false">
+                        <use href="{% static 'maps/dist/images/location.svg#location' %}" />
+                    </svg>
+                        {% if org.city %}{{ org.city }}, {% endif %}
+                        {% if org.state %}{{ org.state }}{% if org.country %},{% endif %} {% endif %}
+                        {% if org.country %}{{ org.country.name }}{% endif %}
+                </span>
+            </div>
+            {% endif %}
+            {% if org.working_languages %}
+            <div class="card__meta">
+                <span class="card__languages">
+                    <span class="screen-reader-text">working languages: </span>
+                    <svg class="icon icon--language" aria-hidden="true" viewBox="0 0 20 20" focusable="false">
+                        <use href="{% static 'maps/dist/images/language.svg#language' %}" />
+                    </svg>
+                    {% for language in org.languages %}{{ language }}{% endfor %}
+                </span>
+            </div>
+            {% endif %}
+            {% if org.categories %}
+            <div class="card__meta">
+                <span class="card__subtypes">
+                    <span class="screen-reader-text">{% if org.type == 'cooperative' %}cooperative{% else %}organization{% endif %} types: </span>
+                    <svg class="icon icon--cooperative" aria-hidden="true" viewBox="0 0 20 20" focusable="false">
+                        <use href="{% static 'maps/dist/images/cooperative.svg#cooperative' %}" />
+                    </svg>
+                    {% for type in org.categories.all %}
+                        {{ type }}{% if not forloop.last %}, {% endif %}
+                    {% endfor %}
+                </span>
+            </div>
+            {% endif %}
+            {% if org.sectors %}
+            <div class="card__meta">
+                <span class="card__subtypes">
+                    <span class="screen-reader-text">sectors: </span>
+                    <svg class="icon icon--sector" aria-hidden="true" viewBox="0 0 24 24" focusable="false">
+                        <use href="{% static 'maps/dist/images/sector.svg#sector' %}" />
+                    </svg>
+                    {% for sector in org.sectors.all %}
+                        {{ sector }}{% if not forloop.last %}, {% endif %}
+                    {% endfor %}
+                </span>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</li>

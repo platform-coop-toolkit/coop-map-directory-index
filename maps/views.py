@@ -141,11 +141,18 @@ def individual_detail(request, user_id):
     }
     return render(request, 'maps/individual_detail.html', {'individual': user})
 
+# My Profiles
+def my_profiles(request):
+    user = request.user
+    user_orgs = Organization.objects.filter(admin_email=user.email)
+    context = {
+        'user_orgs': user_orgs
+    }
+    return render(request, 'maps/my_profiles.html', context)
 
 # Static pages
 class PrivacyPolicyView(TemplateView):
     template_name = "maps/privacy_policy.html"
-
 
 class TermsOfServiceView(TemplateView):
     template_name = "maps/terms_of_service.html"
