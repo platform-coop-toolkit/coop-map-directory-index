@@ -1,18 +1,27 @@
 {% load static %}
 <li class="card__wrapper">
-    <div class="card">
+    <div class="card card--individual">
         <h3 class="card__title">
             <a class="card__link" href="/individuals/{{ user.id }}">{{ user.first_name }} {{ user.last_name }}</a>
         </h3>
-        <p class="card__meta card__roles">
+        <div class="card__meta card__roles">
             <span class="screen-reader-text">roles: </span>
-            <svg class="icon icon--member" aria-hidden="true" viewBox="0 0 20 20" focusable="false">
-                <use href="{% static 'maps/dist/images/member.svg#member' %}" />
-            </svg>
             {% for role in user.roles.all %}
-                {{ role }}{% if not forloop.last %}, {% endif %}
+            <p class="card__role">
+                {% if role == 'Coop Founder' %}
+                <svg class="icon icon--founder" aria-hidden="true" viewBox="0 0 20 20" focusable="false">
+                    <use href="{% static 'maps/dist/images/founder.svg#founder' %}" />
+                </svg>
+                {% endif %}
+                {% if role == 'Coop Member' %}
+                <svg class="icon icon--member" aria-hidden="true" viewBox="0 0 20 20" focusable="false">
+                    <use href="{% static 'maps/dist/images/member.svg#member' %}" />
+                </svg>
+                {% endif %}
+                {{ role }}
+            </p>
             {% endfor %}
-        </p>
+        </div>
         <div class="card__aside">
             {% if user.city or user.state or user.country %}
             <div class="card__meta">
@@ -31,8 +40,8 @@
             <div class="card__meta">
                 <span class="card__languages">
                     <span class="screen-reader-text">languages spoken: </span>
-                    <svg class="icon icon--info" aria-hidden="true" viewBox="0 0 20 20" focusable="false">
-                        <use href="{% static 'maps/dist/images/info.svg#info' %}" />
+                    <svg class="icon icon--language-small" aria-hidden="true" viewBox="0 0 20 20" focusable="false">
+                        <use href="{% static 'maps/dist/images/language-small.svg#language-small' %}" />
                     </svg>
                     {% for language in user.languages.all %}
                         {{ language }}{% if not forloop.last %}, {% endif %}
@@ -42,4 +51,5 @@
             {% endif %}
         </div>
     </div>
+    <div class="align-right"><button class="button button--borderless button--destructive remove-favorite" type="button"><svg class="icon icon--delete" focusable="false" aria-hidden="true" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path id="delete" d="m17 4h-3a3.14 3.14 0 0 0 -3.13-3h-1.73a3.14 3.14 0 0 0 -3.14 3h-3a1 1 0 0 0 0 2h.07l.93 12.08a1 1 0 0 0 1 .92h10a1 1 0 0 0 1-.92l.93-12.08h.07a1 1 0 0 0 0-2zm-7.86-1h1.72a1.12 1.12 0 0 1 1.14 1h-4a1.12 1.12 0 0 1 1.14-1zm4.93 14h-8.14l-.85-11h9.84z" fill="currentColor"></path></svg> Remove <span class="screen-reader-text">"The Evolution of Entrepreneurial Finance: A New&nbsp;Typology" from my favorites</span></button></div>
 </li>

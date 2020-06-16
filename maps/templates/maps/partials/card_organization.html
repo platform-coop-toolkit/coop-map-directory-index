@@ -1,6 +1,6 @@
 {% load static %}
 <li class="card__wrapper">
-    <div class="card">
+    <div class="card card--organization">
         <header>
             <h3 class="card__title">
                 <a class="card__link" href="/organizations/{{ org.id }}">{{ org.name }}</a>
@@ -31,8 +31,8 @@
             <div class="card__meta">
                 <span class="card__languages">
                     <span class="screen-reader-text">working languages: </span>
-                    <svg class="icon icon--language" aria-hidden="true" viewBox="0 0 20 20" focusable="false">
-                        <use href="{% static 'maps/dist/images/language.svg#language' %}" />
+                    <svg class="icon icon--language-small" aria-hidden="true" viewBox="0 0 20 20" focusable="false">
+                        <use href="{% static 'maps/dist/images/language-small.svg#language-small' %}" />
                     </svg>
                     {% for language in org.languages %}{{ language }}{% endfor %}
                 </span>
@@ -42,8 +42,8 @@
             <div class="card__meta">
                 <span class="card__subtypes">
                     <span class="screen-reader-text">{% if org.type == 'cooperative' %}cooperative{% else %}organization{% endif %} types: </span>
-                    <svg class="icon icon--cooperative" aria-hidden="true" viewBox="0 0 20 20" focusable="false">
-                        <use href="{% static 'maps/dist/images/cooperative.svg#cooperative' %}" />
+                    <svg class="icon icon--coop-type" aria-hidden="true" viewBox="0 0 20 20" focusable="false">
+                        <use href="{% static 'maps/dist/images/coop-type.svg#coop-type' %}" />
                     </svg>
                     {% for type in org.categories.all %}
                         {{ type }}{% if not forloop.last %}, {% endif %}

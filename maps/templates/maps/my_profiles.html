@@ -2,7 +2,7 @@
 {% load static %}
 {% load maps_extras %}
 {% block title %}{{ 'My profiles' |titlify }}{% endblock %}
-{% block bodyclass %}page{% endblock %}
+{% block bodyclass %}my-profiles{% endblock %}
 {% block content %}
     <div class="page-header">
         <p><a class="link--breadcrumb" href="/">Home</a></p>
@@ -24,6 +24,7 @@
         {% include 'maps/partials/card_organization.html' %}
         {% endfor %}
     </ul>
+    <p><a href="{% url 'organization-profile' %}">Create another organizational profile</a></p>
     {% else %}
     <p>None created.</p>
     <p><a href="{% url 'organization-profile' %}">Create organizational profile</a></p>

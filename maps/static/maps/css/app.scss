@@ -26,3 +26,13 @@ select.multiple {
 .blocks {
   justify-content: center;
 }
+
+.card--organization .card__type,
+.card--individual .card__roles {
+  color: var(--dark-mint-500);
+  font-weight: $font-weight-bold;
+}
+
+.card__role + .card__role {
+  margin-top: rem(9);
+}
