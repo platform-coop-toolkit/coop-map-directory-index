@@ -38,6 +38,7 @@ class MyUserManager(UserManager):
 
 class Role(models.Model):
     name = models.CharField(blank=False, max_length=255, unique=True)
+    icon = models.CharField(blank=True, max_length=32)
     description = models.CharField(blank=True, default='', max_length=255)
     order = models.IntegerField()
     created_at = models.DateTimeField(auto_now_add=True)
@@ -56,7 +57,7 @@ class SocialNetwork(models.Model):
     url = models.URLField(blank=False, max_length=255)
     format = models.CharField(blank=False, max_length=8, choices=[('handle', 'handle'), ('url', 'url')])
     base_url = models.URLField(blank=True, max_length=255)
-    font_awesome = models.CharField(blank=True, max_length=32)
+    icon = models.CharField(blank=True, max_length=32)
     hint = models.CharField(blank=False, max_length=64)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

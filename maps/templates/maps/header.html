@@ -5,8 +5,8 @@
     <div class="container">
 
       <a class="link link--brand" aria-current="page" href="{% url 'index' %}">
-        <svg class="icon icon--pcc icon--lg" viewBox="0 0 32 32" aria-hidden="" focusable="">
-            <use href="{% static 'maps/dist/images/pcc.svg#pcc' %}" />
+        <svg class="icon icon--directory icon--lg" viewBox="0 0 32 32" aria-hidden="" focusable="">
+            <use href="{% static 'maps/dist/images/directory.svg#directory' %}" />
         </svg>
         <span class="brand__title screen-reader-text">Platform Cooperativism Consortium</span></a>
 
@@ -64,47 +64,20 @@
 
           <ul class="menu">
             {% if user.is_authenticated %}
-            <li class="menu__submenu-wrapper">
-                <a class="menu__item" href="#">My favorites</a>
-            </li>
-
-            <li class="menu__submenu-wrapper">
-                <a class="menu__item" href="#">My profiles</a>
-                <ul class="menu__submenu">
-                    <li>
-                      <p><strong>Personal</strong></p>
-                      {% if not user.has_profile %}
-                      <p>You do not have a profile in the directory</p>
-                      <a class="menu__item" href="{% url 'individual-profile' %}">Create personal profile</a>
-                      {% else %}
-                      <a class="menu__item" href="{% url 'individual-detail' user.id %}">{{ user.first_name }} {{ user.last_name }}</a>
-                      {% endif %}
-                      <hr class="is-style-hairline has-blue-500-background-color" />
-                    </li>
-
-                    <li>
-                      <p><strong>Organisations</strong></p>
-                      <p>You have not created any organizational profiles</p>
-                      <a class="menu__item" href="#"  class="menu__item">Create organizational profile</a>
-                    </li>
-                </ul>
-            </li>
+            <li class="menu-item "><a href="{% url 'my-profiles' %}" class="menu__item">My profiles</a></li>
             {% endif %}
-
-            <li class="menu-item menu-item-type-post_type menu-item-object-page"><a
-                href="/about/" class="menu__item">About</a></li>
-
+            <li class="menu-item"><a href="{% url 'about' %}" class="menu__item">About</a></li>
             {% if user.is_authenticated %}
             <li class="menu__submenu-wrapper">
                 <a class="menu__item" href="#">Account</a>
                 <ul class="menu__submenu">
-                  <li class="menu-item menu-item-type-post_type menu-item-object-page"><a
+                  <li class="menu-item"><a
                       href="/accounts/logout/" class="menu__item">Log out</a>
                   </li>
                 </ul>
             {% else %}
 
-            <li class="menu-item menu-item-type-post_type menu-item-object-page"><a
+            <li class="menu-item"><a
                 href="/accounts/login/" class="menu__item">Login / Sign up</a>
             </li>
             {% endif %}
