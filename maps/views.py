@@ -1,6 +1,7 @@
 from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib import messages
 from django.conf import settings
 from django.http import HttpResponse, HttpResponseRedirect
 from django.urls import reverse_lazy
@@ -145,6 +146,11 @@ def individual_detail(request, user_id):
 class OrganizationDelete(DeleteView):
     model = Organization
     success_url = reverse_lazy('my-profiles')
+    success_message = "You have successfully deleted the organizational profile for %(name)s."
+    def delete(self, request, *args, **kwargs):
+        obj = self.get_object()
+        messages.success(self.request, self.success_message % obj.__dict__)
+        return super(OrganizationDelete, self).delete(request, *args, **kwargs)
 
 # My Profiles
 @login_required
@@ -156,6 +162,7 @@ def my_profiles(request):
         form = IndividualProfileDeleteForm(request.POST, instance=user)
         if form.is_valid():
             form.save()
+            messages.success(request, 'You have successfully deleted your personal profile.')
             return HttpResponseRedirect('/my-profiles/')
     else:
         form = IndividualProfileDeleteForm(instance=user, initial={'has_profile': False})

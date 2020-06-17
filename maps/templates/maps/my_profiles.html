@@ -8,6 +8,11 @@
         <p><a class="link--breadcrumb" href="/">Home</a></p>
         <h1>My profiles</h1>
     </div>
+    {% if messages %}
+        {% for message in messages %}
+        {% include 'maps/partials/notification.html' %}
+        {% endfor %}
+    {% endif %}
     <h2>Personal profile</h2>
     {% if user.has_profile %}
     <ul class="cards">

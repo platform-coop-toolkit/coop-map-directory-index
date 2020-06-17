@@ -38,7 +38,7 @@
                 </span>
             </div>
             {% endif %}
-            {% if org.categories %}
+            {% if org.categories.all %}
             <div class="card__meta">
                 <span class="card__subtypes">
                     <span class="screen-reader-text">{% if org.type == 'cooperative' %}cooperative{% else %}organization{% endif %} types: </span>
@@ -51,7 +51,7 @@
                 </span>
             </div>
             {% endif %}
-            {% if org.sectors %}
+            {% if org.sectors.all %}
             <div class="card__meta">
                 <span class="card__subtypes">
                     <span class="screen-reader-text">sectors: </span>

@@ -5,6 +5,8 @@ import '@fortawesome/fontawesome-free/js/all.js';
 const menu = document.querySelector('.menu');
 const menuToggle = document.querySelector('.menu-toggle');
 
+new Pinecone.Notification();
+
 if (menu && menuToggle) {
   new Pinecone.Menu(menu, menuToggle);
 }
