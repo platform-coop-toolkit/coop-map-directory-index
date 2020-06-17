@@ -25,7 +25,7 @@ class Type(models.Model):
 
 class Category(models.Model):
     name = models.CharField(blank=False, max_length=255, unique=True)
-    category_type = models.ForeignKey(Type, blank=True, null=True, on_delete=models.CASCADE)
+    type = models.ForeignKey(Type, blank=True, null=True, on_delete=models.CASCADE)
     description = models.CharField(blank=True, default='', max_length=255)
     order = models.IntegerField()
     created_at = models.DateTimeField(auto_now_add=True)
