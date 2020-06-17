@@ -34,7 +34,7 @@ if (searchToggle) {
   const btn = form.querySelector('[type="submit"]');
   new Pinecone.Dialog(btn, {
     title: 'Delete profile?',
-    question: 'Are you sure you want to delete your organization&rsquo;s profile?',
+    question: 'Are you sure you want to delete this profile? All your information will be lost.',
     confirm: 'Yes, delete',
     dismiss: 'No, don&rsquo;t delete',
     callback: function callback() {
