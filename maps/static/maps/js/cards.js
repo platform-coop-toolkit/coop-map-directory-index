@@ -25,9 +25,6 @@ export const generateCards = (map, layers) => {
 
     [...document.getElementsByTagName('article')].forEach(function (card) {
       new Pinecone.Card( card );
-      // card.addEventListener('click', function () {
-      //   window.location = `/organizations/${articl e.id}`;
-      // });
     });
   }
 };
