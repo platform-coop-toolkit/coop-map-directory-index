@@ -19,6 +19,11 @@ class BaseModelForm(forms.ModelForm):
         kwargs.setdefault('label_suffix', '')  # globally override the Django >=1.6 default of ':'
         super(BaseModelForm, self).__init__(*args, **kwargs)
 
+class IndividualProfileDeleteForm(BaseModelForm):
+    class Meta:
+        model = get_user_model()
+        fields = ['has_profile']
+        widgets = {'has_profile': HiddenInput}
 
 class RolesForm(BaseForm):
     roles = forms.ModelMultipleChoiceField(
@@ -26,7 +31,6 @@ class RolesForm(BaseForm):
         label=safe('How would you describe yourself?<br /><div class="space"></div><small>Choose all that apply</small>'),
         widget=CheckboxSelectMultiple(attrs={'class': 'checkbox'})
     )
-
 
 class BasicInfoForm(BaseModelForm):
     member_of = forms.ModelChoiceField(

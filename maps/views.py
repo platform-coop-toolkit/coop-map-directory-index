@@ -1,16 +1,19 @@
 from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib import messages
 from django.conf import settings
 from django.http import HttpResponse, HttpResponseRedirect
+from django.urls import reverse_lazy
 from django.template import loader
 from django.views.generic import TemplateView
+from django.views.generic.edit import DeleteView
 from django.shortcuts import get_object_or_404, render, redirect
 from django.forms import inlineformset_factory
 from accounts.models import UserSocialNetwork
 from mdi.models import Organization, SocialNetwork
 from formtools.wizard.views import SessionWizardView
-from .forms import RolesForm, BasicInfoForm, DetailedInfoForm, ContactInfoForm, UserSocialNetworkFormSet
+from .forms import IndividualProfileDeleteForm, RolesForm, BasicInfoForm, DetailedInfoForm, ContactInfoForm, UserSocialNetworkFormSet
 from dal import autocomplete
 
 
@@ -118,7 +121,6 @@ class OrganizationAutocomplete(autocomplete.Select2QuerySetView):
 
         return qs
 
-
 def index(request):
     template = loader.get_template('maps/index.html')
     context = {
@@ -141,11 +143,41 @@ def individual_detail(request, user_id):
     }
     return render(request, 'maps/individual_detail.html', {'individual': user})
 
+class OrganizationDelete(DeleteView):
+    model = Organization
+    success_url = reverse_lazy('my-profiles')
+    success_message = "You have successfully deleted the organizational profile for %(name)s."
+    def delete(self, request, *args, **kwargs):
+        obj = self.get_object()
+        messages.success(self.request, self.success_message % obj.__dict__)
+        return super(OrganizationDelete, self).delete(request, *args, **kwargs)
+
+# My Profiles
+@login_required
+def my_profiles(request):
+    user = request.user
+    user_orgs = Organization.objects.filter(admin_email=user.email)
+
+    if request.method == 'POST':
+        form = IndividualProfileDeleteForm(request.POST, instance=user)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'You have successfully deleted your personal profile.')
+            return HttpResponseRedirect('/my-profiles/')
+    else:
+        form = IndividualProfileDeleteForm(instance=user, initial={'has_profile': False})
+
+    context = {
+        'user_orgs': user_orgs,
+        'form': form
+    }
+
+    return render(request, 'maps/my_profiles.html', context)
+
 
 # Static pages
 class PrivacyPolicyView(TemplateView):
     template_name = "maps/privacy_policy.html"
-
 
 class TermsOfServiceView(TemplateView):
     template_name = "maps/terms_of_service.html"
