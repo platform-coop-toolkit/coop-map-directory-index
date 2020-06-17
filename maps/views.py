@@ -12,7 +12,7 @@ from django.forms import inlineformset_factory
 from accounts.models import UserSocialNetwork
 from mdi.models import Organization, SocialNetwork
 from formtools.wizard.views import SessionWizardView
-from .forms import RolesForm, BasicInfoForm, DetailedInfoForm, ContactInfoForm, UserSocialNetworkFormSet
+from .forms import IndividualProfileDeleteForm, RolesForm, BasicInfoForm, DetailedInfoForm, ContactInfoForm, UserSocialNetworkFormSet
 from dal import autocomplete
 
 
@@ -151,9 +151,20 @@ class OrganizationDelete(DeleteView):
 def my_profiles(request):
     user = request.user
     user_orgs = Organization.objects.filter(admin_email=user.email)
+
+    if request.method == 'POST':
+        form = IndividualProfileDeleteForm(request.POST, instance=user)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect('/my-profiles/')
+    else:
+        form = IndividualProfileDeleteForm(instance=user, initial={'has_profile': False})
+
     context = {
-        'user_orgs': user_orgs
+        'user_orgs': user_orgs,
+        'form': form
     }
+
     return render(request, 'maps/my_profiles.html', context)
 
 

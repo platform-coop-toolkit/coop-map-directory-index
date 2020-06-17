@@ -41,7 +41,9 @@ if (searchToggle) {
   });
 });
 
-[...document.querySelectorAll('.delete-individual')].forEach((form) => {
+const deleteIndividual = document.querySelector('.delete-individual');
+if (deleteIndividual) {
+  const form = deleteIndividual;
   form.addEventListener('submit', (event) => {
     event.preventDefault();
   });
@@ -55,7 +57,7 @@ if (searchToggle) {
       form.submit();
     }
   });
-});
+}
 
 const mapContainer = document.getElementById('map');
 
