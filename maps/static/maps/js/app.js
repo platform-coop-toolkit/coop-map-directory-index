@@ -25,6 +25,38 @@ if (searchToggle) {
   new Pinecone.Card( card );
 });
 
+[...document.querySelectorAll('.delete-organization')].forEach((form) => {
+  form.addEventListener('submit', (event) => {
+    event.preventDefault();
+  });
+  const btn = form.querySelector('[type="submit"]');
+  new Pinecone.Dialog(btn, {
+    title: 'Delete profile?',
+    question: 'Are you sure you want to delete your organization&rsquo;s profile?',
+    confirm: 'Yes, delete',
+    dismiss: 'No, don&rsquo;t delete',
+    callback: function callback() {
+      form.submit();
+    }
+  });
+});
+
+[...document.querySelectorAll('.delete-individual')].forEach((form) => {
+  form.addEventListener('submit', (event) => {
+    event.preventDefault();
+  });
+  const btn = form.querySelector('[type="submit"]');
+  new Pinecone.Dialog(btn, {
+    title: 'Delete profile?',
+    question: 'Are you sure you want to delete your profile?',
+    confirm: 'Yes, delete',
+    dismiss: 'No, don&rsquo;t delete',
+    callback: function callback() {
+      form.submit();
+    }
+  });
+});
+
 const mapContainer = document.getElementById('map');
 
 if (mapContainer) {
