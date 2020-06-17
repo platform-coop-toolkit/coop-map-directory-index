@@ -28,7 +28,11 @@ class BaseModelForm(forms.ModelForm):
 
         super(BaseModelForm, self).__init__(*args, **kwargs)
 
-# Individual forms.
+class IndividualProfileDeleteForm(BaseModelForm):
+    class Meta:
+        model = get_user_model()
+        fields = ['has_profile']
+        widgets = {'has_profile': HiddenInput}
 
 class IndividualBasicInfoForm(BaseModelForm):
     first_name = CharField(
