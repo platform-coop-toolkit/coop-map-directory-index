@@ -85,9 +85,13 @@
         <ul>
         {% for sn in organization.organizationsocialnetwork_set.all %}
             {% if sn.socialnetwork.format == 'handle' %}
-            <li class="no-bullet"><i class="fab fa-{{ sn.socialnetwork.font_awesome }}"></i><span class="screen-reader-text">{{ sn.socialnetwork.name }}</span> <a rel="external"href="{{ sn.socialnetwork.base_url }}{{ sn.identifier|cut:'@' }}">{{ sn.identifier }}</a></li>
+            <li class="no-bullet"><svg class="icon icon--{{ sn.socialnetwork.icon }}" aria-hidden="true" viewBox="0 0 20 20" focusable="false">
+                <use href="{% static 'maps/dist/images/'|add:sn.socialnetwork.icon|add:'.svg#'|add:sn.socialnetwork.icon %}"/>
+            </svg><span class="screen-reader-text">{{ sn.socialnetwork.name }}</span> <a rel="external"href="{{ sn.socialnetwork.base_url }}{{ sn.identifier|cut:'@' }}">{{ sn.identifier }}</a></li>
             {% else %} {# sn.socialnetwork.format == 'url' #}
-            <li class="no-bullet"><i class="fab fa-{{ sn.socialnetwork.font_awesome }}"></i><span class="screen-reader-text">{{ sn.socialnetwork.name }}</span> <a rel="external"href="{{ sn.identifier }}">{{ sn.identifier }}</a></li>
+            <li class="no-bullet"><svg class="icon icon--{{ sn.socialnetwork.icon }}" aria-hidden="true" viewBox="0 0 20 20" focusable="false">
+                <use href="{% static 'maps/dist/images/'|add:sn.socialnetwork.icon|add:'.svg#'|add:sn.socialnetwork.icon %}"/>
+            </svg><span class="screen-reader-text">{{ sn.socialnetwork.name }}</span> <a rel="external"href="{{ sn.identifier }}">{{ sn.identifier }}</a></li>
             {% endif %}
         {% endfor %}
         </ul>
