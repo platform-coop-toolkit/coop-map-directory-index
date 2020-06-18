@@ -3,7 +3,6 @@ from django.contrib.auth import get_user_model
 from django import forms
 from django.forms import CharField, CheckboxSelectMultiple, IntegerField, ModelChoiceField, RadioSelect, SelectMultiple, HiddenInput, formset_factory
 from django.utils.translation import gettext_lazy as _
-from dal import autocomplete
 from django.template.defaultfilters import safe
 from django_countries.fields import CountryField
 from accounts.models import Role, SocialNetwork, UserSocialNetwork

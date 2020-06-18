@@ -14,7 +14,6 @@ from accounts.models import UserSocialNetwork
 from mdi.models import Organization, SocialNetwork, OrganizationSocialNetwork, Relationship, EntitiesEntities
 from formtools.wizard.views import SessionWizardView
 from .forms import IndividualProfileDeleteForm, IndividualRolesForm, IndividualBasicInfoForm, IndividualMoreAboutYouForm, IndividualDetailedInfoForm, IndividualContactInfoForm, IndividualSocialNetworkFormSet, OrganizationTypeForm, OrganizationBasicInfoForm, OrganizationContactInfoForm, OrganizationDetailedInfoForm, OrganizationScopeAndImpactForm, OrganizationSocialNetworkFormSet
-from dal import autocomplete
 
 
 # Inline Formset for SocialNetworks.
@@ -159,20 +158,6 @@ class IndividualProfileWizard(LoginRequiredMixin, SessionWizardView):
                 UserSocialNetwork.objects.create(user=user, socialnetwork=sn['socialnetwork'], identifier=sn['identifier'])
 
         return redirect('individual-detail', user_id=user.id)
-
-
-# Autocomplete views for profile creation.
-class OrganizationAutocomplete(autocomplete.Select2QuerySetView):
-    def get_queryset(self):
-        # if not self.request.user.is_authenticated():
-        #     return Organization.objects.none()
-
-        qs = Organization.objects.all()
-
-        if self.q:
-            qs = qs.filter(name__istartswith=self.q)
-
-        return qs
 
 class OrganizationProfileWizard(LoginRequiredMixin, SessionWizardView):
     def get_template_names(self):
