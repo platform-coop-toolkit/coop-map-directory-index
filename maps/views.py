@@ -77,8 +77,8 @@ def show_more_about_you_condition(wizard):
     return True
 
 def show_scope_and_impact_condition(wizard):
-    cleaned_data = wizard.get_cleaned_data_for_step('org_type') or {'org_type': False}
-    if (cleaned_data['org_type'] == '1'):
+    cleaned_data = wizard.get_cleaned_data_for_step('org_type') or {'type': False}
+    if (cleaned_data['type'] and cleaned_data['type'].name == 'Cooperative'):
         return True
     
     return False
@@ -182,9 +182,13 @@ class OrganizationProfileWizard(LoginRequiredMixin, SessionWizardView):
         context = super().get_context_data(form=form, **kwargs)
 
         if self.steps.current in ['basic_info', 'contact_info', 'detailed_info']:
-            org_type = self.get_cleaned_data_for_step('org_type')['org_type']
-            if org_type == '1':
+            type = self.get_cleaned_data_for_step('org_type')['type']
+            if type.name == 'Cooperative':
                 context.update({'is_coop': True})
+            elif type.name == 'Potential cooperative':
+                context.update({'is_potential_coop': True})
+            elif type.name == 'Shared platform':
+                context.update({'is_shared_platform': True})
         return context
     
     # Attempt to solve SocialNetwork problem on profile pages.
@@ -198,8 +202,10 @@ class OrganizationProfileWizard(LoginRequiredMixin, SessionWizardView):
                     'name': sn.name,
                     'hint' : sn.hint,
                 })
-            # print(initial)
-        return self.initial_dict.get('social_networks', initial)
+            return self.initial_dict.get('social_networks', initial)
+        if step in ['basic_info', 'contact_info', 'detailed_info']:
+            org_type_data = self.get_cleaned_data_for_step('org_type')
+            return self.initial_dict.get(step, {'type': org_type_data['type']})
 
     def done(self, form_list, form_dict, **kwargs):
         user = self.request.user
@@ -208,12 +214,12 @@ class OrganizationProfileWizard(LoginRequiredMixin, SessionWizardView):
         for k, v in form_dict.items():
             if k not in ['languages', 'categories', 'sectors', 'formset-social_networks']:
                 setattr(org, k, v)
+        setattr(org, 'type_id', form_dict['type'].id)
         org.save()
         org.languages.set(form_dict['languages'])
-        if form_dict['coop_categories']:
-            org.categories.set(form_dict['coop_categories'])
-        if form_dict['potential_coop_categories']:
-            org.categories.set(form_dict['potential_coop_categories'])
+        if form_dict['type'].name == 'Cooperative':
+            # We don't need to set these for non-coops at present.
+            org.categories.set(form_dict['categories'])
         org.sectors.set(form_dict['sectors'])
         for sn in form_dict['formset-social_networks']:
             if sn['identifier'] != '':

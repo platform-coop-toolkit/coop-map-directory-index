@@ -37,22 +37,22 @@ const scopeAndImpact = document.getElementById('scope-and-impact');
 if (scopeAndImpact) {
   const showHideFieldsForValue = (value, form) => {
     switch(value) {
-      case '0':
+      case 'Local':
         form.classList.add('show-city');
         form.classList.add('show-region');
         form.classList.add('show-country');
         break;
-      case '1':
+      case 'Regional':
         form.classList.remove('show-city');
         form.classList.add('show-region');
         form.classList.add('show-country');
         break;
-      case '2':
+      case 'National':
         form.classList.remove('show-city');
         form.classList.remove('show-region');
         form.classList.add('show-country');
         break;
-      case '3':
+      case 'International':
       case '':
       default:
         form.classList.remove('show-city');
@@ -145,6 +145,8 @@ if (basicInfo) {
       foundedMin.value = `${year.value}-01-01`;
       foundedMax.value = `${year.value}-12-31`;
     } else {
+      month.value = '';
+      day.value = '';
       founded.value = '';
       foundedMin.value = '';
       foundedMax.value = '';
@@ -152,7 +154,7 @@ if (basicInfo) {
   };
 
 
-  year.addEventListener('change', () => {
+  year.addEventListener('keyup', () => {
     updateFoundedDates();
     updateDisabledStatus();
     updateDaysField(year.value, month.value);

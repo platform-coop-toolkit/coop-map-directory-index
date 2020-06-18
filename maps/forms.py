@@ -7,7 +7,7 @@ from dal import autocomplete
 from django.template.defaultfilters import safe
 from django_countries.fields import CountryField
 from accounts.models import Role, SocialNetwork, UserSocialNetwork
-from mdi.models import Organization, Category, Language, OrganizationSocialNetwork, Stage
+from mdi.models import Organization, Category, Language, OrganizationSocialNetwork, Stage, Type
 
 class BaseForm(forms.Form):
     error_css_class = 'error'
@@ -177,14 +177,17 @@ class IndividualSocialNetworkForm(BaseModelForm):
 IndividualSocialNetworkFormSet = formset_factory(IndividualSocialNetworkForm, extra=0)
 
 class OrganizationTypeForm(BaseForm):
-    org_type = forms.ChoiceField(
-        choices=[
-            ('1', 'Cooperative'),
-            ('2', 'Business Looking to Convert to a Co-operative')
-        ],
-        initial='1',
+    type = forms.ModelChoiceField(
+        Type.objects.filter(name__in=[
+            'Cooperative',
+            'Potential cooperative',
+            'Shared platform'
+            # 'Supporting organization' TODO: Add flow for these.
+        ]),
+        empty_label=None,
         label=_('How would you describe your organization?'),
         required=True,
+        initial=0,
         widget=RadioSelect(attrs={'class': 'input-group radio'})
     )
 class OrganizationBasicInfoForm(BaseModelForm):
@@ -272,7 +275,6 @@ class OrganizationBasicInfoForm(BaseModelForm):
             'url'
         ]
         labels = {
-            'name': _('Name of cooperative'),
             'url': _('Website address')
         }
         help_texts = {
@@ -283,6 +285,14 @@ class OrganizationBasicInfoForm(BaseModelForm):
             'founded_min_date': HiddenInput(),
             'founded_max_date': HiddenInput()
         }
+    
+    def __init__(self, *args,**kwargs):
+        self.type = kwargs['initial']['type']
+        super(OrganizationBasicInfoForm, self).__init__(*args, **kwargs)
+        if self.type.name == 'Cooperative':
+            self.fields['name'].label = _('Name of cooperative')
+        else:
+            self.fields['year_founded'].required = False
 
 class OrganizationContactInfoForm(BaseModelForm):
     city = CharField(
@@ -312,27 +322,12 @@ class OrganizationContactInfoForm(BaseModelForm):
         }
 
 class OrganizationDetailedInfoForm(BaseModelForm):
-    coop_categories = ModelChoiceField(
-        Category.objects.filter(category_group='cooperatives'),
-        empty_label=None,
+    categories = forms.ModelMultipleChoiceField(
+        queryset=Category.objects.all(),
+        # empty_label=None,
         required=False,
         label=_('Co-op type'),
-        widget=CheckboxSelectMultiple(attrs={'class': 'input-group checkbox'})
-    )
-
-    potential_coop_categories = ModelChoiceField(
-        Category.objects.filter(category_group='potential-cooperatives'),
-        empty_label=None,
-        required=False,
-        label=_('Organization type'),
-        widget=CheckboxSelectMultiple(attrs={'class': 'input-group checkbox'})
-    )
-
-    other_org_categories = ModelChoiceField(
-        Category.objects.filter(category_group='other-organizations'),
-        empty_label=None,
-        required=False,
-        label=_('Organization type'),
+        help_text=_('Choose all that apply.'),
         widget=CheckboxSelectMultiple(attrs={'class': 'input-group checkbox'})
     )
 
@@ -367,21 +362,28 @@ class OrganizationDetailedInfoForm(BaseModelForm):
         required=False,
         widget=RadioSelect(attrs={'class': 'input-group radio'})
     )
+
+    def __init__(self, *args,**kwargs):
+        self.type = kwargs['initial']['type']
+        super(OrganizationDetailedInfoForm, self).__init__(*args, **kwargs)
+        self.fields['categories'].queryset = Category.objects.filter(type = self.type)
+        if self.type.name == 'Cooperative':
+            self.fields['num_members'].required = True
+            self.fields['categories'].required = True
+        else:
+            self.fields['num_workers'].required = False
+
+
     class Meta:
         model = Organization
         fields = [
             'sectors',
-            'coop_categories',
-            'potential_coop_categories',
-            'other_org_categories',
+            'categories',
             'num_workers',
             'num_members',
             'stage',
             'worker_distribution'
         ]
-        labels = {
-            'sectors': _('Co-op sector'),
-        }
         help_texts = {
             'sectors': _('Hold down the <kbd>ctrl</kbd> (Windows) or <kbd>command</kbd> (macOS) key to select multiple options.'),
       }

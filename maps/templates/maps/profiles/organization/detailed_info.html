@@ -9,14 +9,14 @@
     <form class="form" action="" method="post" novalidate>
         <div class="page-header">
             {% include 'maps/profiles/back.html' %}
-            <h1>Create a profile: {% if is_coop %}cooperative{% else %}organization{% endif %}</h1>
+            <h1>{% trans 'Create a profile: organization' %}</h1>
             {% include 'maps/profiles/steps.html' %}
         </div>
         <div class="form__content">
         {% if form.errors  %}
         {% include 'maps/profiles/errors.html' %}
         {% endif %}
-        <h2>Detailed information</h2>
+        <h2>{% trans 'Detailed information' %}</h2>
         {{ wizard.management_form }}
         {% csrf_token %}
         {% if wizard.form.forms %}
@@ -25,29 +25,17 @@
                 {{ form }}
             {% endfor %}
         {% else %}
-            <label for="{{ wizard.form.sectors.id_for_label }}">
-                {% if is_coop %}
-                    {{ wizard.form.sectors.label }}
-                {% else %}
-                    {% trans 'Business sector' %}
-                {% endif %}
-            </label>
+            {{ wizard.form.sectors.label_tag }}
             {{ wizard.form.sectors }}
             {% if wizard.form.sectors.help_text %}
             <span class="helptext">{{ wizard.form.sectors.help_text | safe }}</span>
             {% endif %}
             {% if is_coop %}
-                {{ wizard.form.coop_categories.label_tag }}
-                {{ wizard.form.coop_categories }}
-                {% if wizard.form.coop_categories.help_text %}
-                <span class="helptext">{{ wizard.form.coop_categories.help_text | safe }}</span>
-                {% endif %}
-            {% else %}
-                {{ wizard.form.potential_coop_categories.label_tag }}
-                {{ wizard.form.potential_coop_categories }}
-                {% if wizard.form.potential_coop_categories.help_text %}
-                <span class="helptext">{{ wizard.form.potential_coop_categories.help_text | safe }}</span>
-                {% endif %}
+            {{ wizard.form.categories.label_tag }}
+            {{ wizard.form.categories }}
+            {% if wizard.form.categories.help_text %}
+            <span class="helptext">{{ wizard.form.categories.help_text | safe }}</span>
+            {% endif %}
             {% endif %}
             {{ wizard.form.num_workers.label_tag }}
             {{ wizard.form.num_workers }}
