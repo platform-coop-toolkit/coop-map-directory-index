@@ -2,7 +2,10 @@ let mix = require('laravel-mix');
 
 mix.setPublicPath('./maps/static/maps/dist');
 
-mix.browserSync('localhost:8000');
+mix.browserSync({
+    proxy: 'localhost:8000',
+    open: false
+});
 
 mix.sass('maps/static/maps/css/app.scss', 'maps/static/maps/dist/css/', {
     sassOptions: {
