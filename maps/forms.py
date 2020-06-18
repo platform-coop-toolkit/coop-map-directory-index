@@ -76,7 +76,6 @@ class IndividualContactInfoForm(BaseModelForm):
     class Meta:
         model = get_user_model()
         fields = [
-            'email',
             'phone',
             'address',
             'city',
@@ -85,12 +84,8 @@ class IndividualContactInfoForm(BaseModelForm):
             'postal_code'
         ]
         labels = {
-            'email': _('Email'),
             'address': _('Street address'),
             'postal_code': _('ZIP or postal code')
-        }
-        widgets = {
-
         }
 
 class IndividualRolesForm(BaseForm):
