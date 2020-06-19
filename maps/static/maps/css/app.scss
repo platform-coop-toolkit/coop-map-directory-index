@@ -184,3 +184,7 @@ select.multiple {
     font-weight: $font-weight-normal;
   }
 }
+
+.stack > * + .h4 {
+  margin-top: 3rem;
+}
