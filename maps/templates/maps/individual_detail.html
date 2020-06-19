@@ -8,102 +8,106 @@
     <div class="page-header">
         <p><a class="link--breadcrumb" href="{% url 'index' %}">{% trans "Home" %}</a></p>
         <h1>{{ user.first_name }} {{ user.last_name }}</h1>
-    </div>
-
-    <div class="spacer"></div>
-    <span>
-        <span class="screen-reader-text">location </span>
-        <svg class="icon icon--location" aria-hidden="true" viewBox="0 0 20 20" focusable="false">
-            <use href="{% static 'maps/dist/images/location.svg#location' %}"/>
-        </svg>
-        {% if user.city or user.state or user.country %}
-            {% if user.city %}{{ user.city }}, {% endif %}
-            {% if user.state %}{{ user.state }} {% endif %}
-            {% if user.country %}{{ user.country }}<br />{% endif %}
-        {% endif %}
-    </span>
-
-    <span>
-        <span class="screen-reader-text">languages </span>
-        <svg class="icon icon--location" aria-hidden="true" viewBox="0 0 32 32" focusable="false">
-            <use href="{% static 'maps/dist/images/language.svg#language' %}"/>
-        </svg>
-        {% if user.languages.count > 0 %}
-            {% for l in user.languages.all %}
-            {{ l.iso_name }}
-            {% endfor %}
-        {% endif %}
-    </span>
-
-    <div>
-        <span class="screen-reader-text">roles </span>
-        {% if user.roles.count > 0 %}
-            {% for r in user.roles.all %}
-        <span class="badge">Role: {{ r.name }}</span><br />
-            {% endfor %}
-        {% endif %}
-    </div>
-
-    <h2>About me</h2>
-    {% if user.bio %}
-    <p>{{ user.bio }}</p>
-    {% else %}
-    <p>{% lorem %}</p>
-    {% endif %}
-
-
-    <h2>Challenges</h2>
-    {% if user.challenges.count > 0 %}
-        {% for c in user.challenges.all %}
-    <span class="badge">Challenge: {{ c.name }}</span><br />
-        {% endfor %}
-    {% else %}
-    <p>{% lorem %}</p>
-    {% endif %}
-
-
-    <h2>Services provided</h2>
-    {% if user.services.count > 0 %}
-        {% for s in user.services.all %}
-    <span class="badge">Service: {{ s.name }}</span><br />
-        {% endfor %}
-    {% else %}
-    <p>{% lorem %}</p>
-    {% endif %}
-
-
-    <h2>Contact</h2>
-    {% if user.address or user.city or user.state or user.country or user.postal_code %}
-        {% if user.address %}{{ user.address }}<br />{% endif %}
-        {% if user.city %}{{ user.city }}, {% endif %}
-        {% if user.state %}{{ user.state }} {% endif %}
-        {% if user.postal_code %}{{ user.postal_code }} {% endif %}
-        {% if user.country %}{{ user.country }}<br />{% endif %}
-    {% endif %}
-    {% if user.phone %}T: {{ user.phone }}<br />{% endif %}
-    E: {{ user.email }}<br />
-
-    {% if user.socialnetworks %}
-    <h2>Follow</h2>
-        <ul>
-        {% for sn in user.usersocialnetwork_set.all %}
-            {% if sn.socialnetwork.format == 'handle' %}
-                <li class="no-bullet"><svg class="icon icon--{{ sn.socialnetwork.icon }}" aria-hidden="true" viewBox="0 0 20 20" focusable="false">
-                <use href="{% static 'maps/dist/images/'|add:sn.socialnetwork.icon|add:'.svg#'|add:sn.socialnetwork.icon %}"/>
-            </svg><span class="screen-reader-text">{{ sn.socialnetwork.name }}</span> <a rel="external" href="{{ sn.socialnetwork.base_url }}{{ sn.identifier|cut:'@' }}">{{ sn.identifier }}</a></li>
-            {% else %} {# sn.socialnetwork.format == 'url' #}
-                <li class="no-bullet"><svg class="icon icon--{{ sn.socialnetwork.icon }}" aria-hidden="true" viewBox="0 0 20 20" focusable="false">
-                <use href="{% static 'maps/dist/images/'|add:sn.socialnetwork.icon|add:'.svg#'|add:sn.socialnetwork.icon %}"/>
-            </svg><span class="screen-reader-text">{{ sn.socialnetwork.name }}</span> <a rel="external" href="{{ sn.identifier }}">{{ sn.identifier }}</a></li>
+        <div class="profile__meta">
+            <span class="screen-reader-text">{% trans 'location:' %} </span>
+            <svg class="icon icon--location" aria-hidden="true" viewBox="0 0 20 20" focusable="false">
+                <use href="{% static 'maps/dist/images/location.svg#location' %}"/>
+            </svg>
+            {% if user.city or user.state or user.country %}
+                {% if user.city %}{{ user.city }}, {% endif %}
+                {% if user.state %}{{ user.state }}, {% endif %}
+                {% if user.country %}{{ user.country.name }}{% endif %}
             {% endif %}
-        {% endfor %}
-        </ul>
-    {% endif %}
+        </div>
+        <div class="profile__meta">
+            <span class="screen-reader-text">{% trans 'languages:' %} </span>
+            <svg class="icon icon--language-small" aria-hidden="true" viewBox="0 0 20 20" focusable="false">
+                <use href="{% static 'maps/dist/images/language-small.svg#language-small' %}"/>
+            </svg>
+            {% if user.languages.count > 0 %}
+                {% for l in user.languages.all %}
+                {{ l.iso_name }}
+                {% endfor %}
+            {% endif %}
+        </div>
+    </div>
 
-    <div class="spacer"></div>
-    <small>
-        Last updated: {{ user.updated_at }}<br />
-        Date joined: {{ user.date_joined }}
-    </small>
+    <div class="tabs">
+        <div role="tablist" aria-labelledby="tabs-label">
+            <span class="screen-reader-text" id="tabs-label">{% trans 'tab group' %}</span>
+            <a class="tab" href="#overview" id="overview-btn" role="tab" aria-controls="overview" aria-selected="true">{% trans 'Overview' %}</a>
+            {% if user.related_organizations.count > 0 %}
+            <a class="tab" href="#coops" id="coops-btn" role="tab" aria-controls="coops" aria-selected="false">{% trans 'Co-ops' %}</a>
+            <a class="tab" href="#clients" id="clients-btn" role="tab" aria-controls="clients" aria-selected="false">{% trans 'Clients' %}</a>
+            {% endif %}
+        </div>
+        <div id="overview" role="tabpanel" aria-labelledby="overview-btn">
+            <div class="panel__sidebar">
+                <h2>{% trans 'At a glance' %}</h2>
+                {% if user.roles.count > 0 %}
+                <h3 class="h4">{% trans 'Roles' %}</h3>
+                <div class="profile__meta">
+                {% for r in user.roles.all %}
+                    <svg class="icon icon--{{ r.icon }}" aria-hidden="true" viewBox="0 0 20 20" focusable="false">
+                        <use href="{% static 'maps/dist/images/'|add:r.icon|add:'.svg#'|add:r.icon %}"/>
+                    </svg> {{ r.name }}{% if not forloop.last %}<br />{% endif %}
+                {% endfor %}
+                </div>
+                {% endif %}
+                {% if user.services.count > 0 %}
+                <h3 class="h4">{% trans 'Services provided' %}</h3>
+                <div class="profile__meta">
+                {% for s in user.services.all %}
+                {{ s.name }}{% if not forloop.last %}<br />{% endif %}
+                {% endfor %}
+                </div>
+                {% endif %}
+                {# Research affiliation #}
+                {# Field of research #}
+                {# Community building skills #}
+                {% if user.usersocialnetwork_set.all.count > 0 %}
+                <h2>{% trans 'Social media' %}</h2>
+                <ul>
+                {% for sn in user.usersocialnetwork_set.all %}
+                    {% if sn.socialnetwork.format == 'handle' %}
+                        <li class="no-bullet"><svg class="icon icon--{{ sn.socialnetwork.icon }}" aria-hidden="true" viewBox="0 0 20 20" focusable="false">
+                        <use href="{% static 'maps/dist/images/'|add:sn.socialnetwork.icon|add:'.svg#'|add:sn.socialnetwork.icon %}"/>
+                    </svg><span class="screen-reader-text">{{ sn.socialnetwork.name }}</span> <a rel="external" href="{{ sn.socialnetwork.base_url }}{{ sn.identifier|cut:'@' }}">{{ sn.identifier }}</a></li>
+                    {% else %} {# sn.socialnetwork.format == 'url' #}
+                        <li class="no-bullet"><svg class="icon icon--{{ sn.socialnetwork.icon }}" aria-hidden="true" viewBox="0 0 20 20" focusable="false">
+                        <use href="{% static 'maps/dist/images/'|add:sn.socialnetwork.icon|add:'.svg#'|add:sn.socialnetwork.icon %}"/>
+                    </svg><span class="screen-reader-text">{{ sn.socialnetwork.name }}</span> <a rel="external" href="{{ sn.identifier }}">{{ sn.identifier }}</a></li>
+                    {% endif %}
+                {% endfor %}
+                </ul>
+                {% endif %}
 
+            </div>
+            <div class="panel__content">
+                <h2>{% trans 'Bio' %}</h2>
+                {% if user.bio %}
+                <p>{{ user.bio }}</p>
+                {% else %}
+                <p>{% trans 'No bio provided.' %}</p>
+                {% endif %}
+                {% if user.related_organizations.count > 0 %}
+                <h2>{% trans 'Co-ops' %}</h2>
+                <h2>{% trans 'Clients' %}</h2>
+                {% endif %}
+                {% if user.projects %}
+                <h2>{% trans 'Projects' %}</h2>
+                {% endif %}
+                <p>
+                    <small>
+                        {% trans 'Last updated:' %} {{ user.updated_at }}<br />
+                        {% trans 'Date joined:' %} {{ user.date_joined }}
+                    </small>
+                </p>
+            </div>
+        </div>
+        <div id="coops" role="tabpanel" aria-labelledby="coops-btn">
+        </div>
+        <div id="clients" role="tabpanel" aria-labelledby="clients-btn">
+        </div>
+    </div>
 {% endblock %}

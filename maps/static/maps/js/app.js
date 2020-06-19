@@ -10,6 +10,13 @@ if (menu && menuToggle) {
   new Pinecone.Menu(menu, menuToggle);
 }
 
+const tabGroups = document.querySelectorAll( '.tabs' );
+if ( tabGroups ) {
+  Array.prototype.forEach.call( tabGroups, tabGroup => {
+    new Pinecone.Tabs( tabGroup );
+  } );
+}
+
 const icons = document.querySelectorAll( 'svg' );
 if (icons) {
   Array.prototype.forEach.call(icons, icon => {

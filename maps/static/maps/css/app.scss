@@ -188,3 +188,30 @@ select.multiple {
 .stack > * + .h4 {
   margin-top: 3rem;
 }
+
+.profile__meta {
+  font-size: 0.875rem;
+}
+
+h1 + .profile__meta {
+  margin-top: 1.5rem;
+}
+
+.profile__meta + .profile__meta {
+  margin-top: 0.75rem;
+}
+
+.profile__meta svg {
+  color: var(--grey-500);
+}
+
+@include breakpoint-up(lg) {
+  .panel__sidebar {
+    float: left;
+    width: 25%;
+  }
+
+  .panel__content {
+    width: 75%;
+  }
+}
