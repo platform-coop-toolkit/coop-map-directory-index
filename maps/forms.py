@@ -68,8 +68,9 @@ class IndividualContactInfoForm(BaseModelForm):
         label=_('City or town')
     )
     state = CharField(
-        required=True,
-        label=_('State or province')
+        required=False,
+        label=_('State or province'),
+        help_text=_('Please enter full state or province name rather than an abbreviated form.')
     )
     country = CountryField(blank=False).formfield()
     class Meta:
@@ -294,8 +295,9 @@ class OrganizationContactInfoForm(BaseModelForm):
         label=_('City or town')
     )
     state = CharField(
-        required=True,
-        label=_('State or province')
+        required=False,
+        label=_('State or province'),
+        help_text=_('Please enter full state or province name rather than an abbreviated form.')
     )
     country = CountryField(blank=False).formfield()
     class Meta:
