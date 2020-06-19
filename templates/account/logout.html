@@ -1,27 +1,24 @@
 {% extends "account/base.html" %}
 {% load i18n %}
-
+{% block bodyclass %}account{% endblock %}
 {% block title %}{% trans "Sign Out" %}{% endblock %}
 
 {% block content %}
 <div class="page-header">
-    <p><a class="link--inverse" href="{% url 'index' %}">Home</a></p>
-    <h1>{% trans "Sign Out" %}</h1>
+    <p><a class="link--breadcrumb" href="{% url 'index' %}">{% trans "Home" %}</a></p>
+    <h1>{% trans "Log out" %}</h1>
 </div>
 
-<p>{% trans 'Are you sure you want to sign out?' %}</p>
-
-<form method="post" action="{% url 'account_logout' %}">
+<div class="stack">
+    <p>{% trans 'Are you sure you want to log out?' %}</p>
+    <form method="post" action="{% url 'account_logout' %}">
     {% csrf_token %}
     {% if redirect_field_value %}
         <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}"/>
     {% endif %}
-
-    <div class="spacer"></div>
     <button id="button" type="submit" class="button">
-        <span class="button__label">{% trans "Sign Out" %}</span>
+        <span class="button__label">{% trans "Log out" %}</span>
     </button>
-
-</form>
-
+    </form>
+</div>
 {% endblock %}

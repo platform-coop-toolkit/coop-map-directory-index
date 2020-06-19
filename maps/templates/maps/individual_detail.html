@@ -2,18 +2,13 @@
 {% load static %}
 {% load i18n %}
 {% load maps_extras %}
-{% block title %}{{ user.last_name|add:', '|add:user.first_name|titlify }}{% endblock %}
-{% block bodyclass %}page{% endblock %}
+{% block title %}{{ user.first_name|add:' '|add:user.last_name|titlify }}{% endblock %}
+{% block bodyclass %}profile profile--individual{% endblock %}
 {% block content %}
     <div class="page-header">
         <p><a class="link--breadcrumb" href="{% url 'index' %}">{% trans "Home" %}</a></p>
-        <h1><span class="pc-ff--sans pc-fw--normal">Platform Co-op</span><br/> Directory</h1>
+        <h1>{{ user.first_name }} {{ user.last_name }}</h1>
     </div>
-    {% if user.url %}
-    <h1><a rel="external" href="{{ user.url }}">{{ user.last_name }}, {{ user.first_name }}</a></h1>
-    {% else %}
-    <h1>{{ user.last_name }}, {{ user.first_name }}</h1>
-    {% endif %}
 
     <div class="spacer"></div>
     <span>

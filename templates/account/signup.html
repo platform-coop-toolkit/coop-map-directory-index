@@ -1,23 +1,22 @@
 {% extends "account/base.html" %}
 {% load i18n %}
 
-{% block title %}{% trans "Signup" %}{% endblock %}
+{% block title %}{% trans "Sign up" %}{% endblock %}
 
 {% block content %}
 <div class="page-header">
-    <p><a class="link--inverse" href="{% url 'index' %}">Home</a></p>
-    <h1>{% trans "Sign Up" %}</h1>
+    <p><a class="link--breadcrumb" href="{% url 'index' %}">{% trans 'Home' %}</a></p>
+    <h1>{% trans "Sign up" %}</h1>
 </div>
-
+<div class="stack">
     <p>
-        Accounts on the Directory are intended for parties working in the Platform Co-operative ecosystem: actively
+        Accounts on the Directory are intended for parties working in the Platform Cooperative ecosystem: actively
         managing organization profiles, doing academic or grantmaking research, or providing services such as
         accounting, design, legal, or software development. Accounts are not required to browse the directory.
     </p>
+    <p>{% blocktrans %}Already have an account? <a href="{{ login_url }}">Sign in</a>.{% endblocktrans %}</p>
 
-<p>{% blocktrans %}Already have an account? Then just <a href="{{ login_url }}">sign in</a>{% endblocktrans %}</p>
-
-<form class="signup" id="signup_form" method="post" action="{% url 'account_signup' %}">
+<form class="signup form" id="signup_form" method="post" action="{% url 'account_signup' %}">
     {% csrf_token %}
     {{ form.as_p }}
     {% if redirect_field_value %}
@@ -25,8 +24,8 @@
     {% endif %}
     <div class="spacer"></div>
     <button id="button" type="submit" class="button">
-        <span class="button__label">{% trans "Sign Up" %}</span>
+        <span class="button__label">{% trans "Sign up" %}</span>
     </button>
 </form>
-
+</div>
 {% endblock %}

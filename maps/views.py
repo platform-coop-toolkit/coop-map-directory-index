@@ -174,6 +174,10 @@ def my_profiles(request):
 
     return render(request, 'maps/my_profiles.html', context)
 
+# Account Seetings
+@login_required
+def account_settings(request):
+    return render(request, 'maps/account_settings.html')
 
 # Static pages
 class PrivacyPolicyView(TemplateView):
