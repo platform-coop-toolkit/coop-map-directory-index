@@ -120,28 +120,43 @@
                     {% if founder_orgs %}
                         <h3>{% trans 'Founded:' %}</h3>
                         <ul class="cards">
-                        {% for org in founder_orgs %}
+                        {% for org in founder_orgs|slice:":4" %}
                             {% include 'maps/partials/card_organization.html' %}
                         {% endfor %}
                         </ul>
+                        {% if founder_orgs|length > 4 %}
+                        <p>
+                            <button class="button button--borderless" id="founded-by-coops-btn" type="button">{% blocktrans with name=individual.first_name|add:' '|add:individual.last_name %}Show more<span class="screen-reader-text"> co-ops of which {{ name }} is a founder</span>{% endblocktrans %}</button>
+                        </p>
+                        {% endif %}
                     {% endif %}
                     {% if member_orgs %}
                         <h3>{% trans 'Member of:' %}</h3>
                         <ul class="cards">
-                        {% for org in member_orgs %}
+                        {% for org in member_orgs|slice:":4" %}
                             {% include 'maps/partials/card_organization.html' %}
                         {% endfor %}
                         </ul>
+                        {% if member_orgs|length > 4 %}
+                        <p>
+                            <button class="button button--borderless" id="member-of-coops-btn" type="button">{% blocktrans with name=individual.first_name|add:' '|add:individual.last_name %}Show more<span class="screen-reader-text"> co-ops of which {{ name }} is a member</span>{% endblocktrans %}</button>
+                        </p>
+                        {% endif %}
                     {% endif %}
                 {% endif %}
                 {% if worked_with_orgs %}
                 <h2>{% trans 'Clients' %}</h2>
                 <p>{% blocktrans with name=individual.first_name|add:' '|add:individual.last_name %}{{ name }} has worked with:{% endblocktrans %}</p>
                 <ul class="cards">
-                {% for org in worked_with_orgs %}
+                {% for org in worked_with_orgs|slice:":4" %}
                     {% include 'maps/partials/card_organization.html' %}
                 {% endfor %}
                 </ul>
+                {% if worked_with_orgs|length > 4 %}
+                <p>
+                    <button class="button button--borderless" id="worked-with-btn" type="button">{% blocktrans with name=individual.first_name|add:' '|add:individual.last_name %}Show more<span class="screen-reader-text"> organizations {{ name }} has worked with</span>{% endblocktrans %}</button>
+                </p>
+                {% endif %}
                 {% endif %}
                 {% if individual.projects %}
                 <h2>{% trans 'Projects' %}</h2>

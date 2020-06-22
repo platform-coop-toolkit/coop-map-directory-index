@@ -34,6 +34,21 @@ if (dialogBtn) {
     });
 }
 
+const coopsBtn = document.getElementById('coops-btn');
+const clientsBtn = document.getElementById('clients-btn');
+
+if (coopsBtn || clientsBtn) {
+  document.addEventListener('click', (event) => {
+    if (event.target.id == 'founded-by-coops-btn' || event.target.id == 'member-of-coops-btn') {
+      coopsBtn.click();
+    }
+    
+    if (event.target.id == 'worked-with-btn') {
+      clientsBtn.click();
+    }
+  });
+}
+
 const searchToggle = document.querySelector('.search-toggle');
 if (searchToggle) {
   new Pinecone.SearchToggle(searchToggle, searchToggle.nextElementSibling);
