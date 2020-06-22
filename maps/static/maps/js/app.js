@@ -17,9 +17,159 @@ if (icons) {
   });
 }
 
+const dialogBtn = document.getElementById('invoke-dialog');
+if (dialogBtn) {
+    new Pinecone.Dialog(dialogBtn, {
+        title: 'Cancel',
+        question: 'Are you sure you want to exit the profile editor and delete all of your information?',
+        confirm: 'Yes, exit and delete all info',
+        dismiss: 'No, return to profile editor'
+    });
+}
+
 const searchToggle = document.querySelector('.search-toggle');
 if (searchToggle) {
   new Pinecone.SearchToggle(searchToggle, searchToggle.nextElementSibling);
+}
+
+const scopeAndImpact = document.getElementById('scope-and-impact');
+
+if (scopeAndImpact) {
+  const showHideFieldsForValue = (value, form) => {
+    switch(value) {
+      case 'Local':
+        form.classList.add('show-city');
+        form.classList.add('show-region');
+        form.classList.add('show-country');
+        break;
+      case 'Regional':
+        form.classList.remove('show-city');
+        form.classList.add('show-region');
+        form.classList.add('show-country');
+        break;
+      case 'National':
+        form.classList.remove('show-city');
+        form.classList.remove('show-region');
+        form.classList.add('show-country');
+        break;
+      case 'International':
+      case '':
+      default:
+        form.classList.remove('show-city');
+        form.classList.remove('show-region');
+        form.classList.remove('show-country');
+    }
+  };
+
+  const scopes = scopeAndImpact.querySelectorAll('[name="scope_and_impact-geo_scope"]');
+  const currentScope = scopeAndImpact.querySelector('[name="scope_and_impact-geo_scope"]:checked').value;
+  showHideFieldsForValue(currentScope, scopeAndImpact);
+  const scopeList = Array.from(scopes);
+  scopeList.forEach(scope => {
+    scope.addEventListener('change', (event) => {
+      showHideFieldsForValue(event.target.value, scopeAndImpact);
+    });
+  });
+}
+
+const basicInfo = document.getElementById('basic-info');
+
+if (basicInfo) {
+  const year = document.getElementById('id_basic_info-year_founded');
+  const month = document.getElementById('id_basic_info-month_founded');
+  const day = document.getElementById('id_basic_info-day_founded');
+  const founded = document.getElementById('id_basic_info-founded');
+  const foundedMin = document.getElementById('id_basic_info-founded_min_date');
+  const foundedMax = document.getElementById('id_basic_info-founded_max_date');
+
+  if (year.value == '') {
+    month.setAttribute('disabled', '');
+  }
+  if (month.value == '') {
+    day.setAttribute('disabled', '');
+  }
+
+  const daysInMonth = (y, m) => {
+    return new Date(y, m, 0).getDate();
+  };
+
+  const updateDaysField = (y, m) => {
+    if (m == '') {
+      day.value = '';
+    } else {
+      const days = daysInMonth(y, m);
+      const none = day.querySelector('option[value=""]');
+      const currentDay = day.value;
+      day.innerHTML = '';
+      day.appendChild(none);
+      for ( let i = 1; i < days + 1; i++ ) {
+				const option = document.createElement( 'option' );
+				const val = 9 > i ? `0${i}` : i;
+				option.setAttribute( 'value', val );
+				option.innerText = i;
+				day.appendChild( option );
+			}
+      if (currentDay > days) {
+        day.value = '';
+      } else {
+        day.value = currentDay;
+      }
+    }
+  };
+
+  const updateDisabledStatus = () => {
+    if (year.value == '') {
+      month.setAttribute('disabled', '');
+    } else {
+      month.removeAttribute('disabled');
+    }
+    if (month.value == '') {
+      day.setAttribute('disabled', '');
+    } else {
+      day.removeAttribute('disabled');
+    }
+  };
+
+  const updateFoundedDates = () => {
+    if (year.value && month.value && day.value) {
+      founded.value = `${year.value}-${month.value}-${day.value}`;
+      foundedMin.value = `${year.value}-${month.value}-${day.value}`;
+      foundedMax.value = `${year.value}-${month.value}-${day.value}`;
+    } else if (year.value && month.value) {
+      const days = daysInMonth(year.value, month.value);
+      founded.value = '';
+      foundedMin.value = `${year.value}-${month.value}-01`;
+      foundedMax.value = `${year.value}-${month.value}-${days}`;
+    } else if (year.value) {
+      founded.value = '';
+      foundedMin.value = `${year.value}-01-01`;
+      foundedMax.value = `${year.value}-12-31`;
+    } else {
+      month.value = '';
+      day.value = '';
+      founded.value = '';
+      foundedMin.value = '';
+      foundedMax.value = '';
+    }
+  };
+
+
+  year.addEventListener('keyup', () => {
+    updateFoundedDates();
+    updateDisabledStatus();
+    updateDaysField(year.value, month.value);
+  });
+
+  month.addEventListener('change', () => {
+    updateFoundedDates();
+    updateDisabledStatus();
+    updateDaysField(year.value, month.value);
+  });
+
+  day.addEventListener('change', () => {
+    updateFoundedDates();
+    updateDisabledStatus();
+  });
 }
 
 [...document.querySelectorAll('.card')].forEach(function (card) {
@@ -326,3 +476,4 @@ if (mapContainer) {
 
   });
 }
+ 

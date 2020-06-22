@@ -11,10 +11,9 @@ from django.views.generic.edit import DeleteView
 from django.shortcuts import get_object_or_404, render, redirect
 from django.forms import inlineformset_factory
 from accounts.models import UserSocialNetwork
-from mdi.models import Organization, SocialNetwork
+from mdi.models import Organization, SocialNetwork, OrganizationSocialNetwork, Relationship, EntitiesEntities
 from formtools.wizard.views import SessionWizardView
-from .forms import IndividualProfileDeleteForm, RolesForm, BasicInfoForm, DetailedInfoForm, ContactInfoForm, UserSocialNetworkFormSet
-from dal import autocomplete
+from .forms import IndividualProfileDeleteForm, IndividualRolesForm, IndividualBasicInfoForm, IndividualMoreAboutYouForm, IndividualDetailedInfoForm, IndividualContactInfoForm, IndividualSocialNetworkFormSet, OrganizationTypeForm, OrganizationBasicInfoForm, OrganizationContactInfoForm, OrganizationDetailedInfoForm, OrganizationScopeAndImpactForm, OrganizationSocialNetworkFormSet
 
 
 # Inline Formset for SocialNetworks.
@@ -34,21 +33,54 @@ def manage_socialnetworks(request, user_id):
 # Profile flow
 # This operates the Individual Profile wizard via `django-formtools`.
 INDIVIDUAL_FORMS = [
-    ('roles', RolesForm),
-    ('basic_info', BasicInfoForm),
-    ('detailed_info', DetailedInfoForm),
-    ('contact_info', ContactInfoForm),
-    ('social_networks', UserSocialNetworkFormSet),
+    ('basic_info', IndividualBasicInfoForm),
+    ('contact_info', IndividualContactInfoForm),
+    ('roles', IndividualRolesForm),
+    ('more_about_you', IndividualMoreAboutYouForm),
+    ('detailed_info', IndividualDetailedInfoForm),
+    ('social_networks', IndividualSocialNetworkFormSet),
 ]
 
 INDIVIDUAL_TEMPLATES = {
-    'roles': 'maps/profiles/individual/roles.html',
     'basic_info': 'maps/profiles/individual/basic_info.html',
-    'detailed_info': 'maps/profiles/individual/detailed_info.html',
     'contact_info': 'maps/profiles/individual/contact_info.html',
+    'roles': 'maps/profiles/individual/roles.html',
+    'more_about_you': 'maps/profiles/individual/more_about_you.html',
+    'detailed_info': 'maps/profiles/individual/detailed_info.html',
     'social_networks': 'maps/profiles/individual/social_networks.html',
 }
 
+ORGANIZATION_FORMS = [
+    ('org_type', OrganizationTypeForm),
+    ('basic_info', OrganizationBasicInfoForm),
+    ('contact_info', OrganizationContactInfoForm),
+    ('detailed_info', OrganizationDetailedInfoForm),
+    ('scope_and_impact', OrganizationScopeAndImpactForm),
+    ('social_networks', OrganizationSocialNetworkFormSet),
+]    
+
+ORGANIZATION_TEMPLATES = {
+    'org_type': 'maps/profiles/organization/org_type.html',
+    'basic_info': 'maps/profiles/organization/basic_info.html',
+    'contact_info': 'maps/profiles/organization/contact_info.html',
+    'detailed_info': 'maps/profiles/organization/detailed_info.html',
+    'scope_and_impact': 'maps/profiles/organization/scope_and_impact.html',
+    'social_networks': 'maps/profiles/organization/social_networks.html'
+}
+
+def show_more_about_you_condition(wizard):
+    cleaned_data = wizard.get_cleaned_data_for_step('roles') or {'roles': []}
+    if (len(cleaned_data['roles']) == 1 and cleaned_data['roles'][0].name == 'Other'):
+        return False
+    
+    return True
+
+def show_scope_and_impact_condition(wizard):
+    cleaned_data = wizard.get_cleaned_data_for_step('org_type') or {'type': False}
+    if (cleaned_data['type'] and cleaned_data['type'].name == 'Cooperative'):
+        return True
+    
+    return False
 
 class IndividualProfileWizard(LoginRequiredMixin, SessionWizardView):
     def get_template_names(self):
@@ -57,21 +89,28 @@ class IndividualProfileWizard(LoginRequiredMixin, SessionWizardView):
     def get_context_data(self, form, **kwargs):
         context = super().get_context_data(form=form, **kwargs)
 
-        if self.steps.current == 'detailed_info':
-            roles = self.get_cleaned_data_for_step('roles')
-            print('roles.cleaned {}'.format(roles))
-            # Display `Services` if Individual is in Roles other than `Coop Founder` or `Coop Member`.
+        if self.steps.current in ['more_about_you', 'detailed_info']:
+            roles = self.get_cleaned_data_for_step('roles')['roles']
             for r in roles:
-                if r not in ['Coop Founder', 'Coop Member']:
-                    context.update({'display_services': True})
-                if r == 'Service Provider':
-                    context.update({'display_coops_worked_with': True})
-                if r == 'Researcher':
+                if r.name == 'Coop Member':
+                    context.update({'display_member_of': True})
+                if r.name == 'Coop Founder':
+                    context.update({'display_founder_of': True})
+                if r.name == 'Service Provider':
+                    context.update({
+                        'display_services': True,
+                        'display_coops_worked_with': True
+                    })
+                if r.name == 'Researcher':
                     context.update({
                         'display_field_of_study': True,
                         'display_affiliation': True,
                         'display_projects': True
                     })
+                if r.name == 'Community Builder':
+                    context.update({'display_community_skills': True})
+                if r.name in ['Funder', 'Policymaker']:
+                    context.update({'display_affiliation': True})
         return context
 
     # Attempt to solve SocialNetwork problem on profile pages.
@@ -99,27 +138,79 @@ class IndividualProfileWizard(LoginRequiredMixin, SessionWizardView):
         user.roles.set(form_dict['roles'])
         user.languages.set(form_dict['languages'])
         user.services.set(form_dict['services'])
-        user.challenges.set(form_dict['challenges'])
-
+        for org in form_dict['member_of']:
+            member_of_relationship = Relationship.objects.get(name="Member of")
+            rel = EntitiesEntities(from_ind=user, to_org=org, relationship=member_of_relationship)
+            rel.save()
+            user.related_organizations.add(org)
+        for org in form_dict['founder_of']:
+            founder_of_relationship = Relationship.objects.get(name="Founder of")
+            rel = EntitiesEntities(from_ind=user, to_org=org, relationship=founder_of_relationship)
+            rel.save()
+            user.related_organizations.add(org)
+        for org in form_dict['worked_with']:
+            worked_with_relationship = Relationship.objects.get(name="Worked with")
+            rel = EntitiesEntities(from_ind=user, to_org=org, relationship=worked_with_relationship)
+            rel.save()
+            user.related_organizations.add(org)
         for sn in form_dict['formset-social_networks']:
             if sn['identifier'] != '':
                 UserSocialNetwork.objects.create(user=user, socialnetwork=sn['socialnetwork'], identifier=sn['identifier'])
 
         return redirect('individual-detail', user_id=user.id)
 
+class OrganizationProfileWizard(LoginRequiredMixin, SessionWizardView):
+    def get_template_names(self):
+        return [ORGANIZATION_TEMPLATES[self.steps.current]]
 
-# Autocomplete views for profile creation.
-class OrganizationAutocomplete(autocomplete.Select2QuerySetView):
-    def get_queryset(self):
-        # if not self.request.user.is_authenticated():
-        #     return Organization.objects.none()
+    def get_context_data(self, form, **kwargs):
+        context = super().get_context_data(form=form, **kwargs)
 
-        qs = Organization.objects.all()
+        if self.steps.current in ['basic_info', 'contact_info', 'detailed_info']:
+            type = self.get_cleaned_data_for_step('org_type')['type']
+            if type.name == 'Cooperative':
+                context.update({'is_coop': True})
+            elif type.name == 'Potential cooperative':
+                context.update({'is_potential_coop': True})
+            elif type.name == 'Shared platform':
+                context.update({'is_shared_platform': True})
+        return context
+    
+    # Attempt to solve SocialNetwork problem on profile pages.
+    def get_form_initial(self, step):
+        initial = []
+        if step == 'social_networks':
+            socialnetworks = SocialNetwork.objects.all()
+            for index, sn in enumerate(socialnetworks):
+                initial.append({
+                    'socialnetwork' : sn,
+                    'name': sn.name,
+                    'hint' : sn.hint,
+                })
+            return self.initial_dict.get('social_networks', initial)
+        if step in ['basic_info', 'contact_info', 'detailed_info']:
+            org_type_data = self.get_cleaned_data_for_step('org_type')
+            return self.initial_dict.get(step, {'type': org_type_data['type']})
 
-        if self.q:
-            qs = qs.filter(name__istartswith=self.q)
+    def done(self, form_list, form_dict, **kwargs):
+        user = self.request.user
+        form_dict = self.get_all_cleaned_data()
+        org = Organization(admin_email=user.email)
+        for k, v in form_dict.items():
+            if k not in ['languages', 'categories', 'sectors', 'formset-social_networks']:
+                setattr(org, k, v)
+        setattr(org, 'type_id', form_dict['type'].id)
+        org.save()
+        org.languages.set(form_dict['languages'])
+        if form_dict['type'].name == 'Cooperative':
+            # We don't need to set these for non-coops at present.
+            org.categories.set(form_dict['categories'])
+        org.sectors.set(form_dict['sectors'])
+        for sn in form_dict['formset-social_networks']:
+            if sn['identifier'] != '':
+                OrganizationSocialNetwork.objects.create(organization=org, socialnetwork=sn['socialnetwork'], identifier=sn['identifier'])
 
-        return qs
+        return redirect('organization-detail', organization_id=org.id)
 
 def index(request):
     template = loader.get_template('maps/index.html')
