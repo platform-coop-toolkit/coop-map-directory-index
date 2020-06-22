@@ -66,6 +66,7 @@
             {% endif %}
         </div>
     </div>
+    {% comment %}
     <div class="align-left">
         <form class="delete-organization" method="POST" action="{% url 'organization-delete' pk=org.id %}">
             {% csrf_token %}
@@ -77,4 +78,5 @@
             </button>
         </form>
     </div>
+    {% endcomment %}
 </li>

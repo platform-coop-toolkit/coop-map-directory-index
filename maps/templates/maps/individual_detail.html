@@ -36,8 +36,10 @@
         <div role="tablist" aria-labelledby="tabs-label">
             <span class="screen-reader-text" id="tabs-label">{% trans 'tab group' %}</span>
             <a class="tab" href="#overview" id="overview-btn" role="tab" aria-controls="overview" aria-selected="true">{% trans 'Overview' %}</a>
-            {% if user.related_organizations.count > 0 %}
+            {% if member_orgs or founder_orgs %}
             <a class="tab" href="#coops" id="coops-btn" role="tab" aria-controls="coops" aria-selected="false">{% trans 'Co-ops' %}</a>
+            {% endif %}
+            {% if worked_with_orgs %}
             <a class="tab" href="#clients" id="clients-btn" role="tab" aria-controls="clients" aria-selected="false">{% trans 'Clients' %}</a>
             {% endif %}
         </div>
@@ -90,9 +92,32 @@
                 {% else %}
                 <p>{% trans 'No bio provided.' %}</p>
                 {% endif %}
-                {% if user.related_organizations.count > 0 %}
+                {% if member_orgs or founder_orgs %}
                 <h2>{% trans 'Co-ops' %}</h2>
+                    {% if founder_orgs %}
+                        <h3>{% trans 'Founded:' %}</h3>
+                        <ul class="cards">
+                        {% for org in founder_orgs %}
+                            {% include 'maps/partials/card_organization.html' %}
+                        {% endfor %}
+                        </ul>
+                    {% endif %}
+                    {% if member_orgs %}
+                        <h3>{% trans 'Member of:' %}</h3>
+                        <ul class="cards">
+                        {% for org in member_orgs %}
+                            {% include 'maps/partials/card_organization.html' %}
+                        {% endfor %}
+                        </ul>
+                    {% endif %}
+                {% endif %}
+                {% if worked_with_orgs %}
                 <h2>{% trans 'Clients' %}</h2>
+                <ul class="cards">
+                {% for org in worked_with_orgs %}
+                    {% include 'maps/partials/card_organization.html' %}
+                {% endfor %}
+                </ul>
                 {% endif %}
                 {% if user.projects %}
                 <h2>{% trans 'Projects' %}</h2>
@@ -105,9 +130,35 @@
                 </p>
             </div>
         </div>
+        {% if member_orgs or founder_orgs %}
         <div id="coops" role="tabpanel" aria-labelledby="coops-btn">
+            <h2>{% trans 'Co-ops' %}</h2>
+            {% if founder_orgs %}
+                <h3>{% trans 'Founded:' %}</h3>
+                <ul class="cards">
+                {% for org in founder_orgs %}
+                    {% include 'maps/partials/card_organization.html' %}
+                {% endfor %}
+                </ul>
+            {% endif %}
+            {% if member_orgs %}
+                <h3>{% trans 'Member of:' %}</h3>
+                <ul class="cards">
+                {% for org in member_orgs %}
+                    {% include 'maps/partials/card_organization.html' %}
+                {% endfor %}
+                </ul>
+            {% endif %}
         </div>
+        {% endif %}
+        {% if worked_with_orgs %}
         <div id="clients" role="tabpanel" aria-labelledby="clients-btn">
+        <ul class="cards">
+        {% for org in worked_with_orgs %}
+            {% include 'maps/partials/card_organization.html' %}
+        {% endfor %}
+        </ul>
         </div>
+        {% endif %}
     </div>
 {% endblock %}

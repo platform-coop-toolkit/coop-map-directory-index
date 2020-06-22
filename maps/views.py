@@ -11,7 +11,7 @@ from django.views.generic.edit import DeleteView
 from django.shortcuts import get_object_or_404, render, redirect
 from django.forms import inlineformset_factory
 from accounts.models import UserSocialNetwork
-from mdi.models import Organization, SocialNetwork
+from mdi.models import Organization, SocialNetwork, EntitiesEntities, Relationship
 from formtools.wizard.views import SessionWizardView
 from .forms import IndividualProfileDeleteForm, RolesForm, BasicInfoForm, DetailedInfoForm, ContactInfoForm, UserSocialNetworkFormSet
 from dal import autocomplete
@@ -139,9 +139,28 @@ def organization_detail(request, organization_id):
 # Individual
 def individual_detail(request, user_id):
     user = get_object_or_404(get_user_model(), pk=user_id)
+    member_of_relationship = Relationship.objects.get(name="Member of")
+    member_of_relationships = EntitiesEntities.objects.filter(from_ind=user, relationship=member_of_relationship)
+    founder_of_relationship = Relationship.objects.get(name="Founder of")
+    founder_of_relationships = EntitiesEntities.objects.filter(from_ind=user, relationship=founder_of_relationship)
+    worked_with_relationship = Relationship.objects.get(name="Worked with")
+    worked_with_relationships = EntitiesEntities.objects.filter(from_ind=user, relationship=worked_with_relationship)
+    member_orgs = []
+    founder_orgs = []
+    worked_with_orgs = []
+    for relationship in member_of_relationships:
+        member_orgs.append(Organization.objects.get(id=relationship.to_org.id))
+    for relationship in founder_of_relationships:
+        founder_orgs.append(Organization.objects.get(id=relationship.to_org.id))
+    for relationship in worked_with_relationships:
+        worked_with_orgs.append(Organization.objects.get(id=relationship.to_org.id))
     context = {
+        'individual': user,
+        'member_orgs': member_orgs,
+        'founder_orgs': founder_orgs,
+        'worked_with_orgs': worked_with_orgs
     }
-    return render(request, 'maps/individual_detail.html', {'individual': user})
+    return render(request, 'maps/individual_detail.html', context)
 
 class OrganizationDelete(DeleteView):
     model = Organization
