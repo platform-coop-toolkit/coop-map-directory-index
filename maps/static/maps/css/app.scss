@@ -350,6 +350,20 @@ h1 + .profile__meta {
   color: var(--grey-500);
 }
 
+.panel__content * + h2::before {
+  background-color: var(--grey-400);
+  content: "";
+  display: block;
+  height: rem(1);
+  margin-bottom: rem(48);
+  margin-top: rem(-16);
+  width: 100%;
+}
+
+.panel__content .cards + h2::before {
+  margin-top: 0;
+}
+
 @include breakpoint-up(lg) {
   #overview {
     grid-gap: $gutter;
