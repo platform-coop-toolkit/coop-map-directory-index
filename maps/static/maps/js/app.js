@@ -10,6 +10,13 @@ if (menu && menuToggle) {
   new Pinecone.Menu(menu, menuToggle);
 }
 
+const tabGroups = document.querySelectorAll( '.tabs' );
+if ( tabGroups ) {
+  Array.prototype.forEach.call( tabGroups, tabGroup => {
+    new Pinecone.Tabs( tabGroup );
+  } );
+}
+
 const icons = document.querySelectorAll( 'svg' );
 if (icons) {
   Array.prototype.forEach.call(icons, icon => {
@@ -25,6 +32,21 @@ if (dialogBtn) {
         confirm: 'Yes, exit and delete all info',
         dismiss: 'No, return to profile editor'
     });
+}
+
+const coopsBtn = document.getElementById('coops-btn');
+const clientsBtn = document.getElementById('clients-btn');
+
+if (coopsBtn || clientsBtn) {
+  document.addEventListener('click', (event) => {
+    if (event.target.id == 'founded-by-coops-btn' || event.target.id == 'member-of-coops-btn') {
+      coopsBtn.click();
+    }
+    
+    if (event.target.id == 'worked-with-btn') {
+      clientsBtn.click();
+    }
+  });
 }
 
 const searchToggle = document.querySelector('.search-toggle');

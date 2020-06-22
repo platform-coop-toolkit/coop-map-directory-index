@@ -1,4 +1,5 @@
 {% load static %}
+{% load i18n %}
 {% url 'index' as home_url %}
   <div class="banner-pattern"></div>
   <header role="banner">
@@ -69,16 +70,15 @@
             <li class="menu-item"><a href="{% url 'about' %}" class="menu__item">About</a></li>
             {% if user.is_authenticated %}
             <li class="menu__submenu-wrapper">
-                <a class="menu__item" href="#">Account</a>
+                <a class="menu__item" href="#">{% trans 'Account' %}</a>
                 <ul class="menu__submenu">
-                  <li class="menu-item"><a
-                      href="/accounts/logout/" class="menu__item">Log out</a>
-                  </li>
+                  <li class="menu-item"><a href="{% url 'account-settings' %}" class="menu__item">{% trans 'Account settings' %}</a></li>
+                  <li class="menu-item"><a href="/accounts/logout/" class="menu__item">{% trans 'Log out' %}</a></li>
                 </ul>
             {% else %}
 
             <li class="menu-item"><a
-                href="/accounts/login/" class="menu__item">Login / Sign up</a>
+                href="/accounts/login/" class="menu__item">{% trans 'Log in / Sign up' %}</a>
             </li>
             {% endif %}
 
