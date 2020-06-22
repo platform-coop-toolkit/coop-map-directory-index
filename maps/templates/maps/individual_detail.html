@@ -2,21 +2,21 @@
 {% load static %}
 {% load i18n %}
 {% load maps_extras %}
-{% block title %}{{ user.first_name|add:' '|add:user.last_name|titlify }}{% endblock %}
+{% block title %}{{ individual.first_name|add:' '|add:individual.last_name|titlify }}{% endblock %}
 {% block bodyclass %}profile profile--individual{% endblock %}
 {% block content %}
     <div class="page-header">
         <p><a class="link--breadcrumb" href="{% url 'index' %}">{% trans "Home" %}</a></p>
-        <h1>{{ user.first_name }} {{ user.last_name }}</h1>
+        <h1>{{ individual.first_name }} {{ individual.last_name }}</h1>
         <div class="profile__meta">
             <span class="screen-reader-text">{% trans 'location:' %} </span>
             <svg class="icon icon--location" aria-hidden="true" viewBox="0 0 20 20" focusable="false">
                 <use href="{% static 'maps/dist/images/location.svg#location' %}"/>
             </svg>
-            {% if user.city or user.state or user.country %}
-                {% if user.city %}{{ user.city }}, {% endif %}
-                {% if user.state %}{{ user.state }}, {% endif %}
-                {% if user.country %}{{ user.country.name }}{% endif %}
+            {% if individual.city or individual.state or individual.country %}
+                {% if individual.city %}{{ individual.city }}, {% endif %}
+                {% if individual.state %}{{ individual.state }}, {% endif %}
+                {% if individual.country %}{{ individual.country.name }}{% endif %}
             {% endif %}
         </div>
         <div class="profile__meta">
@@ -24,9 +24,9 @@
             <svg class="icon icon--language-small" aria-hidden="true" viewBox="0 0 20 20" focusable="false">
                 <use href="{% static 'maps/dist/images/language-small.svg#language-small' %}"/>
             </svg>
-            {% if user.languages.count > 0 %}
-                {% for l in user.languages.all %}
-                {{ l.iso_name }}
+            {% if individual.languages.count > 0 %}
+                {% for l in individual.languages.all %}
+                {{ l.iso_name }}{% if not forloop.last %}, {% endif %}
                 {% endfor %}
             {% endif %}
         </div>
@@ -46,55 +46,55 @@
         <div id="overview" role="tabpanel" aria-labelledby="overview-btn">
             <div class="panel__sidebar">
                 <h2>{% trans 'At a glance' %}</h2>
-                {% if user.roles.count > 0 %}
+                {% if individual.roles.count > 0 %}
                 <h3 class="h4">{% trans 'Roles' %}</h3>
                 <div class="profile__meta profile__roles">
-                {% for r in user.roles.all %}
+                {% for r in individual.roles.all %}
                     <svg class="icon icon--{{ r.icon }}" aria-hidden="true" viewBox="0 0 20 20" focusable="false">
                         <use href="{% static 'maps/dist/images/'|add:r.icon|add:'.svg#'|add:r.icon %}"/>
                     </svg> {{ r.name }}{% if not forloop.last %}<br />{% endif %}
                 {% endfor %}
                 </div>
                 {% endif %}
-                {% if user.services.count > 0 %}
+                {% if individual.services.count > 0 %}
                 <h3 class="h4">{% trans 'Services provided' %}</h3>
                 <div class="profile__meta">
-                {% for s in user.services.all %}
+                {% for s in individual.services.all %}
                 {{ s.name }}{% if not forloop.last %}<br />{% endif %}
                 {% endfor %}
                 </div>
                 {% endif %}
-                {% if user.affiliation %}
+                {% if individual.affiliation %}
                 {# TODO: Handle affiliation for funders and policymakers #}
                 <h3 class="h4">{% trans 'Research affiliation' %}</h3>
                 <div class="profile__meta">
-                {% if user.affiliation_url %}
-                <a rel="external" href="{{ user.affiliation_url }}">{{ user.affiliation }}</a>
+                {% if individual.affiliation_url %}
+                <a rel="external" href="{{ individual.affiliation_url }}">{{ individual.affiliation }}</a>
                 {% else %}
-                {{ user.affiliation }}
+                {{ individual.affiliation }}
                 {% endif %}
                 </div>
                 {% endif %}
-                {% if user.field_of_study %}
+                {% if individual.field_of_study %}
                 <h3 class="h4">{% trans 'Field of research' %}</h3>
                 <div class="profile__meta">
-                {{ user.field_of_study }}
+                {{ individual.field_of_study }}
                 </div>
                 {% endif %}
-                {% if user.community_skills %}
+                {% if individual.community_skills %}
                 <h3 class="h4">{% trans 'Community building skills' %}</h3>
                 <div class="profile__meta">
-                {{ user.community_skills }}
+                {{ individual.community_skills }}
                 </div>
                 {% endif %}
-                {% if user.usersocialnetwork_set.all.count > 0 %}
+                {% if individual.usersocialnetwork_set.all.count > 0 %}
                 <h2>{% trans 'Social media' %}</h2>
                 <ul>
-                {% for sn in user.usersocialnetwork_set.all %}
+                {% for sn in individual.usersocialnetwork_set.all %}
                     {% if sn.socialnetwork.format == 'handle' %}
                         <li class="no-bullet"><svg class="icon icon--{{ sn.socialnetwork.icon }}" aria-hidden="true" viewBox="0 0 20 20" focusable="false">
                         <use href="{% static 'maps/dist/images/'|add:sn.socialnetwork.icon|add:'.svg#'|add:sn.socialnetwork.icon %}"/>
-                    </svg><span class="screen-reader-text">{{ sn.socialnetwork.name }}</span> <a rel="external" href="{{ sn.socialnetwork.base_url }}{{ sn.identifier|cut:'@' }}">{{ user.first_name }} {{ user.last_name }}’s {{ sn.socialnetwork }}</a></li>
+                    </svg><span class="screen-reader-text">{{ sn.socialnetwork.name }}</span> <a rel="external" href="{{ sn.socialnetwork.base_url }}{{ sn.identifier|cut:'@' }}">{% blocktrans with name=individual.first_name|add:' '|add:individual.last_name network=sn.socialnetwork %}{{ name }}’s {{ network }}{% endblocktrans %}</a></li>
                     {% else %}
                         <li class="no-bullet"><svg class="icon icon--{{ sn.socialnetwork.icon }}" aria-hidden="true" viewBox="0 0 20 20" focusable="false">
                         <use href="{% static 'maps/dist/images/'|add:sn.socialnetwork.icon|add:'.svg#'|add:sn.socialnetwork.icon %}"/>
@@ -107,8 +107,8 @@
             </div>
             <div class="panel__content">
                 <h2>{% trans 'Bio' %}</h2>
-                {% if user.bio %}
-                <p>{{ user.bio }}</p>
+                {% if individual.bio %}
+                <p>{{ individual.bio }}</p>
                 {% else %}
                 <p>{% trans 'No bio provided.' %}</p>
                 {% endif %}
@@ -139,15 +139,15 @@
                 {% endfor %}
                 </ul>
                 {% endif %}
-                {% if user.projects %}
+                {% if individual.projects %}
                 <h2>{% trans 'Projects' %}</h2>
-                <p>{{ user.projects }}</p>
+                <p>{{ individual.projects }}</p>
                 {% endif %}
                 <div class="spacer"></div>
                 <p>
                     <small>
-                        {% trans 'Last updated:' %} {{ user.updated_at }}<br />
-                        {% trans 'Date joined:' %} {{ user.date_joined }}
+                        {% trans 'Last updated:' %} {{ individual.updated_at }}<br />
+                        {% trans 'Date joined:' %} {{ individual.date_joined }}
                     </small>
                 </p>
             </div>
