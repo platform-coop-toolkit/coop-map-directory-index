@@ -2,40 +2,34 @@
 {% load static %}
 {% load i18n %}
 {% load maps_extras %}
-
-{% block title %}{{ 'Select role'|titlify }}{% endblock %}}
+{% block bodyclass %}form-wizard{% endblock %}
+{% block title %}{{ 'Describe your role'|titlify }}{% endblock %}}
 
 {% block content %}
+    <form class="form" action="" method="post" novalidate>
         <div class="page-header">
-            <h1><span class="pc-ff--sans pc-fw--normal">Profile Editor</span><br/> Individual role</h1>
+            {% include 'maps/profiles/back.html' %}
+            <h1>Create a profile: individual</h1>
+            {% include 'maps/profiles/steps.html' %}
         </div>
-        <form class="form" action="" method="post">
-            {% csrf_token %}
-            {% if form.errors  %}
-            {{ form.errors }}
-            {% endif %}
-            {{ wizard.management_form }}
-{% include 'maps/profiles/back_and_steps.html' %}
-            {% if wizard.form.forms %}
-                {{ wizard.form.management_form }}
-                {% for form in wizard.form.forms %}
-                    {{ form }}
-                {% endfor %}
-            {% else %}
-            <ul class="input-group">
-                <strong>{{ wizard.form.roles.label }}</strong>
-                {% for checkbox in wizard.form.roles %}
-                    <li>{{ checkbox.tag }}
-                        <label for="{{ checkbox.id_for_label }}">{{ checkbox.choice_label }}</label>
-                    </li>
-                {% endfor %}
-            </ul>
-            {% endif %}
-
-            <p>Not sure? <a href="#">Get help</a></p>
-
-{% include 'maps/profiles/footer.html' %}
-        </form>
-{% include 'maps/profiles/cancel.html' %}
-
+        <div class="form__content">
+        {% if form.errors  %}
+        {% include 'maps/profiles/errors.html' %}
+        {% endif %}
+        <h2>Describe your role</h2>
+        {{ wizard.management_form }}
+        {% csrf_token %}
+        {% if wizard.form.forms %}
+            {{ wizard.form.management_form }}
+            {% for form in wizard.form.forms %}
+                {{ form }}
+            {% endfor %}
+        {% else %}
+            {{ wizard.form }}
+        {% endif %}
+        {% include 'maps/profiles/footer.html' %}
+        </div>
+    </form>
+    {% include 'maps/profiles/cancel.html' %}
 {% endblock %}
+
