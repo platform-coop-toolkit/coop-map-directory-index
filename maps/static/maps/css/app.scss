@@ -241,3 +241,11 @@ h1 + .profile__meta {
     }
   }
 }
+
+.profile__roles {
+  font-weight: $font-weight-bold;
+
+  svg {
+    color: inherit;
+  }
+}

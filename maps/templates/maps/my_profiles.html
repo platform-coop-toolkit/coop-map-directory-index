@@ -17,7 +17,9 @@
     <h2>{% trans 'Personal profile' %}</h2>
     {% if user.has_profile %}
     <ul class="cards">
+        {% with individual=user %}
         {% include 'maps/partials/card_individual.html' %}
+        {% endwith %}
     </ul>
     {% else %}
     <p>{% trans 'None created.' %}</p>

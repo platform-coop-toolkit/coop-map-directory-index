@@ -48,7 +48,7 @@
                 <h2>{% trans 'At a glance' %}</h2>
                 {% if user.roles.count > 0 %}
                 <h3 class="h4">{% trans 'Roles' %}</h3>
-                <div class="profile__meta">
+                <div class="profile__meta profile__roles">
                 {% for r in user.roles.all %}
                     <svg class="icon icon--{{ r.icon }}" aria-hidden="true" viewBox="0 0 20 20" focusable="false">
                         <use href="{% static 'maps/dist/images/'|add:r.icon|add:'.svg#'|add:r.icon %}"/>
@@ -64,9 +64,29 @@
                 {% endfor %}
                 </div>
                 {% endif %}
-                {# Research affiliation #}
-                {# Field of research #}
-                {# Community building skills #}
+                {% if user.affiliation %}
+                {# TODO: Handle affiliation for funders and policymakers #}
+                <h3 class="h4">{% trans 'Research affiliation' %}</h3>
+                <div class="profile__meta">
+                {% if user.affiliation_url %}
+                <a rel="external" href="{{ user.affiliation_url }}">{{ user.affiliation }}</a>
+                {% else %}
+                {{ user.affiliation }}
+                {% endif %}
+                </div>
+                {% endif %}
+                {% if user.field_of_study %}
+                <h3 class="h4">{% trans 'Field of research' %}</h3>
+                <div class="profile__meta">
+                {{ user.field_of_study }}
+                </div>
+                {% endif %}
+                {% if user.community_skills %}
+                <h3 class="h4">{% trans 'Community building skills' %}</h3>
+                <div class="profile__meta">
+                {{ user.community_skills }}
+                </div>
+                {% endif %}
                 {% if user.usersocialnetwork_set.all.count > 0 %}
                 <h2>{% trans 'Social media' %}</h2>
                 <ul>
@@ -74,8 +94,8 @@
                     {% if sn.socialnetwork.format == 'handle' %}
                         <li class="no-bullet"><svg class="icon icon--{{ sn.socialnetwork.icon }}" aria-hidden="true" viewBox="0 0 20 20" focusable="false">
                         <use href="{% static 'maps/dist/images/'|add:sn.socialnetwork.icon|add:'.svg#'|add:sn.socialnetwork.icon %}"/>
-                    </svg><span class="screen-reader-text">{{ sn.socialnetwork.name }}</span> <a rel="external" href="{{ sn.socialnetwork.base_url }}{{ sn.identifier|cut:'@' }}">{{ sn.identifier }}</a></li>
-                    {% else %} {# sn.socialnetwork.format == 'url' #}
+                    </svg><span class="screen-reader-text">{{ sn.socialnetwork.name }}</span> <a rel="external" href="{{ sn.socialnetwork.base_url }}{{ sn.identifier|cut:'@' }}">{{ user.first_name }} {{ user.last_name }}’s {{ sn.socialnetwork }}</a></li>
+                    {% else %}
                         <li class="no-bullet"><svg class="icon icon--{{ sn.socialnetwork.icon }}" aria-hidden="true" viewBox="0 0 20 20" focusable="false">
                         <use href="{% static 'maps/dist/images/'|add:sn.socialnetwork.icon|add:'.svg#'|add:sn.socialnetwork.icon %}"/>
                     </svg><span class="screen-reader-text">{{ sn.socialnetwork.name }}</span> <a rel="external" href="{{ sn.identifier }}">{{ sn.identifier }}</a></li>
@@ -83,7 +103,7 @@
                 {% endfor %}
                 </ul>
                 {% endif %}
-
+                <div class="spacer"></div>
             </div>
             <div class="panel__content">
                 <h2>{% trans 'Bio' %}</h2>
@@ -121,7 +141,9 @@
                 {% endif %}
                 {% if user.projects %}
                 <h2>{% trans 'Projects' %}</h2>
+                <p>{{ user.projects }}</p>
                 {% endif %}
+                <div class="spacer"></div>
                 <p>
                     <small>
                         {% trans 'Last updated:' %} {{ user.updated_at }}<br />
