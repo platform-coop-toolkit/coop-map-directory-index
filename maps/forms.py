@@ -133,8 +133,8 @@ class IndividualMoreAboutYouForm(BaseModelForm):
             'services': _('Services you provide'),
             'community_skills': _('What community building skills do you have to offer?'),
             'field_of_study': _('What is your field of research?'),
-            'affiliation': _('Are you affiliated with an organisation or institution?'),
-            'affiliation_url': _('What is the website address of your affiliated organisation or institution?'),
+            'affiliation': _('Are you affiliated with an organization or institution?'),
+            'affiliation_url': _('What is the website address of your affiliated organization or institution?'),
         }
         widgets = {
             'services': SelectMultiple(attrs={'size': 4, 'class': 'multiple'}),
