@@ -36,10 +36,10 @@
         <div role="tablist" aria-labelledby="tabs-label">
             <span class="screen-reader-text" id="tabs-label">{% trans 'tab group' %}</span>
             <a class="tab" href="#overview" id="overview-btn" role="tab" aria-controls="overview" aria-selected="true">{% trans 'Overview' %}</a>
-            {% if member_orgs or founder_orgs %}
+            {% if member_orgs|length > 4 or founder_orgs|length > 4 %}
             <a class="tab" href="#coops" id="coops-btn" role="tab" aria-controls="coops" aria-selected="false">{% trans 'Co-ops' %}</a>
             {% endif %}
-            {% if worked_with_orgs %}
+            {% if worked_with_orgs|length > 4 %}
             <a class="tab" href="#clients" id="clients-btn" role="tab" aria-controls="clients" aria-selected="false">{% trans 'Clients' %}</a>
             {% endif %}
         </div>
@@ -48,11 +48,11 @@
                 <h2>{% trans 'At a glance' %}</h2>
                 {% if individual.roles.count > 0 %}
                 <h3 class="h4">{% trans 'Roles' %}</h3>
-                <div class="profile__meta profile__roles">
+                <div class="profile__roles">
                 {% for r in individual.roles.all %}
-                    <svg class="icon icon--{{ r.icon }}" aria-hidden="true" viewBox="0 0 20 20" focusable="false">
+                    <div class="profile__meta profile__role"><svg class="icon icon--{{ r.icon }}" aria-hidden="true" viewBox="0 0 20 20" focusable="false">
                         <use href="{% static 'maps/dist/images/'|add:r.icon|add:'.svg#'|add:r.icon %}"/>
-                    </svg> {{ r.name }}{% if not forloop.last %}<br />{% endif %}
+                    </svg> {{ r.name }}</div>
                 {% endfor %}
                 </div>
                 {% endif %}
@@ -89,19 +89,22 @@
                 {% endif %}
                 {% if individual.usersocialnetwork_set.all.count > 0 %}
                 <h2>{% trans 'Social media' %}</h2>
-                <ul>
+                <div class="profile__meta">
                 {% for sn in individual.usersocialnetwork_set.all %}
                     {% if sn.socialnetwork.format == 'handle' %}
-                        <li class="no-bullet"><svg class="icon icon--{{ sn.socialnetwork.icon }}" aria-hidden="true" viewBox="0 0 20 20" focusable="false">
-                        <use href="{% static 'maps/dist/images/'|add:sn.socialnetwork.icon|add:'.svg#'|add:sn.socialnetwork.icon %}"/>
-                    </svg><span class="screen-reader-text">{{ sn.socialnetwork.name }}</span> <a rel="external" href="{{ sn.socialnetwork.base_url }}{{ sn.identifier|cut:'@' }}">{% blocktrans with name=individual.first_name|add:' '|add:individual.last_name network=sn.socialnetwork %}{{ name }}’s {{ network }}{% endblocktrans %}</a></li>
+                    <div class="profile__meta">
+                        <svg class="icon icon--{{ sn.socialnetwork.icon }}" aria-hidden="true" viewBox="0 0 20 20" focusable="false">
+                            <use href="{% static 'maps/dist/images/'|add:sn.socialnetwork.icon|add:'.svg#'|add:sn.socialnetwork.icon %}"/>
+                        </svg><span class="screen-reader-text">{{ sn.socialnetwork.name }}</span> <a rel="external" href="{{ sn.socialnetwork.base_url }}{{ sn.identifier|cut:'@' }}">{% blocktrans with name=individual.first_name|add:' '|add:individual.last_name network=sn.socialnetwork %}{{ name }}’s {{ network }}{% endblocktrans %}</a>
+                    </div>
                     {% else %}
-                        <li class="no-bullet"><svg class="icon icon--{{ sn.socialnetwork.icon }}" aria-hidden="true" viewBox="0 0 20 20" focusable="false">
+                    <div class="profile__meta">
+                        <svg class="icon icon--{{ sn.socialnetwork.icon }}" aria-hidden="true" viewBox="0 0 20 20" focusable="false">
                         <use href="{% static 'maps/dist/images/'|add:sn.socialnetwork.icon|add:'.svg#'|add:sn.socialnetwork.icon %}"/>
-                    </svg><span class="screen-reader-text">{{ sn.socialnetwork.name }}</span> <a rel="external" href="{{ sn.identifier }}">{{ sn.identifier }}</a></li>
+                        </svg><span class="screen-reader-text">{{ sn.socialnetwork.name }}</span> <a rel="external" href="{{ sn.identifier }}">{% blocktrans with name=individual.first_name|add:' '|add:individual.last_name network=sn.socialnetwork %}{{ name }}’s {{ network }}{% endblocktrans %}</a></div>
                     {% endif %}
                 {% endfor %}
-                </ul>
+                </div>
                 {% endif %}
                 <div class="spacer"></div>
             </div>
@@ -117,27 +120,43 @@
                     {% if founder_orgs %}
                         <h3>{% trans 'Founded:' %}</h3>
                         <ul class="cards">
-                        {% for org in founder_orgs %}
+                        {% for org in founder_orgs|slice:":4" %}
                             {% include 'maps/partials/card_organization.html' %}
                         {% endfor %}
                         </ul>
+                        {% if founder_orgs|length > 4 %}
+                        <p>
+                            <button class="button button--borderless" id="founded-by-coops-btn" type="button">{% blocktrans with name=individual.first_name|add:' '|add:individual.last_name %}Show more<span class="screen-reader-text"> co-ops of which {{ name }} is a founder</span>{% endblocktrans %}</button>
+                        </p>
+                        {% endif %}
                     {% endif %}
                     {% if member_orgs %}
                         <h3>{% trans 'Member of:' %}</h3>
                         <ul class="cards">
-                        {% for org in member_orgs %}
+                        {% for org in member_orgs|slice:":4" %}
                             {% include 'maps/partials/card_organization.html' %}
                         {% endfor %}
                         </ul>
+                        {% if member_orgs|length > 4 %}
+                        <p>
+                            <button class="button button--borderless" id="member-of-coops-btn" type="button">{% blocktrans with name=individual.first_name|add:' '|add:individual.last_name %}Show more<span class="screen-reader-text"> co-ops of which {{ name }} is a member</span>{% endblocktrans %}</button>
+                        </p>
+                        {% endif %}
                     {% endif %}
                 {% endif %}
                 {% if worked_with_orgs %}
                 <h2>{% trans 'Clients' %}</h2>
+                <p>{% blocktrans with name=individual.first_name|add:' '|add:individual.last_name %}{{ name }} has worked with:{% endblocktrans %}</p>
                 <ul class="cards">
-                {% for org in worked_with_orgs %}
+                {% for org in worked_with_orgs|slice:":4" %}
                     {% include 'maps/partials/card_organization.html' %}
                 {% endfor %}
                 </ul>
+                {% if worked_with_orgs|length > 4 %}
+                <p>
+                    <button class="button button--borderless" id="worked-with-btn" type="button">{% blocktrans with name=individual.first_name|add:' '|add:individual.last_name %}Show more<span class="screen-reader-text"> organizations {{ name }} has worked with</span>{% endblocktrans %}</button>
+                </p>
+                {% endif %}
                 {% endif %}
                 {% if individual.projects %}
                 <h2>{% trans 'Projects' %}</h2>
@@ -146,16 +165,16 @@
                 <div class="spacer"></div>
                 <p>
                     <small>
-                        {% trans 'Last updated:' %} {{ individual.updated_at }}<br />
-                        {% trans 'Date joined:' %} {{ individual.date_joined }}
+                        {% trans 'Last updated:' %} {{ individual.updated_at|date:"F j, Y" }}<br />
+                        {% trans 'Date joined:' %} {{ individual.date_joined|date:"F j, Y" }}
                     </small>
                 </p>
             </div>
         </div>
-        {% if member_orgs or founder_orgs %}
+        {% if member_orgs|length > 4 or founder_orgs|length > 4 %}
         <div id="coops" role="tabpanel" aria-labelledby="coops-btn">
             <h2>{% trans 'Co-ops' %}</h2>
-            {% if founder_orgs %}
+            {% if founder_orgs|length > 4 %}
                 <h3>{% trans 'Founded:' %}</h3>
                 <ul class="cards">
                 {% for org in founder_orgs %}
@@ -163,7 +182,7 @@
                 {% endfor %}
                 </ul>
             {% endif %}
-            {% if member_orgs %}
+            {% if member_orgs|length > 4 %}
                 <h3>{% trans 'Member of:' %}</h3>
                 <ul class="cards">
                 {% for org in member_orgs %}
@@ -173,8 +192,9 @@
             {% endif %}
         </div>
         {% endif %}
-        {% if worked_with_orgs %}
+        {% if worked_with_orgs|length > 4 %}
         <div id="clients" role="tabpanel" aria-labelledby="clients-btn">
+        <p>{% blocktrans with name=individual.first_name|add:' '|add:individual.last_name %}{{ name }} has worked with:{% endblocktrans %}</p>
         <ul class="cards">
         {% for org in worked_with_orgs %}
             {% include 'maps/partials/card_organization.html' %}
