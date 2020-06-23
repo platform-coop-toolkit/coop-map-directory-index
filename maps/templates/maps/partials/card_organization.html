@@ -66,6 +66,8 @@
             {% endif %}
         </div>
     </div>
+    {% url 'my-profiles' as my_profiles_url %}
+    {% if request.get_full_path == my_profiles_url and org.admin_email == user.email %}
     <div class="align-left">
         <form class="delete-organization" method="POST" action="{% url 'organization-delete' pk=org.id %}">
             {% csrf_token %}
@@ -77,4 +79,5 @@
             </button>
         </form>
     </div>
+    {% endif %}
 </li>

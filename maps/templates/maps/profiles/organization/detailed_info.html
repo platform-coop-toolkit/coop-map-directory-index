@@ -1,0 +1,67 @@
+{% extends "maps/base.html" %}
+{% load static %}
+{% load i18n %}
+{% load maps_extras %}
+{% block bodyclass %}form-wizard{% endblock %}
+{% block title %}{{ 'Detailed information'|titlify }}{% endblock %}}
+
+{% block content %}
+    <form class="form" action="" method="post" novalidate>
+        <div class="page-header">
+            {% include 'maps/profiles/back.html' %}
+            <h1>{% trans 'Create a profile: organization' %}</h1>
+            {% include 'maps/profiles/steps.html' %}
+        </div>
+        <div class="form__content">
+        {% if form.errors  %}
+        {% include 'maps/profiles/errors.html' %}
+        {% endif %}
+        <h2>{% trans 'Detailed information' %}</h2>
+        {{ wizard.management_form }}
+        {% csrf_token %}
+        {% if wizard.form.forms %}
+            {{ wizard.form.management_form }}
+            {% for form in wizard.form.forms %}
+                {{ form }}
+            {% endfor %}
+        {% else %}
+            {{ wizard.form.sectors.label_tag }}
+            {{ wizard.form.sectors }}
+            {% if wizard.form.sectors.help_text %}
+            <span class="helptext">{{ wizard.form.sectors.help_text | safe }}</span>
+            {% endif %}
+            {% if is_coop %}
+            {{ wizard.form.categories.label_tag }}
+            {{ wizard.form.categories }}
+            {% if wizard.form.categories.help_text %}
+            <span class="helptext">{{ wizard.form.categories.help_text | safe }}</span>
+            {% endif %}
+            {% endif %}
+            {{ wizard.form.num_workers.label_tag }}
+            {{ wizard.form.num_workers }}
+            {% if wizard.form.num_workers.help_text %}
+            <span class="helptext">{{ wizard.form.num_workers.help_text | safe }}</span>
+            {% endif %}
+            {% if is_coop %}
+                {{ wizard.form.num_members.label_tag }}
+                {{ wizard.form.num_members }}
+                {% if wizard.form.num_members.help_text %}
+                <span class="helptext">{{ wizard.form.num_members.help_text | safe }}</span>
+                {% endif %}
+                {{ wizard.form.stage.label_tag }}
+                {{ wizard.form.stage }}
+                {% if wizard.form.stage.help_text %}
+                <span class="helptext">{{ wizard.form.stage.help_text | safe }}</span>
+                {% endif %}
+            {% endif %}
+            {{ wizard.form.worker_distribution.label_tag }}
+            {{ wizard.form.worker_distribution }}
+            {% if wizard.form.worker_distribution.help_text %}
+            <span class="helptext">{{ wizard.form.worker_distribution.help_text | safe }}</span>
+            {% endif %}
+        {% endif %}
+        {% include 'maps/profiles/footer.html' %}
+        </div>
+    </form>
+    {% include 'maps/profiles/cancel.html' %}
+{% endblock %}

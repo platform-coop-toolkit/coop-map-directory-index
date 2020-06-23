@@ -1,0 +1,18 @@
+{% extends 'maps/base.html' %}
+{% load static %}
+{% load maps_extras %}
+{% load i18n %}
+{% block title %}{{ 'Account settings' | titlify }}{% endblock %}
+{% block bodyclass %}account{% endblock %}
+{% block content %}
+    <div class="page-header">
+        <p><a class="link--breadcrumb" href="{% url 'index' %}">{% trans "Home" %}</a></p>
+        <h1>{% trans 'Account settings' %}</h1>
+    </div>
+    <div class="stack">
+        <ul class="link-list">
+            <li class="link-list__item"><a href="{% url 'account_email' %}">{% trans 'Manage email addresses' %}</a></li>
+            <li class="link-list__item"><a href="{% url 'account_change_password' %}">{% trans 'Change password' %}</a></li>
+        </ul>
+    </div>
+{% endblock %}
