@@ -69,20 +69,6 @@ class SocialNetwork(models.Model):
         return self.name
 
 
-class Source(models.Model):
-    name = models.CharField(blank=False, max_length=255, unique=True)
-    description = models.CharField(blank=True, max_length=255)
-    url = models.URLField(blank=True, max_length=255)
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
-
-    class Meta:
-        ordering = ['name']
-
-    def __str__(self):
-        return self.name
-
-
 class User(AbstractUser):
     email = models.EmailField(
       verbose_name='email address',
@@ -117,7 +103,7 @@ class User(AbstractUser):
     challenges = models.ManyToManyField('mdi.Challenge', blank=True,)
     socialnetworks = models.ManyToManyField(SocialNetwork, blank=True, through='UserSocialNetwork')
     notes = models.TextField(blank=True, default='')
-    source = models.ForeignKey(Source, on_delete=models.CASCADE, default=5)
+    source = models.ForeignKey('mdi.Source', on_delete=models.CASCADE, default=5)
     # created_at: would normally add this but django-registration gives us date_joined
     updated_at = models.DateTimeField(auto_now=True)
 

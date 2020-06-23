@@ -3,7 +3,7 @@ from django.contrib.auth import get_user_model
 from django.contrib.gis.db import models
 from datetime import date
 from django.utils import timezone
-from accounts.models import SocialNetwork, Source
+from accounts.models import SocialNetwork
 from django_countries.fields import CountryField
 
 from django.core.exceptions import ValidationError
@@ -78,6 +78,20 @@ class Service(models.Model):
 
     class Meta:
         ordering = ['order']
+
+    def __str__(self):
+        return self.name
+
+
+class Source(models.Model):
+    name = models.CharField(blank=False, max_length=255, unique=True)
+    description = models.CharField(blank=True, max_length=255)
+    url = models.URLField(blank=True, max_length=255)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ['name']
 
     def __str__(self):
         return self.name
