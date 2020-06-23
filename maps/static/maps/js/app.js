@@ -36,8 +36,10 @@ if (dialogBtn) {
 
 const coopsBtn = document.getElementById('coops-btn');
 const clientsBtn = document.getElementById('clients-btn');
+const coopFoundersAndMembersBtn = document.getElementById('founders-and-members-btn');
+const toolsBtn = document.getElementById('tools-btn');
 
-if (coopsBtn || clientsBtn) {
+if (coopsBtn || clientsBtn || coopFoundersAndMembersBtn || toolsBtn) {
   document.addEventListener('click', (event) => {
     if (event.target.id == 'founded-by-coops-btn' || event.target.id == 'member-of-coops-btn') {
       coopsBtn.click();
@@ -45,6 +47,14 @@ if (coopsBtn || clientsBtn) {
     
     if (event.target.id == 'worked-with-btn') {
       clientsBtn.click();
+    }
+
+    if (event.target.id == 'founders-btn' || event.target.id == 'members-btn') {
+      coopFoundersAndMembersBtn.click();
+    }
+
+    if (event.target.id == 'more-tools-btn') {
+      toolsBtn.click();
     }
   });
 }

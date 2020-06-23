@@ -329,6 +329,18 @@ select[multiple] {
   }
 }
 
+.card--individual {
+  @include card($green-300, $white, false);
+}
+
+.card--tool {
+  @include card($yellow-500, $white, false);
+}
+
+.card__niche {
+  font-weight: $font-weight-bold;
+}
+
 .stack > * + .h4 {
   margin-top: 3rem;
 }
@@ -340,9 +352,7 @@ select[multiple] {
 
 .profile__meta--empty,
 .--empty {
-  background: var(--grey-200);
   font-style: italic;
-  padding: rem(15) rem(20);
 }
 
 h1 + .profile__meta {
