@@ -1,5 +1,5 @@
 {% load account %}{% load i18n %}{% autoescape off %}
-
+{% blocktrans }
 Hello!
 
 Someone (hopefully you) has entered your email address in order to create an account on the Platform Co-op Directory.
@@ -8,6 +8,7 @@ Please confirm your subscription by following this link:
 {{ activate_url }}
 
 Non-confirmed requests will be automatically dropped after 24 hours.
+{% endblocktrans %}
 
 Platform Cooperativism Consortium
 The New School

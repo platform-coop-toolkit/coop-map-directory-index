@@ -20,10 +20,11 @@
   <div class="wrap container" role="document">
     <div class="content">
       <main>
-{% block content %}{% endblock %}
+      {% block content %}{% endblock %}
       </main>
     </div>
   </div>
 {% include 'maps/footer.html' %}
+{% block extra_body %}{% endblock %}
 </body>
 </html>

@@ -2,34 +2,35 @@
 {% load static %}
 {% load i18n %}
 {% load maps_extras %}
-
+{% block bodyclass %}form-wizard{% endblock %}
 {% block title %}{{ 'Social media'|titlify }}{% endblock %}}
 
 {% block content %}
+    <form class="form" action="" method="post" novalidate>
         <div class="page-header">
-          <h1><span class="pc-ff--sans pc-fw--normal">Profile Editor</span><br/> Social media</h1>
+            {% include 'maps/profiles/back.html' %}
+            <h1>Create a profile: individual</h1>
+            {% include 'maps/profiles/steps.html' %}
         </div>
-        <form class="form" action="" method="post">
-            {% csrf_token %}
-            {% if form.errors  %}
-            {{ form.errors }}
-            {% endif %}
-            {{ wizard.management_form }}
-{% include 'maps/profiles/back_and_steps.html' %}
-            {% if wizard.form.forms %}
-              {{ wizard.form.management_form }}
-              {% for form in wizard.form.forms %}
-                <label>{{ form.initial.name }}
-                    {{ form.identifier }}
-                    {{ form.socialnetwork }}
-                </label>
-              {% endfor %}
-            {% else %}
-
-            {% endif %}
-
-{% include 'maps/profiles/footer.html' %}
-        </form>
-{% include 'maps/profiles/cancel.html' %}
-
+        <div class="form__content">
+        {% if form.errors  %}
+        {% include 'maps/profiles/errors.html' %}
+        {% endif %}
+        <h2>Social media</h2>
+        {{ wizard.management_form }}
+        {% csrf_token %}
+        {% if wizard.form.forms %}
+            {{ wizard.form.management_form }}
+            {% for form in wizard.form.forms %}
+              <label for="{{ form.identifier.id_for_label }}">{{ form.initial.name }}</label>
+              {{ form.identifier }}
+              {{ form.socialnetwork }}
+            {% endfor %}
+        {% else %}
+            {{ wizard.form }}
+        {% endif %}
+        {% include 'maps/profiles/footer.html' %}
+        </div>
+    </form>
+    {% include 'maps/profiles/cancel.html' %}
 {% endblock %}
