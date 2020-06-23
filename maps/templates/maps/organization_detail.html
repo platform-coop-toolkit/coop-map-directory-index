@@ -201,9 +201,13 @@
           {% endif %}
       {% if organization.type.name != 'Supporting organization' %}
       <h2>{% trans 'Source code' %}</h2>
-      {# TODO: Code availability #}
-      <p{% if not organization.code_availability %} class="--empty"{% endif %}>{{ organization.code_availability|default:_('Not provided.') }}</p>
+      {% if organization.code_url %}
+      <p><a rel="external" href="{{ organization.code_url }}">{{ organization.code_url }}</a></p>
+      {% else %}
+      <p class="--empty">{% trans 'Not provided.' %}</p>
       {% endif %}
+      {% endif %}
+      <div class="spacer"></div>
       <p>
         <small>
           {% trans 'Last updated:' %} {{ organization.updated_at|date:"F j, Y" }}
