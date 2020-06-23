@@ -1,0 +1,87 @@
+{% extends "maps/base.html" %}
+{% load static %}
+{% load i18n %}
+{% load maps_extras %}
+{% block bodyclass %}form-wizard{% endblock %}
+{% block title %}{{ 'More about you'|titlify }}{% endblock %}}
+
+{% block content %}
+    <form class="form" action="" method="post" novalidate>
+        <div class="page-header">
+            {% include 'maps/profiles/back.html' %}
+            <h1>Create a profile: individual</h1>
+            {% include 'maps/profiles/steps.html' %}
+        </div>
+        <div class="form__content">
+        {% if form.errors  %}
+        {% include 'maps/profiles/errors.html' %}
+        {% endif %}
+        <h2>More about you</h2>
+        {{ wizard.management_form }}
+        {% csrf_token %}
+        {% if wizard.form.forms %}
+            {{ wizard.form.management_form }}
+            {% for form in wizard.form.forms %}
+                {{ form }}
+            {% endfor %}
+        {% else %}
+            {% if display_member_of %}
+                {{ wizard.form.member_of.label_tag }}
+                {{ wizard.form.member_of }}
+                {% if wizard.form.member_of.help_text %}
+                <span class="helptext">{{ wizard.form.member_of.help_text | safe }}</span>
+                {% endif %}
+            {% endif %}
+            {% if display_founder_of %}
+                {{ wizard.form.founder_of.label_tag }}
+                {{ wizard.form.founder_of }}
+                {% if wizard.form.founder_of.help_text %}
+                <span class="helptext">{{ wizard.form.founder_of.help_text | safe }}</span>
+                {% endif %}
+            {% endif %}
+            {% if display_coops_worked_with %}
+                {{ wizard.form.worked_with.label_tag }}
+                {{ wizard.form.worked_with }}
+                {% if wizard.form.worked_with.help_text %}
+                <span class="helptext">{{ wizard.form.worked_with.help_text | safe }}</span>
+                {% endif %}
+            {% endif %}
+            {% if display_services %}
+                {{ wizard.form.services.label_tag }}
+                {{ wizard.form.services }}
+                {% if wizard.form.services.help_text %}
+                <span class="helptext">{{ wizard.form.services.help_text | safe }}</span>
+                {% endif %}
+            {% endif %}
+            {% if display_community_skills %}
+                {{ wizard.form.community_skills.label_tag }}
+                {{ wizard.form.community_skills }}
+                {% if wizard.form.community_skills.help_text %}
+                <span class="helptext">{{ wizard.form.community_skills.help_text | safe }}</span>
+                {% endif %}
+            {% endif %}
+            {% if display_field_of_study %}
+                {{ wizard.form.field_of_study.label_tag }}
+                {{ wizard.form.field_of_study }}
+                {% if wizard.form.field_of_study.help_text %}
+                <span class="helptext">{{ wizard.form.field_of_study.help_text | safe }}</span>
+                {% endif %}
+            {% endif %}
+            {% if display_affiliation %}
+                {{ wizard.form.affiliation.label_tag }}
+                {{ wizard.form.affiliation }}
+                {% if wizard.form.affiliation.help_text %}
+                <span class="helptext">{{ wizard.form.affiliation.help_text | safe }}</span>
+                {% endif %}
+                {{ wizard.form.affiliation_url.label_tag }}
+                {{ wizard.form.affiliation_url }}
+                {% if wizard.form.affiliation_url.help_text %}
+                <span class="helptext">{{ wizard.form.affiliation_url.help_text | safe }}</span>
+                {% endif %}
+            {% endif %}
+        {% endif %}
+        {% include 'maps/profiles/footer.html' %}
+        </div>
+    </form>
+    {% include 'maps/profiles/cancel.html' %}
+{% endblock %}

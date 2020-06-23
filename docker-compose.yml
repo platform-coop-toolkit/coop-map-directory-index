@@ -1,0 +1,39 @@
+version: '2.4'
+
+services:
+  app:
+    build: .
+    ports:
+      - ${APP_PORT}:8000
+    environment:
+      - DATABASE_URL=postgis://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB}
+    networks:
+      - default
+    restart: always
+    volumes:
+      - ./.env:/app/.env
+    depends_on:
+      db:
+        condition: service_healthy
+
+  db:
+    image: postgis/postgis:12-3.0
+    environment:
+      - POSTGRES_DB=${POSTGRES_DB}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+    healthcheck:
+      test: ["CMD", "pg_isready", "-q", "-U", "${POSTGRES_DB}"]
+      timeout: 60s
+      interval: 10s
+      retries: 10
+    ports:
+      - ${POSTGRES_PORT}:5432
+    restart: always
+    volumes:
+      - ${POSTGRES_DATADIR}:/var/lib/postgresql/data
+    networks:
+      - default
+
+networks:
+  default:

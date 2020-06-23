@@ -38,6 +38,7 @@ class MyUserManager(UserManager):
 
 class Role(models.Model):
     name = models.CharField(blank=False, max_length=255, unique=True)
+    icon = models.CharField(blank=True, max_length=32)
     description = models.CharField(blank=True, default='', max_length=255)
     order = models.IntegerField()
     created_at = models.DateTimeField(auto_now_add=True)
@@ -56,22 +57,8 @@ class SocialNetwork(models.Model):
     url = models.URLField(blank=False, max_length=255)
     format = models.CharField(blank=False, max_length=8, choices=[('handle', 'handle'), ('url', 'url')])
     base_url = models.URLField(blank=True, max_length=255)
-    font_awesome = models.CharField(blank=True, max_length=32)
+    icon = models.CharField(blank=True, max_length=32)
     hint = models.CharField(blank=False, max_length=64)
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
-
-    class Meta:
-        ordering = ['name']
-
-    def __str__(self):
-        return self.name
-
-
-class Source(models.Model):
-    name = models.CharField(blank=False, max_length=255, unique=True)
-    description = models.CharField(blank=True, max_length=255)
-    url = models.URLField(blank=True, max_length=255)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -108,13 +95,15 @@ class User(AbstractUser):
     )
     languages = models.ManyToManyField('mdi.Language', blank=True,)
     services = models.ManyToManyField('mdi.Service', blank=True,)
+    community_skills = models.TextField(blank=True, default='') # Only applies to Community Builders.
     field_of_study = models.CharField(blank=True, default='', max_length=254) # Only applies to Researchers. Much still TBD.
     affiliation = models.TextField(blank=True, default='') # Only applies to Researchers. Much still TBD.
+    affiliation_url = models.URLField(blank=True, default='', max_length=255)
     projects = models.TextField(blank=True, default='') # Only applies to Researchers. Much still TBD.
     challenges = models.ManyToManyField('mdi.Challenge', blank=True,)
     socialnetworks = models.ManyToManyField(SocialNetwork, blank=True, through='UserSocialNetwork')
     notes = models.TextField(blank=True, default='')
-    source = models.ForeignKey(Source, on_delete=models.CASCADE, default=5)
+    source = models.ForeignKey('mdi.Source', on_delete=models.CASCADE, default=5)
     # created_at: would normally add this but django-registration gives us date_joined
     updated_at = models.DateTimeField(auto_now=True)
 

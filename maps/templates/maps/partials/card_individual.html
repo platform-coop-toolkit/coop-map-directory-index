@@ -1,0 +1,62 @@
+{% load static %}
+<li class="card__wrapper">
+    <div class="card card--individual">
+        <h3 class="card__title">
+            <a class="card__link" href="/individuals/{{ individual.id }}">{{ individual.first_name }} {{ individual.last_name }}</a>
+        </h3>
+        <div class="card__meta card__roles">
+            <span class="screen-reader-text">roles: </span>
+            {% for role in individual.roles.all %}
+            <p class="card__role">
+                <svg class="icon icon--{{ role.icon }}" aria-hidden="true" viewBox="0 0 20 20" focusable="false">
+                    <use href="{% static 'maps/dist/images/'|add:role.icon|add:'.svg#'|add:role.icon %}" />
+                </svg>
+                {{ role }}
+            </p>
+            {% endfor %}
+        </div>
+        <div class="card__aside">
+            {% if individual.city or individual.state or individual.country %}
+            <div class="card__meta">
+                <span class="card__locality">
+                    <span class="screen-reader-text">location: </span>
+                    <svg class="icon icon--location" aria-hidden="true" viewBox="0 0 20 20" focusable="false">
+                        <use href="{% static 'maps/dist/images/location.svg#location' %}" />
+                    </svg>
+                    {% if individual.city %}{{ individual.city }}, {% endif %}
+                    {% if individual.state %}{{ individual.state }}{% if individual.country %},{% endif %} {% endif %}
+                    {% if individual.country %}{{ individual.country.name }}{% endif %}
+                </span>
+            </div>
+            {% endif %}
+            {% if individual.languages %}
+            <div class="card__meta">
+                <span class="card__languages">
+                    <span class="screen-reader-text">languages spoken: </span>
+                    <svg class="icon icon--language-small" aria-hidden="true" viewBox="0 0 20 20" focusable="false">
+                        <use href="{% static 'maps/dist/images/language-small.svg#language-small' %}" />
+                    </svg>
+                    {% for language in individual.languages.all %}
+                        {{ language }}{% if not forloop.last %}, {% endif %}
+                    {% endfor %}
+                </span>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+    {% url 'my-profiles' as my_profiles_url %}
+    {% if request.get_full_path == my_profiles_url and user == individual %}
+    <div class="align-left">
+        <form class="delete-individual" action="{% url 'my-profiles' %}" method="post">
+            {% csrf_token %}
+            {{ form }}
+            <button class="button button--borderless button--destructive remove-favorite" type="submit">
+                <svg class="icon icon--delete" aria-hidden="true" viewBox="0 0 20 20" focusable="false">
+                    <use href="{% static 'maps/dist/images/delete.svg#delete' %}" />
+                </svg>
+                Delete <span class="screen-reader-text">personal profile</span>
+            </button>
+        </form>
+    </div>
+    {% endif %}
+</li>

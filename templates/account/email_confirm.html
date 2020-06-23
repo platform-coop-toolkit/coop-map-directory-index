@@ -1,36 +1,26 @@
 {% extends "account/base.html" %}
 {% load i18n %}
 {% load account %}
-
-{% block title %}{% trans "Confirm E-mail Address" %}{% endblock %}
-
+{% block title %}{% trans "Confirm email address" %}{% endblock %}
 {% block content %}
 <div class="page-header">
     <p><a class="link--inverse" href="{% url 'index' %}">Home</a></p>
-    <h1>{% trans "Confirm E-mail Address" %}</h1>
+    <h1>{% trans "Confirm email address" %}</h1>
 </div>
-
-{% if confirmation %}
-
-{% user_display confirmation.email_address.user as user_display %}
-
-    <p>{% blocktrans with confirmation.email_address.email as email %}Please confirm that you'd like to create a Platform Co-op Directory account using the email address <strong>{{ email }}</strong>.{% endblocktrans %}</p>
-
-<form method="post" action="{% url 'account_confirm_email' confirmation.key %}">
-{% csrf_token %}
-    <div class="spacer"></div>
-    <button id="button" type="submit" class="button">
-        <span class="button__label">{% trans "Confirm" %}</span>
-    </button>
-
-</form>
-
-{% else %}
-
-{% url 'account_email' as email_url %}
-
-<p>{% blocktrans %}This e-mail confirmation link expired or is invalid. Please <a href="{{ email_url }}">issue a new e-mail confirmation request</a>.{% endblocktrans %}</p>
-
-{% endif %}
-
+<div class="stack">
+    {% if confirmation %}
+    {% user_display confirmation.email_address.user as user_display %}
+        <p>{% blocktrans with confirmation.email_address.email as email %}Please confirm that you'd like to create a Platform Co-op Directory account using the email address <strong>{{ email }}</strong>.{% endblocktrans %}</p>
+    <form method="post" action="{% url 'account_confirm_email' confirmation.key %}">
+    {% csrf_token %}
+        <div class="spacer"></div>
+        <button id="button" type="submit" class="button">
+            <span class="button__label">{% trans "Confirm" %}</span>
+        </button>
+    </form>
+    {% else %}
+    {% url 'account_email' as email_url %}
+    <p>{% blocktrans %}This email confirmation link expired or is invalid. Please <a href="{{ email_url }}">issue a new email confirmation request</a>.{% endblocktrans %}</p>
+    {% endif %}
+</div>
 {% endblock %}

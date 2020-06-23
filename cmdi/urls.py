@@ -29,7 +29,7 @@ schema_view = get_schema_view(
       default_version='v0.1.0',
       description="Platform Co-op API",
       terms_of_service="https://demo.directory.platform.coop/terms-of-service/",
-      contact=openapi.Contact(email="info@platform.coop"),
+      contact=openapi.Contact(email="pcc@newschool.edu"),
       license=openapi.License(name="BSD License"),
    ),
    public=True,

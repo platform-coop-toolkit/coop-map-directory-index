@@ -1,50 +1,27 @@
 {% extends "account/base.html" %}
 {% load i18n %}
 {% load account socialaccount %}
-
-{% block title %}{% trans "Sign In" %}{% endblock %}
+{% block title %}{% trans "Log in" %}{% endblock %}
 
 {% block content %}
 <div class="page-header">
-    <p><a class="link--inverse" href="{% url 'index' %}">Home</a></p>
-    <h1>{% trans "Sign In" %}</h1>
+    <p><a class="link--breadcrumb" href="{% url 'index' %}">{% trans "Home" %}</a></p>
+    <h1>{% trans "Log in" %}</h1>
 </div>
-
-<p>Please sign in with your email address and password</p>
-
-<form class="login" method="POST" action="{% url 'account_login' %}">
-    {% csrf_token %}
-    {{ form.as_p }}
-    {% if redirect_field_value %}
-        <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}"/>
-    {% endif %}
-
-    <div class="spacer"></div>
-    <button id="button" type="submit" class="button">
-        <span class="button__label">{% trans "Sign In" %}</span>
-    </button>
-</form>
-
-{% get_providers as socialaccount_providers %}
-{% if socialaccount_providers %}
-<div class="spacer"></div>
-<div class="login-or">
-  <p class="align-center">
-    {% trans 'OR' %}
-  </p>
+<div class="stack">
+  <p>{% trans 'Please sign in with your email address and password.' %}</p>
+  <form class="login form" method="POST" action="{% url 'account_login' %}">
+      {% csrf_token %}
+      {{ form.as_p }}
+      {% if redirect_field_value %}
+          <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}"/>
+      {% endif %}
+      <div class="spacer"></div>
+      <button id="button" type="submit" class="button">
+          <span class="button__label">{% trans "Log in" %}</span>
+      </button>
+  </form>
+  <p><a href="{% url 'account_reset_password' %}">Lost password?</a></p>
+  <p><a href="{{ signup_url }}">Create an account</a></p>
 </div>
-
-<div class="socialaccount_ballot">
-  <ul class="socialaccount_providers">
-    {% include "socialaccount/snippets/provider_list.html" with process="login" %}
-  </ul>
-</div>
-
-{% include "socialaccount/snippets/login_extra.html" %}
-
-{% endif %}
-
-    <p><a href="{% url 'account_reset_password' %}">Lost password?</a></p>
-    <p><a href="{{ signup_url }}">Create an account</a></p>
-
 {% endblock %}

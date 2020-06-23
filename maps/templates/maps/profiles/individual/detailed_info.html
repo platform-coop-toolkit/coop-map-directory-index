@@ -2,74 +2,44 @@
 {% load static %}
 {% load i18n %}
 {% load maps_extras %}
-
+{% block bodyclass %}form-wizard{% endblock %}
 {% block title %}{{ 'Detailed information'|titlify }}{% endblock %}}
 
 {% block content %}
+    <form class="form" action="" method="post" novalidate>
         <div class="page-header">
-          <h1><span class="pc-ff--sans pc-fw--normal">Profile Editor</span><br/> Detailed information</h1>
+            {% include 'maps/profiles/back.html' %}
+            <h1>Create a profile: individual</h1>
+            {% include 'maps/profiles/steps.html' %}
         </div>
-        <form action="" method="post">
-            {% csrf_token %}
-            {% if form.errors  %}
-            {{ form.errors }}
-            {% endif %}
-            {{ wizard.management_form }}
-{% include 'maps/profiles/back_and_steps.html' %}
-            {% if wizard.form.forms %}
-              {{ wizard.form.management_form }}
-              {% for form in wizard.form.forms %}
+        <div class="form__content">
+        {% if form.errors  %}
+        {% include 'maps/profiles/errors.html' %}
+        {% endif %}
+        <h2>Detailed information</h2>
+        {{ wizard.management_form }}
+        {% csrf_token %}
+        {% if wizard.form.forms %}
+            {{ wizard.form.management_form }}
+            {% for form in wizard.form.forms %}
                 {{ form }}
-              {% endfor %}
-            {% else %}
-              <strong>
-                {{ wizard.form.bio.label }}
-              </strong>
-              {{ wizard.form.bio }}
-
-              {% if display_services %}
-              <strong>
-                {{ wizard.form.services.label }}
-              </strong>
-              {{ wizard.form.services }}
-              {% endif %}
-
-              {% if display_coops_worked_with %}
-              <strong>
-                {{ wizard.form.worked_with.label }}
-              </strong>
-                  {{ wizard.form.worked_with }}
-              {% endif %}
-
-              {% if display_field_of_study %}
-              <strong>
-                {{ wizard.form.field_of_study.label }}
-              </strong>
-                  {{ wizard.form.field_of_study }}
-              {% endif %}
-
-              {% if display_affiliation %}
-              <strong>
-                {{ wizard.form.affiliation.label }}
-              </strong>
-                  {{ wizard.form.affiliation }}
-              {% endif %}
-
-              {% if display_projects %}
-              <strong>
-                {{ wizard.form.projects.label }}
-              </strong>
-                  {{ wizard.form.projects }}
-              {% endif %}
-
-              <strong>
-                {{ wizard.form.challenges.label }}
-              </strong>
-              {{ wizard.form.challenges }}
+            {% endfor %}
+        {% else %}
+            {{ wizard.form.bio.label_tag }}
+            {{ wizard.form.bio }}
+            {% if wizard.form.bio.help_text %}
+            <span class="helptext">{{ wizard.form.bio.help_text | safe }}</span>
             {% endif %}
-
-{% include 'maps/profiles/footer.html' %}
-        </form>
-{% include 'maps/profiles/cancel.html' %}
-
+            {% if display_projects %}
+                {{ wizard.form.projects.label_tag }}
+                {{ wizard.form.projects }}
+                {% if wizard.form.projects.help_text %}
+                <span class="helptext">{{ wizard.form.projects.help_text | safe }}</span>
+                {% endif %}
+            {% endif %}
+        {% endif %}
+        {% include 'maps/profiles/footer.html' %}
+        </div>
+    </form>
+    {% include 'maps/profiles/cancel.html' %}
 {% endblock %}

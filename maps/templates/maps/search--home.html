@@ -1,0 +1,17 @@
+{% load static %}
+<section class="home__search">
+<form role="search" method="get" class="search-form search-form--inverse" action="/">
+    <label>
+        <span class="screen-reader-text">search</span>
+        <input id="s" name="s" placeholder="Search by co-op or individual name, details, or tags…" type="search">
+    </label>
+    <button type="submit" class="button button--search" disabled><span class="screen-reader-text">submit search</span>          <svg
+              class="icon icon--search"
+              viewBox="0 0 20 20"
+              focusable="false"
+          >
+           <use href="{% static 'maps/dist/images/search.svg#search' %}" />
+          </svg>
+</button>
+</form>
+</section>

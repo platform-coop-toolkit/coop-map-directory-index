@@ -6,3 +6,13 @@ select.multiple {
   height: 10rem;
   overflow-y: auto;
 }
+
+/* Identifying required fields in forms. */
+span.required {
+  color: red;
+}
+
+label.required::after {
+    content: ' *';
+    color: red;
+}

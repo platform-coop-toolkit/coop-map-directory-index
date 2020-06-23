@@ -58,4 +58,3 @@ def index(request):
 
     else:
         return render(request, 'surveys/ecosystem_2020/index.html')
-

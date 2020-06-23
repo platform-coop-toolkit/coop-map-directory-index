@@ -1,8 +1,9 @@
+from django.contrib.postgres.fields import IntegerRangeField
 from django.contrib.auth import get_user_model
 from django.contrib.gis.db import models
 from datetime import date
 from django.utils import timezone
-from accounts.models import SocialNetwork, Source
+from accounts.models import SocialNetwork
 from django_countries.fields import CountryField
 
 from django.core.exceptions import ValidationError
@@ -10,8 +11,21 @@ from django.urls import reverse
 from django.db.models import Manager as GeoManager
 
 
+class Type(models.Model):
+    name = models.CharField(blank=False, max_length=255, unique=True)
+    description = models.CharField(blank=True, default='', max_length=255)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ['name']
+
+    def __str__(self):
+        return self.name
+
 class Category(models.Model):
     name = models.CharField(blank=False, max_length=255, unique=True)
+    type = models.ForeignKey(Type, blank=True, null=True, on_delete=models.CASCADE)
     description = models.CharField(blank=True, default='', max_length=255)
     order = models.IntegerField()
     created_at = models.DateTimeField(auto_now_add=True)
@@ -69,6 +83,20 @@ class Service(models.Model):
         return self.name
 
 
+class Source(models.Model):
+    name = models.CharField(blank=False, max_length=255, unique=True)
+    description = models.CharField(blank=True, max_length=255)
+    url = models.URLField(blank=True, max_length=255)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ['name']
+
+    def __str__(self):
+        return self.name
+
+
 class Stage(models.Model):
     name = models.CharField(blank=False, max_length=255, unique=True)
     description = models.CharField(blank=True, default='', max_length=255)
@@ -80,20 +108,6 @@ class Stage(models.Model):
 
     def __str__(self):
         return self.name
-
-
-class Type(models.Model):
-    name = models.CharField(blank=False, max_length=255, unique=True)
-    description = models.CharField(blank=True, default='', max_length=255)
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
-
-    class Meta:
-        ordering = ['name']
-
-    def __str__(self):
-        return self.name
-
 
 class Sector(models.Model):
     name = models.CharField(blank=False, max_length=255, unique=True)
@@ -179,11 +193,15 @@ class Tool(models.Model):
     name = models.CharField(blank=False, max_length=255)
     description = models.TextField(blank=True, default='')
     url = models.URLField(blank=False, max_length=255)
-    license = models.ForeignKey(License, blank=True, null=True, on_delete=models.CASCADE)
+    license_type = models.CharField(blank=True, default='', max_length=64,
+                             choices=[('proprietary', 'Proprietary'), ('proprietary-with-floss-integration-tools', 'Proprietary with free / libre / open source integration tools'), ('floss', 'Free / libre / open source')], verbose_name='License type')
+    license = models.ForeignKey(License, blank=True, null=True, on_delete=models.CASCADE, verbose_name='Free / libre / open source license')
     pricing = models.ForeignKey(Pricing, blank=True, null=True, on_delete=models.CASCADE)
     niches = models.ManyToManyField(Niche)
-    languages_supported = models.ManyToManyField(Language, blank=True,)
-    sectors = models.ManyToManyField(Sector, blank=True,)
+    languages_supported = models.ManyToManyField(Language, blank=True)
+    sectors = models.ManyToManyField(Sector, blank=True)
+    coop_made = models.CharField(blank=False, default=0, max_length=16,
+                             choices=[('unknown', 'Not sure'), ('yes', 'Yes'), ('no', 'No')], verbose_name='Made by a cooperative')
     notes = models.TextField(blank=True, default='')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -201,29 +219,47 @@ class Tool(models.Model):
 class Organization(models.Model):
     name = models.CharField(blank=False, max_length=255)
     description = models.TextField(blank=True, default='')
+    languages = models.ManyToManyField(Language, blank=True, verbose_name='Operating language')
     address = models.CharField(blank=True, default='', max_length=255)
     city = models.CharField(blank=True, default='', max_length=255)
     state = models.CharField(blank=True, default='', max_length=255)
     postal_code = models.CharField(blank=True, default='', max_length=255)
     country = CountryField()
     email = models.EmailField(max_length=255)
+    phone = models.CharField(blank=True, default='', max_length=255)
     url = models.URLField(blank=True, default='', max_length=255)
     media_url = models.URLField(blank=True, default='', max_length=255)
     logo_url = models.URLField(blank=True, default='', max_length=255)
     lat = models.FloatField(blank=True, null=True)
     lng = models.FloatField(blank=True, null=True)
     geom = models.PointField(blank=True, null=True)
+    # founded_ min_ and max_dates are a strategy to represent date specificity (to the year, month, day).
+    # See https://softwareengineering.stackexchange.com/a/194294/365490
     founded = models.DateField(blank=True, null=True)
-    num_workers = models.IntegerField(blank=True, null=True)
+    founded_min_date = models.DateField(blank=True, null=True)
+    founded_max_date = models.DateField(blank=True, null=True)
+    num_members = models.IntegerField(blank=True, null=True, verbose_name='Number of members', )
+    num_workers = models.IntegerField(blank=True, null=True, verbose_name='Number of workers', )
+    worker_distribution = models.CharField(blank=True, default='', max_length=64,
+                             choices=[('colocated', 'Co-located'), ('regional', 'Regionally distributed'), ('national', 'Nationally distributed'), ('international', 'Internationally distributed')])
     related_individuals = models.ManyToManyField(
         get_user_model(),
         through='EntitiesEntities',
         through_fields=['from_org', 'to_ind']
     )
     related_organizations = models.ManyToManyField('self', through='EntitiesEntities')
-    # num_impacted = models.IntegerField(blank=True)
+    geo_scope = models.CharField(blank=True, max_length=16,
+                             choices=[('Local', 'Local'), ('Regional', 'Regional'), ('National', 'National'), ('International', 'International')],
+                                 verbose_name='Geographic scope', )
+    geo_scope_city = models.CharField(blank=True, default='', max_length=255, verbose_name='Geographic scope – City', )
+    geo_scope_region = models.CharField(blank=True, default='', max_length=255, verbose_name='Geographic scope – Region', )
+    geo_scope_country = CountryField(blank=True, verbose_name='Geographic scope – Country', )
+    impacted_range = IntegerRangeField(blank=True, null=True, default=None)
+    impacted_exact_number = models.IntegerField(blank=True, null=True, default=None)
+    code_availability = models.CharField(blank=True, max_length=9, choices=[('Yes', 'Yes'), ('Partially', 'Partially'), ('No', 'No')])
+    code_url = models.URLField(blank=True, default='', max_length=255)
     categories = models.ManyToManyField(Category, blank=True,)
-    stage = models.ForeignKey(Stage, blank=True, null=True, on_delete=models.CASCADE)
+    stage = models.ForeignKey(Stage, blank=True, null=True, default=None, on_delete=models.CASCADE)
     source = models.ForeignKey(Source, on_delete=models.CASCADE, blank=True, null=True)
     type = models.ForeignKey(Type, on_delete=models.CASCADE, blank=True, null=True)
     sectors = models.ManyToManyField(Sector, blank=True,)

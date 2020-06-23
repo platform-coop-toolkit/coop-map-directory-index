@@ -1,4 +1,4 @@
 {% load i18n %}
 {% autoescape off %}
-{% blocktrans %}Please activate your new Platform Coop account within 24 hours{% endblocktrans %}
+{% blocktrans %}Please activate your new Platform Co-op account within 24 hours{% endblocktrans %}
 {% endautoescape %}

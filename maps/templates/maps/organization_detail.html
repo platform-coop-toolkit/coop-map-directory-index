@@ -1,15 +1,14 @@
 {% extends 'maps/base.html' %}
 {% load static %}
+{% load i18n %}
 {% load maps_extras %}
 {% block title %}{{ organization.name|titlify }}{% endblock %}
+{% block bodyclass %}page{% endblock %}
 {% block content %}
     <div class="page-header">
-        <p>
-            <div class="spacer"></div><a class="link--inverse" href="{% url 'index' %}">Home</a>
-        </p>
+        <p><a class="link--breadcrumb" href="{% url 'index' %}">{% trans "Home" %}</a></p>
         <h1><span class="pc-ff--sans pc-fw--normal">Platform Co-op</span><br/> Directory</h1>
     </div>
-    {% include 'maps/search.html' %}
     {% if organization.url %}
     <h1><a rel="external" href="{{ organization.url }}">{{ organization.name }}</a></h1>
     {% else %}
@@ -20,7 +19,7 @@
     <span>
         <span class="screen-reader-text">location: </span>
         <svg class="icon icon--location" aria-hidden="true" viewBox="0 0 20 20" focusable="false">
-            <use href="{% static 'maps/images/location.svg#location' %}"/>
+            <use href="{% static 'maps/dist/images/location.svg#location' %}"/>
         </svg> {{ organization.city }}, {{ organization.country }}
     </span>
 
@@ -34,14 +33,14 @@
         <tr><td>
           <strong>Development stage:</strong> {{ organization.stage|default:'Unknown' }}
           <svg class="icon icon--info" aria-hidden="" viewBox="0 0 20 20" focusable="false">
-            <use href="{% static 'maps/images/info.svg#info' %}"/>
+            <use href="{% static 'maps/dist/images/info.svg#info' %}"/>
           </svg>
       </td></tr>
       {% if organization.legal_status %}
       <tr><td>
         <strong>Legal status:</strong> {{ organization.legal_status_to_s }}
         <svg class="icon icon--info" aria-hidden="" viewBox="0 0 20 20" focusable="false">
-          <use href="{% static 'maps/images/info.svg#info' %}"/>
+          <use href="{% static 'maps/dist/images/info.svg#info' %}"/>
         </svg>
       </td></tr>
       {% endif %}
@@ -63,7 +62,7 @@
           <span class="badge">
             {{ c.name }}
              <svg class="icon icon--author" aria-hidden="true" viewBox="0 0 20 20" focusable="false">
-                <use href="{% static 'maps/images/author.svg#author' %}"/>
+                <use href="{% static 'maps/dist/images/author.svg#author' %}"/>
             </svg>
           </span>
         </li>
@@ -86,9 +85,13 @@
         <ul>
         {% for sn in organization.organizationsocialnetwork_set.all %}
             {% if sn.socialnetwork.format == 'handle' %}
-            <li class="no-bullet"><i class="fab fa-{{ sn.socialnetwork.font_awesome }}"></i><span class="screen-reader-text">{{ sn.socialnetwork.name }}</span> <a rel="external"href="{{ sn.socialnetwork.base_url }}{{ sn.identifier|cut:'@' }}">{{ sn.identifier }}</a></li>
+            <li class="no-bullet"><svg class="icon icon--{{ sn.socialnetwork.icon }}" aria-hidden="true" viewBox="0 0 20 20" focusable="false">
+                <use href="{% static 'maps/dist/images/'|add:sn.socialnetwork.icon|add:'.svg#'|add:sn.socialnetwork.icon %}"/>
+            </svg><span class="screen-reader-text">{{ sn.socialnetwork.name }}</span> <a rel="external"href="{{ sn.socialnetwork.base_url }}{{ sn.identifier|cut:'@' }}">{{ sn.identifier }}</a></li>
             {% else %} {# sn.socialnetwork.format == 'url' #}
-            <li class="no-bullet"><i class="fab fa-{{ sn.socialnetwork.font_awesome }}"></i><span class="screen-reader-text">{{ sn.socialnetwork.name }}</span> <a rel="external"href="{{ sn.identifier }}">{{ sn.identifier }}</a></li>
+            <li class="no-bullet"><svg class="icon icon--{{ sn.socialnetwork.icon }}" aria-hidden="true" viewBox="0 0 20 20" focusable="false">
+                <use href="{% static 'maps/dist/images/'|add:sn.socialnetwork.icon|add:'.svg#'|add:sn.socialnetwork.icon %}"/>
+            </svg><span class="screen-reader-text">{{ sn.socialnetwork.name }}</span> <a rel="external"href="{{ sn.identifier }}">{{ sn.identifier }}</a></li>
             {% endif %}
         {% endfor %}
         </ul>

@@ -4,72 +4,70 @@
   "description": "The Map/Directory/Index component of the Platform Cooperative Development Kit.",
   "main": "index.js",
   "scripts": {
-    "clean": "rm -rf maps/static/maps/dist && mkdir -p maps/static/maps/dist/js && mkdir -p maps/static/maps/dist/css && mkdir -p maps/static/maps/dist/fonts && mkdir -p maps/static/maps/dist/images",
-    "watch:babel": "babel maps/static/maps/js --out-dir maps/static/maps/dist/js --quiet --watch",
-    "build:babel": "babel maps/static/maps/js --out-dir maps/static/maps/dist/js --quiet",
-    "build:css-orig": "lessc --include-path=node_modules/font-awesome/less:node_modules/bootstrap/less static/src/less/site.less static/dist/css/site.css",
-    "build:css": "cp maps/static/maps/css/app.css maps/static/maps/dist/css/site.css",
-    "copy:fonts": "cp maps/static/maps/fonts/* maps/static/maps/dist/fonts/",
-    "copy:images": "cp -r maps/static/maps/images/* maps/static/maps/dist/images/ 2>/dev/null || :",
-    "optimize:js": "uglifyjs maps/static/maps/dist/js/site.js -m -c warnings=false -o maps/static/maps/dist/js/site.js",
-    "optimize:css": "cssnano maps/static/maps/dist/css/site.css maps/static/maps/dist/css/site.css",
-    "optimize": "npm run optimize:js",
-    "build:js": "browserify -t [ babelify ] -t envify maps/static/maps/js/index.js | uglifyjs -c warnings=false -o maps/static/maps/dist/js/site.js",
-    "watch:lint": "onchange maps/static/maps/js/*.js -- npm run lint",
-    "watch:css": "onchange maps/static/maps/css/* -- npm run build:css",
-    "lint": "eslint maps/static/maps/js/*.js",
-    "watch:js": "watchify -t [ babelify ] -t envify maps/static/maps/js/index.js -o 'exorcist maps/static/maps/dist/js/site.js.map > maps/static/maps/dist/js/site.js' -dv",
-    "watch": "npm run clean && npm run copy:fonts && npm run copy:images && npm run build:css && concurrently --raw \"npm run watch:lint\" \"npm run watch:babel\" \"npm run watch:js\" \"npm run watch:css\"",
-    "build": "npm run clean && concurrently \"npm run build:babel\" \"npm run build:js\" \"npm run build:css\" \"npm run copy:fonts\" \"npm run copy:images\" && npm run optimize",
-    "dev:browser-sync": "browser-sync start --no-open --proxy localhost:8000 --files \"static/dist/js/*.js, static/dist/css/*.css\"",
-    "dev": "concurrently --raw \"./manage.py runserver\" \"npm run watch\" \"npm run dev:browser-sync\"",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "cross-env NODE_ENV=development run-s mix",
+    "build:production": "cross-env NODE_ENV=production run-s clean mix",
+    "clean": "rimraf maps/static/maps/dist",
+    "dev": "concurrently --raw \"./manage.py runserver\" \"npm run watch\"",
+    "lint:css": "stylelint maps/static/maps/css/*.scss",
+    "lint:js": "eslint maps/static/maps/js/*.js",
+    "lint": "run-s lint:*",
+    "mix": "webpack --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
+    "test": "run-s lint:*",
+    "watch": "cross-env NODE_ENV=development run-s \"mix -- --watch\""
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/platform-coop-toolkit/coop-map-directory-index.git"
   },
   "author": "Eric Theise",
-  "license": "ISC",
+  "license": "BSD-3-Clause",
   "bugs": {
     "url": "https://github.com/platform-coop-toolkit/coop-map-directory-index/issues"
   },
   "homepage": "https://github.com/platform-coop-toolkit/coop-map-directory-index#readme",
   "husky": {
     "hooks": {
-      "pre-commit": null,
+      "pre-commit": "lint-staged",
       "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
     }
+  },
+  "lint-staged": {
+    "*.scss": [
+      "stylelint"
+    ],
+    "*.js": [
+      "eslint"
+    ]
   },
   "browserslist": [
     "> 0.25%",
     "not dead"
   ],
   "dependencies": {
-    "@fortawesome/fontawesome-free": "^5.13.0",
+    "@platform-coop-toolkit/pinecone": "^1.0.0-beta.2",
     "d3": "^5.15.1",
-    "mapbox-gl": "^1.9.1"
+    "mapbox-gl": "^1.10.1"
   },
   "devDependencies": {
-    "@babel/cli": "^7.8.4",
-    "@babel/core": "^7.9.0",
-    "@babel/preset-env": "^7.9.5",
     "@commitlint/cli": "^8.3.5",
     "@commitlint/config-conventional": "^8.3.4",
-    "babel-eslint": "^10.1.0",
-    "babelify": "^10.0.0",
     "browser-sync": "^2.26.7",
-    "browserify": "^16.5.1",
+    "browser-sync-webpack-plugin": "^2.0.1",
     "concurrently": "^5.2.0",
-    "cssnano": "^4.1.10",
-    "envify": "^4.1.0",
-    "eslint": "^7.0.0-rc.0",
+    "cross-env": "^7.0.2",
+    "eslint": "^7.0.0",
     "eslint-plugin-babel": "^5.3.0",
-    "exorcist": "^1.0.1",
     "husky": "^4.2.5",
-    "less": "^3.11.1",
-    "onchange": "^6.1.1",
-    "uglify-js": "^3.9.1",
-    "watchify": "^3.11.1"
+    "laravel-mix": "^5.0.4",
+    "lint-staged": "^10.2.6",
+    "npm-run-all": "^4.1.5",
+    "rimraf": "^3.0.2",
+    "sass": "^1.26.5",
+    "sass-loader": "^8.0.2",
+    "stylelint": "^13.2.1",
+    "stylelint-config-standard-scss": "^1.1.0",
+    "stylelint-order": "^4.0.0",
+    "stylelint-scss": "^3.15.0",
+    "vue-template-compiler": "^2.6.11"
   }
 }

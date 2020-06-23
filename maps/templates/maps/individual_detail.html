@@ -1,111 +1,206 @@
 {% extends 'maps/base.html' %}
 {% load static %}
+{% load i18n %}
 {% load maps_extras %}
-{% block title %}{{ user.last_name|add:', '|add:user.first_name|titlify }}{% endblock %}
+{% block title %}{{ individual.first_name|add:' '|add:individual.last_name|titlify }}{% endblock %}
+{% block bodyclass %}profile profile--individual{% endblock %}
 {% block content %}
     <div class="page-header">
-        <p>
-            <div class="spacer"></div><a class="link--inverse" href="{% url 'index' %}">Home</a>
-        </p>
-        <h1><span class="pc-ff--sans pc-fw--normal">Platform Co-op</span><br/> Directory</h1>
-    </div>
-    {% include 'maps/search.html' %}
-    {% if user.url %}
-    <h1><a rel="external" href="{{ user.url }}">{{ user.last_name }}, {{ user.first_name }}</a></h1>
-    {% else %}
-    <h1>{{ user.last_name }}, {{ user.first_name }}</h1>
-    {% endif %}
-
-    <div class="spacer"></div>
-    <span>
-        <span class="screen-reader-text">location </span>
-        <svg class="icon icon--location" aria-hidden="true" viewBox="0 0 20 20" focusable="false">
-            <use href="{% static 'maps/images/location.svg#location' %}"/>
-        </svg>
-        {% if user.city or user.state or user.country %}
-            {% if user.city %}{{ user.city }}, {% endif %}
-            {% if user.state %}{{ user.state }} {% endif %}
-            {% if user.country %}{{ user.country }}<br />{% endif %}
-        {% endif %}
-    </span>
-
-    <span>
-        <span class="screen-reader-text">languages </span>
-        <svg class="icon icon--location" aria-hidden="true" viewBox="0 0 32 32" focusable="false">
-            <use href="{% static 'maps/images/language.svg#language' %}"/>
-        </svg>
-        {% if user.languages.count > 0 %}
-            {% for l in user.languages.all %}
-            {{ l.iso_name }}
-            {% endfor %}
-        {% endif %}
-    </span>
-
-    <div>
-        <span class="screen-reader-text">roles </span>
-        {% if user.roles.count > 0 %}
-            {% for r in user.roles.all %}
-        <span class="badge">Role: {{ r.name }}</span><br />
-            {% endfor %}
-        {% endif %}
-    </div>
-
-    <h2>About me</h2>
-    {% if user.bio %}
-    <p>{{ user.bio }}</p>
-    {% else %}
-    <p>{% lorem %}</p>
-    {% endif %}
-
-
-    <h2>Challenges</h2>
-    {% if user.challenges.count > 0 %}
-        {% for c in user.challenges.all %}
-    <span class="badge">Challenge: {{ c.name }}</span><br />
-        {% endfor %}
-    {% else %}
-    <p>{% lorem %}</p>
-    {% endif %}
-
-
-    <h2>Services provided</h2>
-    {% if user.services.count > 0 %}
-        {% for s in user.services.all %}
-    <span class="badge">Service: {{ s.name }}</span><br />
-        {% endfor %}
-    {% else %}
-    <p>{% lorem %}</p>
-    {% endif %}
-
-
-    <h2>Contact</h2>
-    {% if user.address or user.city or user.state or user.country or user.postal_code %}
-        {% if user.address %}{{ user.address }}<br />{% endif %}
-        {% if user.city %}{{ user.city }}, {% endif %}
-        {% if user.state %}{{ user.state }} {% endif %}
-        {% if user.postal_code %}{{ user.postal_code }} {% endif %}
-        {% if user.country %}{{ user.country }}<br />{% endif %}
-    {% endif %}
-    {% if user.phone %}T: {{ user.phone }}<br />{% endif %}
-    E: {{ user.email }}<br />
-
-    {% if user.socialnetworks %}
-    <h2>Follow</h2>
-        <ul>
-        {% for sn in user.usersocialnetwork_set.all %}
-            {% if sn.socialnetwork.format == 'handle' %}
-                <li class="no-bullet"><i class="fab fa-{{ sn.socialnetwork.font_awesome }}"></i><span class="screen-reader-text">{{ sn.socialnetwork.name }}</span> <a rel="external" href="{{ sn.socialnetwork.base_url }}{{ sn.identifier|cut:'@' }}">{{ sn.identifier }}</a></li>
-            {% else %} {# sn.socialnetwork.format == 'url' #}
-                <li class="no-bullet"><i class="fab fa-{{ sn.socialnetwork.font_awesome }}"></i><span class="screen-reader-text">{{ sn.socialnetwork.name }}</span> <a rel="external" href="{{ sn.identifier }}">{{ sn.identifier }}</a></li>
+        <p><a class="link--breadcrumb" href="{% url 'index' %}">{% trans "Home" %}</a></p>
+        <h1>{{ individual.first_name }} {{ individual.last_name }}</h1>
+        <div class="profile__meta">
+            <span class="screen-reader-text">{% trans 'location:' %} </span>
+            <svg class="icon icon--location" aria-hidden="true" viewBox="0 0 20 20" focusable="false">
+                <use href="{% static 'maps/dist/images/location.svg#location' %}"/>
+            </svg>
+            {% if individual.city or individual.state or individual.country %}
+                {% if individual.city %}{{ individual.city }}, {% endif %}
+                {% if individual.state %}{{ individual.state }}, {% endif %}
+                {% if individual.country %}{{ individual.country.name }}{% endif %}
             {% endif %}
+        </div>
+        <div class="profile__meta">
+            <span class="screen-reader-text">{% trans 'languages:' %} </span>
+            <svg class="icon icon--language-small" aria-hidden="true" viewBox="0 0 20 20" focusable="false">
+                <use href="{% static 'maps/dist/images/language-small.svg#language-small' %}"/>
+            </svg>
+            {% if individual.languages.count > 0 %}
+                {% for l in individual.languages.all %}
+                {{ l.iso_name }}{% if not forloop.last %}, {% endif %}
+                {% endfor %}
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="tabs">
+        <div role="tablist" aria-labelledby="tabs-label">
+            <span class="screen-reader-text" id="tabs-label">{% trans 'tab group' %}</span>
+            <a class="tab" href="#overview" id="overview-btn" role="tab" aria-controls="overview" aria-selected="true">{% trans 'Overview' %}</a>
+            {% if member_orgs|length > 4 or founder_orgs|length > 4 %}
+            <a class="tab" href="#coops" id="coops-btn" role="tab" aria-controls="coops" aria-selected="false">{% trans 'Co-ops' %}</a>
+            {% endif %}
+            {% if worked_with_orgs|length > 4 %}
+            <a class="tab" href="#clients" id="clients-btn" role="tab" aria-controls="clients" aria-selected="false">{% trans 'Clients' %}</a>
+            {% endif %}
+        </div>
+        <div id="overview" role="tabpanel" aria-labelledby="overview-btn">
+            <div class="panel__sidebar">
+                <h2>{% trans 'At a glance' %}</h2>
+                {% if individual.roles.count > 0 %}
+                <h3 class="h4">{% trans 'Roles' %}</h3>
+                <div class="profile__roles">
+                {% for r in individual.roles.all %}
+                    <div class="profile__meta profile__role"><svg class="icon icon--{{ r.icon }}" aria-hidden="true" viewBox="0 0 20 20" focusable="false">
+                        <use href="{% static 'maps/dist/images/'|add:r.icon|add:'.svg#'|add:r.icon %}"/>
+                    </svg> {{ r.name }}</div>
+                {% endfor %}
+                </div>
+                {% endif %}
+                {% if individual.services.count > 0 %}
+                <h3 class="h4">{% trans 'Services provided' %}</h3>
+                <div class="profile__meta">
+                {% for s in individual.services.all %}
+                {{ s.name }}{% if not forloop.last %}<br />{% endif %}
+                {% endfor %}
+                </div>
+                {% endif %}
+                {% if individual.affiliation %}
+                {# TODO: Handle affiliation for funders and policymakers #}
+                <h3 class="h4">{% trans 'Research affiliation' %}</h3>
+                <div class="profile__meta">
+                {% if individual.affiliation_url %}
+                <a rel="external" href="{{ individual.affiliation_url }}">{{ individual.affiliation }}</a>
+                {% else %}
+                {{ individual.affiliation }}
+                {% endif %}
+                </div>
+                {% endif %}
+                {% if individual.field_of_study %}
+                <h3 class="h4">{% trans 'Field of research' %}</h3>
+                <div class="profile__meta">
+                {{ individual.field_of_study }}
+                </div>
+                {% endif %}
+                {% if individual.community_skills %}
+                <h3 class="h4">{% trans 'Community building skills' %}</h3>
+                <div class="profile__meta">
+                {{ individual.community_skills }}
+                </div>
+                {% endif %}
+                {% if individual.usersocialnetwork_set.all.count > 0 %}
+                <h2>{% trans 'Social media' %}</h2>
+                <div class="profile__meta">
+                {% for sn in individual.usersocialnetwork_set.all %}
+                    {% if sn.socialnetwork.format == 'handle' %}
+                    <div class="profile__meta">
+                        <svg class="icon icon--{{ sn.socialnetwork.icon }}" aria-hidden="true" viewBox="0 0 20 20" focusable="false">
+                            <use href="{% static 'maps/dist/images/'|add:sn.socialnetwork.icon|add:'.svg#'|add:sn.socialnetwork.icon %}"/>
+                        </svg><span class="screen-reader-text">{{ sn.socialnetwork.name }}</span> <a rel="external" href="{{ sn.socialnetwork.base_url }}{{ sn.identifier|cut:'@' }}">{% blocktrans with name=individual.first_name|add:' '|add:individual.last_name network=sn.socialnetwork %}{{ name }}’s {{ network }}{% endblocktrans %}</a>
+                    </div>
+                    {% else %}
+                    <div class="profile__meta">
+                        <svg class="icon icon--{{ sn.socialnetwork.icon }}" aria-hidden="true" viewBox="0 0 20 20" focusable="false">
+                        <use href="{% static 'maps/dist/images/'|add:sn.socialnetwork.icon|add:'.svg#'|add:sn.socialnetwork.icon %}"/>
+                        </svg><span class="screen-reader-text">{{ sn.socialnetwork.name }}</span> <a rel="external" href="{{ sn.identifier }}">{% blocktrans with name=individual.first_name|add:' '|add:individual.last_name network=sn.socialnetwork %}{{ name }}’s {{ network }}{% endblocktrans %}</a></div>
+                    {% endif %}
+                {% endfor %}
+                </div>
+                {% endif %}
+                <div class="spacer"></div>
+            </div>
+            <div class="panel__content">
+                <h2>{% trans 'Bio' %}</h2>
+                {% if individual.bio %}
+                <p>{{ individual.bio }}</p>
+                {% else %}
+                <p>{% trans 'No bio provided.' %}</p>
+                {% endif %}
+                {% if member_orgs or founder_orgs %}
+                <h2>{% trans 'Co-ops' %}</h2>
+                    {% if founder_orgs %}
+                        <h3>{% trans 'Founded:' %}</h3>
+                        <ul class="cards">
+                        {% for org in founder_orgs|slice:":4" %}
+                            {% include 'maps/partials/card_organization.html' %}
+                        {% endfor %}
+                        </ul>
+                        {% if founder_orgs|length > 4 %}
+                        <p>
+                            <button class="button button--borderless" id="founded-by-coops-btn" type="button">{% blocktrans with name=individual.first_name|add:' '|add:individual.last_name %}Show more<span class="screen-reader-text"> co-ops of which {{ name }} is a founder</span>{% endblocktrans %}</button>
+                        </p>
+                        {% endif %}
+                    {% endif %}
+                    {% if member_orgs %}
+                        <h3>{% trans 'Member of:' %}</h3>
+                        <ul class="cards">
+                        {% for org in member_orgs|slice:":4" %}
+                            {% include 'maps/partials/card_organization.html' %}
+                        {% endfor %}
+                        </ul>
+                        {% if member_orgs|length > 4 %}
+                        <p>
+                            <button class="button button--borderless" id="member-of-coops-btn" type="button">{% blocktrans with name=individual.first_name|add:' '|add:individual.last_name %}Show more<span class="screen-reader-text"> co-ops of which {{ name }} is a member</span>{% endblocktrans %}</button>
+                        </p>
+                        {% endif %}
+                    {% endif %}
+                {% endif %}
+                {% if worked_with_orgs %}
+                <h2>{% trans 'Clients' %}</h2>
+                <p>{% blocktrans with name=individual.first_name|add:' '|add:individual.last_name %}{{ name }} has worked with:{% endblocktrans %}</p>
+                <ul class="cards">
+                {% for org in worked_with_orgs|slice:":4" %}
+                    {% include 'maps/partials/card_organization.html' %}
+                {% endfor %}
+                </ul>
+                {% if worked_with_orgs|length > 4 %}
+                <p>
+                    <button class="button button--borderless" id="worked-with-btn" type="button">{% blocktrans with name=individual.first_name|add:' '|add:individual.last_name %}Show more<span class="screen-reader-text"> organizations {{ name }} has worked with</span>{% endblocktrans %}</button>
+                </p>
+                {% endif %}
+                {% endif %}
+                {% if individual.projects %}
+                <h2>{% trans 'Projects' %}</h2>
+                <p>{{ individual.projects }}</p>
+                {% endif %}
+                <div class="spacer"></div>
+                <p>
+                    <small>
+                        {% trans 'Last updated:' %} {{ individual.updated_at|date:"F j, Y" }}<br />
+                        {% trans 'Date joined:' %} {{ individual.date_joined|date:"F j, Y" }}
+                    </small>
+                </p>
+            </div>
+        </div>
+        {% if member_orgs|length > 4 or founder_orgs|length > 4 %}
+        <div id="coops" role="tabpanel" aria-labelledby="coops-btn">
+            <h2>{% trans 'Co-ops' %}</h2>
+            {% if founder_orgs|length > 4 %}
+                <h3>{% trans 'Founded:' %}</h3>
+                <ul class="cards">
+                {% for org in founder_orgs %}
+                    {% include 'maps/partials/card_organization.html' %}
+                {% endfor %}
+                </ul>
+            {% endif %}
+            {% if member_orgs|length > 4 %}
+                <h3>{% trans 'Member of:' %}</h3>
+                <ul class="cards">
+                {% for org in member_orgs %}
+                    {% include 'maps/partials/card_organization.html' %}
+                {% endfor %}
+                </ul>
+            {% endif %}
+        </div>
+        {% endif %}
+        {% if worked_with_orgs|length > 4 %}
+        <div id="clients" role="tabpanel" aria-labelledby="clients-btn">
+        <p>{% blocktrans with name=individual.first_name|add:' '|add:individual.last_name %}{{ name }} has worked with:{% endblocktrans %}</p>
+        <ul class="cards">
+        {% for org in worked_with_orgs %}
+            {% include 'maps/partials/card_organization.html' %}
         {% endfor %}
         </ul>
-    {% endif %}
-
-    <div class="spacer"></div>
-    <small>
-        Last updated: {{ user.updated_at }}<br />
-        Date joined: {{ user.date_joined }}
-    </small>
-
+        </div>
+        {% endif %}
+    </div>
 {% endblock %}

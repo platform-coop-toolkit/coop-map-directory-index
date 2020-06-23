@@ -1,0 +1,41 @@
+{% extends 'maps/base.html' %}
+{% load static %}
+{% load i18n %}
+{% load maps_extras %}
+{% block title %}{{ 'My profiles' |titlify }}{% endblock %}
+{% block bodyclass %}my-profiles{% endblock %}
+{% block content %}
+    <div class="page-header">
+        <p><a class="link--breadcrumb" href="/">{% trans 'Home' %}</a></p>
+        <h1>{% trans 'My profiles' %}</h1>
+    </div>
+    {% if messages %}
+        {% for message in messages %}
+        {% include 'maps/partials/notification.html' %}
+        {% endfor %}
+    {% endif %}
+    <h2>{% trans 'Personal profile' %}</h2>
+    {% if user.has_profile %}
+    <ul class="cards">
+        {% with individual=user %}
+        {% include 'maps/partials/card_individual.html' %}
+        {% endwith %}
+    </ul>
+    {% else %}
+    <p>{% trans 'None created.' %}</p>
+    <p><a href="{% url 'individual-profile' %}">{% trans 'Create individual profile' %}</a></p>
+    {% endif %}
+    <h2>{% trans 'Organizational profiles' %}</h2>
+    {% if user_orgs %}
+    <ul class="cards">
+        {% for org in user_orgs %}
+        {% include 'maps/partials/card_organization.html' %}
+        {% endfor %}
+    </ul>
+    <div class="spacer"></div>
+    <p><a href="{% url 'organization-profile' %}">{% trans 'Create another organizational profile' %}</a></p>
+    {% else %}
+    <p>{% trans 'None created.' %}</p>
+    <p><a href="{% url 'organization-profile' %}">{% trans 'Create organizational profile' %}</a></p>
+    {% endif %}
+{% endblock %}

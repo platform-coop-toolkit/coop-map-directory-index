@@ -2,7 +2,7 @@ from django.contrib.gis import admin
 from django.contrib.gis.admin import ModelAdmin, OSMGeoAdmin, TabularInline
 from accounts.models import SocialNetwork
 from .models import \
-    Category, Challenge, LegalStatus, Organization, OrganizationSocialNetwork, Stage, Tool, License, \
+    Category, Challenge, LegalStatus, Organization, OrganizationSocialNetwork, Stage, Type, Tool, License, \
     Pricing, Niche, Relationship, EntitiesEntities, Service
 from django.db.models.functions import Lower
 
@@ -15,8 +15,8 @@ admin.site.index_title= 'Map / Directory / Index'
 
 # Create Admin-related classes
 @admin.register(Category)
-class CategoryNetworkAdmin(ModelAdmin):
-    list_display = ('name', 'order', 'description', )
+class CategoryAdmin(ModelAdmin):
+    list_display = ('name', 'order', 'type', 'description' )
 
 
 @admin.register(Challenge)
@@ -33,6 +33,9 @@ class LegalStatusAdmin(ModelAdmin):
 class ServiceAdmin(ModelAdmin):
     list_display = ('name', 'order', 'description', )
 
+@admin.register(Type)
+class TypeAdmin(ModelAdmin):
+    list_display = ('name', 'description' )
 
 class OrganizationSocialNetworkInline(TabularInline):
     model = OrganizationSocialNetwork

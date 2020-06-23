@@ -1,13 +1,14 @@
 {% extends 'maps/base.html' %}
 {% load static %}
+{% load i18n %}
 {% load maps_extras %}
 {% block title %}{{ title |titlify }}{% endblock %}
+{% block bodyclass %}page{% endblock %}
 {% block content %}
         <div class="page-header">
+        <p><a class="link--breadcrumb" href="{% url 'index' %}">{% trans "Home" %}</a></p>
           <h1><span class="pc-ff--sans pc-fw--normal">Platform Co-op</span><br/> Directory</h1>
-          <p class="subhead">Subhead.</p>
         </div>
-{% include 'maps/search.html' %}
         <p>
             The Platform Cooperativism Consortium (PCC) is dedicated to respecting and protecting your privacy. At the
             PCC and ICDE, we are committed to making the processes and outcomes of our work transparent and accessible
@@ -37,7 +38,7 @@
         <p>
             The Platform Cooperativism Consortium is the owner and operator of the website platform.coop. Please reach
             out to us if you have questions or concerns about how your privacy is handled, email us at
-            <a href="mailto:info@platform.coop">info@platform.coop</a> or send a letter to:
+            <a href="mailto:pcc@newschool.edu">pcc@newschool.edu</a> or send a letter to:
         </p>
 
         <p>
