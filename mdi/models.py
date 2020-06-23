@@ -261,8 +261,10 @@ class Organization(models.Model):
     def years_operating(self):
         if self.founded:
             return round((date.today() - self.founded).days/365.2425)
+        elif self.founded_min_date and self.founded_max_date:
+            return round((round((date.today() - self.founded_min_date).days/365.2425) + round((date.today() - self.founded_max_date).days/365.2425)) / 2)
         else:
-            return _('Unknown')
+            return ''
 
     def worker_distribution_to_s(self):
         if self.worker_distribution:

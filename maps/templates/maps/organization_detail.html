@@ -36,7 +36,11 @@
   <div role="tablist" aria-labelledby="tabs-label">
     <span class="screen-reader-text" id="tabs-label">{% trans 'tab group' %}</span>
     <a class="tab" href="#overview" id="overview-btn" role="tab" aria-controls="overview" aria-selected="true">{% trans 'Overview' %}</a>
-    {# TODO: Members, Tools, Contact #}
+    {% if members|length > 4 %}
+    <a class="tab" href="#members" id="members-btn" role="tab" aria-controls="members" aria-selected="false">{% trans 'Members' %}</a>
+    {% endif %}
+    <a class="tab" href="#tools" id="tools-btn" role="tab" aria-controls="tools" aria-selected="false">{% trans 'Tools' %}</a>
+    <a class="tab" href="#contact" id="contact-btn" role="tab" aria-controls="contact" aria-selected="false">{% trans 'Contact' %}</a>
   </div>
   <div id="overview" role="tabpanel" aria-labelledby="overview-btn">
     <div class="panel__sidebar">
@@ -48,80 +52,150 @@
       {% endif %}
       {# Potential co-ops and shared platforms don't get this section at the moment. #} 
       {% if organization.type.name == 'Cooperative' or organization.type.name == 'Supporting organization' %}
-        <div class="tags">
         {% for category in organization.categories.all %}
+        {% if forloop.first %}
+        <div class="tags">
+        {% endif %}
           <span class="badge">{{ category.name }}</span>
-        {% empty %}
-          <span class="badge">{% trans 'Unknown' %}</span>
-        {% endfor %}
+        {% if forloop.last %}
         </div>
+        {% endif %}
+        {% empty %}
+        <div class="profile__meta profile__meta--empty">{% trans 'Unknown' %}</div>
+        {% endfor %}
       {% endif %}
       <h3 class="h4">{% trans 'Sectors' %}</h3>
-        <div class="tags">
         {% for sector in organization.sectors.all %}
+        {% if forloop.first %}
+        <div class="tags">
+        {% endif %}
           <span class="badge">{{ sector.name }}</span>
+        {% if forloop.last %}
+        </div>
+        {% endif %}
         {% empty %}
-          <span class="badge">{% trans 'Unknown' %}</span>
+        <div class="profile__meta profile__meta--empty">{% trans 'Unknown' %}</div>
         {% endfor %}
-        </div>          
       {% if organization.type.name == 'Cooperative' %}
       <h3 class="h4">{% trans 'Stage of development' %}</h3>
+      {% if organization.stage %}
       <div class="tags">
-        <span class="badge">{{ organization.stage|default:'Unknown' }}</span>
+        <span class="badge">{{ organization.stage }}</span>
       </div>
+      {% else %}
+        <div class="profile__meta profile__meta--empty">{% trans 'Unknown' %}</div>
+      {% endif %}
       {% endif %}
       {% if organization.type.name != 'Supporting organization' %}
       <h3 class="h4">{% trans 'Number of workers' %}</h3>
-      <div class="profile__meta">
-        {{ organization.num_workers|default:'Unknown' }}
+      <div class="profile__meta{% if not organization.num_workers %} profile__meta--empty{% endif %}">
+        {{ organization.num_workers|default:_('Unknown') }}
       </div>
       <h3 class="h4">{% trans 'Worker distribution' %}</h3>
-      <div class="profile__meta">
-        {{ organization.worker_distribution_to_s|default:'Unknown' }}
+      <div class="profile__meta{% if not organization.worker_distribution %} profile__meta--empty{% endif %}">
+        {{ organization.worker_distribution_to_s|default:_('Unknown') }}
       </div>
       {% endif %}
       {% if organization.type.name == 'Cooperative' %}
       <h3 class="h4">{% trans 'Number of members' %}</h3>
-      <div class="profile__meta">
-        {{ organization.num_members|default:'Unknown' }}
+      <div class="profile__meta{% if not organization.num_members %} profile__meta--empty{% endif %}">
+        {{ organization.num_members|default:_('Unknown') }}
       </div>
       {% endif %}
-      <h3 class="h4">{% trans 'Date founded' %}</h3>
-      <div class="profile__meta">
-      
+      <h3 class="h4">{% trans 'Years in operation' %}</h3>
+      <div class="profile__meta{% if not organization.years_operating %} profile__meta--empty{% endif %}">
+        {{ organization.years_operating|default:_('Unknown') }}
       </div>
       <h3 class="h4">{% trans 'Legal status' %}</h3>
-      <div class="tags">
-        {% for status in organization.legal_status.all %}
-          <span class="badge">{{ status.name }}</span>
-        {% empty %}
-          <span class="badge">{% trans 'Unknown' %}</span>
-        {% endfor %}
+      {% for status in organization.legal_status.all %}
+        {% if forloop.first %}
+        <div class="tags">
+        {% endif %}
+        <span class="badge">{{ status.name }}</span>
+        {% if forloop.last %}
         </div>
-        {# TODO: Scope and impact #}
+        {% endif %}
+        {% empty %}
+        <div class="profile__meta profile__meta--empty">{% trans 'Unknown' %}</div>
+      {% endfor %}
+      {% if organization.type.name == 'Cooperative' %}
+      <h2>{% trans 'Scope and impact' %}</h2>
+      <h3 class="h4">{% trans 'Geographical scope of users/clients' %}</h3>
+      <div class="profile__meta{% if not organization.geo_scope %} profile__meta--empty{% endif %}">
+        {{ organization.geo_scope|default:_('Unknown') }}
+      </div>
+      <h3 class="h4">{% trans 'Number of people impacted' %}</h3>
+      <div class="profile__meta{% if not organization.impacted_exact_number %} profile__meta--empty{% endif %}">
+        {{ organization.impacted_exact_number|default:_('Unknown') }}
+      </div>
+      {% endif %}
     </div>
     <div class="panel__content">
       <h2>{% trans 'Description' %}</h2>
       {% if organization.description %}
       <p>{{ organization.description }}</p>
       {% else %}
-      <p>{% trans 'No description provided.' %}</p>
+      <p class="--empty">{% trans 'No description provided.' %}</p>
       {% endif %}
       <h2>{% trans 'Challenges' %}</h2>
       {% for c in organization.challenges.all %}
         <h3>{{ c.name }}</h3>
         <p>{{ c.description }}</p>
       {% empty %}
-        <p>{% trans 'No challenges identified.' %}</p>
+        <p class="--empty">{% trans 'No challenges identified.' %}</p>
       {% endfor %}
-      {# TODO: Members #}
-      {# TODO: Tools #}
-      {# TODO: Source code #}
+      <h2>{% trans 'Members' %}</h2>
+          {% for individual in members|slice:":4" %}
+          {% if forloop.first %}
+          <ul class="cards">
+          {% endif %}
+              {% include 'maps/partials/card_individual.html' %}
+          {% if forloop.last %}
+          </ul>
+          {% endif %}
+          {% empty %}
+          <p class="--empty">{% trans 'None listed.' %}</p>
+          {% endfor %}
+          {% if members|length > 4 %}
+          <p>
+              <button class="button button--borderless" id="cooperative-members-btn" type="button">{% blocktrans with cooperative=organization.name %}Show more<span class="screen-reader-text"> members of {{ cooperative }}</span>{% endblocktrans %}</button>
+          </p>
+          {% endif %}
+      <h2>{% trans 'Tools used by your co-op' %}</h2>
+        {% for tool in organization.tools.all|slice:":4" %}
+        {% if forloop.first %}
+        <ul class="cards">
+        {% endif %}
+        {% include 'maps/partials/card_tool.html' %}
+        {% if forloop.last %}
+        </ul>
+        {% endif %}
+        {% empty %}
+        <p class="--empty">{% trans 'None listed.' %}</p>
+        {% endfor %}
+      {% if organization.type.name != 'Supporting organization' %}
+      <h2>{% trans 'Source code' %}</h2>
+      {# TODO: Code availability #}
+      <p{% if not organization.code_availability %} class="--empty"{% endif %}>{{ organization.code_availability|default:_('Unknown') }}</p>
+      {% endif %}
       <p>
         <small>
           {% trans 'Last updated:' %} {{ organization.updated_at }}
         </small>
       </p>
     </div>
+  </div>
+  {% if members|length > 4 %}
+  <div id="members" role="tabpanel" aria-labelledby="members-btn">
+    <ul class="cards">
+    {% for individual in members %}
+        {% include 'maps/partials/card_individual.html' %}
+    {% endfor %}
+    </ul>
+  </div>
+  {% endif %}
+  <div id="tools" role="tabpanel" aria-labelledby="tools-btn">
+  </div>
+  <div id="contact" role="tabpanel" aria-labelledby="contact-btn">
   </div>
 {% endblock %}

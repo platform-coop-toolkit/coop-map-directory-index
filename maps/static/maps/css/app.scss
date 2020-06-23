@@ -338,6 +338,13 @@ select[multiple] {
   line-height: (20 / 14);
 }
 
+.profile__meta--empty,
+.--empty {
+  background: var(--grey-200);
+  font-style: italic;
+  padding: rem(15) rem(20);
+}
+
 h1 + .profile__meta {
   margin-top: 1.5rem;
 }
