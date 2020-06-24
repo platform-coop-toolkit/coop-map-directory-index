@@ -381,6 +381,46 @@ h1 + .profile__meta {
   margin-top: 0;
 }
 
+.tabs [role="tablist"] {
+  border-top: solid rem(1) var(--grey-400);
+  margin-bottom: 0;
+
+  &::before {
+    background-color: var(--grey-200);
+    border-top: solid rem(1) var(--grey-400);
+    content: "";
+    display: block;
+    height: rem(16);
+    left: 0;
+    position: absolute;
+    top: rem(-18);
+    width: inherit;
+  }
+}
+
+.tabs [role="tabpanel"] {
+  @include full-width-background($off-white);
+
+  background-color: var(--off-white);
+  padding-bottom: rem(100);
+  padding-top: rem(54);
+  position: relative;
+
+  @include breakpoint-up(md) {
+    padding-bottom: rem(130);
+  }
+}
+
+.profile .page-header {
+  @include full-width-background($white);
+
+  background-color: var(--white);
+}
+
+.profile main {
+  padding-bottom: 0;
+}
+
 @include breakpoint-up(md) {
   .profile [role="tabpanel"] > .cards {
     grid-template-columns: repeat(3, 1fr);
