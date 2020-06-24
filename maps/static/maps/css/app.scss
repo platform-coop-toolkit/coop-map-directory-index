@@ -377,6 +377,10 @@ h1 + .profile__meta {
   width: 100%;
 }
 
+.panel__content h3 + h2::before {
+  margin-top: rem(48);
+}
+
 .panel__content .cards + h2::before {
   margin-top: 0;
 }
