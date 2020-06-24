@@ -21,8 +21,8 @@ This project requires:
 7. Import the current database: `bunzip2 < scratch/cmdi.sql.bz2 | psql --set ON_ERROR_STOP=on -h localhost cmdi`
 8. Copy `.env-example` to `.env` and fill in the appropriate credentials.
 9. Copy `Procfile-example` to `Procfile` and make sure the appropriate section for your environment is uncommented.
-10. Install and build assets: `npm install && npm run build`
-11. For a local installation, start the server: `honcho start`
+10. Install and build assets: `npm ci && npm run build:production`
+11. For a local installation, start the server: `honcho start` (Django only) or `npm run dev` (with live asset compilation and reloading)
 
 ### Docker Installation
 
