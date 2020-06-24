@@ -1,13 +1,12 @@
+{% load maps_extras %}
 {% load static %}
   <footer class="content-info">
     <div class="container">
       <div class="columns">
         <div class="column">
           <a class="logo link--inverse" rel="external" href="https://platform.coop/">
-            <svg class="logo__image" viewBox="0 0 282.08 78.75" aria-hidden="true" focusable="false">
-                <use href="{% static 'maps/dist/images/logo.svg#logo' %}" />
-            </svg>
-          <span class="screen-reader-text">Platform Cooperativism Consortium</span>
+            {% icon 'logo' class_override='logo__image' viewbox='0 0 282.08 78.75' %}
+            <span class="screen-reader-text">Platform Cooperativism Consortium</span>
           </a>
           <div class="nav">
             <p><a class="link--inverse" href="{% url 'privacy_policy' %}">Our privacy policy</a></p>

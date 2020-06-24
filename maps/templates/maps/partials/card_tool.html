@@ -1,4 +1,4 @@
-{% load static %}
+{% load maps_extras %}
 {% load i18n %}
 <li class="card__wrapper">
     <div class="card card--tool">
@@ -21,19 +21,13 @@
         {% endif %}
         <div class="card__aside">
             <div class="card__meta">
-                <svg class="icon icon--pricing" aria-hidden="true" viewBox="0 0 20 20" focusable="false">
-                    <use href="{% static 'maps/dist/images/pricing.svg#pricing' %}" />
-                </svg> {% trans 'Pricing:' %} {{ tool.pricing|default:_('Not provided') }}
+                {% icon 'pricing' %} {% trans 'Pricing:' %} {{ tool.pricing|default:_('Not provided') }}
             </div>
             <div class="card__meta">
-                <svg class="icon icon--licensing" aria-hidden="true" viewBox="0 0 20 20" focusable="false">
-                    <use href="{% static 'maps/dist/images/licensing.svg#licensing' %}" />
-                </svg> {% trans 'License:' %} {{ tool.license|default:_('Not provided') }}
+                {% icon 'licensing' %} {% trans 'License:' %} {{ tool.license|default:_('Not provided') }}
             </div>
             <div class="card__meta">
-                <svg class="icon icon--language-small" aria-hidden="true" viewBox="0 0 20 20" focusable="false">
-                    <use href="{% static 'maps/dist/images/language-small.svg#language-small' %}" />
-                </svg> {% trans 'Languages:' %} {% for language in tool.languages_supported.all %}
+                {% icon 'language-small' %} {% trans 'Languages:' %} {% for language in tool.languages_supported.all %}
                 {{ language.iso_name }}{% if not forloop.last %}, {% endif %}
                 {% empty %}
                     {% trans 'None provided' %}

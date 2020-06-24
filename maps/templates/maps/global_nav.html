@@ -1,17 +1,10 @@
-{% load static %}
+{% load maps_extras %}
     <nav class="global-nav" aria-labelledby="global-nav-label">
       <span id="global-nav-label" class="screen-reader-text">global navigation</span>
       <ul class="global-nav__list">
         <li class="global-nav__list-item global-nav__list-item--first">
           <a class="global-nav__link" rel="external" href="https://platform.coop">
-            <svg
-                class="icon icon--pcc"
-                aria-hidden="true"
-                viewBox="0 0 32 32"
-                focusable="false"
-            >
-              <use href="{% static 'maps/dist/images/pcc.svg#pcc' %}" />
-            </svg>
+            {% icon 'pcc' viewbox='0 0 32 32' %}
             Platform Cooperativism Consortium</a>
         </li>
         <li class="global-nav__list-item">

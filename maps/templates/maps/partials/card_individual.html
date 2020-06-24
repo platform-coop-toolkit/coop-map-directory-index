@@ -1,4 +1,4 @@
-{% load static %}
+{% load maps_extras %}
 {% load i18n %}
 <li class="card__wrapper">
     <div class="card card--individual">
@@ -9,9 +9,7 @@
             <span class="screen-reader-text">{% trans 'roles: ' %}</span>
             {% for role in individual.roles.all %}
             <p class="card__role">
-                <svg class="icon icon--{{ role.icon }}" aria-hidden="true" viewBox="0 0 20 20" focusable="false">
-                    <use href="{% static 'maps/dist/images/'|add:role.icon|add:'.svg#'|add:role.icon %}" />
-                </svg>
+                {% icon role.icon %}
                 {{ role }}
             </p>
             {% endfor %}
@@ -21,9 +19,7 @@
             <div class="card__meta">
                 <span class="card__locality">
                     <span class="screen-reader-text">{% trans 'location: ' %}</span>
-                    <svg class="icon icon--location" aria-hidden="true" viewBox="0 0 20 20" focusable="false">
-                        <use href="{% static 'maps/dist/images/location.svg#location' %}" />
-                    </svg>
+                    {% icon 'location' %}
                     {% if individual.city %}{{ individual.city }}, {% endif %}
                     {% if individual.state %}{{ individual.state }}{% if individual.country %},{% endif %} {% endif %}
                     {% if individual.country %}{{ individual.country.name }}{% endif %}
@@ -34,9 +30,7 @@
             <div class="card__meta">
                 <span class="card__languages">
                     <span class="screen-reader-text">{% trans 'languages spoken: ' %}</span>
-                    <svg class="icon icon--language-small" aria-hidden="true" viewBox="0 0 20 20" focusable="false">
-                        <use href="{% static 'maps/dist/images/language-small.svg#language-small' %}" />
-                    </svg>
+                    {% icon 'language-small' %}
                     {% for language in individual.languages.all %}
                         {{ language }}{% if not forloop.last %}, {% endif %}
                     {% endfor %}
@@ -52,9 +46,7 @@
             {% csrf_token %}
             {{ form }}
             <button class="button button--borderless button--destructive remove-favorite" type="submit">
-                <svg class="icon icon--delete" aria-hidden="true" viewBox="0 0 20 20" focusable="false">
-                    <use href="{% static 'maps/dist/images/delete.svg#delete' %}" />
-                </svg>
+                {% icon 'delete' %}
                 {% blocktrans %}Delete <span class="screen-reader-text">personal profile</span>{% endblocktrans %}
             </button>
         </form>
