@@ -3,76 +3,76 @@
     <div class="card card--organization">
         <header>
             <h3 class="card__title">
-                <a class="card__link" href="/organizations/{{ org.id }}">{{ org.name }}</a>
+                <a class="card__link" href="/organizations/{{ organization.id }}">{{ organization.name }}</a>
             </h3>
         </header>
         <p class="card__meta card__type">
             <span class="screen-reader-text">type: </span>
-            {% if org.type.name == 'Cooperative' %}
+            {% if organization.type.name == 'Cooperative' %}
             <svg class="icon icon--cooperative" aria-hidden="true" viewBox="0 0 20 20" focusable="false">
                 <use href="{% static 'maps/dist/images/cooperative.svg#cooperative' %}" />
             </svg>
-            {% elif org.type.name == 'Potential cooperative' %}
+            {% elif organization.type.name == 'Potential cooperative' %}
             <svg class="icon icon--converting" aria-hidden="true" viewBox="0 0 20 20" focusable="false">
                 <use href="{% static 'maps/dist/images/converting.svg#converting' %}" />
             </svg>
-            {% elif org.type.name == 'Shared platform' %}
+            {% elif organization.type.name == 'Shared platform' %}
             <svg class="icon icon--converting" aria-hidden="true" viewBox="0 0 20 20" focusable="false">
                 <use href="{% static 'maps/dist/images/converting.svg#converting' %}" />
             </svg>
-            {% elif org.type.name == 'Supporting organization' %}
+            {% elif organization.type.name == 'Supporting organization' %}
             <svg class="icon icon--support-organization" aria-hidden="true" viewBox="0 0 20 20" focusable="false">
                 <use href="{% static 'maps/dist/images/support-organization.svg#support-organization' %}" />
             </svg>
             {% endif %}
-            {{ org.type }}
+            {{ organization.type }}
         </p>
         <div class="card__aside">
-            {% if org.city or org.state or org.country %}
+            {% if organization.city or organization.state or organization.country %}
             <div class="card__meta">
                 <span class="card__locality">
                     <span class="screen-reader-text">location: </span>
                     <svg class="icon icon--location" aria-hidden="true" viewBox="0 0 20 20" focusable="false">
                         <use href="{% static 'maps/dist/images/location.svg#location' %}" />
                     </svg>
-                        {% if org.city %}{{ org.city }}, {% endif %}
-                        {% if org.state %}{{ org.state }}{% if org.country %},{% endif %} {% endif %}
-                        {% if org.country %}{{ org.country.name }}{% endif %}
+                        {% if organization.city %}{{ organization.city }}, {% endif %}
+                        {% if organization.state %}{{ organization.state }}{% if organization.country %},{% endif %} {% endif %}
+                        {% if organization.country %}{{ organization.country.name }}{% endif %}
                 </span>
             </div>
             {% endif %}
-            {% if org.working_languages %}
+            {% if organization.working_languages %}
             <div class="card__meta">
                 <span class="card__languages">
                     <span class="screen-reader-text">working languages: </span>
                     <svg class="icon icon--language-small" aria-hidden="true" viewBox="0 0 20 20" focusable="false">
                         <use href="{% static 'maps/dist/images/language-small.svg#language-small' %}" />
                     </svg>
-                    {% for language in org.languages %}{{ language }}{% endfor %}
+                    {% for language in organization.languages %}{{ language }}{% endfor %}
                 </span>
             </div>
             {% endif %}
-            {% if org.categories.all %}
+            {% if organization.categories.all %}
             <div class="card__meta">
                 <span class="card__subtypes">
-                    <span class="screen-reader-text">{% if org.type == 'Cooperative' %}cooperative{% else %}organization{% endif %} types: </span>
+                    <span class="screen-reader-text">{% if organization.type == 'Cooperative' %}cooperative{% else %}organization{% endif %} types: </span>
                     <svg class="icon icon--coop-type" aria-hidden="true" viewBox="0 0 20 20" focusable="false">
                         <use href="{% static 'maps/dist/images/coop-type.svg#coop-type' %}" />
                     </svg>
-                    {% for type in org.categories.all %}
+                    {% for type in organization.categories.all %}
                         {{ type }}{% if not forloop.last %}, {% endif %}
                     {% endfor %}
                 </span>
             </div>
             {% endif %}
-            {% if org.sectors.all %}
+            {% if organization.sectors.all %}
             <div class="card__meta">
                 <span class="card__subtypes">
                     <span class="screen-reader-text">sectors: </span>
                     <svg class="icon icon--sector" aria-hidden="true" viewBox="0 0 24 24" focusable="false">
                         <use href="{% static 'maps/dist/images/sector.svg#sector' %}" />
                     </svg>
-                    {% for sector in org.sectors.all %}
+                    {% for sector in organization.sectors.all %}
                         {{ sector }}{% if not forloop.last %}, {% endif %}
                     {% endfor %}
                 </span>
@@ -81,9 +81,9 @@
         </div>
     </div>
     {% url 'my-profiles' as my_profiles_url %}
-    {% if request.get_full_path == my_profiles_url and org.admin_email == user.email %}
+    {% if request.get_full_path == my_profiles_url and organization.admin_email == user.email %}
     <div class="align-left">
-        <form class="delete-organization" method="POST" action="{% url 'organization-delete' pk=org.id %}">
+        <form class="delete-organization" method="POST" action="{% url 'organization-delete' pk=organization.id %}">
             {% csrf_token %}
             <button class="button button--borderless button--destructive delete-profile" type="submit">
                 <svg class="icon icon--delete" aria-hidden="true" viewBox="0 0 20 20" focusable="false">
