@@ -40,8 +40,8 @@
     {% if members|length > 4 or founders|length > 4 %}
     <a class="tab" href="#founders-and-members" id="founders-and-members-btn" role="tab" aria-controls="founders-and-members" aria-selected="false">{% trans 'Founders and members' %}</a>
     {% endif %}
-    {% if organization.tools.all|length > 4 %}
-    <a class="tab" href="#tools" id="tools-btn" role="tab" aria-controls="tools" aria-selected="false">{% trans 'Tools' %}</a>
+    {% if organization.tools.all|length > 0 %}
+    <a class="tab" href="#tools" id="tools-btn" role="tab" aria-controls="tools" aria-selected="false">{% trans 'Tools used' %}</a>
     {% endif %}
     <a class="tab" href="#contact" id="contact-btn" role="tab" aria-controls="contact" aria-selected="false">{% trans 'Contact' %}</a>
   </div>
@@ -243,10 +243,49 @@
     {% endfor %}
   </div>
   {% endif %}
-  {% if organization.tools.all|length > 4 %}
+  {% if organization.tools.all|length > 0 %}
   <div id="tools" role="tabpanel" aria-labelledby="tools-btn">
+  <h2>{% trans 'Tools used' %}</h2>
+  <ul class="cards">
+    {% for tool in organization.tools.all %}
+      {% include 'maps/partials/card_tool.html' %}
+    {% endfor %}
+  </ul>
   </div>
   {% endif %}
   <div id="contact" role="tabpanel" aria-labelledby="contact-btn">
+    <h2>{% trans 'Contact' %}</h2>
+    {% if organization.email %}
+    <h3>{% trans 'Email' %}</h3>
+    <p><a rel="external" href="mailto:{{ organization.email }}">{{ organization.email }}</a></p>
+    {% endif %}
+    {% if organization.phone %}
+    <h3>{% trans 'Phone' %}</h3>
+    <p>{{ organization.phone }}</p>
+    {% endif %}
+    <h3>{% trans 'Business address' %}</h3>
+    <p>
+    {% if organization.address %}{{ organization.address }}<br />{% endif %}
+    {{ organization.city }}{% if organization.state %}, {{ organization.state }}{% endif %}{% if organization.postal_code %} {{ organization.postal_code }}{% endif %}<br />
+    {{ organization.country.name }}
+    </p>
+    {% if organization.organizationsocialnetwork_set.all|length > 0 %}
+    <h3>{% trans 'Social media' %}</h3>
+    {% for sn in organization.organizationsocialnetwork_set.all %}
+      {% if sn.socialnetwork.format == 'handle' %}
+      <p>
+          <a rel="external" href="{{ sn.socialnetwork.base_url }}{{ sn.identifier|cut:'@' }}"><svg class="icon icon--{{ sn.socialnetwork.icon }}" aria-hidden="true" viewBox="0 0 20 20" focusable="false">
+              <use href="{% static 'maps/dist/images/'|add:sn.socialnetwork.icon|add:'.svg#'|add:sn.socialnetwork.icon %}"/>
+          </svg> {% blocktrans with name=organization.name network=sn.socialnetwork %}{{ name }}’s {{ network }}{% endblocktrans %}</a>
+      </p>
+      {% else %}
+      <p>
+          <a rel="external" href="{{ sn.identifier }}"><svg class="icon icon--{{ sn.socialnetwork.icon }}" aria-hidden="true" viewBox="0 0 20 20" focusable="false">
+          <use href="{% static 'maps/dist/images/'|add:sn.socialnetwork.icon|add:'.svg#'|add:sn.socialnetwork.icon %}"/>
+          </svg> {% blocktrans with name=organization.name network=sn.socialnetwork %}{{ name }}’s {{ network }}{% endblocktrans %}</a>
+      </p>
+      {% endif %}
+    {% endfor %}
+    {% endif %}
   </div>
 {% endblock %}

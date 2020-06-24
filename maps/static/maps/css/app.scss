@@ -381,8 +381,14 @@ h1 + .profile__meta {
   margin-top: 0;
 }
 
+@include breakpoint-up(md) {
+  .profile [role="tabpanel"] > .cards {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
 @include breakpoint-up(lg) {
-  #overview {
+  .profile [role="tabpanel"]#overview {
     grid-gap: $gutter;
     grid-template-columns: repeat(12, 1fr);
 
@@ -397,15 +403,11 @@ h1 + .profile__meta {
     .panel__content {
       grid-column: 4 / 13;
     }
-
-    .cards {
-      grid-template-columns: repeat(2, 1fr);
-    }
   }
 }
 
 @include breakpoint-up(xl) {
-  #overview {
+  .profile [role="tabpanel"]#overview {
     grid-template-columns: repeat(16, 1fr);
 
     .panel__sidebar {
