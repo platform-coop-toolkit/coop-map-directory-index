@@ -61,10 +61,10 @@
   <div role="tablist" aria-labelledby="tabs-label">
     <span class="screen-reader-text" id="tabs-label">{% trans 'tab group' %}</span>
     <a class="tab" href="#overview" id="overview-btn" role="tab" aria-controls="overview" aria-selected="true">{% trans 'Overview' %}</a>
-    {% if members|length > 4 or founders|length > 4 %}
+    {% if organization.type.name == 'Cooperative' and members|length > 4 or founders|length > 4 %}
     <a class="tab" href="#founders-and-members" id="founders-and-members-btn" role="tab" aria-controls="founders-and-members" aria-selected="false">{% trans 'Founders and members' %}</a>
     {% endif %}
-    {% if organization.tools.all|length > 0 %}
+    {% if organization.type.name == 'Cooperative' and organization.tools.all|length > 4 %}
     <a class="tab" href="#tools" id="tools-btn" role="tab" aria-controls="tools" aria-selected="false">{% trans 'Tools used' %}</a>
     {% endif %}
     {% if organization.email or organization.city or organization.country %}
@@ -79,7 +79,6 @@
       {% elif organization.type.name == 'Supporting organization' %}
         <h3 class="h4">{% trans 'Organization types' %}</h3>
       {% endif %}
-      {# Potential co-ops and shared platforms don't get this section at the moment. #} 
       {% if organization.type.name == 'Cooperative' or organization.type.name == 'Supporting organization' %}
         {% for category in organization.categories.all %}
         {% if forloop.first %}
@@ -135,6 +134,7 @@
       <div class="profile__meta{% if not organization.years_operating %} profile__meta--empty{% endif %}">
         {{ organization.years_operating|default:_('Not provided.') }}
       </div>
+      {% if organization.type.name == 'Cooperative' %}
       <h3 class="h4">{% trans 'Legal status' %}</h3>
       {% for status in organization.legal_status.all %}
         {% if forloop.first %}
@@ -147,7 +147,6 @@
         {% empty %}
         <div class="profile__meta profile__meta--empty">{% trans 'None provided.' %}</div>
       {% endfor %}
-      {% if organization.type.name == 'Cooperative' %}
       <h2>{% trans 'Scope and impact' %}</h2>
       <h3 class="h4">{% trans 'Geographical scope of users/clients' %}</h3>
       <div class="profile__meta{% if not organization.geo_scope %} profile__meta--empty{% endif %}">
@@ -166,6 +165,7 @@
       {% else %}
       <p class="--empty">{% trans 'Not provided.' %}</p>
       {% endif %}
+      {% if organization.type.name == 'Cooperative' %}
       <h2>{% trans 'Challenges' %}</h2>
       {% for c in organization.challenges.all %}
         <h3>{{ c.name }}</h3>
@@ -225,13 +225,12 @@
               <button class="button button--borderless" id="more-tools-btn" type="button">{% blocktrans with cooperative=organization.name %}Show more<span class="screen-reader-text"> tools used by {{ cooperative }}</span>{% endblocktrans %}</button>
           </p>
           {% endif %}
-      {% if organization.type.name != 'Supporting organization' %}
+      {% endif %}
       <h2>{% trans 'Source code' %}</h2>
       {% if organization.code_url %}
       <p><a rel="external" href="{{ organization.code_url }}">{{ organization.code_url }}</a></p>
       {% else %}
       <p class="--empty">{% trans 'Not provided.' %}</p>
-      {% endif %}
       {% endif %}
       <div class="spacer"></div>
       <p>
@@ -241,7 +240,7 @@
       </p>
     </div>
   </div>
-  {% if members|length > 4 or founders|length > 4 %}
+  {% if organization.type.name == 'Cooperative' and members|length > 4 or founders|length > 4 %}
   <div id="founders-and-members" role="tabpanel" aria-labelledby="founders-and-members-btn">
     <h2>{% trans 'Founders' %}</h2>
     {% for individual in founders %}
@@ -269,7 +268,7 @@
     {% endfor %}
   </div>
   {% endif %}
-  {% if organization.tools.all|length > 0 %}
+  {% if organization.type.name == 'Cooperative' and organization.tools.all|length > 4 %}
   <div id="tools" role="tabpanel" aria-labelledby="tools-btn">
   <h2>{% trans 'Tools used' %}</h2>
   <ul class="cards">
