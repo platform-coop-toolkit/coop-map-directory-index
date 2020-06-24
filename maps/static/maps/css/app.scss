@@ -440,3 +440,19 @@ h1 + .profile__meta {
 .h4 + .tags {
   margin-top: 0;
 }
+
+.columns {
+  .column + .column {
+    margin-top: rem(56);
+  }
+
+  @include breakpoint-up(lg) {
+    column-gap: $gutter;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+
+    .column + .column {
+      margin-top: 0;
+    }
+  }
+}

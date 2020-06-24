@@ -290,7 +290,7 @@ class Organization(models.Model):
                 'international': _('Internationally distributed')
             }[self.worker_distribution]
         else:
-            return _('Unknown')
+            return _('Not provided.')
 
     def sectors_to_s(self):
         if self.sectors.count() > 0:
@@ -299,7 +299,7 @@ class Organization(models.Model):
                 sector_string += '{}, '.format(s)
             sector_string = sector_string.rstrip(', ')
         else:
-            sector_string = _('Unknown')
+            sector_string = _('None provided.')
         return sector_string
 
     def legal_status_to_s(self):
@@ -309,7 +309,7 @@ class Organization(models.Model):
                 legal_status_string += '{}, '.format(ls)
             legal_status_string = legal_status_string.rstrip(', ')
         else:
-            legal_status_string = _('Unknown')
+            legal_status_string = _('Not provided.')
         return legal_status_string
     
     def murmurate(self):

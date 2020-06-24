@@ -6,7 +6,27 @@
 {% block bodyclass %}profile profile--organization{% endblock %}
 {% block content %}
   <div class="page-header">
-      <p><a class="link--breadcrumb" href="{% url 'index' %}">{% trans "Home" %}</a></p>
+      
+      <p>
+        {% if organization.type.name == 'Cooperative' %}
+          <svg class="icon icon--cooperative" aria-hidden="true" viewBox="0 0 20 20" focusable="false">
+              <use href="{% static 'maps/dist/images/cooperative.svg#cooperative' %}" />
+          </svg>
+        {% elif organization.type.name == 'Potential cooperative' %}
+          <svg class="icon icon--converting" aria-hidden="true" viewBox="0 0 20 20" focusable="false">
+              <use href="{% static 'maps/dist/images/converting.svg#converting' %}" />
+          </svg>
+        {% elif organization.type.name == 'Shared platform' %}
+          <svg class="icon icon--coop-type" aria-hidden="true" viewBox="0 0 20 20" focusable="false">
+              <use href="{% static 'maps/dist/images/coop-type.svg#coop-type' %}" />
+          </svg>
+        {% elif organization.type.name == 'Supporting organization' %}
+          <svg class="icon icon--support-organization" aria-hidden="true" viewBox="0 0 20 20" focusable="false">
+              <use href="{% static 'maps/dist/images/support-organization.svg#support-organization' %}" />
+          </svg>
+        {% endif %}
+        {{ organization.type }}
+      </p>
       <h1>{{ organization.name }}</h1>
       {% if organization.url %}
       <div class="profile__meta">
@@ -18,7 +38,11 @@
         <span class="screen-reader-text">{% trans 'location:' %} </span>
           <svg class="icon icon--location" aria-hidden="true" viewBox="0 0 20 20" focusable="false">
               <use href="{% static 'maps/dist/images/location.svg#location' %}"/>
-          </svg> {{ organization.city }}, {% if organization.state %}{{ organization.state }}, {% endif %}{{ organization.country.name }}
+          </svg> {% if organization.city or organization.country %}
+            {{ organization.city }}, {% if organization.state %}{{ organization.state }}, {% endif %}{{ organization.country.name }}
+          {% else %}
+            {% trans 'Not provided' %}
+          {% endif %}
       </div>
       {% if organization.languages.count > 0 %}
       <div class="profile__meta">
@@ -43,7 +67,9 @@
     {% if organization.tools.all|length > 0 %}
     <a class="tab" href="#tools" id="tools-btn" role="tab" aria-controls="tools" aria-selected="false">{% trans 'Tools used' %}</a>
     {% endif %}
+    {% if organization.email or organization.city or organization.country %}
     <a class="tab" href="#contact" id="contact-btn" role="tab" aria-controls="contact" aria-selected="false">{% trans 'Contact' %}</a>
+    {% endif %}
   </div>
   <div id="overview" role="tabpanel" aria-labelledby="overview-btn">
     <div class="panel__sidebar">
@@ -182,7 +208,7 @@
               <button class="button button--borderless" id="members-btn" type="button">{% blocktrans with cooperative=organization.name %}Show more<span class="screen-reader-text"> members of {{ cooperative }}</span>{% endblocktrans %}</button>
           </p>
           {% endif %}
-      <h2>{% trans 'Tools used by your co-op' %}</h2>
+      <h2>{% trans 'Tools used' %}</h2>
         {% for tool in organization.tools.all|slice:":4" %}
         {% if forloop.first %}
         <ul class="cards">
@@ -253,8 +279,12 @@
   </ul>
   </div>
   {% endif %}
+  {% if organization.email or organization.city or organization.country %}
   <div id="contact" role="tabpanel" aria-labelledby="contact-btn">
     <h2>{% trans 'Contact' %}</h2>
+    <div class="columns">
+    {% if organization.email or organization.phone %}
+    <div class="column">
     {% if organization.email %}
     <h3>{% trans 'Email' %}</h3>
     <p><a rel="external" href="mailto:{{ organization.email }}">{{ organization.email }}</a></p>
@@ -263,29 +293,37 @@
     <h3>{% trans 'Phone' %}</h3>
     <p>{{ organization.phone }}</p>
     {% endif %}
+    </div>
+    {% endif %}
+    <div class="column">
     <h3>{% trans 'Business address' %}</h3>
     <p>
     {% if organization.address %}{{ organization.address }}<br />{% endif %}
     {{ organization.city }}{% if organization.state %}, {{ organization.state }}{% endif %}{% if organization.postal_code %} {{ organization.postal_code }}{% endif %}<br />
     {{ organization.country.name }}
     </p>
+    </div>
     {% if organization.organizationsocialnetwork_set.all|length > 0 %}
+    <div class="column">
     <h3>{% trans 'Social media' %}</h3>
     {% for sn in organization.organizationsocialnetwork_set.all %}
       {% if sn.socialnetwork.format == 'handle' %}
       <p>
-          <a rel="external" href="{{ sn.socialnetwork.base_url }}{{ sn.identifier|cut:'@' }}"><svg class="icon icon--{{ sn.socialnetwork.icon }}" aria-hidden="true" viewBox="0 0 20 20" focusable="false">
+          <svg class="icon icon--{{ sn.socialnetwork.icon }}" aria-hidden="true" viewBox="0 0 20 20" focusable="false">
               <use href="{% static 'maps/dist/images/'|add:sn.socialnetwork.icon|add:'.svg#'|add:sn.socialnetwork.icon %}"/>
-          </svg> {% blocktrans with name=organization.name network=sn.socialnetwork %}{{ name }}’s {{ network }}{% endblocktrans %}</a>
+          </svg> <a rel="external" href="{{ sn.socialnetwork.base_url }}{{ sn.identifier|cut:'@' }}">{% blocktrans with name=organization.name network=sn.socialnetwork %}{{ name }}’s {{ network }}{% endblocktrans %}</a>
       </p>
       {% else %}
       <p>
-          <a rel="external" href="{{ sn.identifier }}"><svg class="icon icon--{{ sn.socialnetwork.icon }}" aria-hidden="true" viewBox="0 0 20 20" focusable="false">
+          <svg class="icon icon--{{ sn.socialnetwork.icon }}" aria-hidden="true" viewBox="0 0 20 20" focusable="false">
           <use href="{% static 'maps/dist/images/'|add:sn.socialnetwork.icon|add:'.svg#'|add:sn.socialnetwork.icon %}"/>
-          </svg> {% blocktrans with name=organization.name network=sn.socialnetwork %}{{ name }}’s {{ network }}{% endblocktrans %}</a>
+          </svg> <a rel="external" href="{{ sn.identifier }}">{% blocktrans with name=organization.name network=sn.socialnetwork %}{{ name }}’s {{ network }}{% endblocktrans %}</a>
       </p>
       {% endif %}
     {% endfor %}
+    </div>
     {% endif %}
+    </div>
   </div>
+  {% endif %}
 {% endblock %}
