@@ -3,7 +3,8 @@ from django.contrib.auth import get_user_model
 from django.contrib.gis.db import models
 from datetime import date
 from django.utils import timezone
-from accounts.models import SocialNetwork, Source
+from django.utils.translation import gettext_lazy as _
+from accounts.models import SocialNetwork
 from django_countries.fields import CountryField
 
 from django.core.exceptions import ValidationError
@@ -78,6 +79,20 @@ class Service(models.Model):
 
     class Meta:
         ordering = ['order']
+
+    def __str__(self):
+        return self.name
+
+
+class Source(models.Model):
+    name = models.CharField(blank=False, max_length=255, unique=True)
+    description = models.CharField(blank=True, max_length=255)
+    url = models.URLField(blank=True, max_length=255)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ['name']
 
     def __str__(self):
         return self.name
@@ -243,6 +258,7 @@ class Organization(models.Model):
     impacted_range = IntegerRangeField(blank=True, null=True, default=None)
     impacted_exact_number = models.IntegerField(blank=True, null=True, default=None)
     code_availability = models.CharField(blank=True, max_length=9, choices=[('Yes', 'Yes'), ('Partially', 'Partially'), ('No', 'No')])
+    code_url = models.URLField(blank=True, default='', max_length=255)
     categories = models.ManyToManyField(Category, blank=True,)
     stage = models.ForeignKey(Stage, blank=True, null=True, default=None, on_delete=models.CASCADE)
     source = models.ForeignKey(Source, on_delete=models.CASCADE, blank=True, null=True)
@@ -260,8 +276,21 @@ class Organization(models.Model):
     def years_operating(self):
         if self.founded:
             return round((date.today() - self.founded).days/365.2425)
+        elif self.founded_min_date and self.founded_max_date:
+            return round((round((date.today() - self.founded_min_date).days/365.2425) + round((date.today() - self.founded_max_date).days/365.2425)) / 2)
         else:
-            return 'Unknown'
+            return ''
+
+    def worker_distribution_to_s(self):
+        if self.worker_distribution:
+            return {
+                'colocated': _('Co-located'),
+                'regional': _('Regionally distributed'), 
+                'national': _('Nationally distributed'), 
+                'international': _('Internationally distributed')
+            }[self.worker_distribution]
+        else:
+            return _('Not provided.')
 
     def sectors_to_s(self):
         if self.sectors.count() > 0:
@@ -270,7 +299,7 @@ class Organization(models.Model):
                 sector_string += '{}, '.format(s)
             sector_string = sector_string.rstrip(', ')
         else:
-            sector_string = 'Unknown'
+            sector_string = _('None provided.')
         return sector_string
 
     def legal_status_to_s(self):
@@ -280,7 +309,7 @@ class Organization(models.Model):
                 legal_status_string += '{}, '.format(ls)
             legal_status_string = legal_status_string.rstrip(', ')
         else:
-            legal_status_string = 'Unknown'
+            legal_status_string = _('Not provided.')
         return legal_status_string
     
     def murmurate(self):

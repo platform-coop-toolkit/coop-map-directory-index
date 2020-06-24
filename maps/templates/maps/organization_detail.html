@@ -3,108 +3,328 @@
 {% load i18n %}
 {% load maps_extras %}
 {% block title %}{{ organization.name|titlify }}{% endblock %}
-{% block bodyclass %}page{% endblock %}
+{% block bodyclass %}profile profile--organization{% endblock %}
 {% block content %}
-    <div class="page-header">
-        <p><a class="link--breadcrumb" href="{% url 'index' %}">{% trans "Home" %}</a></p>
-        <h1><span class="pc-ff--sans pc-fw--normal">Platform Co-op</span><br/> Directory</h1>
-    </div>
-    {% if organization.url %}
-    <h1><a rel="external" href="{{ organization.url }}">{{ organization.name }}</a></h1>
-    {% else %}
-    <h1>{{ organization.name }}</h1>
-    {% endif %}
-
-    <div class="spacer"></div>
-    <span>
-        <span class="screen-reader-text">location: </span>
-        <svg class="icon icon--location" aria-hidden="true" viewBox="0 0 20 20" focusable="false">
-            <use href="{% static 'maps/dist/images/location.svg#location' %}"/>
-        </svg> {{ organization.city }}, {{ organization.country }}
-    </span>
-
-    <div class="spacer"></div>
-    <div class="tags">
-      <table width="100%">
-        <tr><td><strong>Sectors:</strong> {{ organization.sectors_to_s }}</td></tr>
-        <tr><td><strong>Type:</strong> {{ organization.type|default:'Unknown' }}</td></tr>
-        <tr><td><strong>Years in operation:</strong> {{ organization.years_operating }}</td></tr>
-        <tr><td><strong>Number of members:</strong> {{ organization.num_workers|default:'Unknown' }}</td>
-        <tr><td>
-          <strong>Development stage:</strong> {{ organization.stage|default:'Unknown' }}
-          <svg class="icon icon--info" aria-hidden="" viewBox="0 0 20 20" focusable="false">
-            <use href="{% static 'maps/dist/images/info.svg#info' %}"/>
+  <div class="page-header">
+      
+      <p>
+        {% if organization.type.name == 'Cooperative' %}
+          <svg class="icon icon--cooperative" aria-hidden="true" viewBox="0 0 20 20" focusable="false">
+              <use href="{% static 'maps/dist/images/cooperative.svg#cooperative' %}" />
           </svg>
-      </td></tr>
-      {% if organization.legal_status %}
-      <tr><td>
-        <strong>Legal status:</strong> {{ organization.legal_status_to_s }}
-        <svg class="icon icon--info" aria-hidden="" viewBox="0 0 20 20" focusable="false">
-          <use href="{% static 'maps/dist/images/info.svg#info' %}"/>
-        </svg>
-      </td></tr>
+        {% elif organization.type.name == 'Potential cooperative' %}
+          <svg class="icon icon--converting" aria-hidden="true" viewBox="0 0 20 20" focusable="false">
+              <use href="{% static 'maps/dist/images/converting.svg#converting' %}" />
+          </svg>
+        {% elif organization.type.name == 'Shared platform' %}
+          <svg class="icon icon--coop-type" aria-hidden="true" viewBox="0 0 20 20" focusable="false">
+              <use href="{% static 'maps/dist/images/coop-type.svg#coop-type' %}" />
+          </svg>
+        {% elif organization.type.name == 'Supporting organization' %}
+          <svg class="icon icon--support-organization" aria-hidden="true" viewBox="0 0 20 20" focusable="false">
+              <use href="{% static 'maps/dist/images/support-organization.svg#support-organization' %}" />
+          </svg>
+        {% endif %}
+        {{ organization.type }}
+      </p>
+      <h1>{{ organization.name }}</h1>
+      <div class="profile__meta">
+        <span class="screen-reader-text">{% trans 'location:' %} </span>
+          <svg class="icon icon--location" aria-hidden="true" viewBox="0 0 20 20" focusable="false">
+              <use href="{% static 'maps/dist/images/location.svg#location' %}"/>
+          </svg> {% if organization.city or organization.country %}
+            {{ organization.city }}, {% if organization.state %}{{ organization.state }}, {% endif %}{{ organization.country.name }}
+          {% else %}
+            {% trans 'Not provided' %}
+          {% endif %}
+      </div>
+      {% if organization.languages.count > 0 %}
+      <div class="profile__meta">
+          <span class="screen-reader-text">{% trans 'languages:' %} </span>
+          <svg class="icon icon--language-small" aria-hidden="true" viewBox="0 0 20 20" focusable="false">
+              <use href="{% static 'maps/dist/images/language-small.svg#language-small' %}"/>
+          </svg>
+          
+              {% for l in organization.languages.all %}
+              {{ l.iso_name }}{% if not forloop.last %}, {% endif %}
+              {% endfor %}
+      </div>
       {% endif %}
-      </table>
-    </div>
-
-    <h2>Description</h2>
-    {% if organization.description %}
-    <p>{{ organization.description }}</p>
-    {% else %}
-    <p>{% lorem %}</p>
+      {% if organization.url %}
+      <div class="spacer"></div>
+      <p>
+          <a rel="external" href="{{ organization.url }}">{% trans 'Visit website' %}</a>
+      </p>
+      {% endif %}
+  </div>
+  <div class="tabs">
+  <div role="tablist" aria-labelledby="tabs-label">
+    <span class="screen-reader-text" id="tabs-label">{% trans 'tab group' %}</span>
+    <a class="tab" href="#overview" id="overview-btn" role="tab" aria-controls="overview" aria-selected="true">{% trans 'Overview' %}</a>
+    {% if organization.type.name == 'Cooperative' and members|length > 4 or founders|length > 4 %}
+    <a class="tab" href="#founders-and-members" id="founders-and-members-btn" role="tab" aria-controls="founders-and-members" aria-selected="false">{% trans 'Founders and members' %}</a>
     {% endif %}
-
-    <h2>Challenges</h2>
-    {% if organization.challenges.count > 0 %}
-      <ul>
-      {% for c in organization.challenges.all %}
-        <li class="no-bullet">
-          <span class="badge">
-            {{ c.name }}
-             <svg class="icon icon--author" aria-hidden="true" viewBox="0 0 20 20" focusable="false">
-                <use href="{% static 'maps/dist/images/author.svg#author' %}"/>
-            </svg>
-          </span>
-        </li>
-      {% endfor %}
-      </ul>
-    {% else %}
-      <p>Unknown</p>
+    {% if organization.type.name == 'Cooperative' and organization.tools.all|length > 4 %}
+    <a class="tab" href="#tools" id="tools-btn" role="tab" aria-controls="tools" aria-selected="false">{% trans 'Tools used' %}</a>
     {% endif %}
-
-    <h2>Contact</h2>
-    <p>
-        {{ organization.address }}<br />
-        {{ organization.city }}, {{ organization.country }}<br />
-        T: +1 555 555 1212 {# organization.phone #}<br />
-        E: {{ organization.email }}<br />
-    </p>
-
-    {% if organization.socialnetworks %}
-    <h2>Follow</h2>
-        <ul>
-        {% for sn in organization.organizationsocialnetwork_set.all %}
-            {% if sn.socialnetwork.format == 'handle' %}
-            <li class="no-bullet"><svg class="icon icon--{{ sn.socialnetwork.icon }}" aria-hidden="true" viewBox="0 0 20 20" focusable="false">
-                <use href="{% static 'maps/dist/images/'|add:sn.socialnetwork.icon|add:'.svg#'|add:sn.socialnetwork.icon %}"/>
-            </svg><span class="screen-reader-text">{{ sn.socialnetwork.name }}</span> <a rel="external"href="{{ sn.socialnetwork.base_url }}{{ sn.identifier|cut:'@' }}">{{ sn.identifier }}</a></li>
-            {% else %} {# sn.socialnetwork.format == 'url' #}
-            <li class="no-bullet"><svg class="icon icon--{{ sn.socialnetwork.icon }}" aria-hidden="true" viewBox="0 0 20 20" focusable="false">
-                <use href="{% static 'maps/dist/images/'|add:sn.socialnetwork.icon|add:'.svg#'|add:sn.socialnetwork.icon %}"/>
-            </svg><span class="screen-reader-text">{{ sn.socialnetwork.name }}</span> <a rel="external"href="{{ sn.identifier }}">{{ sn.identifier }}</a></li>
-            {% endif %}
+    {% if organization.email or organization.city or organization.country %}
+    <a class="tab" href="#contact" id="contact-btn" role="tab" aria-controls="contact" aria-selected="false">{% trans 'Contact' %}</a>
+    {% endif %}
+  </div>
+  <div id="overview" role="tabpanel" aria-labelledby="overview-btn">
+    <div class="panel__sidebar">
+      <h2>{% trans 'At a glance' %}</h2>
+      {% if organization.type.name == 'Cooperative' %}
+        <h3 class="h4">{% trans 'Co-op types' %}</h3>
+      {% elif organization.type.name == 'Supporting organization' %}
+        <h3 class="h4">{% trans 'Organization types' %}</h3>
+      {% endif %}
+      {% if organization.type.name == 'Cooperative' or organization.type.name == 'Supporting organization' %}
+        {% for category in organization.categories.all %}
+        {% if forloop.first %}
+        <div class="tags">
+        {% endif %}
+          <span class="badge">{{ category.name }}</span>
+        {% if forloop.last %}
+        </div>
+        {% endif %}
+        {% empty %}
+        <div class="profile__meta profile__meta--empty">{% trans 'None provided.' %}</div>
         {% endfor %}
+      {% endif %}
+      <h3 class="h4">{% trans 'Sectors' %}</h3>
+        {% for sector in organization.sectors.all %}
+        {% if forloop.first %}
+        <div class="tags">
+        {% endif %}
+          <span class="badge">{{ sector.name }}</span>
+        {% if forloop.last %}
+        </div>
+        {% endif %}
+        {% empty %}
+        <div class="profile__meta profile__meta--empty">{% trans 'None provided.' %}</div>
+        {% endfor %}
+      {% if organization.type.name == 'Cooperative' %}
+      <h3 class="h4">{% trans 'Stage of development' %}</h3>
+      {% if organization.stage %}
+      <div class="tags">
+        <span class="badge">{{ organization.stage }}</span>
+      </div>
+      {% else %}
+        <div class="profile__meta profile__meta--empty">{% trans 'Not provided.' %}</div>
+      {% endif %}
+      {% endif %}
+      {% if organization.type.name != 'Supporting organization' %}
+      <h3 class="h4">{% trans 'Number of workers' %}</h3>
+      <div class="profile__meta{% if not organization.num_workers %} profile__meta--empty{% endif %}">
+        {{ organization.num_workers|default:_('Not provided.') }}
+      </div>
+      <h3 class="h4">{% trans 'Worker distribution' %}</h3>
+      <div class="profile__meta{% if not organization.worker_distribution %} profile__meta--empty{% endif %}">
+        {{ organization.worker_distribution_to_s|default:_('Not provided.') }}
+      </div>
+      {% endif %}
+      {% if organization.type.name == 'Cooperative' %}
+      <h3 class="h4">{% trans 'Number of members' %}</h3>
+      <div class="profile__meta{% if not organization.num_members %} profile__meta--empty{% endif %}">
+        {{ organization.num_members|default:_('Not provided.') }}
+      </div>
+      {% endif %}
+      <h3 class="h4">{% trans 'Years in operation' %}</h3>
+      <div class="profile__meta{% if not organization.years_operating %} profile__meta--empty{% endif %}">
+        {{ organization.years_operating|default:_('Not provided.') }}
+      </div>
+      {% if organization.type.name == 'Cooperative' %}
+      <h3 class="h4">{% trans 'Legal status' %}</h3>
+      {% for status in organization.legal_status.all %}
+        {% if forloop.first %}
+        <div class="tags">
+        {% endif %}
+        <span class="badge">{{ status.name }}</span>
+        {% if forloop.last %}
+        </div>
+        {% endif %}
+        {% empty %}
+        <div class="profile__meta profile__meta--empty">{% trans 'None provided.' %}</div>
+      {% endfor %}
+      <h2>{% trans 'Scope and impact' %}</h2>
+      <h3 class="h4">{% trans 'Geographical scope of users/clients' %}</h3>
+      <div class="profile__meta{% if not organization.geo_scope %} profile__meta--empty{% endif %}">
+        {{ organization.geo_scope|default:_('Not provided.') }}
+      </div>
+      <h3 class="h4">{% trans 'Number of people impacted' %}</h3>
+      <div class="profile__meta{% if not organization.impacted_exact_number %} profile__meta--empty{% endif %}">
+        {{ organization.impacted_exact_number|default:_('Not provided.') }}
+      </div>
+      {% endif %}
+    </div>
+    <div class="panel__content">
+      <h2>{% trans 'Description' %}</h2>
+      {% if organization.description %}
+      <p>{{ organization.description }}</p>
+      {% else %}
+      <p class="--empty">{% trans 'Not provided.' %}</p>
+      {% endif %}
+      {% if organization.type.name == 'Cooperative' %}
+      <h2>{% trans 'Challenges' %}</h2>
+      {% for c in organization.challenges.all %}
+        <h3>{{ c.name }}</h3>
+        {% if c.description %}
+        <p>{{ c.description }}</p>
+        {% endif %}
+      {% empty %}
+        <p class="--empty">{% trans 'None provided.' %}</p>
+      {% endfor %}
+      <h2>{% trans 'Founders and members' %}</h2>
+          <h3>{% trans 'Founders' %}</h3>
+          {% for individual in founders|slice:":4" %}
+          {% if forloop.first %}
+          <ul class="cards">
+          {% endif %}
+              {% include 'maps/partials/card_individual.html' %}
+          {% if forloop.last %}
+          </ul>
+          {% endif %}
+          {% empty %}
+          <p class="--empty">{% trans 'None provided.' %}</p>
+          {% endfor %}
+          {% if founders|length > 4 %}
+          <p>
+              <button class="button button--borderless" id="founders-btn" type="button">{% blocktrans with cooperative=organization.name %}Show more<span class="screen-reader-text"> founders of {{ cooperative }}</span>{% endblocktrans %}</button>
+          </p>
+          {% endif %}
+          <h3>{% trans 'Members' %}</h3>
+          {% for individual in members|slice:":4" %}
+          {% if forloop.first %}
+          <ul class="cards">
+          {% endif %}
+              {% include 'maps/partials/card_individual.html' %}
+          {% if forloop.last %}
+          </ul>
+          {% endif %}
+          {% empty %}
+          <p class="--empty">{% trans 'None provided.' %}</p>
+          {% endfor %}
+          {% if members|length > 4 %}
+          <p>
+              <button class="button button--borderless" id="members-btn" type="button">{% blocktrans with cooperative=organization.name %}Show more<span class="screen-reader-text"> members of {{ cooperative }}</span>{% endblocktrans %}</button>
+          </p>
+          {% endif %}
+      <h2>{% trans 'Tools used' %}</h2>
+        {% for tool in organization.tools.all|slice:":4" %}
+        {% if forloop.first %}
+        <ul class="cards">
+        {% endif %}
+        {% include 'maps/partials/card_tool.html' %}
+        {% if forloop.last %}
         </ul>
+        {% endif %}
+        {% empty %}
+        <p class="--empty">{% trans 'None provided.' %}</p>
+        {% endfor %}
+         {% if organization.tools.all|length > 4 %}
+          <p>
+              <button class="button button--borderless" id="more-tools-btn" type="button">{% blocktrans with cooperative=organization.name %}Show more<span class="screen-reader-text"> tools used by {{ cooperative }}</span>{% endblocktrans %}</button>
+          </p>
+          {% endif %}
+      {% endif %}
+      <h2>{% trans 'Source code' %}</h2>
+      {% if organization.code_url %}
+      <p><a rel="external" href="{{ organization.code_url }}">{{ organization.code_url }}</a></p>
+      {% else %}
+      <p class="--empty">{% trans 'Not provided.' %}</p>
+      {% endif %}
+      <div class="spacer"></div>
+      <p>
+        <small>
+          {% trans 'Last updated:' %} {{ organization.updated_at|date:"F j, Y" }}
+        </small>
+      </p>
+    </div>
+  </div>
+  {% if organization.type.name == 'Cooperative' and members|length > 4 or founders|length > 4 %}
+  <div id="founders-and-members" role="tabpanel" aria-labelledby="founders-and-members-btn">
+    <h2>{% trans 'Founders' %}</h2>
+    {% for individual in founders %}
+    {% if forloop.first %}
+    <ul class="cards">
     {% endif %}
-
-    <h2>Notes</h2>
-    {% if organization.notes %}
-    <p>{{ organization.notes }}</p>
-    {% else %}
-    <p>{% lorem %}</p>
+        {% include 'maps/partials/card_individual.html' %}
+    {% if forloop.last %}
+    </ul>
     {% endif %}
-
-    <div class="spacer"></div>
-    <small>Last updated: {{ organization.updated_at }}</small>
-
+    {% empty %}
+    <p class="--empty">{% trans 'None provided.' %}</p>
+    {% endfor %}
+    <h2>{% trans 'Members' %}</h2>
+    {% for individual in members %}
+    {% if forloop.first %}
+    <ul class="cards">
+    {% endif %}
+        {% include 'maps/partials/card_individual.html' %}
+    {% if forloop.last %}
+    </ul>
+    {% endif %}
+    {% empty %}
+    <p class="--empty">{% trans 'None provided.' %}</p>
+    {% endfor %}
+  </div>
+  {% endif %}
+  {% if organization.type.name == 'Cooperative' and organization.tools.all|length > 4 %}
+  <div id="tools" role="tabpanel" aria-labelledby="tools-btn">
+  <h2>{% trans 'Tools used' %}</h2>
+  <ul class="cards">
+    {% for tool in organization.tools.all %}
+      {% include 'maps/partials/card_tool.html' %}
+    {% endfor %}
+  </ul>
+  </div>
+  {% endif %}
+  {% if organization.email or organization.city or organization.country %}
+  <div id="contact" role="tabpanel" aria-labelledby="contact-btn">
+    <h2>{% trans 'Contact' %}</h2>
+    <div class="columns">
+    {% if organization.email or organization.phone %}
+    <div class="column">
+    {% if organization.email %}
+    <h3>{% trans 'Email' %}</h3>
+    <p><a rel="external" href="mailto:{{ organization.email }}">{{ organization.email }}</a></p>
+    {% endif %}
+    {% if organization.phone %}
+    <h3>{% trans 'Phone' %}</h3>
+    <p>{{ organization.phone }}</p>
+    {% endif %}
+    </div>
+    {% endif %}
+    <div class="column">
+    <h3>{% trans 'Business address' %}</h3>
+    <p>
+    {% if organization.address %}{{ organization.address }}<br />{% endif %}
+    {{ organization.city }}{% if organization.state %}, {{ organization.state }}{% endif %}{% if organization.postal_code %} {{ organization.postal_code }}{% endif %}<br />
+    {{ organization.country.name }}
+    </p>
+    </div>
+    {% if organization.organizationsocialnetwork_set.all|length > 0 %}
+    <div class="column">
+    <h3>{% trans 'Social media' %}</h3>
+    {% for sn in organization.organizationsocialnetwork_set.all %}
+      {% if sn.socialnetwork.format == 'handle' %}
+      <p>
+          <svg class="icon icon--{{ sn.socialnetwork.icon }}" aria-hidden="true" viewBox="0 0 20 20" focusable="false">
+              <use href="{% static 'maps/dist/images/'|add:sn.socialnetwork.icon|add:'.svg#'|add:sn.socialnetwork.icon %}"/>
+          </svg> <a rel="external" href="{{ sn.socialnetwork.base_url }}{{ sn.identifier|cut:'@' }}">{% blocktrans with name=organization.name network=sn.socialnetwork %}{{ name }}’s {{ network }}{% endblocktrans %}</a>
+      </p>
+      {% else %}
+      <p>
+          <svg class="icon icon--{{ sn.socialnetwork.icon }}" aria-hidden="true" viewBox="0 0 20 20" focusable="false">
+          <use href="{% static 'maps/dist/images/'|add:sn.socialnetwork.icon|add:'.svg#'|add:sn.socialnetwork.icon %}"/>
+          </svg> <a rel="external" href="{{ sn.identifier }}">{% blocktrans with name=organization.name network=sn.socialnetwork %}{{ name }}’s {{ network }}{% endblocktrans %}</a>
+      </p>
+      {% endif %}
+    {% endfor %}
+    </div>
+    {% endif %}
+    </div>
+  </div>
+  {% endif %}
 {% endblock %}

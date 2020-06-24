@@ -2,7 +2,7 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.admin import UserAdmin
 from django.contrib.gis import admin
 from django.contrib.gis.admin import ModelAdmin, OSMGeoAdmin, TabularInline
-from .models import UserSocialNetwork, Role, Source
+from .models import UserSocialNetwork, Role
 from django.db.models.functions import Lower
 
 
@@ -51,9 +51,3 @@ class CustomUserAdmin(UserAdmin, OSMGeoAdmin):
 @admin.register(Role)
 class RoleAdmin(ModelAdmin):
     list_display = ('name', 'order', 'description')
-
-
-@admin.register(Source)
-class SourceAdmin(ModelAdmin):
-    list_filter = ('name', )
-    search_fields = ['name','description', ]
