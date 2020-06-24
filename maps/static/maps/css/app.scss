@@ -329,6 +329,18 @@ select[multiple] {
   }
 }
 
+.card--individual {
+  @include card($green-300, $white, false);
+}
+
+.card--tool {
+  @include card($yellow-500, $white, false);
+}
+
+.card__niche {
+  font-weight: $font-weight-bold;
+}
+
 .stack > * + .h4 {
   margin-top: 3rem;
 }
@@ -336,6 +348,11 @@ select[multiple] {
 .profile__meta {
   font-size: 0.875rem;
   line-height: (20 / 14);
+}
+
+.profile__meta--empty,
+.--empty {
+  font-style: italic;
 }
 
 h1 + .profile__meta {
@@ -364,8 +381,54 @@ h1 + .profile__meta {
   margin-top: 0;
 }
 
+.tabs [role="tablist"] {
+  border-top: solid rem(1) var(--grey-400);
+  margin-bottom: 0;
+
+  &::before {
+    background-color: var(--grey-200);
+    border-top: solid rem(1) var(--grey-400);
+    content: "";
+    display: block;
+    height: rem(16);
+    left: 0;
+    position: absolute;
+    top: rem(-18);
+    width: inherit;
+  }
+}
+
+.tabs [role="tabpanel"] {
+  @include full-width-background($off-white);
+
+  background-color: var(--off-white);
+  padding-bottom: rem(100);
+  padding-top: rem(54);
+  position: relative;
+
+  @include breakpoint-up(md) {
+    padding-bottom: rem(130);
+  }
+}
+
+.profile .page-header {
+  @include full-width-background($white);
+
+  background-color: var(--white);
+}
+
+.profile main {
+  padding-bottom: 0;
+}
+
+@include breakpoint-up(md) {
+  .profile [role="tabpanel"] > .cards {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
 @include breakpoint-up(lg) {
-  #overview {
+  .profile [role="tabpanel"]#overview {
     grid-gap: $gutter;
     grid-template-columns: repeat(12, 1fr);
 
@@ -380,15 +443,11 @@ h1 + .profile__meta {
     .panel__content {
       grid-column: 4 / 13;
     }
-
-    .cards {
-      grid-template-columns: repeat(2, 1fr);
-    }
   }
 }
 
 @include breakpoint-up(xl) {
-  #overview {
+  .profile [role="tabpanel"]#overview {
     grid-template-columns: repeat(16, 1fr);
 
     .panel__sidebar {
@@ -416,4 +475,24 @@ h1 + .profile__meta {
 
 .h4 + .profile__meta {
   margin-top: 1rem;
+}
+
+.h4 + .tags {
+  margin-top: 0;
+}
+
+.columns {
+  .column + .column {
+    margin-top: rem(56);
+  }
+
+  @include breakpoint-up(lg) {
+    column-gap: $gutter;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+
+    .column + .column {
+      margin-top: 0;
+    }
+  }
 }
