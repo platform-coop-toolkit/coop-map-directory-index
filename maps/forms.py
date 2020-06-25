@@ -6,7 +6,7 @@ from django.utils.translation import gettext_lazy as _
 from django.template.defaultfilters import safe
 from django_countries.fields import CountryField
 from accounts.models import Role, SocialNetwork, UserSocialNetwork
-from mdi.models import Organization, Category, Language, OrganizationSocialNetwork, Stage, Type
+from mdi.models import Organization, Category, Language, OrganizationSocialNetwork, Stage, Tool, Type
 
 class BaseForm(forms.Form):
     error_css_class = 'error'
@@ -425,3 +425,19 @@ class OrganizationSocialNetworkForm(BaseModelForm):
         }
 
 OrganizationSocialNetworkFormSet = formset_factory(OrganizationSocialNetworkForm, extra=0)
+
+
+class ToolBasicInfoForm(BaseModelForm):
+    class Meta:
+        model = Tool
+        fields = [
+            'name'
+        ]
+
+
+class ToolDetailedInfoForm(BaseModelForm):
+    class Meta:
+        model = Tool
+        fields = [
+            'license_type'
+        ]

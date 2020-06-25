@@ -11,9 +11,10 @@ from django.views.generic.edit import DeleteView
 from django.shortcuts import get_object_or_404, render, redirect
 from django.forms import inlineformset_factory
 from accounts.models import UserSocialNetwork
-from mdi.models import Organization, SocialNetwork, OrganizationSocialNetwork, Relationship, EntitiesEntities
+from mdi.models import Organization, SocialNetwork, OrganizationSocialNetwork, Relationship, EntitiesEntities, Tool
 from formtools.wizard.views import SessionWizardView
-from .forms import IndividualProfileDeleteForm, IndividualRolesForm, IndividualBasicInfoForm, IndividualMoreAboutYouForm, IndividualDetailedInfoForm, IndividualContactInfoForm, IndividualSocialNetworkFormSet, OrganizationTypeForm, OrganizationBasicInfoForm, OrganizationContactInfoForm, OrganizationDetailedInfoForm, OrganizationScopeAndImpactForm, OrganizationSocialNetworkFormSet
+from .forms import IndividualProfileDeleteForm, IndividualRolesForm, IndividualBasicInfoForm, IndividualMoreAboutYouForm, IndividualDetailedInfoForm, IndividualContactInfoForm, IndividualSocialNetworkFormSet, OrganizationTypeForm, OrganizationBasicInfoForm, OrganizationContactInfoForm, OrganizationDetailedInfoForm, OrganizationScopeAndImpactForm, OrganizationSocialNetworkFormSet,\
+    ToolBasicInfoForm, ToolDetailedInfoForm
 
 
 # Inline Formset for SocialNetworks.
@@ -66,6 +67,16 @@ ORGANIZATION_TEMPLATES = {
     'detailed_info': 'maps/profiles/organization/detailed_info.html',
     'scope_and_impact': 'maps/profiles/organization/scope_and_impact.html',
     'social_networks': 'maps/profiles/organization/social_networks.html'
+}
+
+TOOL_FORMS = [
+    ('basic_info', ToolBasicInfoForm),
+    ('detailed_info', ToolDetailedInfoForm)
+]
+
+TOOL_TEMPLATES = {
+    'basic_info': 'maps/profiles/tool/basic_info.html',
+    'detailed_info': 'maps/profiles/tool/detailed_info.html'
 }
 
 def show_more_about_you_condition(wizard):
@@ -211,6 +222,20 @@ class OrganizationProfileWizard(LoginRequiredMixin, SessionWizardView):
                 OrganizationSocialNetwork.objects.create(organization=org, socialnetwork=sn['socialnetwork'], identifier=sn['identifier'])
 
         return redirect('organization-detail', organization_id=org.id)
+
+class ToolWizard(LoginRequiredMixin, SessionWizardView):
+    def get_template_names(self):
+        return [TOOL_TEMPLATES[self.steps.current]]
+
+    def done(self, form_list, form_dict, **kwargs):
+        form_dict = self.get_all_cleaned_data()
+        tool = Tool()
+        for k, v in form_dict.items():
+            if k not in ['niches']:
+                setattr(org, k, v)
+        tool.save()
+      
+        return redirect('index')
 
 def index(request):
     template = loader.get_template('maps/index.html')
