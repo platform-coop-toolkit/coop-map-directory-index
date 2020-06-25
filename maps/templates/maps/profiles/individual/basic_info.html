@@ -16,7 +16,7 @@
         {% if form.errors  %}
         {% include 'maps/profiles/errors.html' %}
         {% endif %}
-        <h2>Basic information</h2>
+        <h2>{% trans 'Basic information' %}</h2>
         {{ wizard.management_form }}
         {% csrf_token %}
         {% if wizard.form.forms %}
