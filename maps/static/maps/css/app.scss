@@ -15,9 +15,10 @@
 }
 
 #geolocation-map {
+  border: solid 1px var(--dark-mint-500);
   bottom: 0;
-  color: #203131;
-  font-family: 'Noto Sans', sans-serif;
+  color: var(--dark-mint-500);
+  font-family: $font-family-sans;
   height: rem(476);
   margin-top: $gutter;
   top: 0;
