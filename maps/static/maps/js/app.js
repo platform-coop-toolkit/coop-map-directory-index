@@ -275,10 +275,13 @@ if (geolocationMapContainer) {
     ctx = crosshairs.getContext('2d'),
     openingDimension = 40;
 
-  let x = geolocationMap.getCanvas().width / 2,
-  y = geolocationMap.getCanvas().height / 2;
+
 
   const drawCrosshairs = () => {
+    const x = geolocationMap.getCanvas().width / 2,
+      y = geolocationMap.getCanvas().height / 2;
+    crosshairs.width = x;
+    crosshairs.height = y;
     ctx.clearRect(0, 0, crosshairs.width, crosshairs.height);
     ctx.strokeStyle = '#203131'; // dark-mint-500
     ctx.beginPath();
@@ -296,16 +299,12 @@ if (geolocationMapContainer) {
     ctx.stroke();
   };
 
-  crosshairs.width = x;
-  crosshairs.height = y;
-
   drawCrosshairs();
 
   geolocationMap.on('moveend', function () {
     document.getElementById('id_geolocation-lng').value = geolocationMap.getCenter().lng;
     document.getElementById('id_geolocation-lat').value = geolocationMap.getCenter().lat;
-    x = geolocationMap.getCanvas().width / 2;
-    y = geolocationMap.getCanvas().height / 2;
+
     drawCrosshairs();
   });
 }
