@@ -17,7 +17,8 @@
         {% include 'maps/profiles/errors.html' %}
       {% endif %}
       <h2>{% trans 'Map location' %}</h2>
-      <p>{% trans 'Changing the map location will not modify your business address.' %}</p>
+      <p class="h3">{% trans 'Where do you want your organization to appear on the map?' %}</p>
+      <p>{% trans 'Changing the map location will not modify your organization’s address.' %}</p>
       <div id="geolocation-map">
         <canvas id="crosshairs"></canvas>
       </div>
