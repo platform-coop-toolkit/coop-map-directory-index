@@ -1,5 +1,4 @@
 {% extends 'maps/base.html' %}
-{% load static %}
 {% load i18n %}
 {% load maps_extras %}
 {% block title %}{{ individual.first_name|add:' '|add:individual.last_name|titlify }}{% endblock %}
@@ -10,9 +9,7 @@
         <h1>{{ individual.first_name }} {{ individual.last_name }}</h1>
         <div class="profile__meta">
             <span class="screen-reader-text">{% trans 'location:' %} </span>
-            <svg class="icon icon--location" aria-hidden="true" viewBox="0 0 20 20" focusable="false">
-                <use href="{% static 'maps/dist/images/location.svg#location' %}"/>
-            </svg>
+            {% icon 'location' %}
             {% if individual.city or individual.state or individual.country %}
                 {% if individual.city %}{{ individual.city }}, {% endif %}
                 {% if individual.state %}{{ individual.state }}, {% endif %}
@@ -21,9 +18,7 @@
         </div>
         <div class="profile__meta">
             <span class="screen-reader-text">{% trans 'languages:' %} </span>
-            <svg class="icon icon--language-small" aria-hidden="true" viewBox="0 0 20 20" focusable="false">
-                <use href="{% static 'maps/dist/images/language-small.svg#language-small' %}"/>
-            </svg>
+            {% icon 'language-small' %}
             {% if individual.languages.count > 0 %}
                 {% for l in individual.languages.all %}
                 {{ l.iso_name }}{% if not forloop.last %}, {% endif %}
@@ -56,9 +51,9 @@
                 <h3 class="h4">{% trans 'Roles' %}</h3>
                 <div class="profile__roles">
                 {% for r in individual.roles.all %}
-                    <div class="profile__meta profile__role"><svg class="icon icon--{{ r.icon }}" aria-hidden="true" viewBox="0 0 20 20" focusable="false">
-                        <use href="{% static 'maps/dist/images/'|add:r.icon|add:'.svg#'|add:r.icon %}"/>
-                    </svg> {{ r.name }}</div>
+                    <div class="profile__meta profile__role">
+                        {% icon r.icon %} {{ r.name }}
+                    </div>
                 {% endfor %}
                 </div>
                 {% endif %}
@@ -99,15 +94,11 @@
                 {% for sn in individual.usersocialnetwork_set.all %}
                     {% if sn.socialnetwork.format == 'handle' %}
                     <div class="profile__meta">
-                        <svg class="icon icon--{{ sn.socialnetwork.icon }}" aria-hidden="true" viewBox="0 0 20 20" focusable="false">
-                            <use href="{% static 'maps/dist/images/'|add:sn.socialnetwork.icon|add:'.svg#'|add:sn.socialnetwork.icon %}"/>
-                        </svg><span class="screen-reader-text">{{ sn.socialnetwork.name }}</span> <a rel="external" href="{{ sn.socialnetwork.base_url }}{{ sn.identifier|cut:'@' }}">{% blocktrans with name=individual.first_name|add:' '|add:individual.last_name network=sn.socialnetwork %}{{ name }}’s {{ network }}{% endblocktrans %}</a>
+                        {% icon sn.socialnetwork.icon %} <a rel="external" href="{{ sn.socialnetwork.base_url }}{{ sn.identifier|cut:'@' }}">{% blocktrans with name=individual.first_name|add:' '|add:individual.last_name network=sn.socialnetwork %}{{ name }}’s {{ network }}{% endblocktrans %}</a>
                     </div>
                     {% else %}
                     <div class="profile__meta">
-                        <svg class="icon icon--{{ sn.socialnetwork.icon }}" aria-hidden="true" viewBox="0 0 20 20" focusable="false">
-                        <use href="{% static 'maps/dist/images/'|add:sn.socialnetwork.icon|add:'.svg#'|add:sn.socialnetwork.icon %}"/>
-                        </svg><span class="screen-reader-text">{{ sn.socialnetwork.name }}</span> <a rel="external" href="{{ sn.identifier }}">{% blocktrans with name=individual.first_name|add:' '|add:individual.last_name network=sn.socialnetwork %}{{ name }}’s {{ network }}{% endblocktrans %}</a></div>
+                        {% icon sn.socialnetwork.icon %} <a rel="external" href="{{ sn.identifier }}">{% blocktrans with name=individual.first_name|add:' '|add:individual.last_name network=sn.socialnetwork %}{{ name }}’s {{ network }}{% endblocktrans %}</a></div>
                     {% endif %}
                 {% endfor %}
                 </div>
