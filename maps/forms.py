@@ -48,6 +48,7 @@ class IndividualBasicInfoForm(BaseModelForm):
         label=_('Languages you speak'),
         help_text=_('Hold down the <kbd>ctrl</kbd> (Windows) or <kbd>command</kbd> (macOS) key to select multiple options.')
     )
+
     class Meta:
         model = get_user_model()
         fields = [
@@ -73,6 +74,7 @@ class IndividualContactInfoForm(BaseModelForm):
         help_text=_('Please enter full state or province name rather than an abbreviated form.')
     )
     country = CountryField(blank=False).formfield()
+
     class Meta:
         model = get_user_model()
         fields = [
@@ -117,6 +119,7 @@ class IndividualMoreAboutYouForm(BaseModelForm):
         required=False,
         widget=SelectMultiple(attrs={'size': 4, 'class': 'multiple'})
     )
+
     class Meta:
         model = get_user_model()
         fields = [
@@ -168,6 +171,7 @@ class IndividualSocialNetworkForm(BaseModelForm):
         widgets = {
             'socialnetwork': HiddenInput(),
         }
+
 
 IndividualSocialNetworkFormSet = formset_factory(IndividualSocialNetworkForm, extra=0)
 
@@ -257,6 +261,7 @@ class OrganizationBasicInfoForm(BaseModelForm):
         required=False,
         label=_('Day')
     )
+
     class Meta:
         model = Organization
         fields = [
@@ -280,8 +285,8 @@ class OrganizationBasicInfoForm(BaseModelForm):
             'founded_min_date': HiddenInput(),
             'founded_max_date': HiddenInput()
         }
-    
-    def __init__(self, *args,**kwargs):
+
+    def __init__(self, *args, **kwargs):
         self.type = kwargs['initial']['type']
         super(OrganizationBasicInfoForm, self).__init__(*args, **kwargs)
         if self.type.name == 'Cooperative':
@@ -300,6 +305,7 @@ class OrganizationContactInfoForm(BaseModelForm):
         help_text=_('Please enter full state or province name rather than an abbreviated form.')
     )
     country = CountryField(blank=False).formfield()
+
     class Meta:
         model = Organization
         fields = [
@@ -359,16 +365,15 @@ class OrganizationDetailedInfoForm(BaseModelForm):
         widget=RadioSelect(attrs={'class': 'input-group radio'})
     )
 
-    def __init__(self, *args,**kwargs):
+    def __init__(self, *args, **kwargs):
         self.type = kwargs['initial']['type']
         super(OrganizationDetailedInfoForm, self).__init__(*args, **kwargs)
-        self.fields['categories'].queryset = Category.objects.filter(type = self.type)
+        self.fields['categories'].queryset = Category.objects.filter(type=self.type)
         if self.type.name == 'Cooperative':
             self.fields['num_members'].required = True
             self.fields['categories'].required = True
         else:
             self.fields['num_workers'].required = False
-
 
     class Meta:
         model = Organization
@@ -382,7 +387,7 @@ class OrganizationDetailedInfoForm(BaseModelForm):
         ]
         help_texts = {
             'sectors': _('Hold down the <kbd>ctrl</kbd> (Windows) or <kbd>command</kbd> (macOS) key to select multiple options.'),
-      }
+        }
 
 class OrganizationScopeAndImpactForm(BaseModelForm):
     geo_scope = forms.ChoiceField(
@@ -394,6 +399,7 @@ class OrganizationScopeAndImpactForm(BaseModelForm):
         help_text=_('Choose primary scope.'),
         widget=RadioSelect(attrs={'class': 'input-group radio'})
     )
+
     class Meta:
         model = Organization
         fields = [
@@ -412,7 +418,7 @@ class OrganizationScopeAndImpactForm(BaseModelForm):
         help_texts = {
             'impacted_exact_number': _('Include clients and users as well as their family members or others indirectly impacted by the work of your co-operative.')
         }
-        
+
 class OrganizationSocialNetworkForm(BaseModelForm):
     class Meta:
         model = OrganizationSocialNetwork
@@ -423,5 +429,6 @@ class OrganizationSocialNetworkForm(BaseModelForm):
         widgets = {
             'socialnetwork': HiddenInput(),
         }
+
 
 OrganizationSocialNetworkFormSet = formset_factory(OrganizationSocialNetworkForm, extra=0)

@@ -93,7 +93,7 @@ class Ecosystem2020(models.Model):
     cb = models.CharField(max_length=254, blank=True,)
     cc = models.CharField(max_length=254, blank=True,)
     cd = models.CharField(max_length=254, blank=True,)
-    ce = models.CharField(max_length=254, blank=True,)  
+    ce = models.CharField(max_length=254, blank=True,)
 
     class Meta:
         managed = True

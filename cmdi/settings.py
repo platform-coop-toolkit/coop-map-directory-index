@@ -10,10 +10,10 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 
+import dj_database_url
 import os
 import dotenv
 dotenv.read_dotenv(os.path.join(os.path.dirname(os.path.dirname(__file__)), '.env'))
-import dj_database_url
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -101,7 +101,7 @@ CORS_ORIGIN_ALLOW_ALL = True
 # django-lockdown is being used to deter the curious during development.
 # Keep it after launch should site access ever need to be disabled due to some emergency.
 LOCKDOWN_PASSWORDS = ('six', '6',)
-LOCKDOWN_ENABLED = True # Default is True. A quick way to make the site inaccessible.
+LOCKDOWN_ENABLED = True  # Default is True. A quick way to make the site inaccessible.
 LOCKDOWN_URL_EXCEPTIONS = (
     r'^/swagger.json$',
     r'^/api/organizations/.*$',

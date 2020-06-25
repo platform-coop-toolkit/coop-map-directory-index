@@ -57,7 +57,7 @@ ORGANIZATION_FORMS = [
     ('detailed_info', OrganizationDetailedInfoForm),
     ('scope_and_impact', OrganizationScopeAndImpactForm),
     ('social_networks', OrganizationSocialNetworkFormSet),
-]    
+]
 
 ORGANIZATION_TEMPLATES = {
     'org_type': 'maps/profiles/organization/org_type.html',
@@ -72,14 +72,14 @@ def show_more_about_you_condition(wizard):
     cleaned_data = wizard.get_cleaned_data_for_step('roles') or {'roles': []}
     if (len(cleaned_data['roles']) == 1 and cleaned_data['roles'][0].name == 'Other'):
         return False
-    
+
     return True
 
 def show_scope_and_impact_condition(wizard):
     cleaned_data = wizard.get_cleaned_data_for_step('org_type') or {'type': False}
     if (cleaned_data['type'] and cleaned_data['type'].name == 'Cooperative'):
         return True
-    
+
     return False
 
 class IndividualProfileWizard(LoginRequiredMixin, SessionWizardView):
@@ -120,9 +120,9 @@ class IndividualProfileWizard(LoginRequiredMixin, SessionWizardView):
             socialnetworks = SocialNetwork.objects.all()
             for index, sn in enumerate(socialnetworks):
                 initial.append({
-                    'socialnetwork' : sn,
+                    'socialnetwork': sn,
                     'name': sn.name,
-                    'hint' : sn.hint,
+                    'hint': sn.hint,
                 })
             # print(initial)
         return self.initial_dict.get('social_networks', initial)
@@ -175,7 +175,7 @@ class OrganizationProfileWizard(LoginRequiredMixin, SessionWizardView):
             elif type.name == 'Shared platform':
                 context.update({'is_shared_platform': True})
         return context
-    
+
     # Attempt to solve SocialNetwork problem on profile pages.
     def get_form_initial(self, step):
         initial = []
@@ -183,9 +183,9 @@ class OrganizationProfileWizard(LoginRequiredMixin, SessionWizardView):
             socialnetworks = SocialNetwork.objects.all()
             for index, sn in enumerate(socialnetworks):
                 initial.append({
-                    'socialnetwork' : sn,
+                    'socialnetwork': sn,
                     'name': sn.name,
-                    'hint' : sn.hint,
+                    'hint': sn.hint,
                 })
             return self.initial_dict.get('social_networks', initial)
         if step in ['basic_info', 'contact_info', 'detailed_info']:
@@ -271,6 +271,7 @@ class OrganizationDelete(DeleteView):
     model = Organization
     success_url = reverse_lazy('my-profiles')
     success_message = "You have successfully deleted the organizational profile for %(name)s."
+
     def delete(self, request, *args, **kwargs):
         obj = self.get_object()
         messages.success(self.request, self.success_message % obj.__dict__)
@@ -312,4 +313,3 @@ class TermsOfServiceView(TemplateView):
 
 class AboutPageView(TemplateView):
     template_name = "maps/about.html"
-

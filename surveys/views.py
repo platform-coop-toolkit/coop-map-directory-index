@@ -39,9 +39,9 @@ class EcosystemWizard(SessionWizardView):
             socialnetworks = SocialNetwork.objects.all()
             for index, sn in enumerate(socialnetworks):
                 initial.append({
-                    'socialnetwork' : sn,
+                    'socialnetwork': sn,
                     'name': sn.name,
-                    'hint' : sn.hint,
+                    'hint': sn.hint,
                 })
             # print(initial)
         return self.initial_dict.get('social_networks', initial)
