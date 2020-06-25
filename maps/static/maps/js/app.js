@@ -273,39 +273,53 @@ if (geolocationMapContainer) {
   const
     crosshairs = document.getElementById('crosshairs'),
     ctx = crosshairs.getContext('2d'),
-    x = geolocationMap.getCanvas().width,
-    y = geolocationMap.getCanvas().height,
-    openingDimension = 40
-  ;
+    openingDimension = 40;
+
+  let x = geolocationMap.getCanvas().width / 2,
+  y = geolocationMap.getCanvas().height / 2;
+
+  const drawCrosshairs = () => {
+    ctx.clearRect(0, 0, crosshairs.width, crosshairs.height);
+    ctx.strokeStyle = '#203131'; // dark-mint-500
+    ctx.beginPath();
+    ctx.moveTo(x/2, 0);
+    ctx.lineTo(x/2, (y - openingDimension)/2);
+    ctx.moveTo(x/2, (y + openingDimension)/2);
+    ctx.lineTo(x/2, y);
+    ctx.stroke();
+  
+    ctx.beginPath();
+    ctx.moveTo(0, y/2);
+    ctx.lineTo((x - openingDimension)/2, y/2);
+    ctx.moveTo((x + openingDimension)/2, y/2);
+    ctx.lineTo(x, y/2);
+    ctx.stroke();
+  };
+
   crosshairs.width = x;
   crosshairs.height = y;
 
-  ctx.strokeStyle = '#203131'; // dark-mint-500
-  ctx.beginPath();
-  ctx.moveTo(x/2, 0);
-  ctx.lineTo(x/2, (y - openingDimension)/2);
-  ctx.moveTo(x/2, (y + openingDimension)/2);
-  ctx.lineTo(x/2, y);
-  ctx.stroke();
+  drawCrosshairs();
 
-  ctx.beginPath();
-  ctx.moveTo(0, y/2);
-  ctx.lineTo((x - openingDimension)/2, y/2);
-  ctx.moveTo((x + openingDimension)/2, y/2);
-  ctx.lineTo(x, y/2);
-  ctx.stroke();
+  geolocationMap.on('resize', () => {
+    x = geolocationMap.getCanvas().width / 2;
+    y = geolocationMap.getCanvas().height / 2;
+    drawCrosshairs();
+  });
+
+  
 
   geolocationMap.on('load', function () {
     document.getElementById('id_geolocation-lng').value = lng;
     document.getElementById('id_geolocation-lat').value = lat;
-  })
+  });
 
   geolocationMap.on('moveend', function () {
     document.getElementById('lng').value = geolocationMap.getCenter().lng;
     document.getElementById('lat').value = geolocationMap.getCenter().lat;
     document.getElementById('id_geolocation-lng').value = geolocationMap.getCenter().lng;
     document.getElementById('id_geolocation-lat').value = geolocationMap.getCenter().lat;
-  })
+  });
 }
 
 const mainMapContainer = document.getElementById('main-map');
