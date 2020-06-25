@@ -11,19 +11,19 @@
     <input type="hidden" id="lat" name="lat" value="{{ lat }}">
     <div class="page-header">
       {% include 'maps/profiles/back.html' %}
-      <h1>Create a profile: individual</h1>
+      <h1>{% trans 'Create a profile: individual' %}</h1>
       {% include 'maps/profiles/steps.html' %}
     </div>
     <div class="form__content">
       {% if form.errors %}
         {% include 'maps/profiles/errors.html' %}
       {% endif %}
-      <h2>Map yourself</h2>
-      <label>Adjust the map until your location is centered</label>
+      <h2>{% trans 'Map location' %}</h2>
+      <p>{% trans 'Changing the map location will not modify your address.' %}</p>
       <div id="geolocation-map">
         <canvas id="crosshairs"></canvas>
       </div>
-
+      <span class="helptext">{% trans 'Drag the map until the desired location is centered within the crosshairs. If you are using a keyboard, you can also click the map and use arrow keys to reposition the map.' %}</span>
       {{ wizard.management_form }}
       {% csrf_token %}
       {% if wizard.form.forms %}

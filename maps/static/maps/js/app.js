@@ -301,13 +301,11 @@ if (geolocationMapContainer) {
 
   drawCrosshairs();
 
-  geolocationMap.on('resize', () => {
+  geolocationMap.on('moveend', () => {
     x = geolocationMap.getCanvas().width / 2;
     y = geolocationMap.getCanvas().height / 2;
     drawCrosshairs();
   });
-
-  
 
   geolocationMap.on('load', function () {
     document.getElementById('id_geolocation-lng').value = lng;
