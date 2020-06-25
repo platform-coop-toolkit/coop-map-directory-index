@@ -146,10 +146,6 @@ class IndividualProfileWizard(LoginRequiredMixin, SessionWizardView):
                     context.update({'display_community_skills': True})
                 if r.name in ['Funder', 'Policymaker']:
                     context.update({'display_affiliation': True})
-        elif self.steps.current == 'geolocation':
-            contact_info = self.get_cleaned_data_for_step('contact_info')
-            additional_context = contact_info_to_lng_lat(contact_info)
-            context.update(additional_context)
         return context
 
     # Attempt to solve SocialNetwork problem on profile pages.
@@ -163,8 +159,11 @@ class IndividualProfileWizard(LoginRequiredMixin, SessionWizardView):
                     'name': sn.name,
                     'hint' : sn.hint,
                 })
-            # print(initial)
-        return self.initial_dict.get('social_networks', initial)
+            return self.initial_dict.get('social_networks', initial)
+        if step == 'geolocation':
+            contact_info = self.get_cleaned_data_for_step('contact_info')
+            lat_lng = contact_info_to_lng_lat(contact_info)
+            return self.initial_dict.get(step, lat_lng)
 
     def done(self, form_list, form_dict, **kwargs):
         user = self.request.user
@@ -214,10 +213,6 @@ class OrganizationProfileWizard(LoginRequiredMixin, SessionWizardView):
                 context.update({'is_potential_coop': True})
             elif type.name == 'Shared platform':
                 context.update({'is_shared_platform': True})
-        elif self.steps.current == 'geolocation':
-            contact_info = self.get_cleaned_data_for_step('contact_info')
-            additional_context = contact_info_to_lng_lat(contact_info)
-            context.update(additional_context)
         return context
 
     # Attempt to solve SocialNetwork problem on profile pages.
@@ -235,6 +230,10 @@ class OrganizationProfileWizard(LoginRequiredMixin, SessionWizardView):
         if step in ['basic_info', 'contact_info', 'detailed_info']:
             org_type_data = self.get_cleaned_data_for_step('org_type')
             return self.initial_dict.get(step, {'type': org_type_data['type']})
+        if step == 'geolocation':
+            contact_info = self.get_cleaned_data_for_step('contact_info')
+            lat_lng = contact_info_to_lng_lat(contact_info)
+            return self.initial_dict.get(step, lat_lng)
 
     def done(self, form_list, form_dict, **kwargs):
         user = self.request.user

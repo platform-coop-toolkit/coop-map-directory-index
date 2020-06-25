@@ -246,8 +246,8 @@ const geolocationMapContainer = document.getElementById('geolocation-map');
 
 if (geolocationMapContainer) {
   let
-    lng = document.getElementById('lng').value,
-    lat = document.getElementById('lat').value
+    lng = document.getElementById('id_geolocation-lng').value,
+    lat = document.getElementById('id_geolocation-lat').value
   ;
   mapboxgl.accessToken = 'pk.eyJ1IjoiZXJpY3RoZWlzZSIsImEiOiJjazVvNGNmM2wxaGhjM2pvMGc0ZmIyaXN3In0.Jrt9t5UrY5aCbndSpq5JWw';
   var geolocationMap = new mapboxgl.Map({
@@ -301,22 +301,12 @@ if (geolocationMapContainer) {
 
   drawCrosshairs();
 
-  geolocationMap.on('moveend', () => {
+  geolocationMap.on('moveend', function () {
+    document.getElementById('id_geolocation-lng').value = geolocationMap.getCenter().lng;
+    document.getElementById('id_geolocation-lat').value = geolocationMap.getCenter().lat;
     x = geolocationMap.getCanvas().width / 2;
     y = geolocationMap.getCanvas().height / 2;
     drawCrosshairs();
-  });
-
-  geolocationMap.on('load', function () {
-    document.getElementById('id_geolocation-lng').value = lng;
-    document.getElementById('id_geolocation-lat').value = lat;
-  });
-
-  geolocationMap.on('moveend', function () {
-    document.getElementById('lng').value = geolocationMap.getCenter().lng;
-    document.getElementById('lat').value = geolocationMap.getCenter().lat;
-    document.getElementById('id_geolocation-lng').value = geolocationMap.getCenter().lng;
-    document.getElementById('id_geolocation-lat').value = geolocationMap.getCenter().lat;
   });
 }
 

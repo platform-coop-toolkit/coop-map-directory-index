@@ -91,18 +91,15 @@ class IndividualContactInfoForm(BaseModelForm):
 
 
 class GeolocationForm(BaseForm):
-    lng = forms.CharField(required=False, widget=HiddenInput(),)
-    lat = forms.CharField(required=False, widget=HiddenInput(),)
+    lng = forms.CharField(required=False, widget=HiddenInput())
+    lat = forms.CharField(required=False, widget=HiddenInput())
 
-    # class Meta:
-    #     model = get_user_model()
-    #     fields = [
-    #         'geom',
-    #     ]
-    #     widgets = {
-    #         'geom': HiddenInput(),
-    #     }
-
+    def __init__(self, *args,**kwargs):
+        self.lat = kwargs['initial']['lat']
+        self.lng = kwargs['initial']['lat']
+        super(GeolocationForm, self).__init__(*args, **kwargs)
+        self.fields['lat'].value = self.lat
+        self.fields['lng'].value = self.lng
 
 class IndividualRolesForm(BaseForm):
     roles = forms.ModelMultipleChoiceField(
