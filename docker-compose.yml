@@ -7,6 +7,9 @@ services:
       - ${APP_PORT}:8000
     environment:
       - DATABASE_URL=postgis://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB}
+      - DJANGO_EMAIL_BACKEND=${DJANGO_EMAIL_BACKEND}
+      - DJANGO_EMAIL_HOST=${DJANGO_EMAIL_HOST}
+      - DJANGO_DEFAULT_FROM_EMAIL=${DJANGO_DEFAULT_FROM_EMAIL}
     networks:
       - default
     restart: always

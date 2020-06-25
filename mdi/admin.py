@@ -9,14 +9,14 @@ from django.db.models.functions import Lower
 
 # Window dressing
 admin.site.site_header = 'Platform Coop : Map / Directory / Index'
-admin.site.site_title= 'Admin'
-admin.site.index_title= 'Map / Directory / Index'
+admin.site.site_title = 'Admin'
+admin.site.index_title = 'Map / Directory / Index'
 
 
 # Create Admin-related classes
 @admin.register(Category)
 class CategoryAdmin(ModelAdmin):
-    list_display = ('name', 'order', 'type', 'description' )
+    list_display = ('name', 'order', 'type', 'description')
 
 
 @admin.register(Challenge)
@@ -35,7 +35,7 @@ class ServiceAdmin(ModelAdmin):
 
 @admin.register(Type)
 class TypeAdmin(ModelAdmin):
-    list_display = ('name', 'description' )
+    list_display = ('name', 'description')
 
 class OrganizationSocialNetworkInline(TabularInline):
     model = OrganizationSocialNetwork
@@ -54,7 +54,7 @@ class OrganizationAdmin(OSMGeoAdmin):
 @admin.register(SocialNetwork)
 class SocialNetworkAdmin(admin.ModelAdmin):
     list_filter = ('name', 'format', )
-    search_fields = ['name','description', ]
+    search_fields = ['name', 'description', ]
 
 
 @admin.register(Relationship)
@@ -80,8 +80,8 @@ class NicheAdmin(ModelAdmin):
 @admin.register(Tool)
 class ToolAdmin(admin.ModelAdmin):
     list_display = ('name', 'license', )
-    list_filter = ('niches', 'license', 'pricing') # 'languages_supported',)
-    search_fields = ['name', 'description',]
+    list_filter = ('niches', 'license', 'pricing')  # 'languages_supported',)
+    search_fields = ['name', 'description', ]
 
 
 @admin.register(License)

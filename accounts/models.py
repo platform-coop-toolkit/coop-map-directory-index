@@ -71,9 +71,9 @@ class SocialNetwork(models.Model):
 
 class User(AbstractUser):
     email = models.EmailField(
-      verbose_name='email address',
-      max_length=255,
-      unique=True,
+        verbose_name='email address',
+        max_length=255,
+        unique=True,
     )
     has_profile = models.BooleanField(default=False)
     middle_name = models.CharField(blank=True, max_length=255, unique=False)
@@ -95,11 +95,11 @@ class User(AbstractUser):
     )
     languages = models.ManyToManyField('mdi.Language', blank=True,)
     services = models.ManyToManyField('mdi.Service', blank=True,)
-    community_skills = models.TextField(blank=True, default='') # Only applies to Community Builders.
-    field_of_study = models.CharField(blank=True, default='', max_length=254) # Only applies to Researchers. Much still TBD.
-    affiliation = models.TextField(blank=True, default='') # Only applies to Researchers. Much still TBD.
+    community_skills = models.TextField(blank=True, default='')  # Only applies to Community Builders.
+    field_of_study = models.CharField(blank=True, default='', max_length=254)  # Only applies to Researchers. Much still TBD.
+    affiliation = models.TextField(blank=True, default='')  # Only applies to Researchers. Much still TBD.
     affiliation_url = models.URLField(blank=True, default='', max_length=255)
-    projects = models.TextField(blank=True, default='') # Only applies to Researchers. Much still TBD.
+    projects = models.TextField(blank=True, default='')  # Only applies to Researchers. Much still TBD.
     challenges = models.ManyToManyField('mdi.Challenge', blank=True,)
     socialnetworks = models.ManyToManyField(SocialNetwork, blank=True, through='UserSocialNetwork')
     notes = models.TextField(blank=True, default='')

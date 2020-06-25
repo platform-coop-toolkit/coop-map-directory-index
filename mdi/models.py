@@ -160,7 +160,7 @@ class Pricing(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
-        ordering = ['name',]
+        ordering = ['name', ]
 
     def __str__(self):
         return self.name
@@ -196,14 +196,14 @@ class Tool(models.Model):
     description = models.TextField(blank=True, default='', verbose_name=_('Description of tool'), help_text=_('Max 270 characters.'))
     url = models.URLField(blank=False, max_length=255, verbose_name=_('URL of tool website'))
     license_type = models.CharField(blank=True, default='', max_length=64,
-                             choices=[('proprietary', 'Proprietary'), ('proprietary-with-floss-integration-tools', 'Proprietary with free / libre / open source integration tools'), ('floss', 'Free / libre / open source')], verbose_name=_('License type'))
+                                    choices=[('proprietary', 'Proprietary'), ('proprietary-with-floss-integration-tools', 'Proprietary with free / libre / open source integration tools'), ('floss', 'Free / libre / open source')], verbose_name=_('License type'))
     license = models.ForeignKey(License, blank=True, null=True, on_delete=models.CASCADE, verbose_name=_('Free / libre / open source license'))
     pricing = models.ForeignKey(Pricing, blank=True, null=True, on_delete=models.CASCADE)
     niches = models.ManyToManyField(Niche)
     languages_supported = models.ManyToManyField(Language, blank=True, verbose_name=_('What languages does this tool support'))
     sectors = models.ManyToManyField(Sector, blank=True)
     coop_made = models.CharField(blank=False, default=0, max_length=16,
-                             choices=[('unknown', 'Not sure'), ('yes', 'Yes'), ('no', 'No')], verbose_name=_('Was this tool created by a co-op?'))
+                                 choices=[('unknown', 'Not sure'), ('yes', 'Yes'), ('no', 'No')], verbose_name=_('Was this tool created by a co-op?'))
     notes = models.TextField(blank=True, default='')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -243,7 +243,7 @@ class Organization(models.Model):
     num_members = models.IntegerField(blank=True, null=True, verbose_name='Number of members', )
     num_workers = models.IntegerField(blank=True, null=True, verbose_name='Number of workers', )
     worker_distribution = models.CharField(blank=True, default='', max_length=64,
-                             choices=[('colocated', 'Co-located'), ('regional', 'Regionally distributed'), ('national', 'Nationally distributed'), ('international', 'Internationally distributed')])
+                                           choices=[('colocated', 'Co-located'), ('regional', 'Regionally distributed'), ('national', 'Nationally distributed'), ('international', 'Internationally distributed')])
     related_individuals = models.ManyToManyField(
         get_user_model(),
         through='EntitiesEntities',
@@ -251,7 +251,7 @@ class Organization(models.Model):
     )
     related_organizations = models.ManyToManyField('self', through='EntitiesEntities')
     geo_scope = models.CharField(blank=True, max_length=16,
-                             choices=[('Local', 'Local'), ('Regional', 'Regional'), ('National', 'National'), ('International', 'International')],
+                                 choices=[('Local', 'Local'), ('Regional', 'Regional'), ('National', 'National'), ('International', 'International')],
                                  verbose_name='Geographic scope', )
     geo_scope_city = models.CharField(blank=True, default='', max_length=255, verbose_name='Geographic scope – City', )
     geo_scope_region = models.CharField(blank=True, default='', max_length=255, verbose_name='Geographic scope – Region', )
@@ -276,9 +276,9 @@ class Organization(models.Model):
 
     def years_operating(self):
         if self.founded:
-            return round((date.today() - self.founded).days/365.2425)
+            return round((date.today() - self.founded).days / 365.2425)
         elif self.founded_min_date and self.founded_max_date:
-            return round((round((date.today() - self.founded_min_date).days/365.2425) + round((date.today() - self.founded_max_date).days/365.2425)) / 2)
+            return round((round((date.today() - self.founded_min_date).days / 365.2425) + round((date.today() - self.founded_max_date).days / 365.2425)) / 2)
         else:
             return ''
 
@@ -286,8 +286,8 @@ class Organization(models.Model):
         if self.worker_distribution:
             return {
                 'colocated': _('Co-located'),
-                'regional': _('Regionally distributed'), 
-                'national': _('Nationally distributed'), 
+                'regional': _('Regionally distributed'),
+                'national': _('Nationally distributed'),
                 'international': _('Internationally distributed')
             }[self.worker_distribution]
         else:
@@ -312,14 +312,14 @@ class Organization(models.Model):
         else:
             legal_status_string = _('Not provided.')
         return legal_status_string
-    
+
     def murmurate(self):
         return {
             'name': self.name,
             'url': self.url,
             'tagline': '',
             'mission': self.description,
-            'nodeTypes': 'co-op', # needs smarter mapping to Murmurations types
+            'nodeTypes': 'co-op',  # needs smarter mapping to Murmurations types
             'location': '{} {} {} {}'.format(self.address, self.city, self.state, self.country, self.postal_code).strip(),
             'logo': self.logo_url,
             'feed': '',

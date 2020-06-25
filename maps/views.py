@@ -13,8 +13,38 @@ from django.forms import inlineformset_factory
 from accounts.models import UserSocialNetwork
 from mdi.models import Organization, SocialNetwork, OrganizationSocialNetwork, Relationship, EntitiesEntities, Tool
 from formtools.wizard.views import SessionWizardView
-from .forms import IndividualProfileDeleteForm, IndividualRolesForm, IndividualBasicInfoForm, IndividualMoreAboutYouForm, IndividualDetailedInfoForm, IndividualContactInfoForm, IndividualSocialNetworkFormSet, OrganizationTypeForm, OrganizationBasicInfoForm, OrganizationContactInfoForm, OrganizationDetailedInfoForm, OrganizationScopeAndImpactForm, OrganizationSocialNetworkFormSet,\
-    ToolBasicInfoForm, ToolDetailedInfoForm
+from .forms import GeolocationForm, IndividualProfileDeleteForm, IndividualRolesForm, IndividualBasicInfoForm, \
+    IndividualMoreAboutYouForm, IndividualDetailedInfoForm, IndividualContactInfoForm, IndividualSocialNetworkFormSet, \
+    OrganizationTypeForm, OrganizationBasicInfoForm, OrganizationContactInfoForm, OrganizationDetailedInfoForm, \
+    OrganizationScopeAndImpactForm, OrganizationSocialNetworkFormSet, ToolBasicInfoForm, ToolDetailedInfoForm
+from django_countries import countries
+from django.contrib.gis.geos import Point
+import os
+import requests
+
+
+def contact_info_to_lng_lat(contact_info):
+    address_string = ''
+    if contact_info['address'] != '':
+        address_string += '{}, '.format(contact_info['address'])
+    if contact_info['city'] != '':
+        address_string += '{}, '.format(contact_info['city'])
+    if contact_info['state'] != '':
+        address_string += '{}, '.format(contact_info['state'])
+    if contact_info['country'] != '':
+        address_string += '{}, '.format(dict(countries)[contact_info['country']])
+    if contact_info['postal_code'] != '':
+        address_string += '{}, '.format(contact_info['postal_code'])
+    address_string = address_string.rstrip(', ')
+
+    URL = 'https://geocode.search.hereapi.com/v1/geocode'
+    PARAMS = {'apiKey': os.environ['HERE_API_KEY'], 'q': address_string}
+    r = requests.get(url=URL, params=PARAMS)
+    data = r.json()
+    return {
+        'lng': data['items'][0]['position']['lng'],
+        'lat': data['items'][0]['position']['lat'],
+    }
 
 
 # Inline Formset for SocialNetworks.
@@ -36,6 +66,7 @@ def manage_socialnetworks(request, user_id):
 INDIVIDUAL_FORMS = [
     ('basic_info', IndividualBasicInfoForm),
     ('contact_info', IndividualContactInfoForm),
+    ('geolocation', GeolocationForm),
     ('roles', IndividualRolesForm),
     ('more_about_you', IndividualMoreAboutYouForm),
     ('detailed_info', IndividualDetailedInfoForm),
@@ -45,6 +76,7 @@ INDIVIDUAL_FORMS = [
 INDIVIDUAL_TEMPLATES = {
     'basic_info': 'maps/profiles/individual/basic_info.html',
     'contact_info': 'maps/profiles/individual/contact_info.html',
+    'geolocation': 'maps/profiles/individual/geolocation.html',
     'roles': 'maps/profiles/individual/roles.html',
     'more_about_you': 'maps/profiles/individual/more_about_you.html',
     'detailed_info': 'maps/profiles/individual/detailed_info.html',
@@ -55,15 +87,17 @@ ORGANIZATION_FORMS = [
     ('org_type', OrganizationTypeForm),
     ('basic_info', OrganizationBasicInfoForm),
     ('contact_info', OrganizationContactInfoForm),
+    ('geolocation', GeolocationForm),
     ('detailed_info', OrganizationDetailedInfoForm),
     ('scope_and_impact', OrganizationScopeAndImpactForm),
     ('social_networks', OrganizationSocialNetworkFormSet),
-]    
+]
 
 ORGANIZATION_TEMPLATES = {
     'org_type': 'maps/profiles/organization/org_type.html',
     'basic_info': 'maps/profiles/organization/basic_info.html',
     'contact_info': 'maps/profiles/organization/contact_info.html',
+    'geolocation': 'maps/profiles/organization/geolocation.html',
     'detailed_info': 'maps/profiles/organization/detailed_info.html',
     'scope_and_impact': 'maps/profiles/organization/scope_and_impact.html',
     'social_networks': 'maps/profiles/organization/social_networks.html'
@@ -83,14 +117,14 @@ def show_more_about_you_condition(wizard):
     cleaned_data = wizard.get_cleaned_data_for_step('roles') or {'roles': []}
     if (len(cleaned_data['roles']) == 1 and cleaned_data['roles'][0].name == 'Other'):
         return False
-    
+
     return True
 
 def show_scope_and_impact_condition(wizard):
     cleaned_data = wizard.get_cleaned_data_for_step('org_type') or {'type': False}
     if (cleaned_data['type'] and cleaned_data['type'].name == 'Cooperative'):
         return True
-    
+
     return False
 
 class IndividualProfileWizard(LoginRequiredMixin, SessionWizardView):
@@ -131,16 +165,20 @@ class IndividualProfileWizard(LoginRequiredMixin, SessionWizardView):
             socialnetworks = SocialNetwork.objects.all()
             for index, sn in enumerate(socialnetworks):
                 initial.append({
-                    'socialnetwork' : sn,
+                    'socialnetwork': sn,
                     'name': sn.name,
-                    'hint' : sn.hint,
+                    'hint': sn.hint,
                 })
-            # print(initial)
-        return self.initial_dict.get('social_networks', initial)
+            return self.initial_dict.get('social_networks', initial)
+        if step == 'geolocation':
+            contact_info = self.get_cleaned_data_for_step('contact_info')
+            lat_lng = contact_info_to_lng_lat(contact_info)
+            return self.initial_dict.get(step, lat_lng)
 
     def done(self, form_list, form_dict, **kwargs):
         user = self.request.user
         form_dict = self.get_all_cleaned_data()
+        form_dict['geom'] = Point(float(form_dict['lng']), float(form_dict['lat']))
         for k, v in form_dict.items():
             if k not in ['roles', 'languages', 'services', 'challenges', 'formset-social_networks', ]:
                 setattr(user, k, v)
@@ -186,7 +224,7 @@ class OrganizationProfileWizard(LoginRequiredMixin, SessionWizardView):
             elif type.name == 'Shared platform':
                 context.update({'is_shared_platform': True})
         return context
-    
+
     # Attempt to solve SocialNetwork problem on profile pages.
     def get_form_initial(self, step):
         initial = []
@@ -194,18 +232,23 @@ class OrganizationProfileWizard(LoginRequiredMixin, SessionWizardView):
             socialnetworks = SocialNetwork.objects.all()
             for index, sn in enumerate(socialnetworks):
                 initial.append({
-                    'socialnetwork' : sn,
+                    'socialnetwork': sn,
                     'name': sn.name,
-                    'hint' : sn.hint,
+                    'hint': sn.hint,
                 })
             return self.initial_dict.get('social_networks', initial)
         if step in ['basic_info', 'contact_info', 'detailed_info']:
             org_type_data = self.get_cleaned_data_for_step('org_type')
             return self.initial_dict.get(step, {'type': org_type_data['type']})
+        if step == 'geolocation':
+            contact_info = self.get_cleaned_data_for_step('contact_info')
+            lat_lng = contact_info_to_lng_lat(contact_info)
+            return self.initial_dict.get(step, lat_lng)
 
     def done(self, form_list, form_dict, **kwargs):
         user = self.request.user
         form_dict = self.get_all_cleaned_data()
+        form_dict['geom'] = Point(float(form_dict['lng']), float(form_dict['lat']))
         org = Organization(admin_email=user.email)
         for k, v in form_dict.items():
             if k not in ['languages', 'categories', 'sectors', 'formset-social_networks']:
@@ -234,7 +277,7 @@ class ToolWizard(LoginRequiredMixin, SessionWizardView):
             if k not in ['niches']:
                 setattr(org, k, v)
         tool.save()
-      
+
         return redirect('index')
 
 def index(request):
@@ -296,6 +339,7 @@ class OrganizationDelete(DeleteView):
     model = Organization
     success_url = reverse_lazy('my-profiles')
     success_message = "You have successfully deleted the organizational profile for %(name)s."
+
     def delete(self, request, *args, **kwargs):
         obj = self.get_object()
         messages.success(self.request, self.success_message % obj.__dict__)
@@ -337,4 +381,3 @@ class TermsOfServiceView(TemplateView):
 
 class AboutPageView(TemplateView):
     template_name = "maps/about.html"
-
