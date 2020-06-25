@@ -1,6 +1,7 @@
 from datetime import datetime
 from django.contrib.auth import get_user_model
 from django import forms
+from django.contrib.gis.forms import PointField, OSMWidget
 from django.forms import CharField, CheckboxSelectMultiple, IntegerField, ModelChoiceField, RadioSelect, SelectMultiple, HiddenInput, formset_factory
 from django.utils.translation import gettext_lazy as _
 from django.template.defaultfilters import safe
@@ -89,12 +90,18 @@ class IndividualContactInfoForm(BaseModelForm):
         }
 
 
-class YouAreHereForm(BaseModelForm):
-    class Meta:
-        model = get_user_model()
-        fields = [
-            'geom'
-        ]
+class GeolocationForm(BaseForm):
+    lng = forms.CharField(required=False, widget=HiddenInput(),)
+    lat = forms.CharField(required=False, widget=HiddenInput(),)
+
+    # class Meta:
+    #     model = get_user_model()
+    #     fields = [
+    #         'geom',
+    #     ]
+    #     widgets = {
+    #         'geom': HiddenInput(),
+    #     }
 
 
 class IndividualRolesForm(BaseForm):

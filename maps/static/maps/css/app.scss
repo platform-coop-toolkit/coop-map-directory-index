@@ -1,6 +1,6 @@
 @import "~@platform-coop-toolkit/pinecone";
 
-#map {
+#main-map {
   bottom: 0;
   color: #203131;
   font-family: 'Noto Sans', sans-serif;
@@ -10,8 +10,24 @@
   width: 100%;
 }
 
-#map.organization {
+#main-map.organization {
   font-family: 'Noto Serif', serif;
+}
+
+#geolocation-map {
+  bottom: 0;
+  color: #203131;
+  font-family: 'Noto Sans', sans-serif;
+  height: 476px;
+  margin-top: $gutter;
+  top: 0;
+  width: 100%;
+}
+
+#crosshairs {
+  pointer-events: none;
+  position: absolute;
+  z-index: 1;
 }
 
 li.no-bullet {

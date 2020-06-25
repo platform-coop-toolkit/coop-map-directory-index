@@ -1,0 +1,42 @@
+{% extends "maps/base.html" %}
+{% load static %}
+{% load i18n %}
+{% load maps_extras %}
+{% block bodyclass %}form-wizard{% endblock %}
+{% block title %}{{ 'Map yourself'|titlify }}{% endblock %}}
+
+{% block content %}
+  <form class="form" action="" method="post" novalidate>
+    <input type="hidden" id="lng" name="lng" value="{{ lng }}">
+    <input type="hidden" id="lat" name="lat" value="{{ lat }}">
+    <div class="page-header">
+      {% include 'maps/profiles/back.html' %}
+      <h1>Create a profile: individual</h1>
+      {% include 'maps/profiles/steps.html' %}
+    </div>
+    <div class="form__content">
+      {% if form.errors %}
+        {% include 'maps/profiles/errors.html' %}
+      {% endif %}
+      <h2>Map yourself</h2>
+      <label>Adjust the map until your location is centered</label>
+      <div id="geolocation-map">
+        <canvas id="crosshairs"></canvas>
+      </div>
+
+      {{ wizard.management_form }}
+      {% csrf_token %}
+      {% if wizard.form.forms %}
+        {{ wizard.form.management_form }}
+        {% for form in wizard.form.forms %}
+          {{ form }}
+        {% endfor %}
+      {% else %}
+        {{ wizard.form }}
+      {% endif %}
+
+      {% include 'maps/profiles/footer.html' %}
+    </div>
+  </form>
+  {% include 'maps/profiles/cancel.html' %}
+{% endblock %}

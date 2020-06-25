@@ -232,30 +232,97 @@ if (deleteIndividual) {
   });
 }
 
-const mapContainer = document.getElementById('map');
+const geolocationMapContainer = document.getElementById('geolocation-map');
 
-if (mapContainer) {
+if (geolocationMapContainer) {
+  let
+    lng = document.getElementById('lng').value,
+    lat = document.getElementById('lat').value
+  ;
   mapboxgl.accessToken = 'pk.eyJ1IjoiZXJpY3RoZWlzZSIsImEiOiJjazVvNGNmM2wxaGhjM2pvMGc0ZmIyaXN3In0.Jrt9t5UrY5aCbndSpq5JWw';
-  var map = new mapboxgl.Map({
-    container: 'map',
-    style: 'mapbox://styles/mapbox/dark-v10',
-    center: [-74.5, 40],
-    zoom: 4,
-    hash: true,
+  var geolocationMap = new mapboxgl.Map({
+    container: 'geolocation-map',
+    style: 'mapbox://styles/mapbox/light-v10',
+    center: [lng, lat],
+    zoom: 17,
+    hash: false,
+    rotate: false,
     scrollZoom: false
   });
 
-  let nav = new mapboxgl.NavigationControl({ showCompass: false });
-  map.addControl(nav, 'top-right');
+  let nav = new mapboxgl.NavigationControl({showCompass: false});
+  geolocationMap.addControl(nav, 'top-right');
 
   let geo = new mapboxgl.GeolocateControl({
     fitBoundsOptions: {
       maxZoom: 10
     }
   });
-  map.addControl(geo, 'top-right');
+  geolocationMap.addControl(geo, 'top-right');
 
-  map.on('load', function () {
+  const
+    crosshairs = document.getElementById('crosshairs'),
+    ctx = crosshairs.getContext('2d'),
+    x = geolocationMap.getCanvas().width,
+    y = geolocationMap.getCanvas().height,
+    openingDimension = 40
+  ;
+  crosshairs.width = x;
+  crosshairs.height = y;
+
+  ctx.strokeStyle = '#203131'; // dark-mint-500
+  ctx.beginPath();
+  ctx.moveTo(x/2, 0);
+  ctx.lineTo(x/2, (y - openingDimension)/2);
+  ctx.moveTo(x/2, (y + openingDimension)/2);
+  ctx.lineTo(x/2, y);
+  ctx.stroke();
+
+  ctx.beginPath();
+  ctx.moveTo(0, y/2);
+  ctx.lineTo((x - openingDimension)/2, y/2);
+  ctx.moveTo((x + openingDimension)/2, y/2);
+  ctx.lineTo(x, y/2);
+  ctx.stroke();
+
+  geolocationMap.on('load', function () {
+    document.getElementById('id_geolocation-lng').value = lng;
+    document.getElementById('id_geolocation-lat').value = lat;
+  })
+
+  geolocationMap.on('moveend', function () {
+    document.getElementById('lng').value = geolocationMap.getCenter().lng;
+    document.getElementById('lat').value = geolocationMap.getCenter().lat;
+    document.getElementById('id_geolocation-lng').value = geolocationMap.getCenter().lng;
+    document.getElementById('id_geolocation-lat').value = geolocationMap.getCenter().lat;
+  })
+}
+
+const mainMapContainer = document.getElementById('main-map');
+
+if (mainMapContainer) {
+  mapboxgl.accessToken = 'pk.eyJ1IjoiZXJpY3RoZWlzZSIsImEiOiJjazVvNGNmM2wxaGhjM2pvMGc0ZmIyaXN3In0.Jrt9t5UrY5aCbndSpq5JWw';
+  var mainMap = new mapboxgl.Map({
+    container: 'main-map',
+    style: 'mapbox://styles/mapbox/dark-v10',
+    center: [-74.5, 40],
+    zoom: 4,
+    hash: true,
+    rotate: false,
+    scrollZoom: false
+  });
+
+  let nav = new mapboxgl.NavigationControl({ showCompass: false });
+  mainMap.addControl(nav, 'top-right');
+
+  let geo = new mapboxgl.GeolocateControl({
+    fitBoundsOptions: {
+      maxZoom: 10
+    }
+  });
+  mainMap.addControl(geo, 'top-right');
+
+  mainMap.on('load', function () {
     const
       platformCoop = ['==', ['get', 'category'], 'platform co-op'],
       coopRunPlatform = ['==', ['get', 'category'], 'co-op-run platform'],
@@ -277,7 +344,7 @@ if (mapContainer) {
       totals
     ;
 
-    map.addSource('organizations', {
+    mainMap.addSource('organizations', {
       'type': 'geojson',
       'data': '/api/organizations/',
       'cluster': true,
@@ -292,7 +359,7 @@ if (mapContainer) {
       // }
     });
 
-    map.addSource('individuals', {
+    mainMap.addSource('individuals', {
       'type': 'geojson',
       'data': '/api/users/',
       'cluster': true,
@@ -300,7 +367,7 @@ if (mapContainer) {
       'clusterRadius': 50
     });
 
-    map.addLayer({
+    mainMap.addLayer({
       id: 'clusters',
       type: 'circle',
       source: 'organizations',
@@ -337,7 +404,7 @@ if (mapContainer) {
       }
     });
 
-    map.addLayer({
+    mainMap.addLayer({
       id: 'cluster-count',
       type: 'symbol',
       source: 'organizations',
@@ -348,7 +415,7 @@ if (mapContainer) {
       }
     });
 
-    map.addLayer({
+    mainMap.addLayer({
       id: 'unclustered-point',
       type: 'circle',
       source: 'organizations',
@@ -370,17 +437,17 @@ if (mapContainer) {
       }
     });
 
-    map.on('click', 'clusters', function (e) {
-      var features = map.queryRenderedFeatures(e.point, {
+    mainMap.on('click', 'clusters', function (e) {
+      var features = mainMap.queryRenderedFeatures(e.point, {
         layers: ['clusters']
       });
       var clusterId = features[0].properties.cluster_id;
-      map.getSource('organizations').getClusterExpansionZoom(
+      mainMap.getSource('organizations').getClusterExpansionZoom(
         clusterId,
         function (err, zoom) {
           if (err) return;
 
-          map.easeTo({
+          mainMap.easeTo({
             center: features[0].geometry.coordinates,
             zoom: zoom
           });
@@ -388,8 +455,8 @@ if (mapContainer) {
       );
     });
 
-    map.on('click', 'unclustered-point', function (e) {
-      map.getCanvas().style.cursor = 'pointer';
+    mainMap.on('click', 'unclustered-point', function (e) {
+      mainMap.getCanvas().style.cursor = 'pointer';
       let popup = new mapboxgl.Popup({
         closeButton: true,
         closeOnClick: true
@@ -397,26 +464,26 @@ if (mapContainer) {
 
       popup.setLngLat(e.features[0].geometry.coordinates)
         .setHTML(generatePopupHtml(e.features[0]))
-        .addTo(map);
+        .addTo(mainMap);
     });
 
-    map.on('mouseenter', 'clusters', function () {
-      map.getCanvas().style.cursor = 'pointer';
+    mainMap.on('mouseenter', 'clusters', function () {
+      mainMap.getCanvas().style.cursor = 'pointer';
     });
-    map.on('mouseleave', 'clusters', function () {
-      map.getCanvas().style.cursor = '';
-    });
-
-    generateCards(map, ['unclustered-point']);
-
-    map.on('render', function () {
-      generateCards(map, ['unclustered-point']);
-    });
-    map.on('moveend', function () {
-      generateCards(map, ['unclustered-point']);
+    mainMap.on('mouseleave', 'clusters', function () {
+      mainMap.getCanvas().style.cursor = '';
     });
 
-    // map.addLayer({
+    generateCards(mainMap, ['unclustered-point']);
+
+    mainMap.on('render', function () {
+      generateCards(mainMap, ['unclustered-point']);
+    });
+    mainMap.on('moveend', function () {
+      generateCards(mainMap, ['unclustered-point']);
+    });
+
+    // mainMap.addLayer({
     //   'id': 'organizations_individual_outer',
     //   'type': 'circle',
     //   'source': 'organizations',
@@ -442,7 +509,7 @@ if (mapContainer) {
     //   // keep track of new markers
     //   let newMarkers = {};
     //   // get the features whether or not they are visible (https://docs.mapbox.com/mapbox-gl-js/api/#map#queryrenderedfeatures)
-    //   const features = map.querySourceFeatures('organizations');
+    //   const features = mainMap.querySourceFeatures('organizations');
     //   totals = getPointCount(features);
     //   // loop through each feature
     //   features.forEach((feature) => {
@@ -472,7 +539,7 @@ if (mapContainer) {
     //
     //     // if the marker isn't already on screen then add it to the map
     //     if (!markersOnScreen[id]) {
-    //       marker.addTo(map);
+    //       marker.addTo(mainMap);
     //     }
     //   });
     //
@@ -498,4 +565,3 @@ if (mapContainer) {
 
   });
 }
- 
