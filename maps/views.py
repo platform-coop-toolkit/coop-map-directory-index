@@ -36,7 +36,7 @@ def contact_info_to_lng_lat(contact_info):
     if contact_info['postal_code'] != '':
         address_string += '{}, '.format(contact_info['postal_code'])
     address_string = address_string.rstrip(', ')
-    
+
     URL = 'https://geocode.search.hereapi.com/v1/geocode'
     PARAMS = {'apiKey': os.environ['HERE_API_KEY'], 'q': address_string}
     r = requests.get(url=URL, params=PARAMS)
@@ -155,9 +155,9 @@ class IndividualProfileWizard(LoginRequiredMixin, SessionWizardView):
             socialnetworks = SocialNetwork.objects.all()
             for index, sn in enumerate(socialnetworks):
                 initial.append({
-                    'socialnetwork' : sn,
+                    'socialnetwork': sn,
                     'name': sn.name,
-                    'hint' : sn.hint,
+                    'hint': sn.hint,
                 })
             return self.initial_dict.get('social_networks', initial)
         if step == 'geolocation':
@@ -222,9 +222,9 @@ class OrganizationProfileWizard(LoginRequiredMixin, SessionWizardView):
             socialnetworks = SocialNetwork.objects.all()
             for index, sn in enumerate(socialnetworks):
                 initial.append({
-                    'socialnetwork' : sn,
+                    'socialnetwork': sn,
                     'name': sn.name,
-                    'hint' : sn.hint,
+                    'hint': sn.hint,
                 })
             return self.initial_dict.get('social_networks', initial)
         if step in ['basic_info', 'contact_info', 'detailed_info']:
@@ -315,6 +315,7 @@ class OrganizationDelete(DeleteView):
     model = Organization
     success_url = reverse_lazy('my-profiles')
     success_message = "You have successfully deleted the organizational profile for %(name)s."
+
     def delete(self, request, *args, **kwargs):
         obj = self.get_object()
         messages.success(self.request, self.success_message % obj.__dict__)
@@ -356,4 +357,3 @@ class TermsOfServiceView(TemplateView):
 
 class AboutPageView(TemplateView):
     template_name = "maps/about.html"
-

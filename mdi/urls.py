@@ -20,7 +20,7 @@ group_detail = GroupViewSet.as_view({
     'get': 'retrieve',
     # 'post': 'create',
     # 'put': 'update',
-    #'delete': 'destroy'
+    # 'delete': 'destroy'
 })
 
 sector_list = SectorViewSet.as_view({

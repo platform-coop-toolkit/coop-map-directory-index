@@ -7,9 +7,9 @@ from datetime import timedelta
 
 class YearsInOperationTestCase(TestCase):
     def setUp(self):
-        Organization.objects.create(name = 'unknown', founded = None)
-        Organization.objects.create(name = '2020', founded = '2020-01-01')
-        Organization.objects.create(name = '2010-07-01', founded = '2010-07-01')
+        Organization.objects.create(name='unknown', founded=None)
+        Organization.objects.create(name='2020', founded='2020-01-01')
+        Organization.objects.create(name='2010-07-01', founded='2010-07-01')
 
     def test_less_than_six_months(self):
         with patch('mdi.models.date') as mock_date:

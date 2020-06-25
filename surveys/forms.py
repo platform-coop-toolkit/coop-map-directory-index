@@ -27,7 +27,7 @@ class DateSelectorWidget(forms.MultiWidget):
             (11, 'November'),
             (12, 'December'),
         ]
-        days = [(0, 'Select a day…')] +  [(day, day) for day in range(1, 32)]
+        days = [(0, 'Select a day…')] + [(day, day) for day in range(1, 32)]
         widgets = [
             forms.Select(attrs={'class': 'required'}, choices=years),
             forms.Select(attrs=attrs, choices=months),
@@ -69,7 +69,7 @@ class BaseModelForm(forms.ModelForm):
 
 class ContactInfoForm(BaseForm):
     first_name = forms.CharField(max_length=254, required=False)
-    middle_name = forms.CharField(max_length=254,required=False)
+    middle_name = forms.CharField(max_length=254, required=False)
     last_name = forms.CharField(max_length=254, required=False)
     email = forms.EmailField(max_length=254, label='Email address')
     role = forms.ModelMultipleChoiceField(

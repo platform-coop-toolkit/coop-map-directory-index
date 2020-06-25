@@ -9,7 +9,7 @@ from .models import Organization, Sector, Tool, License
 from rest_framework.response import Response
 
 def map(request):
-  return HttpResponse("Where's ma maps?")
+    return HttpResponse("Where's ma maps?")
 
 @api_view(['GET'])
 def api_root(request, format=None):
@@ -23,21 +23,21 @@ def api_root(request, format=None):
 
 
 class UserViewSet(viewsets.ModelViewSet):
-  """
-  API endpoint that allows Users to be viewed.
-  """
-  queryset = get_user_model().objects.all().order_by('date_joined')
-  serializer_class = UserSerializer
-  http_method_names = ['get', ]
+    """
+    API endpoint that allows Users to be viewed.
+    """
+    queryset = get_user_model().objects.all().order_by('date_joined')
+    serializer_class = UserSerializer
+    http_method_names = ['get', ]
 
 
 class GroupViewSet(viewsets.ModelViewSet):
-  """
-  API endpoint that allows Groups to be viewed.
-  """
-  queryset = Group.objects.all()
-  serializer_class = GroupSerializer
-  http_method_names = ['get', ]
+    """
+    API endpoint that allows Groups to be viewed.
+    """
+    queryset = Group.objects.all()
+    serializer_class = GroupSerializer
+    http_method_names = ['get', ]
 
 
 class SectorViewSet(viewsets.ModelViewSet):
@@ -62,6 +62,6 @@ class OrganizationViewSet(viewsets.ModelViewSet):
     """
     API endpoint that allows Organizations to be viewed.
     """
-    queryset = Organization.objects.all() # filter(geom__isnull=False)
-    serializer_class  = OrganizationSerializer
+    queryset = Organization.objects.all()  # filter(geom__isnull=False)
+    serializer_class = OrganizationSerializer
     http_method_names = ['get', ]

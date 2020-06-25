@@ -1,6 +1,6 @@
 name: Run lint
 
-on: [pull_request]
+on: [push, pull_request]
 
 jobs:
   lint:
@@ -18,3 +18,13 @@ jobs:
         npm test
       env:
         CI: true
+    - name: pycodestyle lint
+      uses: ricardochaves/python-lint@v1.1.0
+      with:
+        python-root-list: "."  
+        use-pycodestyle: true
+        use-pylint: false
+        use-flake8: false
+        use-black: false
+        use-mypy: false
+        use-isort: false
