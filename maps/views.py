@@ -113,6 +113,7 @@ TOOL_TEMPLATES = {
     'detailed_info': 'maps/profiles/tool/detailed_info.html'
 }
 
+
 def show_more_about_you_condition(wizard):
     cleaned_data = wizard.get_cleaned_data_for_step('roles') or {'roles': []}
     if (len(cleaned_data['roles']) == 1 and cleaned_data['roles'][0].name == 'Other'):
@@ -120,12 +121,14 @@ def show_more_about_you_condition(wizard):
 
     return True
 
+
 def show_scope_and_impact_condition(wizard):
     cleaned_data = wizard.get_cleaned_data_for_step('org_type') or {'type': False}
     if (cleaned_data['type'] and cleaned_data['type'].name == 'Cooperative'):
         return True
 
     return False
+
 
 class IndividualProfileWizard(LoginRequiredMixin, SessionWizardView):
     def get_template_names(self):
@@ -208,6 +211,7 @@ class IndividualProfileWizard(LoginRequiredMixin, SessionWizardView):
 
         return redirect('individual-detail', user_id=user.id)
 
+
 class OrganizationProfileWizard(LoginRequiredMixin, SessionWizardView):
     def get_template_names(self):
         return [ORGANIZATION_TEMPLATES[self.steps.current]]
@@ -266,6 +270,7 @@ class OrganizationProfileWizard(LoginRequiredMixin, SessionWizardView):
 
         return redirect('organization-detail', organization_id=org.id)
 
+
 class ToolWizard(LoginRequiredMixin, SessionWizardView):
     def get_template_names(self):
         return [TOOL_TEMPLATES[self.steps.current]]
@@ -279,6 +284,7 @@ class ToolWizard(LoginRequiredMixin, SessionWizardView):
         tool.save()
 
         return redirect('index')
+
 
 def index(request):
     template = loader.get_template('maps/index.html')
@@ -335,6 +341,7 @@ def individual_detail(request, user_id):
     }
     return render(request, 'maps/individual_detail.html', context)
 
+
 class OrganizationDelete(DeleteView):
     model = Organization
     success_url = reverse_lazy('my-profiles')
@@ -346,6 +353,8 @@ class OrganizationDelete(DeleteView):
         return super(OrganizationDelete, self).delete(request, *args, **kwargs)
 
 # My Profiles
+
+
 @login_required
 def my_profiles(request):
     user = request.user
@@ -368,16 +377,22 @@ def my_profiles(request):
     return render(request, 'maps/my_profiles.html', context)
 
 # Account Seetings
+
+
 @login_required
 def account_settings(request):
     return render(request, 'maps/account_settings.html')
 
 # Static pages
+
+
 class PrivacyPolicyView(TemplateView):
     template_name = "maps/privacy_policy.html"
 
+
 class TermsOfServiceView(TemplateView):
     template_name = "maps/terms_of_service.html"
+
 
 class AboutPageView(TemplateView):
     template_name = "maps/about.html"

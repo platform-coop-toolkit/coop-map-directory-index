@@ -9,6 +9,7 @@ from django_countries.fields import CountryField
 from accounts.models import Role, SocialNetwork, UserSocialNetwork
 from mdi.models import Organization, Category, Language, OrganizationSocialNetwork, Stage, Tool, Type
 
+
 class BaseForm(forms.Form):
     error_css_class = 'error'
     required_css_class = 'required'
@@ -28,11 +29,13 @@ class BaseModelForm(forms.ModelForm):
 
         super(BaseModelForm, self).__init__(*args, **kwargs)
 
+
 class IndividualProfileDeleteForm(BaseModelForm):
     class Meta:
         model = get_user_model()
         fields = ['has_profile']
         widgets = {'has_profile': HiddenInput}
+
 
 class IndividualBasicInfoForm(BaseModelForm):
     first_name = CharField(
@@ -63,6 +66,7 @@ class IndividualBasicInfoForm(BaseModelForm):
             'middle_name': _('Middle name'),
             'url': _('Website address')
         }
+
 
 class IndividualContactInfoForm(BaseModelForm):
     city = CharField(
@@ -102,6 +106,7 @@ class GeolocationForm(BaseForm):
         super(GeolocationForm, self).__init__(*args, **kwargs)
         self.fields['lat'].value = self.lat
         self.fields['lng'].value = self.lng
+
 
 class IndividualRolesForm(BaseForm):
     roles = forms.ModelMultipleChoiceField(
@@ -158,6 +163,8 @@ class IndividualMoreAboutYouForm(BaseModelForm):
         help_texts = {
             'community_skills': _('Provide a short description.')
         }
+
+
 class IndividualDetailedInfoForm(BaseModelForm):
     class Meta:
         model = get_user_model()
@@ -174,6 +181,7 @@ class IndividualDetailedInfoForm(BaseModelForm):
             'projects': _('List any current or past projects you would like to share with others.')
         }
 
+
 class IndividualSocialNetworkForm(BaseModelForm):
     class Meta:
         model = UserSocialNetwork
@@ -187,6 +195,7 @@ class IndividualSocialNetworkForm(BaseModelForm):
 
 
 IndividualSocialNetworkFormSet = formset_factory(IndividualSocialNetworkForm, extra=0)
+
 
 class OrganizationTypeForm(BaseForm):
     type = forms.ModelChoiceField(
@@ -202,6 +211,8 @@ class OrganizationTypeForm(BaseForm):
         initial=0,
         widget=RadioSelect(attrs={'class': 'input-group radio'})
     )
+
+
 class OrganizationBasicInfoForm(BaseModelForm):
     languages = forms.ModelMultipleChoiceField(
         queryset=Language.objects.all(),
@@ -307,6 +318,7 @@ class OrganizationBasicInfoForm(BaseModelForm):
         else:
             self.fields['year_founded'].required = False
 
+
 class OrganizationContactInfoForm(BaseModelForm):
     city = CharField(
         required=True,
@@ -335,6 +347,7 @@ class OrganizationContactInfoForm(BaseModelForm):
             'address': _('Street address'),
             'postal_code': _('ZIP or postal code')
         }
+
 
 class OrganizationDetailedInfoForm(BaseModelForm):
     categories = forms.ModelMultipleChoiceField(
@@ -402,6 +415,7 @@ class OrganizationDetailedInfoForm(BaseModelForm):
             'sectors': _('Hold down the <kbd>ctrl</kbd> (Windows) or <kbd>command</kbd> (macOS) key to select multiple options.'),
         }
 
+
 class OrganizationScopeAndImpactForm(BaseModelForm):
     geo_scope = forms.ChoiceField(
         choices=[
@@ -431,6 +445,7 @@ class OrganizationScopeAndImpactForm(BaseModelForm):
         help_texts = {
             'impacted_exact_number': _('Include clients and users as well as their family members or others indirectly impacted by the work of your co-operative.')
         }
+
 
 class OrganizationSocialNetworkForm(BaseModelForm):
     class Meta:

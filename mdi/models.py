@@ -25,6 +25,7 @@ class Type(models.Model):
     def __str__(self):
         return self.name
 
+
 class Category(models.Model):
     name = models.CharField(blank=False, max_length=255, unique=True)
     type = models.ForeignKey(Type, blank=True, null=True, on_delete=models.CASCADE)
@@ -110,6 +111,7 @@ class Stage(models.Model):
 
     def __str__(self):
         return self.name
+
 
 class Sector(models.Model):
     name = models.CharField(blank=False, max_length=255, unique=True)
