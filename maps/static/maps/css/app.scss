@@ -18,15 +18,17 @@
   bottom: 0;
   color: #203131;
   font-family: 'Noto Sans', sans-serif;
-  height: 476px;
+  height: rem(476);
   margin-top: $gutter;
   top: 0;
   width: 100%;
 }
 
 #crosshairs {
+  left: -50%;
   pointer-events: none;
   position: absolute;
+  top: -50%;
   z-index: 1;
 }
 
