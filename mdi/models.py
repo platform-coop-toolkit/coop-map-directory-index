@@ -14,6 +14,7 @@ from django.db.models import Manager as GeoManager
 
 class Type(models.Model):
     name = models.CharField(blank=False, max_length=255, unique=True)
+    icon = models.CharField(blank=True, max_length=32)
     description = models.CharField(blank=True, default='', max_length=255)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

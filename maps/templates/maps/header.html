@@ -1,4 +1,4 @@
-{% load static %}
+{% load maps_extras %}
 {% load i18n %}
 {% url 'index' as home_url %}
   <div class="banner-pattern"></div>
@@ -6,22 +6,13 @@
     <div class="container">
 
       <a class="link link--brand" aria-current="page" href="{% url 'index' %}">
-        <svg class="icon icon--directory icon--lg" viewBox="0 0 32 32" aria-hidden="" focusable="">
-            <use href="{% static 'maps/dist/images/directory.svg#directory' %}" />
-        </svg>
-        <span class="brand__title screen-reader-text">Platform Cooperativism Consortium</span></a>
-
+        {% icon 'directory' size='lg' viewbox='0 0 32 32' %}
+        <span class="brand__title screen-reader-text">Platform Co-op Directory</span></a>
       <div class="inner">
       {% if request.get_full_path != home_url %}
         <button class="button button--borderless search-toggle" aria-expanded="false"><span
       class="screen-reader-text">Search </span>
-          <svg
-              class="icon icon--search"
-              viewBox="0 0 20 20"
-              focusable="false"
-          >
-           <use href="{% static 'maps/dist/images/search.svg#search' %}" />
-          </svg>
+          {% icon 'search' %}
         </button>
 
         <form role="search" method="get" class="search-form search-form--inverse" action="#">
@@ -30,36 +21,15 @@
             <input id="s" name="s" type="search" />
           </label>
           <button type="submit" class="button button--search"><span class="screen-reader-text">submit search</span>
-            <svg
-                class="icon icon--search"
-                aria-hidden="true"
-                viewBox="0 0 20 20"
-                focusable="false"
-            >
-              <use href="{% static 'maps/dist/images/search.svg#search' %}" />
-            </svg>
+            {% icon 'search' %}
           </button>
         </form>
       {% endif %}
 
         <nav class="nav" aria-labelledby="menu-primary-label">
           <button class="button button--borderless menu-toggle" aria-expanded="false">
-            <svg
-                class="icon icon--open"
-                aria-hidden="true"
-                viewBox="0 0 20 20"
-                focusable="false"
-            >
-              <use href="{% static 'maps/dist/images/menu.svg#menu' %}"/>
-            </svg>
-            <svg
-                class="icon icon--close"
-                aria-hidden="true"
-                viewBox="0 0 20 20"
-                focusable="false"
-            >
-              <use href="{% static 'maps/dist/images/close.svg#close' %}"/>
-            </svg>
+            {% icon 'menu' modifier='open' %}
+            {% icon 'close' %}
             <span id="menu-primary-label" class="menu-toggle__label">Menu</span>
           </button>
 

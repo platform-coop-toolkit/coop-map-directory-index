@@ -1,0 +1,4 @@
+{% load static %}
+<svg class="{% if not class_override %}icon icon--{{ modifier }}{% if size %} icon--{{ size }}{% endif %}{% else %}{{ class_override }}{% endif %}" aria-hidden="{{ ariahidden }}" viewBox="{{ viewbox }}" focusable="{{ focusable }}">
+    <use href="{% static 'maps/dist/images/'|add:name|add:'.svg#'|add:name %}" />
+</svg>
