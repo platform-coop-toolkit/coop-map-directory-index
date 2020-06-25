@@ -431,7 +431,10 @@ class ToolBasicInfoForm(BaseModelForm):
     class Meta:
         model = Tool
         fields = [
-            'name'
+            'name',
+            'niches',
+            'description',
+            'url'
         ]
 
 
@@ -439,5 +442,10 @@ class ToolDetailedInfoForm(BaseModelForm):
     class Meta:
         model = Tool
         fields = [
-            'license_type'
+            'pricing',
+            'license_type',
+            'license',
+            'sectors',
+            'languages_supported',
+            'coop_made'
         ]
