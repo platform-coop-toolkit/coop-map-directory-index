@@ -267,9 +267,23 @@ def index(request):
 # Organization
 def organization_detail(request, organization_id):
     organization = get_object_or_404(Organization, pk=organization_id)
+    member_of_relationship = Relationship.objects.get(name="Member of")
+    member_of_relationships = EntitiesEntities.objects.filter(to_org=organization, relationship=member_of_relationship)
+    founder_of_relationship = Relationship.objects.get(name="Founder of")
+    founder_of_relationships = EntitiesEntities.objects.filter(to_org=organization, relationship=founder_of_relationship)
+    members = []
+    founders = []
+    for relationship in member_of_relationships:
+        members.append(get_user_model().objects.get(id=relationship.from_ind.id))
+    for relationship in founder_of_relationships:
+        founders.append(get_user_model().objects.get(id=relationship.from_ind.id))
+
     context = {
+        'organization': organization,
+        'members': members,
+        'founders': founders
     }
-    return render(request, 'maps/organization_detail.html', {'organization': organization})
+    return render(request, 'maps/organization_detail.html', context)
 
 
 # Individual

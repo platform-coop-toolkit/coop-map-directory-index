@@ -30,6 +30,12 @@
                 {% endfor %}
             {% endif %}
         </div>
+        {% if individual.url %}
+        <div class="spacer"></div>
+        <p>
+            <a rel="external" href="{{ individual.url }}">{% trans 'Visit website' %}</a>
+        </p>
+        {% endif %}
     </div>
 
     <div class="tabs">
@@ -120,7 +126,7 @@
                     {% if founder_orgs %}
                         <h3>{% trans 'Founded:' %}</h3>
                         <ul class="cards">
-                        {% for org in founder_orgs|slice:":4" %}
+                        {% for organization in founder_orgs|slice:":4" %}
                             {% include 'maps/partials/card_organization.html' %}
                         {% endfor %}
                         </ul>
@@ -133,7 +139,7 @@
                     {% if member_orgs %}
                         <h3>{% trans 'Member of:' %}</h3>
                         <ul class="cards">
-                        {% for org in member_orgs|slice:":4" %}
+                        {% for organization in member_orgs|slice:":4" %}
                             {% include 'maps/partials/card_organization.html' %}
                         {% endfor %}
                         </ul>
@@ -148,7 +154,7 @@
                 <h2>{% trans 'Clients' %}</h2>
                 <p>{% blocktrans with name=individual.first_name|add:' '|add:individual.last_name %}{{ name }} has worked with:{% endblocktrans %}</p>
                 <ul class="cards">
-                {% for org in worked_with_orgs|slice:":4" %}
+                {% for organization in worked_with_orgs|slice:":4" %}
                     {% include 'maps/partials/card_organization.html' %}
                 {% endfor %}
                 </ul>
@@ -177,7 +183,7 @@
             {% if founder_orgs|length > 4 %}
                 <h3>{% trans 'Founded:' %}</h3>
                 <ul class="cards">
-                {% for org in founder_orgs %}
+                {% for organization in founder_orgs %}
                     {% include 'maps/partials/card_organization.html' %}
                 {% endfor %}
                 </ul>
@@ -185,7 +191,7 @@
             {% if member_orgs|length > 4 %}
                 <h3>{% trans 'Member of:' %}</h3>
                 <ul class="cards">
-                {% for org in member_orgs %}
+                {% for organization in member_orgs %}
                     {% include 'maps/partials/card_organization.html' %}
                 {% endfor %}
                 </ul>
@@ -196,7 +202,7 @@
         <div id="clients" role="tabpanel" aria-labelledby="clients-btn">
         <p>{% blocktrans with name=individual.first_name|add:' '|add:individual.last_name %}{{ name }} has worked with:{% endblocktrans %}</p>
         <ul class="cards">
-        {% for org in worked_with_orgs %}
+        {% for organization in worked_with_orgs %}
             {% include 'maps/partials/card_organization.html' %}
         {% endfor %}
         </ul>
