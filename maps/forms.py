@@ -1,6 +1,7 @@
 from datetime import datetime
 from django.contrib.auth import get_user_model
 from django import forms
+from django.contrib.gis.forms import PointField, OSMWidget
 from django.forms import CharField, CheckboxSelectMultiple, IntegerField, ModelChoiceField, RadioSelect, SelectMultiple, HiddenInput, formset_factory
 from django.utils.translation import gettext_lazy as _
 from django.template.defaultfilters import safe
@@ -87,6 +88,18 @@ class IndividualContactInfoForm(BaseModelForm):
             'address': _('Street address'),
             'postal_code': _('ZIP or postal code')
         }
+
+
+class GeolocationForm(BaseForm):
+    lng = forms.CharField(required=False, widget=HiddenInput())
+    lat = forms.CharField(required=False, widget=HiddenInput())
+
+    def __init__(self, *args,**kwargs):
+        self.lat = kwargs['initial']['lat']
+        self.lng = kwargs['initial']['lat']
+        super(GeolocationForm, self).__init__(*args, **kwargs)
+        self.fields['lat'].value = self.lat
+        self.fields['lng'].value = self.lng
 
 class IndividualRolesForm(BaseForm):
     roles = forms.ModelMultipleChoiceField(
@@ -280,7 +293,7 @@ class OrganizationBasicInfoForm(BaseModelForm):
             'founded_min_date': HiddenInput(),
             'founded_max_date': HiddenInput()
         }
-    
+
     def __init__(self, *args,**kwargs):
         self.type = kwargs['initial']['type']
         super(OrganizationBasicInfoForm, self).__init__(*args, **kwargs)
@@ -412,7 +425,7 @@ class OrganizationScopeAndImpactForm(BaseModelForm):
         help_texts = {
             'impacted_exact_number': _('Include clients and users as well as their family members or others indirectly impacted by the work of your co-operative.')
         }
-        
+
 class OrganizationSocialNetworkForm(BaseModelForm):
     class Meta:
         model = OrganizationSocialNetwork

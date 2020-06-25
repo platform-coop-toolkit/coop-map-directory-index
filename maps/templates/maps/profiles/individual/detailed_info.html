@@ -8,14 +8,14 @@
     <form class="form" action="" method="post" novalidate>
         <div class="page-header">
             {% include 'maps/profiles/back.html' %}
-            <h1>Create a profile: individual</h1>
+            <h1>{% trans 'Create a profile: individual' %}</h1>
             {% include 'maps/profiles/steps.html' %}
         </div>
         <div class="form__content">
         {% if form.errors  %}
         {% include 'maps/profiles/errors.html' %}
         {% endif %}
-        <h2>Detailed information</h2>
+        <h2>{% trans 'Detailed information' %}</h2>
         {{ wizard.management_form }}
         {% csrf_token %}
         {% if wizard.form.forms %}
