@@ -23,3 +23,4 @@ jobs:
       with:
         python-root-list: "maps mdi"  
         use-pycodestyle: true
+        use-pylint: false
