@@ -210,8 +210,7 @@ class Tool(models.Model):
     niches = models.ManyToManyField(Niche)
     languages_supported = models.ManyToManyField(Language, blank=True)
     sectors = models.ManyToManyField(Sector, blank=True)
-    coop_made = models.CharField(blank=False, default=0, max_length=16,
-                                 choices=[('unknown', 'Not sure'), ('yes', 'Yes'), ('no', 'No')])
+    coop_made = models.CharField(blank=False, default=0, max_length=16, choices=[('unknown', 'Not sure'), ('yes', 'Yes'), ('no', 'No')], verbose_name='Made by a cooperative')
     notes = models.TextField(blank=True, default='')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
