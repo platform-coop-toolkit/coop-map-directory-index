@@ -223,6 +223,7 @@ class Tool(models.Model):
     notes = models.TextField(blank=True, default='')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    submitted_by_email = models.EmailField(default='', max_length=255)
 
     def use_count(self):
         return self.organization_set.count()

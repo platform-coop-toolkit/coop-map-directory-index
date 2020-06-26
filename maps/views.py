@@ -293,16 +293,16 @@ class ToolWizard(LoginRequiredMixin, SessionWizardView):
         return context
 
     def done(self, form_list, form_dict, **kwargs):
+        user = self.request.user
         form_dict = self.get_all_cleaned_data()
-        tool = Tool(name=form_dict['name'])
+        tool = Tool(submitted_by_email=user.email)
         for k, v in form_dict.items():
-            if k not in ['name', 'niches', 'sectors', 'languages_supported']:
+            if k not in ['niches', 'sectors', 'languages_supported']:
                 setattr(tool, k, v)
         tool.save()
         tool.niches.set(form_dict['niches'])
         tool.sectors.set(form_dict['sectors'])
         tool.languages_supported.set(form_dict['languages_supported'])
-        tool.creator_email = user.email
         messages.success(self.request, 'Thank you for submitting this tool.')
         return HttpResponseRedirect('/my-profiles/')
 
