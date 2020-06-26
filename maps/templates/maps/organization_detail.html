@@ -5,7 +5,6 @@
 {% block bodyclass %}profile profile--organization{% endblock %}
 {% block content %}
   <div class="page-header">
-      
       <p>
         {% if organization.type.icon %}{% icon organization.type.icon %}{% endif %}
         {{ organization.type }}
@@ -35,6 +34,7 @@
       </p>
       {% endif %}
   </div>
+  {% include 'maps/partials/messages.html' %}
   <div class="tabs">
   <div role="tablist" aria-labelledby="tabs-label">
     <span class="screen-reader-text" id="tabs-label">{% trans 'tab group' %}</span>
