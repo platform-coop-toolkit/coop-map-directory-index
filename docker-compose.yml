@@ -10,6 +10,7 @@ services:
       - DJANGO_EMAIL_BACKEND=${DJANGO_EMAIL_BACKEND}
       - DJANGO_EMAIL_HOST=${DJANGO_EMAIL_HOST}
       - DJANGO_DEFAULT_FROM_EMAIL=${DJANGO_DEFAULT_FROM_EMAIL}
+      - DEBUG=${DEBUG:-false}
     networks:
       - default
     restart: always

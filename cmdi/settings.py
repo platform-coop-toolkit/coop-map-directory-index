@@ -39,7 +39,7 @@ SECRET_KEY = os.environ['SECRET_KEY']
 # SECURITY WARNING: don't run with debug turned on in production!
 # Environment variable values are strings, not Booleans, so we test the value of the string.
 # See https://stackoverflow.com/questions/30015462/django-ignoring-debug-value-when-i-use-os-environ-why
-DEBUG = os.environ['DEBUG'] == 'True'
+DEBUG = os.getenv('DEBUG', 'false').lower() == 'true'
 
 ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS')
 if ALLOWED_HOSTS != '':
