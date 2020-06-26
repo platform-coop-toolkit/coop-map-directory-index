@@ -519,3 +519,14 @@ h1 + .profile__meta {
     }
   }
 }
+
+.niches > li {
+  padding: rem(8) 0 rem(6);
+  position: relative;
+}
+
+.niches button {
+  position: absolute;
+  right: 0;
+  top: 0;
+}

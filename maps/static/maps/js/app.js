@@ -208,6 +208,19 @@ if (basicInfo) {
   new Pinecone.Card( card );
 });
 
+[...document.querySelectorAll( '.input-group__parent > li' )].forEach( (container) => {
+  const input = container.querySelector( '.input--parent' );
+  const subInputs = container.querySelectorAll( '.input-group__descendant input' );
+  if ( 0 < subInputs.length ) {
+    new Pinecone.NestedCheckbox( container, input, subInputs );
+  }
+} );
+
+	
+[...document.querySelectorAll( '.filter-disclosure-label' )].forEach( (label) => {
+  new Pinecone.DisclosureButton( label, { buttonVariant: 'button--disc', visuallyHiddenLabel: true } );
+} );
+
 [...document.querySelectorAll('.delete-organization')].forEach((form) => {
   form.addEventListener('submit', (event) => {
     event.preventDefault();
