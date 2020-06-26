@@ -194,15 +194,15 @@ class License(models.Model):
 
 
 class Tool(models.Model):
-    name = models.CharField(blank=False, max_length=255, verbose_name=_('Name of tool'))
-    description = models.TextField(blank=True, default='', verbose_name=_('Description of tool'), help_text=_('Max 270 characters.'))
-    url = models.URLField(blank=False, max_length=255, verbose_name=_('URL of tool website'))
+    name = models.CharField(blank=False, max_length=255)
+    description = models.TextField(blank=True, default='')
+    url = models.URLField(blank=False, max_length=255)
     license_type = models.CharField(blank=True, default='', max_length=64,
-                                    choices=[('proprietary', 'Proprietary'), ('proprietary-with-floss-integration-tools', 'Proprietary with free / libre / open source integration tools'), ('floss', 'Free / libre / open source')], verbose_name=_('License type'))
-    license = models.ForeignKey(License, blank=True, null=True, on_delete=models.CASCADE, verbose_name=_('Free / libre / open source license'))
+                                    choices=[('unknown', 'Not sure'), ('proprietary', 'Proprietary'), ('proprietary-with-floss-integration-tools', 'Proprietary with free / libre / open source integration tools'), ('floss', 'Free / libre / open source')])
+    license = models.ForeignKey(License, blank=True, null=True, on_delete=models.CASCADE)
     pricing = models.ForeignKey(Pricing, blank=True, null=True, on_delete=models.CASCADE)
     niches = models.ManyToManyField(Niche)
-    languages_supported = models.ManyToManyField(Language, blank=True, verbose_name=_('What languages does this tool support'))
+    languages_supported = models.ManyToManyField(Language, blank=True)
     sectors = models.ManyToManyField(Sector, blank=True)
     coop_made = models.CharField(blank=False, default=0, max_length=16,
                                  choices=[('unknown', 'Not sure'), ('yes', 'Yes'), ('no', 'No')], verbose_name=_('Was this tool created by a co-op?'))

@@ -471,16 +471,41 @@ class ToolBasicInfoForm(BaseModelForm):
             'description',
             'url'
         ]
+        labels = {
+            'name': _('Name of tool'),
+            'niches': _('What is this tool used for?'),
+            'description': _('Description of tool'),
+            'url': _('URL of tool website')
+        }
+        help_texts = {
+            'description': _('Max 270 characters.')
+        }
 
 
 class ToolDetailedInfoForm(BaseModelForm):
+    sector = forms.ChoiceField(
+        choices=[('yes', _('Yes')), ('no', 'No')],
+        required=True,
+        initial='yes',
+        label=_('Is this tool for a specific sector or sectors?'),
+        widget=RadioSelect(attrs={'class': 'input-group radio'})
+    )
+
     class Meta:
         model = Tool
         fields = [
             'pricing',
             'license_type',
             'license',
+            'sector',
             'sectors',
             'languages_supported',
             'coop_made'
         ]
+        labels = {
+            'license_type': _('What is the license of this tool?'),
+            'license': _('Please enter a specific license'),
+            'sectors': _('Please choose a sector or sectors:'),
+            'languages_supported': _('What languages does this tool support?'),
+            'coop_made': _('Was this tool created by a co-op?')
+        }
