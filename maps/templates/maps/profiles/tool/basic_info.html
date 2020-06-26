@@ -27,7 +27,7 @@
             {{ wizard.form.name.label_tag }}
             {{ wizard.form.name }}
             {{ wizard.form.niches.label_tag }}
-            <ul id="niches" class="input-group input-group__parent niches">
+            <ul id="niches" class="input-group input-group__parent checkbox niches">
             {% for parent, value in niche_dict.items %}
                 <li>
                     {% if value.children|length > 0%}
@@ -53,7 +53,6 @@
                 </li>
             {% endfor %}
             </ul>
-            <div class="spacer"></div>
             {{ wizard.form.description.label_tag }}
             {{ wizard.form.description }}
             <span class="helptext">{{ wizard.form.description.help_text | safe }}</span>

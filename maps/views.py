@@ -302,7 +302,8 @@ class ToolWizard(LoginRequiredMixin, SessionWizardView):
         tool.niches.set(form_dict['niches'])
         tool.sectors.set(form_dict['sectors'])
         tool.languages_supported.set(form_dict['languages_supported'])
-        messages.success(self.request, 'Thank you for submitting this tool. Our moderators will review your submission, and you’ll get an email when it’s approved.')
+        tool.creator_email = user.email
+        messages.success(self.request, 'Thank you for submitting this tool.')
         return HttpResponseRedirect('/my-profiles/')
 
 

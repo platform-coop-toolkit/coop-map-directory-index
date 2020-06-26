@@ -7,7 +7,7 @@ from django.utils.translation import gettext_lazy as _
 from django.template.defaultfilters import safe
 from django_countries.fields import CountryField
 from accounts.models import Role, SocialNetwork, UserSocialNetwork
-from mdi.models import Organization, Category, Language, OrganizationSocialNetwork, Stage, Tool, Type
+from mdi.models import Organization, Category, Language, OrganizationSocialNetwork, Stage, Tool, Type, Pricing, License
 
 
 class BaseForm(forms.Form):
@@ -483,10 +483,25 @@ class ToolBasicInfoForm(BaseModelForm):
 
 
 class ToolDetailedInfoForm(BaseModelForm):
+    pricing = forms.ModelChoiceField(
+        queryset=Pricing.objects.all(),
+        empty_label=_('Not sure'),
+        required=False,
+        label=_('How much does this tool cost?'),
+        widget=RadioSelect(attrs={'class': 'input-group radio'})
+    )
+
+    license = forms.ModelChoiceField(
+        queryset=License.objects.all(),
+        empty_label=_('Not sure'),
+        required=False,
+        label=_('Please choose a specific free / libre / open source license')
+    )
+
     sector = forms.ChoiceField(
-        choices=[('yes', _('Yes')), ('no', 'No')],
+        choices=[('no', _('No')), ('yes', _('Yes'))],
         required=True,
-        initial='yes',
+        initial='no',
         label=_('Is this tool for a specific sector or sectors?'),
         widget=RadioSelect(attrs={'class': 'input-group radio'})
     )
@@ -503,9 +518,12 @@ class ToolDetailedInfoForm(BaseModelForm):
             'coop_made'
         ]
         labels = {
-            'license_type': _('What is the license of this tool?'),
-            'license': _('Please enter a specific license'),
+            'license_type': _('How is this tool licensed?'),
             'sectors': _('Please choose a sector or sectors:'),
             'languages_supported': _('What languages does this tool support?'),
             'coop_made': _('Was this tool created by a co-op?')
+        }
+        widgets = {
+            'license_type': RadioSelect(attrs={'class': 'input-group radio'}),
+            'coop_made': RadioSelect(attrs={'class': 'input-group radio'})
         }

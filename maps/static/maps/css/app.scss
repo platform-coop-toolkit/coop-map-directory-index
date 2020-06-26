@@ -136,6 +136,7 @@ select.multiple {
   textarea + label,
   select + label,
   .helptext + label,
+  .input-group + label,
   ul.checkbox + label,
   ul.radio + label {
     margin-top: rem(45);
@@ -529,4 +530,11 @@ h1 + .profile__meta {
   position: absolute;
   right: 0;
   top: 0;
+}
+
+[for="id_detailed_info-license"],
+#id_detailed_info-license,
+[for="id_detailed_info-sectors"],
+#id_detailed_info-sectors {
+  display: none;
 }
