@@ -11,7 +11,8 @@ from django.views.generic.edit import DeleteView
 from django.shortcuts import get_object_or_404, render, redirect
 from django.forms import inlineformset_factory
 from accounts.models import UserSocialNetwork
-from mdi.models import Organization, SocialNetwork, OrganizationSocialNetwork, Relationship, EntitiesEntities, Tool
+from mdi.models import Organization, SocialNetwork, OrganizationSocialNetwork, Relationship, EntitiesEntities, \
+    Tool, Niche
 from formtools.wizard.views import SessionWizardView
 from .forms import GeolocationForm, IndividualProfileDeleteForm, IndividualRolesForm, IndividualBasicInfoForm, \
     IndividualMoreAboutYouForm, IndividualDetailedInfoForm, IndividualContactInfoForm, IndividualSocialNetworkFormSet, \
@@ -274,6 +275,22 @@ class OrganizationProfileWizard(LoginRequiredMixin, SessionWizardView):
 class ToolWizard(LoginRequiredMixin, SessionWizardView):
     def get_template_names(self):
         return [TOOL_TEMPLATES[self.steps.current]]
+
+    def get_context_data(self, form, **kwargs):
+        context = super().get_context_data(form=form, **kwargs)
+        if self.steps.current == 'basic_info':
+            niche_dict = {}
+            niches = Niche.objects.all()
+            for niche in niches:
+                parent = niche.parent()
+                if parent not in niche_dict:
+                    niche_dict[parent] = {'children': []}
+                if niche.child():
+                    niche_dict[parent]['children'].append({'id': niche.id, 'name': niche.child()})
+                else:
+                    niche_dict[parent]['id'] = niche.id
+            context.update({'niche_dict': niche_dict})
+        return context
 
     def done(self, form_list, form_dict, **kwargs):
         form_dict = self.get_all_cleaned_data()

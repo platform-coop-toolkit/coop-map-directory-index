@@ -154,6 +154,15 @@ class Niche(models.Model):
     def __str__(self):
         return self.name
 
+    def parent(self):
+        return self.name.split(' - ')[0]
+
+    def child(self):
+        if len(self.name.split(' - ')) > 1:
+            return self.name.split(' - ')[1]
+        else:
+            return False
+
 
 class Pricing(models.Model):
     name = models.CharField(blank=False, max_length=255)

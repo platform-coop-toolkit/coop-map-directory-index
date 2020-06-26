@@ -16,6 +16,20 @@
         {% include 'maps/profiles/errors.html' %}
         {% endif %}
         <h2>{% trans 'Basic information' %}</h2>
+        <ul>
+        {% for parent, value in niche_dict.items %}
+            <li>
+                {{ parent }}{% if value.children|length > 0%}
+                <ul>
+                {% for child in value.children %}
+                    <li>{{ child.name }} | {{ child.id }}</li>
+                {% endfor %}
+                </ul>
+                {% else %} | {{ value.id }}
+                {% endif %}
+            </li>
+        {% endfor %}
+        </ul>
         {{ wizard.management_form }}
         {% csrf_token %}
         {% if wizard.form.forms %}
