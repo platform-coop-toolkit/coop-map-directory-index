@@ -31,6 +31,11 @@
             <a rel="external" href="{{ individual.url }}">{% trans 'Visit website' %}</a>
         </p>
         {% endif %}
+        {% if individual == user %}
+        <p>
+            <a href="{% url 'edit-my-basic-info' pk=user.id %}">{% icon 'edit' %}{% trans 'Edit basic information' %}</a>
+        </p>
+        {% endif %}
     </div>
 
     <div class="tabs">
@@ -45,6 +50,11 @@
             {% endif %}
         </div>
         <div id="overview" role="tabpanel" aria-labelledby="overview-btn">
+            {% if individual == user %}
+            <div class="edit">
+                <a href="{% url 'edit-my-overview' pk=user.id %}">{% icon 'edit' %}{% trans 'Edit overview' %}</a>
+            </div>
+            {% endif %}
             <div class="panel__sidebar">
                 <h2>{% trans 'At a glance' %}</h2>
                 {% if individual.roles.count > 0 %}

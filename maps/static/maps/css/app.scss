@@ -424,6 +424,8 @@ h1 + .profile__meta {
 .tabs [role="tabpanel"] {
   @include full-width-background($off-white);
 
+  --parent-background-color: var(--off-white);
+
   background-color: var(--off-white);
   padding-bottom: rem(100);
   padding-top: rem(54);

@@ -188,6 +188,46 @@ class IndividualSocialNetworkForm(BaseModelForm):
 
 IndividualSocialNetworkFormSet = formset_factory(IndividualSocialNetworkForm, extra=0)
 
+
+class IndividualOverviewUpdateForm(BaseModelForm):
+    member_of = forms.ModelMultipleChoiceField(
+        queryset=Organization.objects.all(),
+        label=_('Co-operative(s) you are a currently a member of'),
+        required=False,
+        widget=SelectMultiple(attrs={'size': 4, 'class': 'multiple'})
+    )
+
+    founder_of = forms.ModelMultipleChoiceField(
+        queryset=Organization.objects.all(),
+        label=_('Co-operative(s) you are a founder of'),
+        required=False,
+        widget=SelectMultiple(attrs={'size': 4, 'class': 'multiple'})
+    )
+
+    worked_with = forms.ModelMultipleChoiceField(
+        queryset=Organization.objects.all(),
+        label=_('Co-operative(s) you have worked with'),
+        required=False,
+        widget=SelectMultiple(attrs={'size': 4, 'class': 'multiple'})
+    )
+
+    class Meta:
+        model = get_user_model()
+        fields = [
+            'founder_of',
+            'member_of',
+            'worked_with',
+            'roles',
+            'services',
+            'community_skills',
+            'field_of_study',
+            'affiliation',
+            'affiliation_url',
+            'bio',
+            'projects'
+        ]
+
+
 class OrganizationTypeForm(BaseForm):
     type = forms.ModelChoiceField(
         Type.objects.filter(name__in=[

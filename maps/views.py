@@ -1,20 +1,23 @@
+from django.core.exceptions import PermissionDenied
 from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib import messages
 from django.conf import settings
 from django.http import HttpResponse, HttpResponseRedirect
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
 from django.template import loader
+from django.utils.translation import gettext_lazy as _
 from django.views.generic import TemplateView
-from django.views.generic.edit import DeleteView
+from django.views.generic.edit import DeleteView, UpdateView
 from django.shortcuts import get_object_or_404, render, redirect
-from django.forms import inlineformset_factory
+from django.forms import inlineformset_factory  # ModelMultipleChoiceField, SelectMultiple
 from accounts.models import UserSocialNetwork
 from mdi.models import Organization, SocialNetwork, OrganizationSocialNetwork, Relationship, EntitiesEntities
 from formtools.wizard.views import SessionWizardView
 from .forms import GeolocationForm, IndividualProfileDeleteForm, IndividualRolesForm, IndividualBasicInfoForm, \
     IndividualMoreAboutYouForm, IndividualDetailedInfoForm, IndividualContactInfoForm, IndividualSocialNetworkFormSet, \
+    IndividualOverviewUpdateForm, \
     OrganizationTypeForm, OrganizationBasicInfoForm, OrganizationContactInfoForm, OrganizationDetailedInfoForm, \
     OrganizationScopeAndImpactForm, OrganizationSocialNetworkFormSet
 from django_countries import countries
@@ -197,6 +200,38 @@ class IndividualProfileWizard(LoginRequiredMixin, SessionWizardView):
                 UserSocialNetwork.objects.create(user=user, socialnetwork=sn['socialnetwork'], identifier=sn['identifier'])
 
         return redirect('individual-detail', user_id=user.id)
+
+class InvididualBasicInfoUpdate(UpdateView):
+    # TODO: Remove colon after labels
+    model = get_user_model()
+    fields = ['first_name', 'middle_name', 'last_name']
+    template_name = 'maps/profiles/individual/update_basic_info.html'
+
+    def get_object(self, *args, **kwargs):
+        user = super(InvididualBasicInfoUpdate, self).get_object(*args, **kwargs)
+        if user != self.request.user:
+            raise PermissionDenied()  # TODO: Make this nicer
+        return user
+
+    def get_success_url(self, **kwargs):
+        return reverse('individual-detail', kwargs={'user_id': self.object.id})
+
+class InvididualOverviewUpdate(UpdateView):
+    model = get_user_model()
+    template_name = 'maps/profiles/individual/update_overview.html'
+
+    def get_form_class(self):
+        return IndividualOverviewUpdateForm
+
+    def get_object(self, *args, **kwargs):
+        user = super(InvididualOverviewUpdate, self).get_object(*args, **kwargs)
+        if user != self.request.user:
+            raise PermissionDenied()  # TODO: Make this nicer
+        return user
+
+    def get_success_url(self, **kwargs):
+        return reverse('individual-detail', kwargs={'user_id': self.object.id})
+
 
 class OrganizationProfileWizard(LoginRequiredMixin, SessionWizardView):
     def get_template_names(self):

@@ -1,0 +1,22 @@
+{% extends "maps/base.html" %}
+{% load i18n %}
+{% load maps_extras %}
+{% block bodyclass %}form-wizard{% endblock %}
+{% block title %}{{ 'Edit your profile'|titlify }}{% endblock %}}
+
+{% block content %}
+    <form class="form" action="" method="post" novalidate>
+        <div class="page-header">
+            <h1>{% trans 'Edit your profile' %}</h1>
+        </div>
+        <div class="form__content">
+        {% if form.errors  %}
+        {% include 'maps/profiles/errors.html' %}
+        {% endif %}
+        <h2>{% trans 'Basic information' %}</h2>
+        {% csrf_token %}
+        {{ form }}
+        <button class="button" type="submit">{% trans 'Save' %}</button>
+        </div>
+    </form>
+{% endblock %}
