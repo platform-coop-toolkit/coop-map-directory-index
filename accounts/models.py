@@ -85,6 +85,8 @@ class User(AbstractUser):
     postal_code = models.CharField(blank=True, default='', max_length=255)
     country = CountryField(blank=True)
     url = models.URLField(blank=True, default='', max_length=255)
+    lat = models.FloatField(blank=True, null=True)
+    lng = models.FloatField(blank=True, null=True)
     geom = models.PointField(blank=True, null=True)
     roles = models.ManyToManyField(Role, blank=True, )
     related_individuals = models.ManyToManyField('self', through='mdi.EntitiesEntities')
