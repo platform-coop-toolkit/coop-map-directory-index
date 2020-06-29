@@ -216,7 +216,7 @@ class InvididualBasicInfoUpdate(UpdateView):
 
     def get_initial(self):
         if self.object.geom:
-            return {'lat': self.object.geom.x, 'lng': self.object.geom.y}
+            return {'lng': self.object.geom.x, 'lat': self.object.geom.y}
         else:
             return {'lat': 0, 'lng': 0}
 
