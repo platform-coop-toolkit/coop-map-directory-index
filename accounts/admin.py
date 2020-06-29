@@ -30,6 +30,8 @@ class CustomUserAdmin(UserAdmin, OSMGeoAdmin):
             'postal_code',
             'country',
             'url',
+            'lat',
+            'lng',
             'geom',
             'roles',
             'languages',
