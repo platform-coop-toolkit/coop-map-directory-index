@@ -188,7 +188,62 @@ class IndividualSocialNetworkForm(BaseModelForm):
 
 IndividualSocialNetworkFormSet = formset_factory(IndividualSocialNetworkForm, extra=0)
 
+class IndividualBasicInfoUpdateForm(BaseModelForm):
+    first_name = CharField(
+        required=True,
+        label=_('First name')
+    )
+    last_name = CharField(
+        required=True,
+        label=_('Last name')
+    )
+    languages = forms.ModelMultipleChoiceField(
+        queryset=Language.objects.all(),
+        required=True,
+        label=_('Languages you speak'),
+        help_text=_('Hold down the <kbd>ctrl</kbd> (Windows) or <kbd>command</kbd> (macOS) key to select multiple options.')
+    )
+    city = CharField(
+        required=True,
+        label=_('City or town')
+    )
+    state = CharField(
+        required=False,
+        label=_('State or province'),
+        help_text=_('Please enter full state or province name rather than an abbreviated form.')
+    )
+    country = CountryField(blank=False).formfield()
+    lng = forms.CharField(required=False, widget=HiddenInput(attrs={'id': 'id_geolocation-lng'}))
+    lat = forms.CharField(required=False, widget=HiddenInput(attrs={'id': 'id_geolocation-lat'}))
 
+    def __init__(self, *args, **kwargs):
+        self.lat = kwargs['initial']['lat']
+        self.lng = kwargs['initial']['lat']
+        super(IndividualBasicInfoUpdateForm, self).__init__(*args, **kwargs)
+        self.fields['lat'].value = self.lat
+        self.fields['lng'].value = self.lng
+
+    class Meta:
+        model = get_user_model()
+        fields = [
+            'first_name',
+            'middle_name',
+            'last_name',
+            'languages',
+            'url',
+            'phone',
+            'address',
+            'city',
+            'state',
+            'country',
+            'postal_code'
+        ]
+        labels = {
+            'middle_name': _('Middle name'),
+            'url': _('Website address'),
+            'address': _('Street address'),
+            'postal_code': _('ZIP or postal code')
+        }
 class IndividualOverviewUpdateForm(BaseModelForm):
     member_of = forms.ModelMultipleChoiceField(
         queryset=Organization.objects.all(),

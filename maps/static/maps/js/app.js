@@ -17,6 +17,10 @@ if ( tabGroups ) {
   } );
 }
 
+[...document.querySelectorAll('.accordion')].forEach(accordion => {
+  new Pinecone.Accordion( accordion );
+} );
+
 const icons = document.querySelectorAll( 'svg' );
 if (icons) {
   Array.prototype.forEach.call(icons, icon => {
@@ -274,8 +278,6 @@ if (geolocationMapContainer) {
     crosshairs = document.getElementById('crosshairs'),
     ctx = crosshairs.getContext('2d'),
     openingDimension = 40;
-
-
 
   const drawCrosshairs = () => {
     const x = geolocationMap.getCanvas().width / 2,

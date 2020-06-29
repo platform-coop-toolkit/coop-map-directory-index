@@ -17,7 +17,7 @@ from mdi.models import Organization, SocialNetwork, OrganizationSocialNetwork, R
 from formtools.wizard.views import SessionWizardView
 from .forms import GeolocationForm, IndividualProfileDeleteForm, IndividualRolesForm, IndividualBasicInfoForm, \
     IndividualMoreAboutYouForm, IndividualDetailedInfoForm, IndividualContactInfoForm, IndividualSocialNetworkFormSet, \
-    IndividualOverviewUpdateForm, \
+    IndividualOverviewUpdateForm, IndividualBasicInfoUpdateForm, \
     OrganizationTypeForm, OrganizationBasicInfoForm, OrganizationContactInfoForm, OrganizationDetailedInfoForm, \
     OrganizationScopeAndImpactForm, OrganizationSocialNetworkFormSet
 from django_countries import countries
@@ -202,10 +202,11 @@ class IndividualProfileWizard(LoginRequiredMixin, SessionWizardView):
         return redirect('individual-detail', user_id=user.id)
 
 class InvididualBasicInfoUpdate(UpdateView):
-    # TODO: Remove colon after labels
     model = get_user_model()
-    fields = ['first_name', 'middle_name', 'last_name']
     template_name = 'maps/profiles/individual/update_basic_info.html'
+
+    def get_form_class(self):
+        return IndividualBasicInfoUpdateForm
 
     def get_object(self, *args, **kwargs):
         user = super(InvididualBasicInfoUpdate, self).get_object(*args, **kwargs)
@@ -213,8 +214,21 @@ class InvididualBasicInfoUpdate(UpdateView):
             raise PermissionDenied()  # TODO: Make this nicer
         return user
 
+    def get_initial(self):
+        if self.object.geom:
+            return {'lat': self.object.geom.x, 'lng': self.object.geom.y}
+        else:
+            return {'lat': 0, 'lng': 0}
+
     def get_success_url(self, **kwargs):
         return reverse('individual-detail', kwargs={'user_id': self.object.id})
+
+    def form_valid(self, form):
+        if form.cleaned_data['lat'] and form.cleaned_data['lng']:
+            self.object.geom = Point(float(form.cleaned_data['lng']), float(form.cleaned_data['lat']))
+        else:
+            self.object.geom = Point([])
+        return super(InvididualBasicInfoUpdate, self).form_valid(form)
 
 class InvididualOverviewUpdate(UpdateView):
     model = get_user_model()
@@ -231,7 +245,6 @@ class InvididualOverviewUpdate(UpdateView):
 
     def get_success_url(self, **kwargs):
         return reverse('individual-detail', kwargs={'user_id': self.object.id})
-
 
 class OrganizationProfileWizard(LoginRequiredMixin, SessionWizardView):
     def get_template_names(self):

@@ -6,6 +6,7 @@
 
 {% block content %}
     <form class="form" action="" method="post" novalidate>
+        {% csrf_token %}
         <div class="page-header">
             <h1>{% trans 'Edit your profile' %}</h1>
         </div>
@@ -14,8 +15,70 @@
         {% include 'maps/profiles/errors.html' %}
         {% endif %}
         <h2>{% trans 'Basic information' %}</h2>
-        {% csrf_token %}
-        {{ form }}
+        <h3>{% trans 'Primary information' %}</h3>
+        {{ form.first_name.label_tag }}
+        {{ form.first_name }}
+        {% if form.first_name.help_text %}
+        <span class="helptext">{{ form.first_name.help_text | safe }}</span>
+        {% endif %}
+        {{ form.middle_name.label_tag }}
+        {{ form.middle_name }}
+        {% if form.middle_name.help_text %}
+        <span class="helptext">{{ form.middle_name.help_text | safe }}</span>
+        {% endif %}
+        {{ form.last_name.label_tag }}
+        {{ form.last_name }}
+        {% if form.last_name.help_text %}
+        <span class="helptext">{{ form.last_name.help_text | safe }}</span>
+        {% endif %}
+        {{ form.languages.label_tag }}
+        {{ form.languages }}
+        {% if form.languages.help_text %}
+        <span class="helptext">{{ form.languages.help_text | safe }}</span>
+        {% endif %}
+        {{ form.url.label_tag }}
+        {{ form.url }}
+        {% if form.url.help_text %}
+        <span class="helptext">{{ form.url.help_text | safe }}</span>
+        {% endif %}
+        <h3>{% trans 'Contact information' %}</h3>
+        {{ form.phone.label_tag }}
+        {{ form.phone }}
+        {% if form.phone.help_text %}
+        <span class="helptext">{{ form.phone.help_text | safe }}</span>
+        {% endif %}
+        {{ form.address.label_tag }}
+        {{ form.address }}
+        {% if form.address.help_text %}
+        <span class="helptext">{{ form.address.help_text | safe }}</span>
+        {% endif %}
+        {{ form.city.label_tag }}
+        {{ form.city }}
+        {% if form.city.help_text %}
+        <span class="helptext">{{ form.city.help_text | safe }}</span>
+        {% endif %}
+        {{ form.state.label_tag }}
+        {{ form.state }}
+        {% if form.state.help_text %}
+        <span class="helptext">{{ form.state.help_text | safe }}</span>
+        {% endif %}
+        {{ form.country.label_tag }}
+        {{ form.country }}
+        {% if form.country.help_text %}
+        <span class="helptext">{{ form.country.help_text | safe }}</span>
+        {% endif %}
+        {{ form.postal_code.label_tag }}
+        {{ form.postal_code }}
+        {% if form.postal_code.help_text %}
+        <span class="helptext">{{ form.postal_code.help_text | safe }}</span>
+        {% endif %}
+        <h3>{% trans 'Map location' %}</h3>
+        <div id="geolocation-map">
+            <canvas id="crosshairs"></canvas>
+        </div>
+        {{ form.lat }}
+        {{ form.lng }}
+        <div class="spacer"></div>
         <button class="button" type="submit">{% trans 'Save' %}</button>
         </div>
     </form>
