@@ -246,6 +246,34 @@ if (deleteIndividual) {
   });
 }
 
+document.addEventListener('click', (event) => {
+  if (!event.target.id === 'set-to-contact-info') return;
+  const address = document.getElementById('id_address').value;
+  const city = document.getElementById('id_city').value;
+  const state = document.getElementById('id_state').value;
+  const country = document.getElementById('id_country').value;
+  const postalCode = document.getElementById('id_postal_code').value;
+  let addressString = '';
+  if (address != '') {
+    addressString = address;
+  }
+  if (city != '') {
+    addressString = `${addressString}, ${city}`;
+  }
+  if (state != '') {
+    addressString = `${addressString}, ${state}`;
+  }
+  if (country != '') {
+    addressString = `${addressString}, ${country}`;
+  }
+  if (postalCode != '') {
+    addressString = `${addressString}, ${postalCode}`;
+  }
+  console.log(addressString);
+
+  // TODO: Post to Here API endpoint
+});
+
 const geolocationMapContainer = document.getElementById('geolocation-map');
 
 if (geolocationMapContainer) {
