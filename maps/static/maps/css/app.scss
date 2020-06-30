@@ -84,6 +84,26 @@ select.multiple {
     @include breakpoint-up(md) {
       padding-top: rem(65);
     }
+
+    .role-1,
+    .role-2,
+    .role-3,
+    .role-4,
+    .role-5,
+    .role-6,
+    .role-7 {
+      display: none;
+    }
+
+    &.role-1 .role-1,
+    &.role-2 .role-2,
+    &.role-3 .role-3,
+    &.role-4 .role-4,
+    &.role-5 .role-5,
+    &.role-6 .role-6,
+    &.role-7 .role-7 {
+      display: block;
+    }
   }
 
   .form__content .errorlist {
@@ -135,6 +155,7 @@ select.multiple {
   input + label,
   textarea + label,
   select + label,
+  div + label,
   .helptext + label,
   .input-group + label,
   ul.checkbox + label,
@@ -547,4 +568,8 @@ h1 + .profile__meta {
 [for="id_detailed_info-sectors"],
 #id_detailed_info-sectors {
   display: none;
+}
+
+.form__content > * + div {
+  margin-top: rem(45);
 }

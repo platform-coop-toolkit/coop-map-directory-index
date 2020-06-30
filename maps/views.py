@@ -259,6 +259,12 @@ class InvididualOverviewUpdate(UpdateView):
             raise PermissionDenied()  # TODO: Make this nicer
         return user
 
+    def get_context_data(self, **kwargs):
+        context = super(InvididualOverviewUpdate, self).get_context_data(**kwargs)
+        roles = self.object.roles.all()
+        context.update({'roles': roles})
+        return context
+
     def get_success_url(self, **kwargs):
         return reverse('individual-detail', kwargs={'user_id': self.object.id})
 

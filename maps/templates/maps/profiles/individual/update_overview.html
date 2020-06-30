@@ -10,7 +10,7 @@
         <div class="page-header">
             <h1>{% trans 'Edit your profile' %}</h1>
         </div>
-        <div class="form__content">
+        <div class="form__content{% for role in roles %} role-{{ role.id }}{% endfor %}">
         {% if form.errors  %}
         {% include 'maps/profiles/errors.html' %}
         {% endif %}
@@ -20,16 +20,21 @@
         {% if form.roles.help_text %}
         <span class="helptext">{{ form.roles.help_text | safe }}</span>
         {% endif %}
+        <div class="role-2">
         {{ form.member_of.label_tag }}
         {{ form.member_of }}
         {% if form.member_of.help_text %}
         <span class="helptext">{{ form.member_of.help_text | safe }}</span>
         {% endif %}
+        </div>
+        <div class="role-1">
         {{ form.founder_of.label_tag }}
         {{ form.founder_of }}
         {% if form.founder_of.help_text %}
         <span class="helptext">{{ form.founder_of.help_text | safe }}</span>
         {% endif %}
+        </div>
+        <div class="role-5">
         {{ form.worked_with.label_tag }}
         {{ form.worked_with }}
         {% if form.worked_with.help_text %}
@@ -40,16 +45,22 @@
         {% if form.services.help_text %}
         <span class="helptext">{{ form.services.help_text | safe }}</span>
         {% endif %}
+        </div>
+        <div class="role-4">
         {{ form.community_skills.label_tag }}
         {{ form.community_skills }}
         {% if form.community_skills.help_text %}
         <span class="helptext">{{ form.community_skills.help_text | safe }}</span>
         {% endif %}
+        </div>
+        <div class="role-3">
         {{ form.field_of_study.label_tag }}
         {{ form.field_of_study }}
         {% if form.field_of_study.help_text %}
         <span class="helptext">{{ form.field_of_study.help_text | safe }}</span>
         {% endif %}
+        </div>
+        <div class="role-3 role-6 role-7">
         {{ form.affiliation.label_tag }}
         {{ form.affiliation }}
         {% if form.affiliation.help_text %}
@@ -60,16 +71,19 @@
         {% if form.affiliation_url.help_text %}
         <span class="helptext">{{ form.affiliation_url.help_text | safe }}</span>
         {% endif %}
+        </div>
         {{ form.bio.label_tag }}
         {{ form.bio }}
         {% if form.bio.help_text %}
         <span class="helptext">{{ form.bio.help_text | safe }}</span>
         {% endif %}
+        <div class="role-3">
         {{ form.projects.label_tag }}
         {{ form.projects }}
         {% if form.projects.help_text %}
         <span class="helptext">{{ form.projects.help_text | safe }}</span>
         {% endif %}
+        </div>
         <div class="spacer"></div>
         <button class="button" type="submit">{% trans 'Save' %}</button>
         </div>

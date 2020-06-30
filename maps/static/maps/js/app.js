@@ -277,6 +277,17 @@ if (basicInfo) {
   });
 });
 
+[...document.querySelectorAll('[name="roles"]')].forEach((checkbox) => {
+  checkbox.addEventListener('change', () => {
+    const checkboxClass = `role-${event.target.value}`;
+    if (event.target.checked) {
+      document.querySelector('.form__content').classList.add(checkboxClass);
+    } else {
+      document.querySelector('.form__content').classList.remove(checkboxClass);
+    }
+  });
+});
+
 const deleteIndividual = document.querySelector('.delete-individual');
 if (deleteIndividual) {
   const form = deleteIndividual;
