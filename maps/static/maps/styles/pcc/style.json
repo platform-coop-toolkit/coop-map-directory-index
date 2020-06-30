@@ -59,7 +59,7 @@
         "line-width": [
           "match",
           ["get", "type"],
-          ["National", "Regional", "District", "Local"],
+          ["national", "regional", "district", "local"],
           1,
           ["MHW"],
           1.2,
@@ -77,16 +77,13 @@
       "layout": {},
       "paint": {"fill-color": "#30cfc9"}
     },
-
     {
       "id": "landuse_overlay",
       "type": "fill",
       "source": "mapbox_streets",
       "source-layer": "landuse_overlay",
       "maxzoom": 12,
-      "layout": {
-        "visibility": "none"
-      },
+      "layout": {"visibility": "none"},
       "paint": {
         "fill-color": "#d8ddd4",
         "fill-opacity": [
@@ -108,13 +105,11 @@
       "source": "mapbox_streets",
       "source-layer": "landuse_overlay",
       "maxzoom": 12,
-      "layout": {
-        "visibility": "visible"
-      },
       "filter": [
         "all",
         ["match", ["get", "class"], ["national_park"], true, false]
       ],
+      "layout": {"visibility": "visible"},
       "paint": {
         "fill-color": "#d8ddd4",
         "fill-opacity": [
@@ -136,9 +131,7 @@
       "source": "mapbox_streets",
       "source-layer": "urban_areas",
       "maxzoom": 11,
-      "layout": {
-        "visibility": "none"
-      },
+      "layout": {"visibility": "none"},
       "paint": {
         "fill-color": "#e6e5e1",
         "fill-opacity": ["interpolate", ["linear"], ["zoom"], 6, 0.4, 11, 0.6]
@@ -149,9 +142,7 @@
       "type": "fill",
       "source": "mapbox_streets",
       "source-layer": "sites",
-      "layout": {
-        "visibility": "none"
-      },
+      "layout": {"visibility": "none"},
       "paint": {"fill-color": "#eee7dd", "fill-opacity": 0.7}
     },
     {
@@ -160,9 +151,7 @@
       "source": "mapbox_streets",
       "source-layer": "landuse",
       "filter": ["match", ["get", "class"], ["park"], false, true],
-      "layout": {
-        "visibility": "visible"
-      },
+      "layout": {"visibility": "visible"},
       "paint": {"fill-color": "#eaeee7", "fill-antialias": false}
     },
     {
@@ -170,10 +159,7 @@
       "type": "line",
       "source": "mapbox_streets",
       "source-layer": "greenspaces",
-      "layout": {
-        "visibility": "none",
-        "line-join": "round"
-      },
+      "layout": {"visibility": "none", "line-join": "round"},
       "paint": {
         "line-color": "#d5ddd0",
         "line-width": [
@@ -194,10 +180,7 @@
       "type": "fill",
       "source": "mapbox_streets",
       "source-layer": "landuse",
-      "filter": [
-        "all",
-        ["match", ["get", "class"], ["wood"], true, false]
-      ],
+      "filter": ["all", ["match", ["get", "class"], ["wood"], true, false]],
       "layout": {},
       "paint": {
         "fill-color": "#d8ddd4",
@@ -209,9 +192,7 @@
       "type": "fill",
       "source": "mapbox_streets",
       "source-layer": "foreshore",
-      "layout": {
-        "visibility": "none"
-      },
+      "layout": {"visibility": "none"},
       "paint": {"fill-color": "#e9e7e2"}
     },
     {
@@ -219,9 +200,7 @@
       "type": "fill",
       "source": "mapbox_streets",
       "source-layer": "building",
-      "layout": {
-        "visibility": "visible"
-      },
+      "layout": {"visibility": "visible"},
       "paint": {"fill-color": "#e1e0db", "fill-translate": [0, 0]}
     },
     {
@@ -233,7 +212,7 @@
       "filter": [
         "all",
         ["==", ["get", "level"], 0],
-        ["match", ["get", "type"], ["Restricted"], true, false]
+        ["match", ["get", "type"], ["restricted"], true, false]
       ],
       "layout": {"line-join": "round"},
       "paint": {
@@ -268,9 +247,13 @@
       "filter": [
         "all",
         ["==", ["get", "level"], 0],
-        ["match", ["get", "type"], ["Local"], true, false]
+        ["match", ["get", "type"], ["local"], true, false]
       ],
-      "layout": {"line-cap": "round", "line-join": "round"},
+      "layout": {
+        "line-cap": "round",
+        "line-join": "round",
+        "visibility": "visible"
+      },
       "paint": {
         "line-width": [
           "interpolate",
@@ -372,11 +355,12 @@
       "metadata": {"mapbox:group": "2a680f24b0d35061ed7d21fd33c9cf08"},
       "source": "mapbox_streets",
       "source-layer": "road",
-      "filter": [
-        "all",
-        ["match", ["get", "class"], ["motorway"], true, false]
-      ],
-      "layout": {"line-cap": "round", "line-join": "round"},
+      "filter": ["all", ["match", ["get", "class"], ["motorway"], true, false]],
+      "layout": {
+        "line-cap": "round",
+        "line-join": "round",
+        "visibility": "visible"
+      },
       "paint": {
         "line-width": [
           "interpolate",
@@ -524,7 +508,11 @@
         ["==", ["get", "level"], 0],
         ["match", ["get", "type"], ["Primary"], true, false]
       ],
-      "layout": {"line-cap": "round", "line-join": "round"},
+      "layout": {
+        "line-cap": "round",
+        "line-join": "round",
+        "visibility": "visible"
+      },
       "paint": {
         "line-width": [
           "interpolate",
@@ -739,10 +727,7 @@
       "metadata": {"mapbox:group": "52c81d2ff926c87a0714f2697b2f3694"},
       "source": "mapbox_streets",
       "source-layer": "road",
-      "filter": [
-        "all",
-        ["match", ["get", "class"], ["motorway"], true, false]
-      ],
+      "filter": ["all", ["match", ["get", "class"], ["motorway"], true, false]],
       "layout": {"line-join": "round"},
       "paint": {
         "line-width": [
@@ -917,11 +902,12 @@
       "metadata": {"mapbox:group": "52c81d2ff926c87a0714f2697b2f3694"},
       "source": "mapbox_streets",
       "source-layer": "road",
-      "filter": [
-        "all",
-        ["match", ["get", "class"], ["motorway"], true, false]
-      ],
-      "layout": {"line-cap": "round", "line-join": "round"},
+      "filter": ["all", ["match", ["get", "class"], ["motorway"], true, false]],
+      "layout": {
+        "line-cap": "round",
+        "line-join": "round",
+        "visibility": "visible"
+      },
       "paint": {
         "line-width": [
           "interpolate",
@@ -1069,7 +1055,11 @@
         ["match", ["get", "level"], [1], true, false],
         ["match", ["get", "type"], ["Primary"], true, false]
       ],
-      "layout": {"line-join": "round", "line-cap": "round"},
+      "layout": {
+        "line-join": "round",
+        "line-cap": "round",
+        "visibility": "visible"
+      },
       "paint": {
         "line-width": [
           "interpolate",
@@ -1284,10 +1274,7 @@
       "metadata": {"mapbox:group": "0845f59ef0d52359da6fd788b079f747"},
       "source": "mapbox_streets",
       "source-layer": "road",
-      "filter": [
-        "all",
-        ["match", ["get", "class"], ["motorway"], true, false]
-      ],
+      "filter": ["all", ["match", ["get", "class"], ["motorway"], true, false]],
       "layout": {"line-join": "round"},
       "paint": {
         "line-width": [
@@ -1462,10 +1449,7 @@
       "metadata": {"mapbox:group": "0845f59ef0d52359da6fd788b079f747"},
       "source": "mapbox_streets",
       "source-layer": "road",
-      "filter": [
-        "all",
-        ["match", ["get", "class"], ["motorway"], true, false]
-      ],
+      "filter": ["all", ["match", ["get", "class"], ["motorway"], true, false]],
       "layout": {"line-cap": "round", "line-join": "round"},
       "paint": {
         "line-width": [
@@ -1759,7 +1743,7 @@
           22,
           28
         ],
-        "text-font": ["Open Sans Regular"]
+        "text-font": ["Noto Sans Regular"]
       },
       "paint": {
         "text-halo-color": "hsl(0, 0%, 100%)",
@@ -1785,7 +1769,7 @@
       "layout": {
         "text-field": ["to-string", ["get", "name"]],
         "symbol-placement": "line",
-        "text-font": ["Open Sans Regular"],
+        "text-font": ["Noto Sans Regular"],
         "text-size": [
           "interpolate",
           ["linear"],
@@ -1843,7 +1827,8 @@
         ],
         "text-font": ["Open Sans Semi Bold"],
         "text-letter-spacing": 0.1,
-        "symbol-spacing": ["interpolate", ["linear"], ["zoom"], 9, 50, 15, 250]
+        "symbol-spacing": ["interpolate", ["linear"], ["zoom"], 9, 50, 15, 250],
+        "visibility": "visible"
       },
       "paint": {
         "text-halo-color": "#ffffff",
@@ -1926,9 +1911,9 @@
       "minzoom": 13,
       "filter": ["match", ["get", "type"], ["Greenspace"], true, false],
       "layout": {
-        "text-field": ["to-string", ["get", "name"]],
+        "text-field": ["to-string", ["get", "name_en"]],
         "text-size": ["interpolate", ["linear"], ["zoom"], 13, 9, 14, 11],
-        "text-font": ["Open Sans Regular"],
+        "text-font": ["Noto Sans Regular"],
         "text-line-height": 1
       },
       "paint": {
@@ -1943,13 +1928,13 @@
       "type": "symbol",
       "metadata": {"mapbox:group": "e196265c0e550aaddd2885dc32fdb674"},
       "source": "mapbox_streets",
-      "source-layer": "names",
+      "source-layer": "poi_label",
       "minzoom": 13,
-      "filter": ["match", ["get", "type"], ["Sites"], true, false],
+      "filter": ["match", ["get", "class"], ["landmark"], false, true],
       "layout": {
-        "text-field": ["to-string", ["get", "name1"]],
+        "text-field": ["to-string", ["get", "name_en"]],
         "text-size": ["interpolate", ["linear"], ["zoom"], 13, 9, 14, 11],
-        "text-font": ["Open Sans Regular"],
+        "text-font": ["Noto Sans Regular"],
         "text-line-height": 1
       },
       "paint": {
@@ -1968,9 +1953,9 @@
       "minzoom": 5,
       "filter": ["match", ["get", "type"], ["Landform"], true, false],
       "layout": {
-        "text-field": ["to-string", ["get", "name"]],
+        "text-field": ["to-string", ["get", "name_en"]],
         "text-size": ["interpolate", ["linear"], ["zoom"], 11, 9, 14, 11],
-        "text-font": ["Open Sans Regular"],
+        "text-font": ["Noto Sans Regular"],
         "text-line-height": 1
       },
       "paint": {
@@ -1989,9 +1974,9 @@
       "minzoom": 5,
       "filter": ["match", ["get", "type"], ["Landcover"], true, false],
       "layout": {
-        "text-field": ["to-string", ["get", "name"]],
+        "text-field": ["to-string", ["get", "name_en"]],
         "text-size": ["interpolate", ["linear"], ["zoom"], 11, 9.5, 14, 12],
-        "text-font": ["Open Sans Regular"],
+        "text-font": ["Noto Sans Regular"],
         "text-line-height": 1
       },
       "paint": {
@@ -2009,9 +1994,9 @@
       "source-layer": "water",
       "minzoom": 12,
       "layout": {
-        "text-field": ["to-string", ["get", "name"]],
+        "text-field": ["to-string", ["get", "name_en"]],
         "text-size": ["interpolate", ["linear"], ["zoom"], 11, 9, 14, 11],
-        "text-font": ["Open Sans Italic"],
+        "text-font": ["Noto Sans Italic"],
         "text-line-height": 1
       },
       "paint": {
@@ -2030,9 +2015,9 @@
       "minzoom": 5,
       "filter": ["match", ["get", "type"], ["Woodland"], true, false],
       "layout": {
-        "text-field": ["to-string", ["get", "name1"]],
+        "text-field": ["to-string", ["get", "name_en"]],
         "text-size": ["interpolate", ["linear"], ["zoom"], 11, 9.5, 14, 11.5],
-        "text-font": ["Open Sans Regular"],
+        "text-font": ["Noto Sans Regular"],
         "text-line-height": 1,
         "text-padding": ["interpolate", ["linear"], ["zoom"], 14, 10, 16, 2]
       },
@@ -2052,9 +2037,9 @@
       "minzoom": 5,
       "filter": ["match", ["get", "type"], ["Small Settlements"], true, false],
       "layout": {
-        "text-field": ["to-string", ["get", "name1"]],
+        "text-field": ["to-string", ["get", "name_en"]],
         "text-size": ["interpolate", ["linear"], ["zoom"], 12, 9, 14, 11],
-        "text-font": ["Open Sans Regular"],
+        "text-font": ["Noto Sans Regular"],
         "text-line-height": 1
       },
       "paint": {
@@ -2073,9 +2058,9 @@
       "minzoom": 10,
       "filter": ["match", ["get", "type"], ["Suburban Area"], true, false],
       "layout": {
-        "text-field": ["to-string", ["get", "name1"]],
+        "text-field": ["to-string", ["get", "name_en"]],
         "text-size": ["interpolate", ["linear"], ["zoom"], 10, 10.5, 14, 14],
-        "text-font": ["Open Sans Regular"],
+        "text-font": ["Noto Sans Regular"],
         "text-line-height": 1,
         "text-padding": ["interpolate", ["linear"], ["zoom"], 10, 10, 14, 2]
       },
@@ -2092,13 +2077,17 @@
       "type": "symbol",
       "metadata": {"mapbox:group": "e196265c0e550aaddd2885dc32fdb674"},
       "source": "mapbox_streets",
-      "source-layer": "railwaystations",
+      "source-layer": "transit_stop_label",
+      "filter": [
+        "all",
+        ["match", ["get", "stop_type"], ["station"], true, false]
+      ],
       "layout": {
         "text-line-height": 1,
         "text-size": ["interpolate", ["linear"], ["zoom"], 12, 9, 15, 13],
         "icon-image": [
           "match",
-          ["get", "type"],
+          ["get", "ma"],
           ["Railway Station"],
           "RS",
           ["London Underground Station"],
@@ -2113,12 +2102,12 @@
           "RS-UG",
           ""
         ],
-        "text-font": ["Open Sans Regular"],
+        "text-font": ["Noto Sans Regular"],
         "text-justify": "left",
         "text-offset": [
           "match",
-          ["get", "type"],
-          ["Railway Station"],
+          ["get", "stop_type"],
+          ["station"],
           ["literal", [1, 0]],
           ["Light Rapid Transit Station"],
           ["literal", [1, 0]],
@@ -2134,7 +2123,7 @@
         ],
         "icon-size": ["interpolate", ["linear"], ["zoom"], 12, 0.5, 15, 1],
         "text-anchor": "left",
-        "text-field": ["to-string", ["get", "name"]]
+        "text-field": ["to-string", ["get", "name_en"]]
       },
       "paint": {
         "text-halo-color": "#ffffff",
@@ -2154,8 +2143,8 @@
         "visibility": "visible",
         "icon-image": "Airport",
         "icon-size": ["interpolate", ["linear"], ["zoom"], 10, 0.8, 15, 1],
-        "text-field": ["to-string", ["get", "name"]],
-        "text-font": ["Open Sans Regular"],
+        "text-field": ["to-string", ["get", "name_en"]],
+        "text-font": ["Noto Sans Regular"],
         "text-size": ["interpolate", ["linear"], ["zoom"], 10, 9, 15, 13],
         "text-justify": "left",
         "text-anchor": "left",
@@ -2175,11 +2164,14 @@
       "source": "mapbox_streets",
       "source-layer": "place_label",
       "minzoom": 5,
-      "filter": ["match", ["get", "type"], ["village", "hamlet"], true, false],
+      "filter": [
+        "all",
+        ["match", ["get", "type"], ["village", "hamlet"], true, false]
+      ],
       "layout": {
-        "text-field": ["to-string", ["get", "name1"]],
+        "text-field": ["to-string", ["get", "name_en"]],
         "text-size": ["interpolate", ["linear"], ["zoom"], 9, 9, 14, 15],
-        "text-font": ["Open Sans Regular"],
+        "text-font": ["Noto Sans Regular"],
         "text-line-height": 1,
         "text-padding": 2
       },
@@ -2198,11 +2190,11 @@
       "source": "mapbox_streets",
       "source-layer": "place_label",
       "minzoom": 5,
-      "filter": ["match", ["get", "type"], ["town"], true, false],
+      "filter": ["all", ["match", ["get", "type"], ["town"], true, false]],
       "layout": {
-        "text-field": ["to-string", ["get", "name1"]],
+        "text-field": ["to-string", ["get", "name_en"]],
         "text-size": ["interpolate", ["linear"], ["zoom"], 7, 10, 14, 18],
-        "text-font": ["Open Sans Regular"],
+        "text-font": ["Noto Sans Regular"],
         "text-line-height": 1,
         "text-padding": 2
       },
@@ -2221,14 +2213,15 @@
       "source": "mapbox_streets",
       "source-layer": "place_label",
       "minzoom": 5,
-      "filter": ["match", ["get", "type"], ["city"], true, false],
+      "filter": ["all", ["match", ["get", "type"], ["city"], true, false]],
       "layout": {
-        "text-field": ["to-string", ["get", "name1"]],
+        "text-field": ["to-string", ["get", "name_en"]],
         "text-size": ["interpolate", ["linear"], ["zoom"], 6, 10, 14, 20],
         "text-font": ["Open Sans Semi Bold"],
         "text-line-height": 1,
         "text-padding": 2,
-        "text-letter-spacing": 0.05
+        "text-letter-spacing": 0.05,
+        "visibility": "visible"
       },
       "paint": {
         "text-color": "#55595c",
@@ -2247,7 +2240,7 @@
       "minzoom": 5,
       "filter": ["match", ["get", "class"], ["national_park"], true, false],
       "layout": {
-        "text-field": ["to-string", ["get", "name1"]],
+        "text-field": ["to-string", ["get", "name_en"]],
         "text-size": ["interpolate", ["linear"], ["zoom"], 6, 8, 14, 15],
         "text-font": ["Open Sans Semi Bold"],
         "text-line-height": 1,
@@ -2271,7 +2264,7 @@
       "minzoom": 5,
       "filter": ["match", ["get", "type"], ["Capital"], true, false],
       "layout": {
-        "text-field": ["to-string", ["get", "name1"]],
+        "text-field": ["to-string", ["get", "name_en"]],
         "text-size": ["interpolate", ["linear"], ["zoom"], 5, 10.5, 14, 22],
         "text-font": ["Open Sans Semi Bold"],
         "text-line-height": 1,
@@ -2288,22 +2281,50 @@
       }
     },
     {
-      "id": "country names",
+      "id": "state-names",
       "type": "symbol",
       "metadata": {"mapbox:group": "e196265c0e550aaddd2885dc32fdb674"},
       "source": "mapbox_streets",
       "source-layer": "place_label",
-      "minzoom": 5,
+      "minzoom": 2,
       "maxzoom": 10,
-      "filter": ["match", ["get", "type"], ["country"], true, false],
+      "filter": ["all", ["match", ["get", "type"], ["state"], true, false]],
       "layout": {
-        "text-field": ["to-string", ["get", "name1"]],
+        "text-field": ["to-string", ["get", "name_en"]],
         "text-size": ["interpolate", ["linear"], ["zoom"], 5, 18, 10, 35],
         "text-font": ["Open Sans Semi Bold"],
         "text-line-height": 1,
         "text-padding": 2,
         "text-letter-spacing": 0.3,
-        "text-transform": "uppercase"
+        "text-transform": "uppercase",
+        "visibility": "visible"
+      },
+      "paint": {
+        "text-color": "#55595c",
+        "text-halo-color": "#f1efec",
+        "text-halo-width": 1,
+        "text-halo-blur": 1,
+        "text-opacity": 0.35
+      }
+    },
+    {
+      "id": "country-names",
+      "type": "symbol",
+      "metadata": {"mapbox:group": "e196265c0e550aaddd2885dc32fdb674"},
+      "source": "mapbox_streets",
+      "source-layer": "place_label",
+      "minzoom": 2,
+      "maxzoom": 10,
+      "filter": ["all", ["match", ["get", "type"], ["country"], true, false]],
+      "layout": {
+        "text-field": ["to-string", ["get", "name_en"]],
+        "text-size": ["interpolate", ["linear"], ["zoom"], 5, 18, 10, 35],
+        "text-font": ["Open Sans Semi Bold"],
+        "text-line-height": 1,
+        "text-padding": 2,
+        "text-letter-spacing": 0.3,
+        "text-transform": "uppercase",
+        "visibility": "visible"
       },
       "paint": {
         "text-color": "#55595c",
