@@ -111,7 +111,7 @@ class GeolocationForm(BaseForm):
 class IndividualRolesForm(BaseForm):
     roles = forms.ModelMultipleChoiceField(
         queryset=Role.objects.all(),
-        label=safe('How would you describe yourself?'),
+        label=_('How would you describe yourself?'),
         widget=CheckboxSelectMultiple(attrs={'class': 'input-group checkbox'}),
     )
 
@@ -119,21 +119,21 @@ class IndividualRolesForm(BaseForm):
 class IndividualMoreAboutYouForm(BaseModelForm):
     member_of = forms.ModelMultipleChoiceField(
         queryset=Organization.objects.all(),
-        label=_('Co-operative(s) you are a currently a member of'),
+        label=_('Cooperative(s) you are a currently a member of'),
         required=False,
         widget=SelectMultiple(attrs={'size': 4, 'class': 'multiple'})
     )
 
     founder_of = forms.ModelMultipleChoiceField(
         queryset=Organization.objects.all(),
-        label=_('Co-operative(s) you are a founder of'),
+        label=_('Cooperative(s) you are a founder of'),
         required=False,
         widget=SelectMultiple(attrs={'size': 4, 'class': 'multiple'})
     )
 
     worked_with = forms.ModelMultipleChoiceField(
         queryset=Organization.objects.all(),
-        label=_('Co-operative(s) you have worked with'),
+        label=_('Cooperative(s) you have worked with'),
         required=False,
         widget=SelectMultiple(attrs={'size': 4, 'class': 'multiple'})
     )
@@ -258,21 +258,21 @@ class IndividualBasicInfoUpdateForm(BaseModelForm):
 class IndividualOverviewUpdateForm(BaseModelForm):
     member_of = forms.ModelMultipleChoiceField(
         queryset=Organization.objects.all(),
-        label=_('Co-operative(s) you are a currently a member of'),
+        label=_('Cooperative(s) you are a currently a member of'),
         required=False,
         widget=SelectMultiple(attrs={'size': 4, 'class': 'multiple'})
     )
 
     founder_of = forms.ModelMultipleChoiceField(
         queryset=Organization.objects.all(),
-        label=_('Co-operative(s) you are a founder of'),
+        label=_('Cooperative(s) you are a founder of'),
         required=False,
         widget=SelectMultiple(attrs={'size': 4, 'class': 'multiple'})
     )
 
     worked_with = forms.ModelMultipleChoiceField(
         queryset=Organization.objects.all(),
-        label=_('Co-operative(s) you have worked with'),
+        label=_('Cooperative(s) you have worked with'),
         required=False,
         widget=SelectMultiple(attrs={'size': 4, 'class': 'multiple'})
     )
@@ -280,10 +280,10 @@ class IndividualOverviewUpdateForm(BaseModelForm):
     class Meta:
         model = get_user_model()
         fields = [
-            'founder_of',
-            'member_of',
-            'worked_with',
             'roles',
+            'member_of',
+            'founder_of',
+            'worked_with',
             'services',
             'community_skills',
             'field_of_study',
@@ -292,6 +292,25 @@ class IndividualOverviewUpdateForm(BaseModelForm):
             'bio',
             'projects'
         ]
+        labels = {
+            'roles': _('How would you describe yourself?'),
+            'services': _('Services you provide'),
+            'community_skills': _('What community building skills do you have to offer?'),
+            'field_of_study': _('What is your field of research?'),
+            'affiliation': _('Are you affiliated with an organization or institution?'),
+            'affiliation_url': _('What is the website address of your affiliated organization or institution?'),
+            'bio': _('Bio'),
+            'projects': _('Projects'),
+        }
+        widgets = {
+            'roles': CheckboxSelectMultiple(attrs={'class': 'input-group checkbox'}),
+            'services': SelectMultiple(attrs={'size': 4, 'class': 'multiple'})
+        }
+        help_texts = {
+            'community_skills': _('Provide a short description.'),
+            'bio': _('Share a bit about yourself.'),
+            'projects': _('List any current or past projects you would like to share with others.')
+        }
 
 
 class OrganizationTypeForm(BaseForm):

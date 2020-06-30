@@ -6,6 +6,7 @@
 
 {% block content %}
     <form class="form" action="" method="post" novalidate>
+        {% csrf_token %}
         <div class="page-header">
             <h1>{% trans 'Edit your profile' %}</h1>
         </div>
@@ -14,8 +15,62 @@
         {% include 'maps/profiles/errors.html' %}
         {% endif %}
         <h2>{% trans 'Overview' %}</h2>
-        {% csrf_token %}
-        {{ form }}
+        {{ form.roles.label_tag }}
+        {{ form.roles }}
+        {% if form.roles.help_text %}
+        <span class="helptext">{{ form.roles.help_text | safe }}</span>
+        {% endif %}
+        {{ form.member_of.label_tag }}
+        {{ form.member_of }}
+        {% if form.member_of.help_text %}
+        <span class="helptext">{{ form.member_of.help_text | safe }}</span>
+        {% endif %}
+        {{ form.founder_of.label_tag }}
+        {{ form.founder_of }}
+        {% if form.founder_of.help_text %}
+        <span class="helptext">{{ form.founder_of.help_text | safe }}</span>
+        {% endif %}
+        {{ form.worked_with.label_tag }}
+        {{ form.worked_with }}
+        {% if form.worked_with.help_text %}
+        <span class="helptext">{{ form.worked_with.help_text | safe }}</span>
+        {% endif %}
+        {{ form.services.label_tag }}
+        {{ form.services }}
+        {% if form.services.help_text %}
+        <span class="helptext">{{ form.services.help_text | safe }}</span>
+        {% endif %}
+        {{ form.community_skills.label_tag }}
+        {{ form.community_skills }}
+        {% if form.community_skills.help_text %}
+        <span class="helptext">{{ form.community_skills.help_text | safe }}</span>
+        {% endif %}
+        {{ form.field_of_study.label_tag }}
+        {{ form.field_of_study }}
+        {% if form.field_of_study.help_text %}
+        <span class="helptext">{{ form.field_of_study.help_text | safe }}</span>
+        {% endif %}
+        {{ form.affiliation.label_tag }}
+        {{ form.affiliation }}
+        {% if form.affiliation.help_text %}
+        <span class="helptext">{{ form.affiliation.help_text | safe }}</span>
+        {% endif %}
+        {{ form.affiliation_url.label_tag }}
+        {{ form.affiliation_url }}
+        {% if form.affiliation_url.help_text %}
+        <span class="helptext">{{ form.affiliation_url.help_text | safe }}</span>
+        {% endif %}
+        {{ form.bio.label_tag }}
+        {{ form.bio }}
+        {% if form.bio.help_text %}
+        <span class="helptext">{{ form.bio.help_text | safe }}</span>
+        {% endif %}
+        {{ form.projects.label_tag }}
+        {{ form.projects }}
+        {% if form.projects.help_text %}
+        <span class="helptext">{{ form.projects.help_text | safe }}</span>
+        {% endif %}
+        <div class="spacer"></div>
         <button class="button" type="submit">{% trans 'Save' %}</button>
         </div>
     </form>
