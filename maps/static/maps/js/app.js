@@ -295,6 +295,7 @@ if (deleteIndividual) {
   });
 }
 
+/* TODO: allow map to be reset to contact info
 document.addEventListener('click', (event) => {
   if (!event.target.id === 'set-to-contact-info') return;
   const address = document.getElementById('id_address').value;
@@ -318,10 +319,9 @@ document.addEventListener('click', (event) => {
   if (postalCode != '') {
     addressString = `${addressString}, ${postalCode}`;
   }
-  console.log(addressString);
-
   // TODO: Post to Here API endpoint
 });
+*/
 
 const geolocationMapContainer = document.getElementById('geolocation-map');
 
