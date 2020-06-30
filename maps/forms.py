@@ -7,7 +7,8 @@ from django.utils.translation import gettext_lazy as _
 from django.template.defaultfilters import safe
 from django_countries.fields import CountryField
 from accounts.models import Role, SocialNetwork, UserSocialNetwork
-from mdi.models import Organization, Category, Language, OrganizationSocialNetwork, Stage, Type
+from mdi.models import Organization, Category, Language, OrganizationSocialNetwork, Stage, Tool, Type, Pricing, License
+
 
 class BaseForm(forms.Form):
     error_css_class = 'error'
@@ -28,11 +29,13 @@ class BaseModelForm(forms.ModelForm):
 
         super(BaseModelForm, self).__init__(*args, **kwargs)
 
+
 class IndividualProfileDeleteForm(BaseModelForm):
     class Meta:
         model = get_user_model()
         fields = ['has_profile']
         widgets = {'has_profile': HiddenInput}
+
 
 class IndividualBasicInfoForm(BaseModelForm):
     first_name = CharField(
@@ -63,6 +66,7 @@ class IndividualBasicInfoForm(BaseModelForm):
             'middle_name': _('Middle name'),
             'url': _('Website address')
         }
+
 
 class IndividualContactInfoForm(BaseModelForm):
     city = CharField(
@@ -102,6 +106,7 @@ class GeolocationForm(BaseForm):
         super(GeolocationForm, self).__init__(*args, **kwargs)
         self.fields['lat'].value = self.lat
         self.fields['lng'].value = self.lng
+
 
 class IndividualRolesForm(BaseForm):
     roles = forms.ModelMultipleChoiceField(
@@ -158,6 +163,8 @@ class IndividualMoreAboutYouForm(BaseModelForm):
         help_texts = {
             'community_skills': _('Provide a short description.')
         }
+
+
 class IndividualDetailedInfoForm(BaseModelForm):
     class Meta:
         model = get_user_model()
@@ -174,6 +181,7 @@ class IndividualDetailedInfoForm(BaseModelForm):
             'projects': _('List any current or past projects you would like to share with others.')
         }
 
+
 class IndividualSocialNetworkForm(BaseModelForm):
     class Meta:
         model = UserSocialNetwork
@@ -187,6 +195,7 @@ class IndividualSocialNetworkForm(BaseModelForm):
 
 
 IndividualSocialNetworkFormSet = formset_factory(IndividualSocialNetworkForm, extra=0)
+
 
 class OrganizationTypeForm(BaseForm):
     type = forms.ModelChoiceField(
@@ -202,6 +211,8 @@ class OrganizationTypeForm(BaseForm):
         initial=0,
         widget=RadioSelect(attrs={'class': 'input-group radio'})
     )
+
+
 class OrganizationBasicInfoForm(BaseModelForm):
     languages = forms.ModelMultipleChoiceField(
         queryset=Language.objects.all(),
@@ -307,6 +318,7 @@ class OrganizationBasicInfoForm(BaseModelForm):
         else:
             self.fields['year_founded'].required = False
 
+
 class OrganizationContactInfoForm(BaseModelForm):
     city = CharField(
         required=True,
@@ -335,6 +347,7 @@ class OrganizationContactInfoForm(BaseModelForm):
             'address': _('Street address'),
             'postal_code': _('ZIP or postal code')
         }
+
 
 class OrganizationDetailedInfoForm(BaseModelForm):
     categories = forms.ModelMultipleChoiceField(
@@ -402,6 +415,7 @@ class OrganizationDetailedInfoForm(BaseModelForm):
             'sectors': _('Hold down the <kbd>ctrl</kbd> (Windows) or <kbd>command</kbd> (macOS) key to select multiple options.'),
         }
 
+
 class OrganizationScopeAndImpactForm(BaseModelForm):
     geo_scope = forms.ChoiceField(
         choices=[
@@ -432,6 +446,7 @@ class OrganizationScopeAndImpactForm(BaseModelForm):
             'impacted_exact_number': _('Include clients and users as well as their family members or others indirectly impacted by the work of your co-operative.')
         }
 
+
 class OrganizationSocialNetworkForm(BaseModelForm):
     class Meta:
         model = OrganizationSocialNetwork
@@ -445,3 +460,70 @@ class OrganizationSocialNetworkForm(BaseModelForm):
 
 
 OrganizationSocialNetworkFormSet = formset_factory(OrganizationSocialNetworkForm, extra=0)
+
+
+class ToolBasicInfoForm(BaseModelForm):
+    class Meta:
+        model = Tool
+        fields = [
+            'name',
+            'niches',
+            'description',
+            'url'
+        ]
+        labels = {
+            'name': _('Name of tool'),
+            'niches': _('What is this tool used for?'),
+            'description': _('Description of tool'),
+            'url': _('URL of tool website')
+        }
+        help_texts = {
+            'description': _('Max 270 characters.')
+        }
+
+
+class ToolDetailedInfoForm(BaseModelForm):
+    pricing = forms.ModelChoiceField(
+        queryset=Pricing.objects.all(),
+        empty_label=_('Not sure'),
+        required=False,
+        label=_('How much does this tool cost?'),
+        widget=RadioSelect(attrs={'class': 'input-group radio'})
+    )
+
+    license = forms.ModelChoiceField(
+        queryset=License.objects.all(),
+        empty_label=_('Not sure'),
+        required=False,
+        label=_('Please choose a specific free / libre / open source license')
+    )
+
+    sector = forms.ChoiceField(
+        choices=[('no', _('No')), ('yes', _('Yes'))],
+        required=True,
+        initial='no',
+        label=_('Is this tool for a specific sector or sectors?'),
+        widget=RadioSelect(attrs={'class': 'input-group radio'})
+    )
+
+    class Meta:
+        model = Tool
+        fields = [
+            'pricing',
+            'license_type',
+            'license',
+            'sector',
+            'sectors',
+            'languages_supported',
+            'coop_made'
+        ]
+        labels = {
+            'license_type': _('How is this tool licensed?'),
+            'sectors': _('Please choose a sector or sectors:'),
+            'languages_supported': _('What languages does this tool support?'),
+            'coop_made': _('Was this tool created by a co-op?')
+        }
+        widgets = {
+            'license_type': RadioSelect(attrs={'class': 'input-group radio'}),
+            'coop_made': RadioSelect(attrs={'class': 'input-group radio'})
+        }

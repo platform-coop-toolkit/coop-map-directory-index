@@ -11,12 +11,13 @@ from django.views.generic.edit import DeleteView
 from django.shortcuts import get_object_or_404, render, redirect
 from django.forms import inlineformset_factory
 from accounts.models import UserSocialNetwork
-from mdi.models import Organization, SocialNetwork, OrganizationSocialNetwork, Relationship, EntitiesEntities
+from mdi.models import Organization, SocialNetwork, OrganizationSocialNetwork, Relationship, EntitiesEntities, \
+    Tool, Niche
 from formtools.wizard.views import SessionWizardView
 from .forms import GeolocationForm, IndividualProfileDeleteForm, IndividualRolesForm, IndividualBasicInfoForm, \
     IndividualMoreAboutYouForm, IndividualDetailedInfoForm, IndividualContactInfoForm, IndividualSocialNetworkFormSet, \
     OrganizationTypeForm, OrganizationBasicInfoForm, OrganizationContactInfoForm, OrganizationDetailedInfoForm, \
-    OrganizationScopeAndImpactForm, OrganizationSocialNetworkFormSet
+    OrganizationScopeAndImpactForm, OrganizationSocialNetworkFormSet, ToolBasicInfoForm, ToolDetailedInfoForm
 from django_countries import countries
 from django.contrib.gis.geos import Point
 import os
@@ -103,6 +104,17 @@ ORGANIZATION_TEMPLATES = {
     'social_networks': 'maps/profiles/organization/social_networks.html'
 }
 
+TOOL_FORMS = [
+    ('basic_info', ToolBasicInfoForm),
+    ('detailed_info', ToolDetailedInfoForm)
+]
+
+TOOL_TEMPLATES = {
+    'basic_info': 'maps/profiles/tool/basic_info.html',
+    'detailed_info': 'maps/profiles/tool/detailed_info.html'
+}
+
+
 def show_more_about_you_condition(wizard):
     cleaned_data = wizard.get_cleaned_data_for_step('roles') or {'roles': []}
     if (len(cleaned_data['roles']) == 1 and cleaned_data['roles'][0].name == 'Other'):
@@ -110,12 +122,14 @@ def show_more_about_you_condition(wizard):
 
     return True
 
+
 def show_scope_and_impact_condition(wizard):
     cleaned_data = wizard.get_cleaned_data_for_step('org_type') or {'type': False}
     if (cleaned_data['type'] and cleaned_data['type'].name == 'Cooperative'):
         return True
 
     return False
+
 
 class IndividualProfileWizard(LoginRequiredMixin, SessionWizardView):
     def get_template_names(self):
@@ -198,6 +212,7 @@ class IndividualProfileWizard(LoginRequiredMixin, SessionWizardView):
 
         return redirect('individual-detail', user_id=user.id)
 
+
 class OrganizationProfileWizard(LoginRequiredMixin, SessionWizardView):
     def get_template_names(self):
         return [ORGANIZATION_TEMPLATES[self.steps.current]]
@@ -256,6 +271,42 @@ class OrganizationProfileWizard(LoginRequiredMixin, SessionWizardView):
 
         return redirect('organization-detail', organization_id=org.id)
 
+
+class ToolWizard(LoginRequiredMixin, SessionWizardView):
+    def get_template_names(self):
+        return [TOOL_TEMPLATES[self.steps.current]]
+
+    def get_context_data(self, form, **kwargs):
+        context = super().get_context_data(form=form, **kwargs)
+        if self.steps.current == 'basic_info':
+            niche_dict = {}
+            niches = Niche.objects.all()
+            for niche in niches:
+                parent = niche.parent()
+                if parent not in niche_dict:
+                    niche_dict[parent] = {'children': []}
+                if niche.child():
+                    niche_dict[parent]['children'].append({'id': niche.id, 'name': niche.child()})
+                else:
+                    niche_dict[parent]['id'] = niche.id
+            context.update({'niche_dict': niche_dict})
+        return context
+
+    def done(self, form_list, form_dict, **kwargs):
+        user = self.request.user
+        form_dict = self.get_all_cleaned_data()
+        tool = Tool(submitted_by_email=user.email)
+        for k, v in form_dict.items():
+            if k not in ['niches', 'sectors', 'languages_supported']:
+                setattr(tool, k, v)
+        tool.save()
+        tool.niches.set(form_dict['niches'])
+        tool.sectors.set(form_dict['sectors'])
+        tool.languages_supported.set(form_dict['languages_supported'])
+        messages.success(self.request, 'Thank you for submitting this tool.')
+        return HttpResponseRedirect('/my-profiles/')
+
+
 def index(request):
     template = loader.get_template('maps/index.html')
     context = {
@@ -311,6 +362,7 @@ def individual_detail(request, user_id):
     }
     return render(request, 'maps/individual_detail.html', context)
 
+
 class OrganizationDelete(DeleteView):
     model = Organization
     success_url = reverse_lazy('my-profiles')
@@ -322,6 +374,8 @@ class OrganizationDelete(DeleteView):
         return super(OrganizationDelete, self).delete(request, *args, **kwargs)
 
 # My Profiles
+
+
 @login_required
 def my_profiles(request):
     user = request.user
@@ -344,16 +398,22 @@ def my_profiles(request):
     return render(request, 'maps/my_profiles.html', context)
 
 # Account Seetings
+
+
 @login_required
 def account_settings(request):
     return render(request, 'maps/account_settings.html')
 
 # Static pages
+
+
 class PrivacyPolicyView(TemplateView):
     template_name = "maps/privacy_policy.html"
 
+
 class TermsOfServiceView(TemplateView):
     template_name = "maps/terms_of_service.html"
+
 
 class AboutPageView(TemplateView):
     template_name = "maps/about.html"
