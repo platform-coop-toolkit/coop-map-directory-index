@@ -265,8 +265,44 @@ class InvididualOverviewUpdate(UpdateView):
         context.update({'roles': roles})
         return context
 
+    def get_initial(self):
+        related = self.object.related_organizations
+        member_of_relationship = Relationship.objects.get(name="Member of")
+        member_of_relationships = EntitiesEntities.objects.filter(from_ind=self.object, relationship=member_of_relationship)
+        founder_of_relationship = Relationship.objects.get(name="Founder of")
+        founder_of_relationships = EntitiesEntities.objects.filter(from_ind=self.object, relationship=founder_of_relationship)
+        worked_with_relationship = Relationship.objects.get(name="Worked with")
+        worked_with_relationships = EntitiesEntities.objects.filter(from_ind=self.object, relationship=worked_with_relationship)
+        member_orgs = []
+        founder_orgs = []
+        worked_with_orgs = []
+        for relationship in member_of_relationships:
+            member_orgs.append(Organization.objects.get(id=relationship.to_org.id))
+        for relationship in founder_of_relationships:
+            founder_orgs.append(Organization.objects.get(id=relationship.to_org.id))
+        for relationship in worked_with_relationships:
+            worked_with_orgs.append(Organization.objects.get(id=relationship.to_org.id))
+        return {
+            'member_of': member_orgs,
+            'founder_of': founder_orgs,
+            'worked_with': worked_with_orgs
+        }
+
     def get_success_url(self, **kwargs):
         return reverse('individual-detail', kwargs={'user_id': self.object.id})
+
+    def form_valid(self, form):
+        member_of_relationship = Relationship.objects.get(name="Member of")
+        founder_of_relationship = Relationship.objects.get(name="Founder of")
+        worked_with_relationship = Relationship.objects.get(name="Worked with")
+        self.object.related_organizations.clear()
+        for member_of_org in form.cleaned_data['member_of']:
+            EntitiesEntities.objects.create(from_ind=self.object, to_org=member_of_org, relationship=member_of_relationship)
+        for founded_by_org in form.cleaned_data['founder_of']:
+            EntitiesEntities.objects.create(from_ind=self.object, to_org=founded_by_org, relationship=founder_of_relationship)
+        for worked_with_org in form.cleaned_data['worked_with']:
+            EntitiesEntities.objects.create(from_ind=self.object, to_org=worked_with_org, relationship=worked_with_relationship)
+        return super(InvididualOverviewUpdate, self).form_valid(form)
 
 
 class OrganizationProfileWizard(LoginRequiredMixin, SessionWizardView):
