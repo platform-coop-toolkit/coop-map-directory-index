@@ -462,6 +462,10 @@ h1 + .profile__meta {
       display: grid;
     }
 
+    .edit {
+      grid-column: 1 / 13;
+    }
+
     .panel__sidebar {
       grid-column: 1 / 4;
     }
@@ -475,6 +479,10 @@ h1 + .profile__meta {
 @include breakpoint-up(xl) {
   .profile [role="tabpanel"]#overview {
     grid-template-columns: repeat(16, 1fr);
+
+    .edit {
+      grid-column: 1 / 17;
+    }
 
     .panel__sidebar {
       grid-column: 1 / 4;

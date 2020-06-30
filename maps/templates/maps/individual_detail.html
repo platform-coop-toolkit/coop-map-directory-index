@@ -32,7 +32,7 @@
         </p>
         {% endif %}
         {% if individual == user %}
-        <p>
+        <p class="align-right">
             <a href="{% url 'edit-my-basic-info' pk=user.id %}">{% icon 'edit' %}{% trans 'Edit basic information' %}</a>
         </p>
         {% endif %}
@@ -51,7 +51,7 @@
         </div>
         <div id="overview" role="tabpanel" aria-labelledby="overview-btn">
             {% if individual == user %}
-            <div class="edit">
+            <div class="edit align-right">
                 <a href="{% url 'edit-my-overview' pk=user.id %}">{% icon 'edit' %}{% trans 'Edit overview' %}</a>
             </div>
             {% endif %}
