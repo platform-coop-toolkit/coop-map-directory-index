@@ -91,7 +91,8 @@ select.multiple {
     .role-4,
     .role-5,
     .role-6,
-    .role-7 {
+    .role-7,
+    .role-8 {
       display: none;
     }
 
@@ -101,7 +102,8 @@ select.multiple {
     &.role-4 .role-4,
     &.role-5 .role-5,
     &.role-6 .role-6,
-    &.role-7 .role-7 {
+    &.role-7 .role-7,
+    &.role-8 .role-8 {
       display: block;
     }
   }
