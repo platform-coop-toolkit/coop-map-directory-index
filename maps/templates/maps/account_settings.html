@@ -8,6 +8,7 @@
         <p><a class="link--breadcrumb" href="{% url 'index' %}">{% trans "Home" %}</a></p>
         <h1>{% trans 'Account settings' %}</h1>
     </div>
+    {% include 'maps/partials/messages.html' %}
     <div class="stack">
         <ul class="link-list">
             <li class="link-list__item"><a href="{% url 'account_email' %}">{% trans 'Manage email addresses' %}</a></li>
