@@ -8,11 +8,7 @@
         <p><a class="link--breadcrumb" href="/">{% trans 'Home' %}</a></p>
         <h1>{% trans 'My profiles' %}</h1>
     </div>
-    {% if messages %}
-        {% for message in messages %}
-        {% include 'maps/partials/notification.html' %}
-        {% endfor %}
-    {% endif %}
+    {% include 'maps/partials/messages.html' %}
     <h2>{% trans 'Personal profile' %}</h2>
     {% if user.has_profile %}
     <ul class="cards">

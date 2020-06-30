@@ -212,6 +212,55 @@ if (basicInfo) {
   new Pinecone.Card( card );
 });
 
+[...document.querySelectorAll( '.input-group__parent > li' )].forEach( (container) => {
+  const input = container.querySelector( '.input--parent' );
+  const subInputs = container.querySelectorAll( '.input-group__descendant input' );
+  if ( 0 < subInputs.length ) {
+    new Pinecone.NestedCheckbox( container, input, subInputs );
+  }
+} );
+	
+[...document.querySelectorAll( '.filter-disclosure-label' )].forEach( (label) => {
+  new Pinecone.DisclosureButton( label, { buttonVariant: 'button--disc', visuallyHiddenLabel: true } );
+} );
+
+[...document.querySelectorAll('[name="detailed_info-license_type"')].forEach(element => {
+  element.addEventListener('change', () => {
+    const license = document.getElementById('id_detailed_info-license');
+    const licenseLabel = document.querySelector('[for="id_detailed_info-license"]');
+    if (element.value === 'floss' || element.value === 'proprietary-with-floss-integration-tools') {   
+      license.style.display = 'block';
+      licenseLabel.style.display = 'block';
+    } else {
+      license.style.display = 'none';
+      licenseLabel.style.display = 'none';
+    }
+  });
+});
+
+[...document.querySelectorAll('[name="detailed_info-sector"')].forEach(element => {
+  element.addEventListener('change', () => {
+    const sectors = document.getElementById('id_detailed_info-sectors');
+    const sectorsLabel = document.querySelector('[for="id_detailed_info-sectors"]');
+    if (element.value === 'yes') {   
+      sectors.style.display = 'block';
+      sectorsLabel.style.display = 'block';
+    } else {
+      sectors.style.display = 'none';
+      sectorsLabel.style.display = 'none';
+    }
+  });
+});
+
+[...document.querySelectorAll('[role="checkbox"]')].forEach(checkbox => {
+  checkbox.addEventListener('click', () => {
+    if (checkbox.getAttribute('aria-checked') !== 'true') {
+      const disclosureButton = checkbox.parentNode.querySelector('button');
+      disclosureButton.setAttribute('aria-expanded', 'true');
+    }
+  });
+});
+
 [...document.querySelectorAll('.delete-organization')].forEach((form) => {
   form.addEventListener('submit', (event) => {
     event.preventDefault();

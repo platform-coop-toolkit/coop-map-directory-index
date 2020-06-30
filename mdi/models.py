@@ -25,6 +25,7 @@ class Type(models.Model):
     def __str__(self):
         return self.name
 
+
 class Category(models.Model):
     name = models.CharField(blank=False, max_length=255, unique=True)
     type = models.ForeignKey(Type, blank=True, null=True, on_delete=models.CASCADE)
@@ -111,6 +112,7 @@ class Stage(models.Model):
     def __str__(self):
         return self.name
 
+
 class Sector(models.Model):
     name = models.CharField(blank=False, max_length=255, unique=True)
     description = models.CharField(blank=True, default='', max_length=255)
@@ -151,6 +153,15 @@ class Niche(models.Model):
 
     def __str__(self):
         return self.name
+
+    def parent(self):
+        return self.name.split(' - ')[0]
+
+    def child(self):
+        if len(self.name.split(' - ')) > 1:
+            return self.name.split(' - ')[1]
+        else:
+            return False
 
 
 class Pricing(models.Model):
@@ -196,17 +207,23 @@ class Tool(models.Model):
     description = models.TextField(blank=True, default='')
     url = models.URLField(blank=False, max_length=255)
     license_type = models.CharField(blank=True, default='', max_length=64,
-                                    choices=[('proprietary', 'Proprietary'), ('proprietary-with-floss-integration-tools', 'Proprietary with free / libre / open source integration tools'), ('floss', 'Free / libre / open source')], verbose_name='License type')
-    license = models.ForeignKey(License, blank=True, null=True, on_delete=models.CASCADE, verbose_name='Free / libre / open source license')
+                                    choices=[
+                                        ('', _('Not sure')),
+                                        ('proprietary', _('Proprietary')),
+                                        ('proprietary-with-floss-integration-tools', _('Proprietary with free / libre / open source integration tools')),
+                                        ('floss', _('Free / libre / open source'))
+                                    ],
+                                    verbose_name=_('License type'))
+    license = models.ForeignKey(License, blank=True, null=True, on_delete=models.CASCADE, verbose_name=_('Free / libre / open source license'))
     pricing = models.ForeignKey(Pricing, blank=True, null=True, on_delete=models.CASCADE)
     niches = models.ManyToManyField(Niche)
     languages_supported = models.ManyToManyField(Language, blank=True)
     sectors = models.ManyToManyField(Sector, blank=True)
-    coop_made = models.CharField(blank=False, default=0, max_length=16,
-                                 choices=[('unknown', 'Not sure'), ('yes', 'Yes'), ('no', 'No')], verbose_name='Made by a cooperative')
+    coop_made = models.CharField(blank=True, default='', max_length=16, choices=[('', _('Not sure')), ('yes', _('Yes')), ('no', _('No'))], verbose_name=_('Made by a cooperative'))
     notes = models.TextField(blank=True, default='')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    submitted_by_email = models.EmailField(default='', max_length=255)
 
     def use_count(self):
         return self.organization_set.count()

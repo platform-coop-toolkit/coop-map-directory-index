@@ -8,8 +8,10 @@ from .serializers import UserSerializer, GroupSerializer, OrganizationSerializer
 from .models import Organization, Sector, Tool, License
 from rest_framework.response import Response
 
+
 def map(request):
     return HttpResponse("Where's ma maps?")
+
 
 @api_view(['GET'])
 def api_root(request, format=None):
