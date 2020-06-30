@@ -19,6 +19,8 @@ mix.copy('node_modules/@platform-coop-toolkit/pinecone/src/assets/images', 'maps
     .copy('maps/static/maps/images', 'maps/static/maps/dist/images') // Temporary.
     .copy('node_modules/@platform-coop-toolkit/pinecone/src/assets/fonts', 'maps/static/maps/dist/fonts');
 
+mix.copyDirectory('maps/static/maps/styles', 'maps/static/maps/dist/styles');
+
 mix.options({
     processCssUrls: false,
 });

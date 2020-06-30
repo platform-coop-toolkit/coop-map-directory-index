@@ -252,7 +252,7 @@ if (geolocationMapContainer) {
   mapboxgl.accessToken = 'pk.eyJ1IjoiZXJpY3RoZWlzZSIsImEiOiJjazVvNGNmM2wxaGhjM2pvMGc0ZmIyaXN3In0.Jrt9t5UrY5aCbndSpq5JWw';
   var geolocationMap = new mapboxgl.Map({
     container: 'geolocation-map',
-    style: 'mapbox://styles/mapbox/light-v10',
+    style: 'http://localhost:3000/static/maps/dist/styles/pcc/style.json',
     center: [lng, lat],
     zoom: 17,
     hash: false,
@@ -315,12 +315,14 @@ if (mainMapContainer) {
   mapboxgl.accessToken = 'pk.eyJ1IjoiZXJpY3RoZWlzZSIsImEiOiJjazVvNGNmM2wxaGhjM2pvMGc0ZmIyaXN3In0.Jrt9t5UrY5aCbndSpq5JWw';
   var mainMap = new mapboxgl.Map({
     container: 'main-map',
-    style: 'mapbox://styles/mapbox/dark-v10',
+    style: 'http://localhost:3000/static/maps/dist/styles/pcc/style.json',
     center: [-74.5, 40],
+    minZoom: 1.0,
+    maxZoom: 15.0,
     zoom: 4,
     hash: true,
     rotate: false,
-    scrollZoom: false
+    scrollZoom: true
   });
 
   let nav = new mapboxgl.NavigationControl({ showCompass: false });
