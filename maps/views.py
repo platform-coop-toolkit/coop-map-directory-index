@@ -266,7 +266,6 @@ class InvididualOverviewUpdate(UpdateView):
         return context
 
     def get_initial(self):
-        related = self.object.related_organizations
         member_of_relationship = Relationship.objects.get(name="Member of")
         member_of_relationships = EntitiesEntities.objects.filter(from_ind=self.object, relationship=member_of_relationship)
         founder_of_relationship = Relationship.objects.get(name="Founder of")

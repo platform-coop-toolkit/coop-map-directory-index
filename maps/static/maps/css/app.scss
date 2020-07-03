@@ -470,6 +470,10 @@ h1 + .profile__meta {
   padding-bottom: 0;
 }
 
+.panel__sidebar {
+  margin-bottom: $gutter;
+}
+
 @include breakpoint-up(md) {
   .profile [role="tabpanel"] > .cards {
     grid-template-columns: repeat(3, 1fr);
