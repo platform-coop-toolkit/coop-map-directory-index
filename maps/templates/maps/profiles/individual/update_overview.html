@@ -84,6 +84,15 @@
         <span class="helptext">{{ form.projects.help_text | safe }}</span>
         {% endif %}
         </div>
+        <h3>{% trans 'Social media' %}</h3>
+        {{ social_network_form.management_form }}
+        {% for sn in social_network_form.forms %}
+            {# TODO: Remove this. #}{{ sn.initial }}
+            {{ sn.id }}
+            <label for="{{ form.identifier.id_for_label }}">{{ sn.initial.name }}</label>
+            {{ sn.identifier }}
+            {{ sn.socialnetwork }}
+        {% endfor %}
         <div class="spacer"></div>
         <button class="button" type="submit">{% trans 'Save' %}</button>
         </div>

@@ -2,7 +2,8 @@ from datetime import datetime
 from django.contrib.auth import get_user_model
 from django import forms
 from django.contrib.gis.forms import PointField, OSMWidget
-from django.forms import CharField, CheckboxSelectMultiple, IntegerField, ModelChoiceField, RadioSelect, SelectMultiple, HiddenInput, formset_factory
+from django.forms import CharField, CheckboxSelectMultiple, IntegerField, ModelChoiceField, RadioSelect, SelectMultiple, HiddenInput, \
+    formset_factory, inlineformset_factory
 from django.utils.translation import gettext_lazy as _
 from django.template.defaultfilters import safe
 from django_countries.fields import CountryField
@@ -195,6 +196,8 @@ class IndividualSocialNetworkForm(BaseModelForm):
 
 
 IndividualSocialNetworkFormSet = formset_factory(IndividualSocialNetworkForm, extra=0)
+
+IndividualEditSocialNetworkFormSet = inlineformset_factory(get_user_model(), UserSocialNetwork, form=IndividualSocialNetworkForm, max_num=len(SocialNetwork.objects.all()))
 
 
 class IndividualBasicInfoUpdateForm(BaseModelForm):

@@ -18,7 +18,7 @@ from mdi.models import Organization, SocialNetwork, OrganizationSocialNetwork, R
 from formtools.wizard.views import SessionWizardView
 from .forms import GeolocationForm, IndividualProfileDeleteForm, IndividualRolesForm, IndividualBasicInfoForm, \
     IndividualMoreAboutYouForm, IndividualDetailedInfoForm, IndividualContactInfoForm, IndividualSocialNetworkFormSet, \
-    IndividualOverviewUpdateForm, IndividualBasicInfoUpdateForm, \
+    IndividualEditSocialNetworkFormSet, IndividualOverviewUpdateForm, IndividualBasicInfoUpdateForm, \
     OrganizationTypeForm, OrganizationBasicInfoForm, OrganizationContactInfoForm, OrganizationDetailedInfoForm, \
     OrganizationScopeAndImpactForm, OrganizationSocialNetworkFormSet, ToolBasicInfoForm, ToolDetailedInfoForm
 from django_countries import countries
@@ -284,13 +284,37 @@ class InvididualOverviewUpdate(UpdateView):
         return {
             'member_of': member_orgs,
             'founder_of': founder_orgs,
-            'worked_with': worked_with_orgs
+            'worked_with': worked_with_orgs,
         }
+
+    def get(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        form_class = self.get_form_class()
+        form = self.get_form(form_class)
+        initial = []
+        socialnetworks = SocialNetwork.objects.all()
+        for index, sn in enumerate(socialnetworks):
+            initial.append({
+                'socialnetwork': sn,
+                'name': sn.name,
+                'hint': sn.hint,
+            })
+        social_network_form = IndividualEditSocialNetworkFormSet(instance=self.object, initial=initial)
+        return self.render_to_response(self.get_context_data(form=form, social_network_form=social_network_form))
+
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        form_class = self.get_form_class()
+        form = self.get_form(form_class)
+        social_network_form = IndividualEditSocialNetworkFormSet(self.request.POST, instance=self.object)
+        if (form.is_valid() and social_network_form.is_valid()):
+            return self.form_valid(form, social_network_form)
+        return self.form_invalid(form, social_network_form)
 
     def get_success_url(self, **kwargs):
         return reverse('individual-detail', kwargs={'user_id': self.object.id})
 
-    def form_valid(self, form):
+    def form_valid(self, form, social_network_form):
         member_of_relationship = Relationship.objects.get(name="Member of")
         founder_of_relationship = Relationship.objects.get(name="Founder of")
         worked_with_relationship = Relationship.objects.get(name="Worked with")
@@ -467,7 +491,7 @@ class OrganizationDelete(DeleteView):
 # My Profiles
 
 
-@login_required
+@ login_required
 def my_profiles(request):
     user = request.user
     user_orgs = Organization.objects.filter(admin_email=user.email)
@@ -491,7 +515,7 @@ def my_profiles(request):
 # Account Seetings
 
 
-@login_required
+@ login_required
 def account_settings(request):
     return render(request, 'maps/account_settings.html')
 
