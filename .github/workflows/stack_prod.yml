@@ -1,4 +1,4 @@
-name: demo.directory.platform.coop
+name: directory.platform.coop
 
 on:
   push:
@@ -6,8 +6,8 @@ on:
       - master
 
 env:
-  PROJECT_ID: demo
-  PROJECT_SMOKETEST_URL: https://demo.directory.platform.coop
+  PROJECT_ID: prod
+  PROJECT_SMOKETEST_URL: https://directory.platform.coop
 
 jobs:
   deploy:
@@ -23,7 +23,7 @@ jobs:
           port:     ${{ secrets.SSH_PORT }}
           envs:     PROJECT_ID
           script: |
-            cd /srv/demo.directory.platform.coop                          && \
+            cd /srv/directory.platform.coop                               && \
             git checkout master                                           && \
             git pull                                                      && \
             source deploy.env                                             && \
