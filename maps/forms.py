@@ -197,7 +197,7 @@ class IndividualSocialNetworkForm(BaseModelForm):
 
 IndividualSocialNetworkFormSet = formset_factory(IndividualSocialNetworkForm, extra=0)
 
-IndividualEditSocialNetworkFormSet = inlineformset_factory(get_user_model(), UserSocialNetwork, form=IndividualSocialNetworkForm, extra=len(SocialNetwork.objects.all()))
+IndividualEditSocialNetworkFormSet = inlineformset_factory(get_user_model(), UserSocialNetwork, form=IndividualSocialNetworkForm, extra=len(SocialNetwork.objects.all()), max_num=len(SocialNetwork.objects.all()))
 
 
 class IndividualBasicInfoUpdateForm(BaseModelForm):

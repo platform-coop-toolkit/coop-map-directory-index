@@ -294,11 +294,12 @@ class InvididualOverviewUpdate(UpdateView):
         initial = []
         socialnetworks = SocialNetwork.objects.all()
         for index, sn in enumerate(socialnetworks):
-            initial.append({
-                'socialnetwork': sn.id,
-                'name': sn.name,
-                'hint': sn.hint,
-            })
+            if sn not in self.object.socialnetworks.all():
+                initial.append({
+                    'socialnetwork': sn.id,
+                    'name': sn.name,
+                    'hint': sn.hint,
+                })
         social_network_form = IndividualEditSocialNetworkFormSet(instance=self.object, initial=initial)
         return self.render_to_response(self.get_context_data(form=form, social_network_form=social_network_form))
 
