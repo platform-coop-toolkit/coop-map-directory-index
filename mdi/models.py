@@ -1,15 +1,16 @@
 from django.contrib.postgres.fields import IntegerRangeField
 from django.contrib.auth import get_user_model
 from django.contrib.gis.db import models
+from django.dispatch import receiver
 from datetime import date
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 from accounts.models import SocialNetwork
 from django_countries.fields import CountryField
-
 from django.core.exceptions import ValidationError
 from django.urls import reverse
 from django.db.models import Manager as GeoManager
+from allauth.account.signals import email_changed
 
 
 class Type(models.Model):
@@ -376,3 +377,11 @@ class EntitiesEntities(models.Model):
 
     class Meta:
         verbose_name_plural = "Entity to Entity Relationships"
+
+
+@receiver(email_changed)
+def email_changed_handler(request, user, from_email_address, to_email_address, **kwargs):
+    orgs = Organization.objects.filter(admin_email=from_email_address)
+    for org in orgs:
+        org.admin_email = to_email_address.email
+        org.save()
