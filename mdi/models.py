@@ -378,6 +378,11 @@ class EntitiesEntities(models.Model):
     class Meta:
         verbose_name_plural = "Entity to Entity Relationships"
 
+# The relationship between a user and Organizations that they can administer is
+# maintained via the Organization.admin_email key. This receiver for
+# django-allauth's email_changed signal updates Organization.admin_email for
+# all related Organizations when a user changes their primary email.
+
 
 @receiver(email_changed)
 def email_changed_handler(request, user, from_email_address, to_email_address, **kwargs):
