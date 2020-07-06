@@ -197,7 +197,7 @@ class IndividualSocialNetworkForm(BaseModelForm):
 
 IndividualSocialNetworkFormSet = formset_factory(IndividualSocialNetworkForm, extra=0)
 
-IndividualEditSocialNetworkFormSet = inlineformset_factory(get_user_model(), UserSocialNetwork, form=IndividualSocialNetworkForm, max_num=len(SocialNetwork.objects.all()))
+IndividualEditSocialNetworkFormSet = inlineformset_factory(get_user_model(), UserSocialNetwork, form=IndividualSocialNetworkForm, extra=len(SocialNetwork.objects.all()))
 
 
 class IndividualBasicInfoUpdateForm(BaseModelForm):
@@ -263,21 +263,24 @@ class IndividualOverviewUpdateForm(BaseModelForm):
         queryset=Organization.objects.all(),
         label=_('Cooperative(s) you are a currently a member of'),
         required=False,
-        widget=SelectMultiple(attrs={'size': 4, 'class': 'multiple'})
+        widget=SelectMultiple(attrs={'size': 4, 'class': 'multiple'}),
+        help_text=_('Hold down the <kbd>ctrl</kbd> (Windows) or <kbd>command</kbd> (macOS) key to select multiple options.')
     )
 
     founder_of = forms.ModelMultipleChoiceField(
         queryset=Organization.objects.all(),
         label=_('Cooperative(s) you are a founder of'),
         required=False,
-        widget=SelectMultiple(attrs={'size': 4, 'class': 'multiple'})
+        widget=SelectMultiple(attrs={'size': 4, 'class': 'multiple'}),
+        help_text=_('Hold down the <kbd>ctrl</kbd> (Windows) or <kbd>command</kbd> (macOS) key to select multiple options.')
     )
 
     worked_with = forms.ModelMultipleChoiceField(
         queryset=Organization.objects.all(),
         label=_('Cooperative(s) you have worked with'),
         required=False,
-        widget=SelectMultiple(attrs={'size': 4, 'class': 'multiple'})
+        widget=SelectMultiple(attrs={'size': 4, 'class': 'multiple'}),
+        help_text=_('Hold down the <kbd>ctrl</kbd> (Windows) or <kbd>command</kbd> (macOS) key to select multiple options.')
     )
 
     class Meta:
@@ -310,6 +313,7 @@ class IndividualOverviewUpdateForm(BaseModelForm):
             'services': SelectMultiple(attrs={'size': 4, 'class': 'multiple'})
         }
         help_texts = {
+            'services': _('Hold down the <kbd>ctrl</kbd> (Windows) or <kbd>command</kbd> (macOS) key to select multiple options.'),
             'community_skills': _('Provide a short description.'),
             'bio': _('Share a bit about yourself.'),
             'projects': _('List any current or past projects you would like to share with others.')

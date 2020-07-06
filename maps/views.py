@@ -284,7 +284,7 @@ class InvididualOverviewUpdate(UpdateView):
         return {
             'member_of': member_orgs,
             'founder_of': founder_orgs,
-            'worked_with': worked_with_orgs,
+            'worked_with': worked_with_orgs
         }
 
     def get(self, request, *args, **kwargs):
@@ -295,7 +295,7 @@ class InvididualOverviewUpdate(UpdateView):
         socialnetworks = SocialNetwork.objects.all()
         for index, sn in enumerate(socialnetworks):
             initial.append({
-                'socialnetwork': sn,
+                'socialnetwork': sn.id,
                 'name': sn.name,
                 'hint': sn.hint,
             })
@@ -325,6 +325,11 @@ class InvididualOverviewUpdate(UpdateView):
             EntitiesEntities.objects.create(from_ind=self.object, to_org=founded_by_org, relationship=founder_of_relationship)
         for worked_with_org in form.cleaned_data['worked_with']:
             EntitiesEntities.objects.create(from_ind=self.object, to_org=worked_with_org, relationship=worked_with_relationship)
+        self.object.socialnetworks.clear()
+        print(social_network_form.cleaned_data)
+        for sn in social_network_form.cleaned_data:
+            if sn['identifier'] != '':
+                UserSocialNetwork.objects.create(user=self.object, socialnetwork=sn['socialnetwork'], identifier=sn['identifier'])
         return super(InvididualOverviewUpdate, self).form_valid(form)
 
 

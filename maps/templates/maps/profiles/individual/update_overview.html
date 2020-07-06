@@ -87,9 +87,8 @@
         <h3>{% trans 'Social media' %}</h3>
         {{ social_network_form.management_form }}
         {% for sn in social_network_form.forms %}
-            {# TODO: Remove this. #}{{ sn.initial }}
             {{ sn.id }}
-            <label for="{{ form.identifier.id_for_label }}">{{ sn.initial.name }}</label>
+            <label for="{{ sn.identifier.id_for_label }}">{{ sn.initial.socialnetwork|social_network_id_to_label }}</label>
             {{ sn.identifier }}
             {{ sn.socialnetwork }}
         {% endfor %}
