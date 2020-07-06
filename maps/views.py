@@ -12,7 +12,7 @@ from django.shortcuts import get_object_or_404, render, redirect
 from django.forms import inlineformset_factory
 from accounts.models import UserSocialNetwork
 from mdi.models import Organization, SocialNetwork, OrganizationSocialNetwork, Relationship, EntitiesEntities, \
-    Tool, Niche
+    Tool, Niche, Source
 from formtools.wizard.views import SessionWizardView
 from .forms import GeolocationForm, IndividualProfileDeleteForm, IndividualRolesForm, IndividualBasicInfoForm, \
     IndividualMoreAboutYouForm, IndividualDetailedInfoForm, IndividualContactInfoForm, IndividualSocialNetworkFormSet, \
@@ -187,25 +187,31 @@ class IndividualProfileWizard(LoginRequiredMixin, SessionWizardView):
             if k not in ['roles', 'languages', 'services', 'challenges', 'formset-social_networks', ]:
                 setattr(user, k, v)
         user.has_profile = True
+        organic = Source.objects.get(name='Organic')
+        user.source = organic
         user.save()
         user.roles.set(form_dict['roles'])
         user.languages.set(form_dict['languages'])
-        user.services.set(form_dict['services'])
-        for org in form_dict['member_of']:
-            member_of_relationship = Relationship.objects.get(name="Member of")
-            rel = EntitiesEntities(from_ind=user, to_org=org, relationship=member_of_relationship)
-            rel.save()
-            user.related_organizations.add(org)
-        for org in form_dict['founder_of']:
-            founder_of_relationship = Relationship.objects.get(name="Founder of")
-            rel = EntitiesEntities(from_ind=user, to_org=org, relationship=founder_of_relationship)
-            rel.save()
-            user.related_organizations.add(org)
-        for org in form_dict['worked_with']:
-            worked_with_relationship = Relationship.objects.get(name="Worked with")
-            rel = EntitiesEntities(from_ind=user, to_org=org, relationship=worked_with_relationship)
-            rel.save()
-            user.related_organizations.add(org)
+        if 'services' in form_dict:
+            user.services.set(form_dict['services'])
+        if 'member_of' in form_dict:
+            for org in form_dict['member_of']:
+                member_of_relationship = Relationship.objects.get(name="Member of")
+                rel = EntitiesEntities(from_ind=user, to_org=org, relationship=member_of_relationship)
+                rel.save()
+                user.related_organizations.add(org)
+        if 'founder_of' in form_dict:
+            for org in form_dict['founder_of']:
+                founder_of_relationship = Relationship.objects.get(name="Founder of")
+                rel = EntitiesEntities(from_ind=user, to_org=org, relationship=founder_of_relationship)
+                rel.save()
+                user.related_organizations.add(org)
+        if 'worked_with' in form_dict:
+            for org in form_dict['worked_with']:
+                worked_with_relationship = Relationship.objects.get(name="Worked with")
+                rel = EntitiesEntities(from_ind=user, to_org=org, relationship=worked_with_relationship)
+                rel.save()
+                user.related_organizations.add(org)
         for sn in form_dict['formset-social_networks']:
             if sn['identifier'] != '':
                 UserSocialNetwork.objects.create(user=user, socialnetwork=sn['socialnetwork'], identifier=sn['identifier'])
@@ -259,12 +265,15 @@ class OrganizationProfileWizard(LoginRequiredMixin, SessionWizardView):
             if k not in ['languages', 'categories', 'sectors', 'formset-social_networks']:
                 setattr(org, k, v)
         setattr(org, 'type_id', form_dict['type'].id)
+        organic = Source.objects.get(name='Organic')
+        org.source = organic
         org.save()
         org.languages.set(form_dict['languages'])
         if form_dict['type'].name == 'Cooperative':
             # We don't need to set these for non-coops at present.
             org.categories.set(form_dict['categories'])
-        org.sectors.set(form_dict['sectors'])
+        if 'sectors' in form_dict:
+            org.sectors.set(form_dict['sectors'])
         for sn in form_dict['formset-social_networks']:
             if sn['identifier'] != '':
                 OrganizationSocialNetwork.objects.create(organization=org, socialnetwork=sn['socialnetwork'], identifier=sn['identifier'])
