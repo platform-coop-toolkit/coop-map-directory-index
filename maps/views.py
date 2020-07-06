@@ -376,6 +376,40 @@ class OrganizationDelete(DeleteView):
 # My Profiles
 
 
+def delete_individual_profile(user):
+    fields = [
+        'address',
+        'affiliation_url',
+        'affiliation',
+        'bio',
+        'city',
+        'community_skills',
+        'country',
+        'field_of_study',
+        'first_name',
+        'geom',
+        'last_name',
+        'middle_name',
+        'notes'
+        'phone',
+        'postal_code',
+        'projects',
+        'state',
+        'url',
+    ]
+
+    for f in filter(lambda x: x.name in fields, user._meta.fields):
+        if f.blank or f.has_default():
+            setattr(user, f.name, f.get_default())
+
+    user.challenges.clear()
+    user.languages.clear()
+    user.related_organizations.clear()
+    user.roles.clear()
+    user.services.clear()
+    user.socialnetworks.clear()
+
+
 @login_required
 def my_profiles(request):
     user = request.user
@@ -384,6 +418,8 @@ def my_profiles(request):
     if request.method == 'POST':
         form = IndividualProfileDeleteForm(request.POST, instance=user)
         if form.is_valid():
+            delete_individual_profile(user)
+            user.save()
             form.save()
             messages.success(request, 'You have successfully deleted your personal profile.')
             return HttpResponseRedirect('/my-profiles/')
