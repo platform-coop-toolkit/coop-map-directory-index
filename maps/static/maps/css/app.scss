@@ -571,8 +571,8 @@ h1 + .profile__meta {
 
 [for="id_detailed_info-license"],
 #id_detailed_info-license,
-[for="id_detailed_info-sectors"],
-#id_detailed_info-sectors {
+.form-wizard--tool [for="id_detailed_info-sectors"],
+.form-wizard--tool #id_detailed_info-sectors {
   display: none;
 }
 

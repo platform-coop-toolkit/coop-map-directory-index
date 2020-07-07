@@ -21,7 +21,7 @@ from .forms import GeolocationForm, IndividualProfileDeleteForm, IndividualRoles
     IndividualEditSocialNetworkFormSet, IndividualOverviewUpdateForm, IndividualBasicInfoUpdateForm, \
     OrganizationTypeForm, OrganizationBasicInfoForm, OrganizationContactInfoForm, OrganizationDetailedInfoForm, \
     OrganizationScopeAndImpactForm, OrganizationSocialNetworkFormSet, OrganizationBasicInfoUpdateForm, \
-    OrganizationAtAGlanceUpdateForm, OrganizationOverviewUpdateForm, OrganizationContactUpdateForm, OrganizationEditSocialNetworkFormSet, \
+    OrganizationOverviewUpdateForm, OrganizationContactUpdateForm, OrganizationEditSocialNetworkFormSet, \
     ToolBasicInfoForm, ToolDetailedInfoForm
 from django_countries import countries
 from django.contrib.gis.geos import Point
@@ -417,15 +417,15 @@ class OrganizationBasicInfoUpdate(UpdateView):
         return super(OrganizationBasicInfoUpdate, self).form_valid(form)
 
 
-class OrganizationAtAGlanceUpdate(UpdateView):
+class OrganizationOverviewUpdate(UpdateView):
     model = Organization
-    template_name = 'maps/profiles/organization/update_at_a_glance.html'
+    template_name = 'maps/profiles/organization/update_overview.html'
 
     def get_form_class(self):
-        return OrganizationAtAGlanceUpdateForm
+        return OrganizationOverviewUpdateForm
 
     def get_object(self, *args, **kwargs):
-        org = super(OrganizationAtAGlanceUpdate, self).get_object(*args, **kwargs)
+        org = super(OrganizationOverviewUpdate, self).get_object(*args, **kwargs)
         if org.admin_email != self.request.user.email:
             raise PermissionDenied()  # TODO: Make this nicer
         return org
@@ -450,31 +450,9 @@ class OrganizationAtAGlanceUpdate(UpdateView):
         return {
             'year_founded': year,
             'month_founded': month,
-            'day_founded': day
+            'day_founded': day,
+            'type': self.object.type
         }
-
-    def get_success_url(self, **kwargs):
-        return reverse('organization-detail', kwargs={'organization_id': self.object.id})
-
-    def form_valid(self, form):
-        return super(OrganizationAtAGlanceUpdate, self).form_valid(form)
-
-
-class OrganizationOverviewUpdate(UpdateView):
-    model = Organization
-    template_name = 'maps/profiles/organization/update_overview.html'
-
-    def get_form_class(self):
-        return OrganizationOverviewUpdateForm
-
-    def get_object(self, *args, **kwargs):
-        org = super(OrganizationOverviewUpdate, self).get_object(*args, **kwargs)
-        if org.admin_email != self.request.user.email:
-            raise PermissionDenied()  # TODO: Make this nicer
-        return org
-
-    def get_initial(self):
-        return {}
 
     def get_success_url(self, **kwargs):
         return reverse('organization-detail', kwargs={'organization_id': self.object.id})

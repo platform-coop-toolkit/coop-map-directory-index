@@ -97,8 +97,8 @@ if (scopeAndImpact) {
     }
   };
 
-  const scopes = scopeAndImpact.querySelectorAll('[name="scope_and_impact-geo_scope"]');
-  const currentScope = scopeAndImpact.querySelector('[name="scope_and_impact-geo_scope"]:checked').value;
+  const scopes = scopeAndImpact.querySelectorAll('[name$="geo_scope"]');
+  const currentScope = scopeAndImpact.querySelector('[name$="geo_scope"]:checked').value;
   showHideFieldsForValue(currentScope, scopeAndImpact);
   const scopeList = Array.from(scopes);
   scopeList.forEach(scope => {

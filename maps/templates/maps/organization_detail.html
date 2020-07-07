@@ -56,11 +56,6 @@
   </div>
   <div id="overview" role="tabpanel" aria-labelledby="overview-btn">
     <div class="panel__sidebar">
-      {% if organization.admin_email == user.email %}
-      <div class="edit align-right">
-          <a href="{% url 'edit-at-a-glance' pk=organization.id %}">{% icon 'edit' %}{% trans 'Edit at a glance' %}</a>
-      </div>
-      {% endif %}
       <h2>{% trans 'At a glance' %}</h2>
       {% if organization.type.name == 'Cooperative' %}
         <h3 class="h4">{% trans 'Co-op types' %}</h3>

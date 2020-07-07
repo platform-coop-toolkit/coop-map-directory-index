@@ -3,12 +3,12 @@ from django.contrib.auth import get_user_model
 from django import forms
 from django.contrib.gis.forms import PointField, OSMWidget
 from django.forms import CharField, CheckboxSelectMultiple, IntegerField, ModelChoiceField, RadioSelect, Select, SelectMultiple, HiddenInput, \
-    NumberInput, formset_factory, inlineformset_factory
+    NumberInput, TextInput, formset_factory, inlineformset_factory
 from django.utils.translation import gettext_lazy as _
 from django.template.defaultfilters import safe
 from django_countries.fields import CountryField
 from accounts.models import Role, SocialNetwork, UserSocialNetwork
-from mdi.models import Organization, Category, Language, OrganizationSocialNetwork, Stage, Tool, Type, Pricing, License
+from mdi.models import Organization, Category, Language, OrganizationSocialNetwork, Stage, Tool, Type, Pricing, License, LegalStatus
 
 
 class BaseForm(forms.Form):
@@ -476,7 +476,6 @@ class OrganizationContactInfoForm(BaseModelForm):
 class OrganizationDetailedInfoForm(BaseModelForm):
     categories = forms.ModelMultipleChoiceField(
         queryset=Category.objects.all(),
-        # empty_label=None,
         required=False,
         label=_('Co-op type'),
         help_text=_('Choose all that apply.'),
@@ -625,7 +624,55 @@ class OrganizationBasicInfoUpdateForm(BaseModelForm):
         help_texts = {}
 
 
-class OrganizationAtAGlanceUpdateForm(BaseModelForm):
+class OrganizationOverviewUpdateForm(BaseModelForm):
+    categories = forms.ModelMultipleChoiceField(
+        queryset=Category.objects.all(),
+        required=False,
+        label=_('Co-op type'),
+        help_text=_('Choose all that apply.'),
+        widget=CheckboxSelectMultiple(attrs={'class': 'input-group checkbox'})
+    )
+
+    legal_status = forms.ModelMultipleChoiceField(
+        queryset=LegalStatus.objects.all(),
+        required=False,
+        label=_('Legal status'),
+        help_text=_('Choose all that apply.'),
+        widget=CheckboxSelectMultiple(attrs={'class': 'input-group radio'})
+    )
+
+    num_workers = IntegerField(
+        required=True,
+        label=_('Number of workers'),
+        help_text=_('Please provide your best estimate.')
+    )
+
+    num_members = IntegerField(
+        required=False,
+        label=_('Number of members'),
+        help_text=_('Please provide your best estimate.')
+    )
+
+    stage = ModelChoiceField(
+        Stage.objects.all(),
+        empty_label=_('Not sure'),
+        required=False,
+        widget=RadioSelect(attrs={'class': 'input-group radio'}),
+        label=_('Stage of development')
+    )
+
+    worker_distribution = forms.ChoiceField(
+        choices=[
+            ('', _('Not sure')),
+            ('colocated', _('Co-located')),
+            ('regional', _('Regionally distributed')),
+            ('national', _('Nationally distributed')),
+            ('international', _('Internationally distributed'))
+        ],
+        required=False,
+        widget=RadioSelect(attrs={'class': 'input-group radio'})
+    )
+
     year_founded = IntegerField(
         required=True,
         label=_('Year'),
@@ -694,30 +741,80 @@ class OrganizationAtAGlanceUpdateForm(BaseModelForm):
         widget=Select(attrs={'id': 'day_founded'})
     )
 
+    geo_scope = forms.ChoiceField(
+        choices=[
+            ('', _('Not sure')), ('Local', 'Local'), ('Regional', 'Regional'), ('National', 'National'), ('International', 'International')
+        ],
+        required=False,
+        label=_('Primary geographic scope'),
+        help_text=_('Choose primary scope.'),
+        widget=RadioSelect(attrs={'class': 'input-group radio', 'id': 'scope_and_impact-geo_scope'})
+    )
+
+    code_availability = forms.ChoiceField(
+        choices=[('Yes', 'Yes'), ('Partially', 'Partially'), ('No', 'No')],
+        required=False,
+        label=_('Does your organization share your source code?'),
+        widget=RadioSelect(attrs={'class': 'input-group radio'})
+    )
+
+    def __init__(self, *args, **kwargs):
+        self.type = kwargs['initial']['type']
+        super(OrganizationOverviewUpdateForm, self).__init__(*args, **kwargs)
+        self.fields['categories'].queryset = Category.objects.filter(type=self.type)
+        if self.type.name == 'Cooperative':
+            self.fields['num_members'].required = True
+            self.fields['categories'].required = True
+        else:
+            self.fields['num_workers'].required = False
+
     class Meta:
         model = Organization
         fields = [
+            'categories',
+            'sectors',
             'num_workers',
+            'num_members',
+            'stage',
+            'worker_distribution',
             'year_founded',
             'month_founded',
             'day_founded',
             'founded',
             'founded_min_date',
             'founded_max_date',
+            'legal_status',
+            'geo_scope',
+            'geo_scope_city',
+            'geo_scope_region',
+            'geo_scope_country',
+            'impacted_exact_number',
+            'description',
+            'challenges',
+            'code_availability',
+            'code_url'
         ]
         widgets = {
             'founded': HiddenInput({'id': 'founded'}),
             'founded_min_date': HiddenInput(attrs={'id': 'founded_min_date'}),
-            'founded_max_date': HiddenInput(attrs={'id': 'founded_max_date'})
+            'founded_max_date': HiddenInput(attrs={'id': 'founded_max_date'}),
+            'geo_scope_city': TextInput(attrs={'id': 'id_scope_and_impact-geo_scope_city'}),
+            'geo_scope_region': TextInput(attrs={'id': 'id_scope_and_impact-geo_scope_region'}),
+            'geo_scope_country': Select(attrs={'id': 'id_scope_and_impact-geo_scope_country'}),
+            'code_availability': RadioSelect(attrs={'class': 'input-group radio'})
         }
-
-
-class OrganizationOverviewUpdateForm(BaseModelForm):
-    class Meta:
-        model = Organization
-        fields = [
-            'description'
-        ]
+        labels = {
+            'geo_scope_city': _('City or town'),
+            'geo_scope_region': _('State or province'),
+            'geo_scope_country': _('Country'),
+            'impacted_exact_number': _('Number of people your co-operative impacts (directly and indirectly)'),
+            'code_url': _('Link to source code'),
+        }
+        help_texts = {
+            'sectors': _('Hold down the <kbd>ctrl</kbd> (Windows) or <kbd>command</kbd> (macOS) key to select multiple options.'),
+            'impacted_exact_number': _('Include clients and users as well as their family members or others indirectly impacted by the work of your co-operative.'),
+            'challenges': _('Hold down the <kbd>ctrl</kbd> (Windows) or <kbd>command</kbd> (macOS) key to select multiple options.')
+        }
 
 
 class OrganizationContactUpdateForm(BaseModelForm):
