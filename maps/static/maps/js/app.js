@@ -108,15 +108,15 @@ if (scopeAndImpact) {
   });
 }
 
-const basicInfo = document.getElementById('basic-info');
+const dateWrapper = document.querySelector('.date-wrapper');
 
-if (basicInfo) {
-  const year = document.getElementById('id_basic_info-year_founded');
-  const month = document.getElementById('id_basic_info-month_founded');
-  const day = document.getElementById('id_basic_info-day_founded');
-  const founded = document.getElementById('id_basic_info-founded');
-  const foundedMin = document.getElementById('id_basic_info-founded_min_date');
-  const foundedMax = document.getElementById('id_basic_info-founded_max_date');
+if (dateWrapper) {
+  const year = document.getElementById('year_founded');
+  const month = document.getElementById('month_founded');
+  const day = document.getElementById('day_founded');
+  const founded = document.getElementById('founded');
+  const foundedMin = document.getElementById('founded_min_date');
+  const foundedMax = document.getElementById('founded_max_date');
 
   if (year.value == '') {
     month.setAttribute('disabled', '');
@@ -189,22 +189,27 @@ if (basicInfo) {
     }
   };
 
-
   year.addEventListener('keyup', () => {
-    updateFoundedDates();
-    updateDisabledStatus();
     updateDaysField(year.value, month.value);
+    updateDisabledStatus();
+    updateFoundedDates();
+  });
+
+  year.addEventListener('change', () => {
+    updateDaysField(year.value, month.value);
+    updateDisabledStatus();
+    updateFoundedDates();
   });
 
   month.addEventListener('change', () => {
-    updateFoundedDates();
-    updateDisabledStatus();
     updateDaysField(year.value, month.value);
+    updateDisabledStatus();
+    updateFoundedDates();
   });
 
   day.addEventListener('change', () => {
-    updateFoundedDates();
     updateDisabledStatus();
+    updateFoundedDates();
   });
 }
 

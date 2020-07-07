@@ -2,8 +2,8 @@ from datetime import datetime
 from django.contrib.auth import get_user_model
 from django import forms
 from django.contrib.gis.forms import PointField, OSMWidget
-from django.forms import CharField, CheckboxSelectMultiple, IntegerField, ModelChoiceField, RadioSelect, SelectMultiple, HiddenInput, \
-    formset_factory, inlineformset_factory
+from django.forms import CharField, CheckboxSelectMultiple, IntegerField, ModelChoiceField, RadioSelect, Select, SelectMultiple, HiddenInput, \
+    NumberInput, formset_factory, inlineformset_factory
 from django.utils.translation import gettext_lazy as _
 from django.template.defaultfilters import safe
 from django_countries.fields import CountryField
@@ -347,7 +347,8 @@ class OrganizationBasicInfoForm(BaseModelForm):
     year_founded = IntegerField(
         required=True,
         label=_('Year'),
-        max_value=datetime.now().year
+        max_value=datetime.now().year,
+        widget=NumberInput(attrs={'id': 'year_founded'})
     )
 
     month_founded = forms.ChoiceField(
@@ -367,6 +368,7 @@ class OrganizationBasicInfoForm(BaseModelForm):
             ('12', _('December'))
         ],
         required=False,
+        widget=Select(attrs={'id': 'month_founded'}),
         label=_('Month')
     )
 
@@ -406,7 +408,8 @@ class OrganizationBasicInfoForm(BaseModelForm):
             ('31', '31')
         ],
         required=False,
-        label=_('Day')
+        label=_('Day'),
+        widget=Select(attrs={'id': 'day_founded'})
     )
 
     class Meta:
@@ -416,6 +419,7 @@ class OrganizationBasicInfoForm(BaseModelForm):
             'languages',
             'year_founded',
             'month_founded',
+            'day_founded',
             'founded',
             'founded_min_date',
             'founded_max_date',
@@ -424,13 +428,10 @@ class OrganizationBasicInfoForm(BaseModelForm):
         labels = {
             'url': _('Website address')
         }
-        help_texts = {
-            'languages': _('Hold down the <kbd>ctrl</kbd> (Windows) or <kbd>command</kbd> (macOS) key to select multiple options.'),
-        }
         widgets = {
-            'founded': HiddenInput(),
-            'founded_min_date': HiddenInput(),
-            'founded_max_date': HiddenInput()
+            'founded': HiddenInput({'id': 'founded'}),
+            'founded_min_date': HiddenInput(attrs={'id': 'founded_min_date'}),
+            'founded_max_date': HiddenInput(attrs={'id': 'founded_max_date'})
         }
 
     def __init__(self, *args, **kwargs):
@@ -583,6 +584,163 @@ class OrganizationSocialNetworkForm(BaseModelForm):
 
 
 OrganizationSocialNetworkFormSet = formset_factory(OrganizationSocialNetworkForm, extra=0)
+
+
+class OrganizationBasicInfoUpdateForm(BaseModelForm):
+    languages = forms.ModelMultipleChoiceField(
+        queryset=Language.objects.all(),
+        required=True,
+        label=_('Working languages'),
+        help_text=_('Hold down the <kbd>ctrl</kbd> (Windows) or <kbd>command</kbd> (macOS) key to select multiple options.')
+    )
+
+    class Meta:
+        model = Organization
+        fields = [
+            'type',
+            'name',
+            'languages',
+            'url'
+        ]
+        labels = {
+            'type': _('Organization type'),
+            'url': _('Website address')
+        }
+        help_texts = {}
+
+
+class OrganizationAtAGlanceUpdateForm(BaseModelForm):
+    year_founded = IntegerField(
+        required=True,
+        label=_('Year'),
+        max_value=datetime.now().year,
+        widget=NumberInput(attrs={'id': 'year_founded'})
+    )
+
+    month_founded = forms.ChoiceField(
+        choices=[
+            ('', _('Not sure')),
+            ('01', _('January')),
+            ('02', _('February')),
+            ('03', _('March')),
+            ('04', _('April')),
+            ('05', _('May')),
+            ('06', _('June')),
+            ('07', _('July')),
+            ('08', _('August')),
+            ('09', _('September')),
+            ('10', _('October')),
+            ('11', _('November')),
+            ('12', _('December'))
+        ],
+        required=False,
+        widget=Select(attrs={'id': 'month_founded'}),
+        label=_('Month')
+    )
+
+    day_founded = forms.ChoiceField(
+        choices=[
+            ('', _('Not sure')),
+            ('01', '1'),
+            ('02', '2'),
+            ('03', '3'),
+            ('04', '4'),
+            ('05', '5'),
+            ('06', '6'),
+            ('07', '7'),
+            ('08', '8'),
+            ('09', '9'),
+            ('10', '10'),
+            ('11', '11'),
+            ('12', '12'),
+            ('13', '13'),
+            ('14', '14'),
+            ('15', '15'),
+            ('16', '16'),
+            ('17', '17'),
+            ('18', '18'),
+            ('19', '19'),
+            ('20', '20'),
+            ('21', '21'),
+            ('22', '22'),
+            ('23', '23'),
+            ('24', '24'),
+            ('25', '25'),
+            ('26', '26'),
+            ('27', '27'),
+            ('28', '28'),
+            ('29', '29'),
+            ('30', '30'),
+            ('31', '31')
+        ],
+        required=False,
+        label=_('Day'),
+        widget=Select(attrs={'id': 'day_founded'})
+    )
+
+    class Meta:
+        model = Organization
+        fields = [
+            'num_workers',
+            'year_founded',
+            'month_founded',
+            'day_founded',
+            'founded',
+            'founded_min_date',
+            'founded_max_date',
+        ]
+        widgets = {
+            'founded': HiddenInput({'id': 'founded'}),
+            'founded_min_date': HiddenInput(attrs={'id': 'founded_min_date'}),
+            'founded_max_date': HiddenInput(attrs={'id': 'founded_max_date'})
+        }
+
+
+class OrganizationOverviewUpdateForm(BaseModelForm):
+    class Meta:
+        model = Organization
+        fields = [
+            'description'
+        ]
+
+
+class OrganizationContactUpdateForm(BaseModelForm):
+    city = CharField(
+        required=True,
+        label=_('City or town')
+    )
+    state = CharField(
+        required=False,
+        label=_('State or province'),
+        help_text=_('Please enter full state or province name rather than an abbreviated form.')
+    )
+    country = CountryField(blank=False).formfield()
+    lng = forms.CharField(required=False, widget=HiddenInput(attrs={'id': 'id_geolocation-lng'}))
+    lat = forms.CharField(required=False, widget=HiddenInput(attrs={'id': 'id_geolocation-lat'}))
+
+    def __init__(self, *args, **kwargs):
+        self.lat = kwargs['initial']['lat']
+        self.lng = kwargs['initial']['lat']
+        super(OrganizationContactUpdateForm, self).__init__(*args, **kwargs)
+        self.fields['lat'].value = self.lat
+        self.fields['lng'].value = self.lng
+
+    class Meta:
+        model = Organization
+        fields = [
+            'email',
+            'phone',
+            'address',
+            'city',
+            'state',
+            'country',
+            'postal_code'
+        ]
+        labels = {
+            'email': _('Email'),
+            'address': _('Street address'),
+            'postal_code': _('ZIP or postal code')
+        }
 
 
 class ToolBasicInfoForm(BaseModelForm):
