@@ -585,8 +585,24 @@ class OrganizationSocialNetworkForm(BaseModelForm):
 
 OrganizationSocialNetworkFormSet = formset_factory(OrganizationSocialNetworkForm, extra=0)
 
+OrganizationEditSocialNetworkFormSet = inlineformset_factory(Organization, OrganizationSocialNetwork, form=OrganizationSocialNetworkForm, extra=len(SocialNetwork.objects.all()), max_num=len(SocialNetwork.objects.all()))
+
 
 class OrganizationBasicInfoUpdateForm(BaseModelForm):
+    type = forms.ModelChoiceField(
+        Type.objects.filter(name__in=[
+            'Cooperative',
+            'Potential cooperative',
+            'Shared platform'
+            # 'Supporting organization' TODO: Add flow for these.
+        ]),
+        empty_label=None,
+        label=_('How would you describe your organization?'),
+        required=True,
+        initial=0,
+        widget=RadioSelect(attrs={'class': 'input-group radio'})
+    )
+
     languages = forms.ModelMultipleChoiceField(
         queryset=Language.objects.all(),
         required=True,

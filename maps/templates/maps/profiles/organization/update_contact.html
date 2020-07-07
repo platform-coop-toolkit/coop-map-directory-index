@@ -59,7 +59,13 @@
         {{ form.lat }}
         {{ form.lng }}
         <h3>{% trans 'Social media' %}</h3>
-        {# TODO: add social media #}
+        {{ social_network_form.management_form }}
+        {% for sn in social_network_form.forms %}
+            {{ sn.id }}
+            <label for="{{ sn.identifier.id_for_label }}">{{ sn.initial.socialnetwork|social_network_id_to_label }}</label>
+            {{ sn.identifier }}
+            {{ sn.socialnetwork }}
+        {% endfor %}
         <div class="spacer"></div>
         <button class="button" type="submit">{% trans 'Save' %}</button>
         </div>

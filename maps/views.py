@@ -21,8 +21,8 @@ from .forms import GeolocationForm, IndividualProfileDeleteForm, IndividualRoles
     IndividualEditSocialNetworkFormSet, IndividualOverviewUpdateForm, IndividualBasicInfoUpdateForm, \
     OrganizationTypeForm, OrganizationBasicInfoForm, OrganizationContactInfoForm, OrganizationDetailedInfoForm, \
     OrganizationScopeAndImpactForm, OrganizationSocialNetworkFormSet, OrganizationBasicInfoUpdateForm, \
-    OrganizationAtAGlanceUpdateForm, OrganizationOverviewUpdateForm, OrganizationContactUpdateForm, ToolBasicInfoForm, \
-    ToolDetailedInfoForm
+    OrganizationAtAGlanceUpdateForm, OrganizationOverviewUpdateForm, OrganizationContactUpdateForm, OrganizationEditSocialNetworkFormSet, \
+    ToolBasicInfoForm, ToolDetailedInfoForm
 from django_countries import countries
 from django.contrib.gis.geos import Point
 import os
@@ -329,7 +329,6 @@ class InvididualOverviewUpdate(UpdateView):
         for worked_with_org in form.cleaned_data['worked_with']:
             EntitiesEntities.objects.create(from_ind=self.object, to_org=worked_with_org, relationship=worked_with_relationship)
         self.object.socialnetworks.clear()
-        print(social_network_form.cleaned_data)
         for sn in social_network_form.cleaned_data:
             if sn['identifier'] != '':
                 UserSocialNetwork.objects.create(user=self.object, socialnetwork=sn['socialnetwork'], identifier=sn['identifier'])
@@ -510,14 +509,43 @@ class OrganizationContactUpdate(UpdateView):
             'lng': lng
         }
 
+    def get(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        form_class = self.get_form_class()
+        form = self.get_form(form_class)
+        initial = []
+        socialnetworks = SocialNetwork.objects.all()
+        for index, sn in enumerate(socialnetworks):
+            if sn not in self.object.socialnetworks.all():
+                initial.append({
+                    'socialnetwork': sn.id,
+                    'name': sn.name,
+                    'hint': sn.hint,
+                })
+        social_network_form = OrganizationEditSocialNetworkFormSet(instance=self.object, initial=initial)
+        return self.render_to_response(self.get_context_data(form=form, social_network_form=social_network_form))
+
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        form_class = self.get_form_class()
+        form = self.get_form(form_class)
+        social_network_form = OrganizationEditSocialNetworkFormSet(self.request.POST, instance=self.object)
+        if (form.is_valid() and social_network_form.is_valid()):
+            return self.form_valid(form, social_network_form)
+        return self.form_invalid(form, social_network_form)
+
     def get_success_url(self, **kwargs):
         return reverse('organization-detail', kwargs={'organization_id': self.object.id})
 
-    def form_valid(self, form):
+    def form_valid(self, form, social_network_form):
         if form.cleaned_data['lat'] and form.cleaned_data['lng']:
             self.object.geom = Point(float(form.cleaned_data['lng']), float(form.cleaned_data['lat']))
         else:
             self.object.geom = Point([])
+        self.object.socialnetworks.clear()
+        for sn in social_network_form.cleaned_data:
+            if sn['identifier'] != '':
+                OrganizationSocialNetwork.objects.create(organization=self.object, socialnetwork=sn['socialnetwork'], identifier=sn['identifier'])
         return super(OrganizationContactUpdate, self).form_valid(form)
 
 

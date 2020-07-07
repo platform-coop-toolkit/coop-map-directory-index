@@ -277,7 +277,7 @@
   <div id="contact" role="tabpanel" aria-labelledby="contact-btn">
     {% if organization.admin_email == user.email %}
     <div class="edit align-right">
-        <a href="{% url 'edit-contact' pk=organization.id %}">{% icon 'edit' %}{% trans 'Edit contact' %}</a>
+        <a href="{% url 'edit-contact' pk=organization.id %}">{% icon 'edit' %}{% trans 'Edit contact information' %}</a>
     </div>
     {% endif %}
     <h2>{% trans 'Contact' %}</h2>
