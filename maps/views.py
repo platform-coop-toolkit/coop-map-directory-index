@@ -430,6 +430,12 @@ class OrganizationOverviewUpdate(UpdateView):
             raise PermissionDenied()  # TODO: Make this nicer
         return org
 
+    def get_context_data(self, **kwargs):
+        context = super(OrganizationOverviewUpdate, self).get_context_data(**kwargs)
+        type = self.object.type
+        context.update({'type': type})
+        return context
+
     def get_initial(self):
         year = ''
         month = ''
