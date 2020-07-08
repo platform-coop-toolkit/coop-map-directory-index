@@ -2,7 +2,8 @@ from django.urls import path
 from django.conf.urls import url
 from . import views
 from .views import INDIVIDUAL_FORMS, ORGANIZATION_FORMS, TOOL_FORMS, show_more_about_you_condition, show_scope_and_impact_condition,\
-    IndividualProfileWizard, OrganizationProfileWizard, ToolWizard, OrganizationDelete, PrivacyPolicyView, TermsOfServiceView, AboutPageView
+    IndividualProfileWizard, OrganizationProfileWizard, ToolWizard, OrganizationDelete, PrivacyPolicyView, TermsOfServiceView, AboutPageView,\
+    SummaryPageView
 from accounts.models import UserSocialNetwork
 from mdi.models import SocialNetwork
 
@@ -17,6 +18,7 @@ urlpatterns = [
     path('my-profiles/', views.my_profiles, name='my-profiles'),
     path('accounts/', views.account_settings, name='account-settings'),
     path('about/', AboutPageView.as_view(), {'title': 'About'}, name='about'),
+    path('about/summary-of-impact/', SummaryPageView.as_view(), {'title': 'Summary of Impact'}, name='summary-of-impact'),
     path('privacy-policy/', PrivacyPolicyView.as_view(), {'title': 'Privacy Policy'}, name='privacy_policy'),
     path('terms-of-service/', TermsOfServiceView.as_view(), {'title': 'Terms of Service'}, name='terms_of_service'),
 ]

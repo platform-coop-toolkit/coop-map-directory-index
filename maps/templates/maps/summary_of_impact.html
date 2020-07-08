@@ -1,0 +1,64 @@
+{% extends 'maps/base.html' %}
+{% load maps_extras %}
+{% load i18n %}
+{% block title %}{{ title |titlify }}{% endblock %}
+{% block bodyclass %}page{% endblock %}
+{% block content %}
+    <div class="page-header">
+        <p><a class="link--breadcrumb" href="/">{% trans 'Home' %}</a></p>
+        <h1>{% trans 'Summary of Impact' %}</h1>
+    </div>
+    
+    <h2>Co-ops</h2>
+    <div class="summary">
+        <div class="organizations">
+        {{ coops.count }} co-ops
+        </div>
+        <div class="impact">
+        {{ coops.people_impacted }} people impacted
+        </div>
+        <div class="workers">
+        {{ coops.workers }} workers
+        </div>
+        <div class="members">
+        {{ coops.members }} members
+        </div>
+        <div class="sectors">
+        {{ coops.sectors }} sectors
+        </div>
+    </div>
+
+    <h2>Co-ops, potential co-ops and shared platforms</h2>
+    <div class="summary">
+        <div class="organizations">
+        {{ coops_plus.count }} co-ops, potential co-ops and shared platforms
+        </div>
+        <div class="impact">
+        {{ coops_plus.people_impacted }} people impacted
+        </div>
+        <div class="workers">
+        {{ coops_plus.workers }} workers
+        </div>
+        <div class="members">
+        {{ coops_plus.members }} members
+        </div>
+        <div class="sectors">
+        {{ coops_plus.sectors }} sectors
+        </div>
+    </div>
+
+    <h2>Supporting organizations</h2>
+    <div class="summary">
+        <div class="organizations">
+        {{ supporting_orgs.count }} supporting organizations
+        </div>
+        {% if supporting_orgs.workers %}
+        <div class="workers">
+        {{ supporting_orgs.workers }} workers
+        </div>
+        {% endif %}
+        <div class="sectors">
+        {{ supporting_orgs.sectors }} sectors
+        </div>
+    </div>
+{% endblock %}

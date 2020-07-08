@@ -3,6 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib import messages
 from django.conf import settings
+from django.db.models import Sum, Count
 from django.http import HttpResponse, HttpResponseRedirect
 from django.urls import reverse_lazy
 from django.template import loader
@@ -12,7 +13,7 @@ from django.shortcuts import get_object_or_404, render, redirect
 from django.forms import inlineformset_factory
 from accounts.models import UserSocialNetwork
 from mdi.models import Organization, SocialNetwork, OrganizationSocialNetwork, Relationship, EntitiesEntities, \
-    Tool, Niche
+    Tool, Niche, Type, Sector
 from formtools.wizard.views import SessionWizardView
 from .forms import GeolocationForm, IndividualProfileDeleteForm, IndividualRolesForm, IndividualBasicInfoForm, \
     IndividualMoreAboutYouForm, IndividualDetailedInfoForm, IndividualContactInfoForm, IndividualSocialNetworkFormSet, \
@@ -417,3 +418,39 @@ class TermsOfServiceView(TemplateView):
 
 class AboutPageView(TemplateView):
     template_name = "maps/about.html"
+
+
+class SummaryPageView(TemplateView):
+    template_name = "maps/summary_of_impact.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        # TODO: Country segmentation
+
+        coop_type = Type.objects.get(name='Cooperative')
+        potential_coop_type = Type.objects.get(name='Potential cooperative')
+        shared_platform_type = Type.objects.get(name='Shared platform')
+        supporting_org_type = Type.objects.get(name='Supporting organization')
+
+        coops = Organization.objects.filter(type=coop_type)
+        coop_impact = coops.aggregate(people_impacted=Sum('impacted_exact_number', distinct=True), workers=Sum('num_workers', distinct=True), members=Sum('num_members', distinct=True), sectors=Count('sectors', distinct=True))
+        coop_impact['count'] = coops.count()
+        # TODO: Geo scope
+
+        coops_plus = Organization.objects.filter(type__in=[coop_type, potential_coop_type, shared_platform_type])
+        coops_plus_impact = coops_plus.aggregate(people_impacted=Sum('impacted_exact_number', distinct=True), workers=Sum('num_workers', distinct=True), members=Sum('num_members', distinct=True), sectors=Count('sectors', distinct=True))
+        coops_plus_impact['count'] = coops_plus.count()
+        coops_plus_impact['sectors'] = Sector.objects.filter(organization__in=coops_plus).distinct().count()
+        # TODO: Geo scope
+
+        supporting_orgs = Organization.objects.filter(type=supporting_org_type)
+        supporting_orgs_impact = supporting_orgs.aggregate(workers=Sum('num_workers', distinct=True), sectors=Count('sectors', distinct=True))
+        supporting_orgs_impact['count'] = supporting_orgs.count()
+        # TODO: Geo scope
+
+        context['coops'] = coop_impact
+        context['coops_plus'] = coops_plus_impact
+        context['supporting_orgs'] = supporting_orgs_impact
+
+        return context
