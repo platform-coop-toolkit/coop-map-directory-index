@@ -123,18 +123,18 @@
                 {% if form.challenges.help_text %}
                 <span class="helptext">{{ form.challenges.help_text | safe }}</span>
                 {% endif %}
-                <h3>{% trans 'Source code' %}</h3>
-                {{ form.code_availability.label_tag }}
-                {{ form.code_availability }}
-                {% if form.code_availability.help_text %}
-                <span class="helptext">{{ form.code_availability.help_text | safe }}</span>
-                {% endif %}
-                {{ form.code_url.label_tag }}
-                {{ form.code_url }}
-                {% if form.code_url.help_text %}
-                <span class="helptext">{{ form.code_url.help_text | safe }}</span>
-                {% endif %}
             </div>
+            <h3>{% trans 'Source code' %}</h3>
+            {{ form.code_availability.label_tag }}
+            {{ form.code_availability }}
+            {% if form.code_availability.help_text %}
+            <span class="helptext">{{ form.code_availability.help_text | safe }}</span>
+            {% endif %}
+            {{ form.code_url.label_tag }}
+            {{ form.code_url }}
+            {% if form.code_url.help_text %}
+            <span class="helptext">{{ form.code_url.help_text | safe }}</span>
+            {% endif %}
             <div class="spacer"></div>
             <button class="button" type="submit">{% trans 'Save' %}</button>
         </div>
