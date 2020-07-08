@@ -1,9 +1,11 @@
 from datetime import datetime
 from django.contrib.auth import get_user_model
 from django import forms
+from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.gis.forms import PointField, OSMWidget
 from django.forms import CharField, CheckboxSelectMultiple, IntegerField, ModelChoiceField, RadioSelect, SelectMultiple, HiddenInput, formset_factory
 from django.utils.translation import gettext_lazy as _
+from django.utils.text import slugify
 from django.template.defaultfilters import safe
 from django_countries.fields import CountryField
 from accounts.models import Role, SocialNetwork, UserSocialNetwork
@@ -318,6 +320,21 @@ class OrganizationBasicInfoForm(BaseModelForm):
         else:
             self.fields['year_founded'].required = False
 
+    def clean(self):
+        cleaned_data = super().clean()
+        name = cleaned_data.get('name')
+        orgs = Organization.objects.filter(name__exact=name)
+        if len(orgs) > 0:
+            err = forms.ValidationError(
+                _('An organization named <a href="/organizations/%(url)s">%(name)s</a> is already listed in the directory.'),
+                code='invalid',
+                params={
+                    'url': orgs[0].id,
+                    'name': name
+                },
+            )
+            self.add_error('name', err)
+
 
 class OrganizationContactInfoForm(BaseModelForm):
     city = CharField(
@@ -480,6 +497,21 @@ class ToolBasicInfoForm(BaseModelForm):
         help_texts = {
             'description': _('Max 270 characters.')
         }
+
+    def clean(self):
+        cleaned_data = super().clean()
+        name = cleaned_data.get('name')
+        tools = Tool.objects.filter(name__exact=name)
+        if len(tools) > 0:
+            err = forms.ValidationError(
+                _('A tool named <a href="https://tools.platform.coop/tools/%(slug)s">%(name)s</a> is already listed in the directory.'),
+                code='invalid',
+                params={
+                    'slug': slugify(name),
+                    'name': name
+                },
+            )
+            self.add_error('name', err)
 
 
 class ToolDetailedInfoForm(BaseModelForm):

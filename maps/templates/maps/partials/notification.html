@@ -5,6 +5,6 @@
     <span class="button__label screen-reader-text">{% trans 'Close notification' %}</span></button>
     <p class="notification__title">{% icon message.level_tag %}{{ message.level_tag | capfirst }}</p>
     <div class="notification__content">
-        {{ message }}
+        {{ message | safe }}
     </div>
 </div>

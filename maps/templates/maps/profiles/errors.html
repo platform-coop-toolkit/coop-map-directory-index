@@ -7,8 +7,8 @@
         <span class="button__label screen-reader-text">{% trans 'Close notification' %}</span></button>
         <p class="notification__title">{% icon 'error' %}{{ field.label | safe }}</p>
         <div class="notification__content">
-            {% for error in field.errors %}
-            {{ error | escape }}
+            {% for message in field.errors %}
+            {{ message | safe }}
             {% endfor %}
         </div>
     </div>
