@@ -1841,7 +1841,7 @@
           22,
           28
         ],
-        "text-font": ["Open Sans Semi Bold"],
+        "text-font": ["Noto Semi Bold"],
         "text-letter-spacing": 0.1,
         "symbol-spacing": ["interpolate", ["linear"], ["zoom"], 9, 50, 15, 250],
         "visibility": "visible"
@@ -1878,7 +1878,7 @@
           22,
           28
         ],
-        "text-font": ["Open Sans Semi Bold"],
+        "text-font": ["Noto Semi Bold"],
         "text-letter-spacing": 0.1,
         "symbol-spacing": ["interpolate", ["linear"], ["zoom"], 8, 50, 15, 250]
       },
@@ -1910,7 +1910,7 @@
           22,
           30
         ],
-        "text-font": ["Open Sans Bold"]
+        "text-font": ["Noto Bold"]
       },
       "paint": {
         "text-color": "#ffffff",
@@ -2235,7 +2235,7 @@
       "layout": {
         "text-field": ["to-string", ["get", "name_en"]],
         "text-size": ["interpolate", ["linear"], ["zoom"], 6, 10, 14, 20],
-        "text-font": ["Open Sans Semi Bold"],
+        "text-font": ["Noto Semi Bold"],
         "text-line-height": 1,
         "text-padding": 2,
         "text-letter-spacing": 0.05,
@@ -2260,7 +2260,7 @@
       "layout": {
         "text-field": ["to-string", ["get", "name_en"]],
         "text-size": ["interpolate", ["linear"], ["zoom"], 6, 8, 14, 15],
-        "text-font": ["Open Sans Semi Bold"],
+        "text-font": ["Noto Semi Bold"],
         "text-line-height": 1,
         "text-padding": 2,
         "text-letter-spacing": 0.06
