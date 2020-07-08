@@ -1,5 +1,6 @@
 import Pinecone from '@platform-coop-toolkit/pinecone';
 import { generateCards, generatePopupHtml } from './cards.js';
+const mapStyle = require('./mapStyle.js');
 
 const menu = document.querySelector('.menu');
 const menuToggle = document.querySelector('.menu-toggle');
@@ -252,7 +253,7 @@ if (geolocationMapContainer) {
   mapboxgl.accessToken = 'pk.eyJ1IjoiZXJpY3RoZWlzZSIsImEiOiJjazVvNGNmM2wxaGhjM2pvMGc0ZmIyaXN3In0.Jrt9t5UrY5aCbndSpq5JWw';
   var geolocationMap = new mapboxgl.Map({
     container: 'geolocation-map',
-    style: 'http://localhost:3000/static/maps/dist/styles/pcc/style.json',
+    style: mapStyle,
     center: [lng, lat],
     zoom: 17,
     hash: false,
@@ -315,7 +316,7 @@ if (mainMapContainer) {
   mapboxgl.accessToken = 'pk.eyJ1IjoiZXJpY3RoZWlzZSIsImEiOiJjazVvNGNmM2wxaGhjM2pvMGc0ZmIyaXN3In0.Jrt9t5UrY5aCbndSpq5JWw';
   var mainMap = new mapboxgl.Map({
     container: 'main-map',
-    style: 'http://localhost:3000/static/maps/dist/styles/pcc/style.json',
+    style: mapStyle,
     center: [-74.5, 40],
     minZoom: 1.0,
     maxZoom: 15.0,
