@@ -2,7 +2,8 @@ from datetime import datetime
 from django.contrib.auth import get_user_model
 from django import forms
 from django.contrib.gis.forms import PointField, OSMWidget
-from django.forms import CharField, CheckboxSelectMultiple, IntegerField, ModelChoiceField, RadioSelect, SelectMultiple, HiddenInput, formset_factory
+from django.forms import CharField, CheckboxSelectMultiple, IntegerField, ModelChoiceField, RadioSelect, SelectMultiple, HiddenInput, \
+    formset_factory, inlineformset_factory
 from django.utils.translation import gettext_lazy as _
 from django.template.defaultfilters import safe
 from django_countries.fields import CountryField
@@ -111,7 +112,7 @@ class GeolocationForm(BaseForm):
 class IndividualRolesForm(BaseForm):
     roles = forms.ModelMultipleChoiceField(
         queryset=Role.objects.all(),
-        label=safe('How would you describe yourself?'),
+        label=_('How would you describe yourself?'),
         widget=CheckboxSelectMultiple(attrs={'class': 'input-group checkbox'}),
     )
 
@@ -119,21 +120,21 @@ class IndividualRolesForm(BaseForm):
 class IndividualMoreAboutYouForm(BaseModelForm):
     member_of = forms.ModelMultipleChoiceField(
         queryset=Organization.objects.all(),
-        label=_('Co-operative(s) you are a currently a member of'),
+        label=_('Cooperative(s) you are a currently a member of'),
         required=False,
         widget=SelectMultiple(attrs={'size': 4, 'class': 'multiple'})
     )
 
     founder_of = forms.ModelMultipleChoiceField(
         queryset=Organization.objects.all(),
-        label=_('Co-operative(s) you are a founder of'),
+        label=_('Cooperative(s) you are a founder of'),
         required=False,
         widget=SelectMultiple(attrs={'size': 4, 'class': 'multiple'})
     )
 
     worked_with = forms.ModelMultipleChoiceField(
         queryset=Organization.objects.all(),
-        label=_('Co-operative(s) you have worked with'),
+        label=_('Cooperative(s) you have worked with'),
         required=False,
         widget=SelectMultiple(attrs={'size': 4, 'class': 'multiple'})
     )
@@ -195,6 +196,128 @@ class IndividualSocialNetworkForm(BaseModelForm):
 
 
 IndividualSocialNetworkFormSet = formset_factory(IndividualSocialNetworkForm, extra=0)
+
+IndividualEditSocialNetworkFormSet = inlineformset_factory(get_user_model(), UserSocialNetwork, form=IndividualSocialNetworkForm, extra=len(SocialNetwork.objects.all()), max_num=len(SocialNetwork.objects.all()))
+
+
+class IndividualBasicInfoUpdateForm(BaseModelForm):
+    first_name = CharField(
+        required=True,
+        label=_('First name')
+    )
+    last_name = CharField(
+        required=True,
+        label=_('Last name')
+    )
+    languages = forms.ModelMultipleChoiceField(
+        queryset=Language.objects.all(),
+        required=True,
+        label=_('Languages you speak'),
+        help_text=_('Hold down the <kbd>ctrl</kbd> (Windows) or <kbd>command</kbd> (macOS) key to select multiple options.')
+    )
+    city = CharField(
+        required=True,
+        label=_('City or town')
+    )
+    state = CharField(
+        required=False,
+        label=_('State or province'),
+        help_text=_('Please enter full state or province name rather than an abbreviated form.')
+    )
+    country = CountryField(blank=False).formfield()
+    lng = forms.CharField(required=False, widget=HiddenInput(attrs={'id': 'id_geolocation-lng'}))
+    lat = forms.CharField(required=False, widget=HiddenInput(attrs={'id': 'id_geolocation-lat'}))
+
+    def __init__(self, *args, **kwargs):
+        self.lat = kwargs['initial']['lat']
+        self.lng = kwargs['initial']['lat']
+        super(IndividualBasicInfoUpdateForm, self).__init__(*args, **kwargs)
+        self.fields['lat'].value = self.lat
+        self.fields['lng'].value = self.lng
+
+    class Meta:
+        model = get_user_model()
+        fields = [
+            'first_name',
+            'middle_name',
+            'last_name',
+            'languages',
+            'url',
+            'phone',
+            'address',
+            'city',
+            'state',
+            'country',
+            'postal_code'
+        ]
+        labels = {
+            'middle_name': _('Middle name'),
+            'url': _('Website address'),
+            'address': _('Street address'),
+            'postal_code': _('ZIP or postal code')
+        }
+
+
+class IndividualOverviewUpdateForm(BaseModelForm):
+    member_of = forms.ModelMultipleChoiceField(
+        queryset=Organization.objects.all(),
+        label=_('Cooperative(s) you are a currently a member of'),
+        required=False,
+        widget=SelectMultiple(attrs={'size': 4, 'class': 'multiple'}),
+        help_text=_('Hold down the <kbd>ctrl</kbd> (Windows) or <kbd>command</kbd> (macOS) key to select multiple options.')
+    )
+
+    founder_of = forms.ModelMultipleChoiceField(
+        queryset=Organization.objects.all(),
+        label=_('Cooperative(s) you are a founder of'),
+        required=False,
+        widget=SelectMultiple(attrs={'size': 4, 'class': 'multiple'}),
+        help_text=_('Hold down the <kbd>ctrl</kbd> (Windows) or <kbd>command</kbd> (macOS) key to select multiple options.')
+    )
+
+    worked_with = forms.ModelMultipleChoiceField(
+        queryset=Organization.objects.all(),
+        label=_('Cooperative(s) you have worked with'),
+        required=False,
+        widget=SelectMultiple(attrs={'size': 4, 'class': 'multiple'}),
+        help_text=_('Hold down the <kbd>ctrl</kbd> (Windows) or <kbd>command</kbd> (macOS) key to select multiple options.')
+    )
+
+    class Meta:
+        model = get_user_model()
+        fields = [
+            'roles',
+            'member_of',
+            'founder_of',
+            'worked_with',
+            'services',
+            'community_skills',
+            'field_of_study',
+            'affiliation',
+            'affiliation_url',
+            'bio',
+            'projects'
+        ]
+        labels = {
+            'roles': _('How would you describe yourself?'),
+            'services': _('Services you provide'),
+            'community_skills': _('What community building skills do you have to offer?'),
+            'field_of_study': _('What is your field of research?'),
+            'affiliation': _('Are you affiliated with an organization or institution?'),
+            'affiliation_url': _('What is the website address of your affiliated organization or institution?'),
+            'bio': _('Bio'),
+            'projects': _('Projects'),
+        }
+        widgets = {
+            'roles': CheckboxSelectMultiple(attrs={'class': 'input-group checkbox'}),
+            'services': SelectMultiple(attrs={'size': 4, 'class': 'multiple'})
+        }
+        help_texts = {
+            'services': _('Hold down the <kbd>ctrl</kbd> (Windows) or <kbd>command</kbd> (macOS) key to select multiple options.'),
+            'community_skills': _('Provide a short description.'),
+            'bio': _('Share a bit about yourself.'),
+            'projects': _('List any current or past projects you would like to share with others.')
+        }
 
 
 class OrganizationTypeForm(BaseForm):

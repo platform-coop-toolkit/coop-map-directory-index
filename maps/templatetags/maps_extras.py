@@ -1,4 +1,5 @@
 from django import template
+from accounts.models import SocialNetwork
 
 register = template.Library()
 
@@ -8,6 +9,16 @@ def titlify(value):
     """Prepends value and emdash to base title"""
     title_base = 'Platform Co-op Directory'
     return value + ' – ' + title_base
+
+
+@register.filter(name='social_network_id_to_label')
+def social_network_id_to_label(id):
+    """Takes a Social Network instance ID and returns the label"""
+    sn = SocialNetwork.objects.get(id=id)
+    if sn:
+        return sn.name
+    else:
+        return None
 
 
 @register.inclusion_tag('maps/partials/icon.html')

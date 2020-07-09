@@ -17,6 +17,10 @@ if ( tabGroups ) {
   } );
 }
 
+[...document.querySelectorAll('.accordion')].forEach(accordion => {
+  new Pinecone.Accordion( accordion );
+} );
+
 const icons = document.querySelectorAll( 'svg' );
 if (icons) {
   Array.prototype.forEach.call(icons, icon => {
@@ -273,6 +277,17 @@ if (basicInfo) {
   });
 });
 
+[...document.querySelectorAll('[name="roles"]')].forEach((checkbox) => {
+  checkbox.addEventListener('change', () => {
+    const checkboxClass = `role-${event.target.value}`;
+    if (event.target.checked) {
+      document.querySelector('.form__content').classList.add(checkboxClass);
+    } else {
+      document.querySelector('.form__content').classList.remove(checkboxClass);
+    }
+  });
+});
+
 const deleteIndividual = document.querySelector('.delete-individual');
 if (deleteIndividual) {
   const form = deleteIndividual;
@@ -290,6 +305,34 @@ if (deleteIndividual) {
     }
   });
 }
+
+/* TODO: allow map to be reset to contact info
+document.addEventListener('click', (event) => {
+  if (!event.target.id === 'set-to-contact-info') return;
+  const address = document.getElementById('id_address').value;
+  const city = document.getElementById('id_city').value;
+  const state = document.getElementById('id_state').value;
+  const country = document.getElementById('id_country').value;
+  const postalCode = document.getElementById('id_postal_code').value;
+  let addressString = '';
+  if (address != '') {
+    addressString = address;
+  }
+  if (city != '') {
+    addressString = `${addressString}, ${city}`;
+  }
+  if (state != '') {
+    addressString = `${addressString}, ${state}`;
+  }
+  if (country != '') {
+    addressString = `${addressString}, ${country}`;
+  }
+  if (postalCode != '') {
+    addressString = `${addressString}, ${postalCode}`;
+  }
+  // TODO: Post to Here API endpoint
+});
+*/
 
 const geolocationMapContainer = document.getElementById('geolocation-map');
 
@@ -323,8 +366,6 @@ if (geolocationMapContainer) {
     crosshairs = document.getElementById('crosshairs'),
     ctx = crosshairs.getContext('2d'),
     openingDimension = 40;
-
-
 
   const drawCrosshairs = () => {
     const x = geolocationMap.getCanvas().width / 2,
