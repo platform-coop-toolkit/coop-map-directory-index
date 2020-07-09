@@ -186,6 +186,19 @@ class IndividualDetailedInfoForm(BaseModelForm):
 
 
 class IndividualSocialNetworkForm(BaseModelForm):
+    def __init__(self, *args, **kwargs):
+        if 'initial' in kwargs:
+            self.label = kwargs['initial']['name']
+            self.hint = kwargs['initial']['hint']
+        elif 'instance' in kwargs:
+            self.label = kwargs['instance'].socialnetwork.name
+            self.hint = kwargs['instance'].socialnetwork.hint
+        super(IndividualSocialNetworkForm, self).__init__(*args, **kwargs)
+        if hasattr(self, 'label'):
+            self.fields['identifier'].label = self.label
+        if hasattr(self, 'hint'):
+            self.fields['identifier'].widget = TextInput(attrs={'placeholder': self.hint})
+
     class Meta:
         model = UserSocialNetwork
         fields = [
@@ -193,7 +206,7 @@ class IndividualSocialNetworkForm(BaseModelForm):
             'identifier',
         ]
         widgets = {
-            'socialnetwork': HiddenInput(),
+            'socialnetwork': HiddenInput()
         }
 
 
@@ -588,6 +601,19 @@ class OrganizationScopeAndImpactForm(BaseModelForm):
 
 
 class OrganizationSocialNetworkForm(BaseModelForm):
+    def __init__(self, *args, **kwargs):
+        if 'initial' in kwargs:
+            self.label = kwargs['initial']['name']
+            self.hint = kwargs['initial']['hint']
+        elif 'instance' in kwargs:
+            self.label = kwargs['instance'].socialnetwork.name
+            self.hint = kwargs['instance'].socialnetwork.hint
+        super(OrganizationSocialNetworkForm, self).__init__(*args, **kwargs)
+        if hasattr(self, 'label'):
+            self.fields['identifier'].label = self.label
+        if hasattr(self, 'hint'):
+            self.fields['identifier'].widget = TextInput(attrs={'placeholder': self.hint})
+
     class Meta:
         model = OrganizationSocialNetwork
         fields = [
