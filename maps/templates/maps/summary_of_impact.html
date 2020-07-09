@@ -1,6 +1,7 @@
 {% extends 'maps/base.html' %}
 {% load maps_extras %}
 {% load i18n %}
+{% load static %}
 {% block title %}{{ title |titlify }}{% endblock %}
 {% block bodyclass %}page{% endblock %}
 {% block content %}
@@ -10,6 +11,9 @@
     </div>
     
     <h2>Co-ops</h2>
+
+    <div id="summary-of-impact"></div>
+
     <div class="summary">
         <div class="organizations">
         {{ coops.count }} co-ops
@@ -61,4 +65,7 @@
         {{ supporting_orgs.sectors }} sectors
         </div>
     </div>
+{% endblock %}
+{% block extra_body %}
+<script src="{% static 'maps/dist/js/impact.js' %}"></script>
 {% endblock %}
