@@ -1,3 +1,4 @@
+from django.core.exceptions import PermissionDenied
 from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -5,20 +6,24 @@ from django.contrib import messages
 from django.conf import settings
 from django.db.models import Sum, Count
 from django.http import HttpResponse, HttpResponseRedirect
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
 from django.template import loader
+from django.utils.translation import gettext_lazy as _
 from django.views.generic import TemplateView
-from django.views.generic.edit import DeleteView
+from django.views.generic.edit import DeleteView, UpdateView
 from django.shortcuts import get_object_or_404, render, redirect
-from django.forms import inlineformset_factory
+from django.forms import inlineformset_factory  # ModelMultipleChoiceField, SelectMultiple
 from accounts.models import UserSocialNetwork
 from mdi.models import Organization, SocialNetwork, OrganizationSocialNetwork, Relationship, EntitiesEntities, \
-    Tool, Niche, Type, Sector
+    Tool, Niche, Type, Sector, Source
 from formtools.wizard.views import SessionWizardView
 from .forms import GeolocationForm, IndividualProfileDeleteForm, IndividualRolesForm, IndividualBasicInfoForm, \
     IndividualMoreAboutYouForm, IndividualDetailedInfoForm, IndividualContactInfoForm, IndividualSocialNetworkFormSet, \
+    IndividualEditSocialNetworkFormSet, IndividualOverviewUpdateForm, IndividualBasicInfoUpdateForm, \
     OrganizationTypeForm, OrganizationBasicInfoForm, OrganizationContactInfoForm, OrganizationDetailedInfoForm, \
-    OrganizationScopeAndImpactForm, OrganizationSocialNetworkFormSet, ToolBasicInfoForm, ToolDetailedInfoForm
+    OrganizationScopeAndImpactForm, OrganizationSocialNetworkFormSet, OrganizationBasicInfoUpdateForm, \
+    OrganizationOverviewUpdateForm, OrganizationContactUpdateForm, OrganizationEditSocialNetworkFormSet, \
+    ToolBasicInfoForm, ToolDetailedInfoForm
 from django_countries import countries
 from django.contrib.gis.geos import Point
 import os
@@ -188,30 +193,153 @@ class IndividualProfileWizard(LoginRequiredMixin, SessionWizardView):
             if k not in ['roles', 'languages', 'services', 'challenges', 'formset-social_networks', ]:
                 setattr(user, k, v)
         user.has_profile = True
+        organic = Source.objects.get(name='Organic')
+        user.source = organic
         user.save()
         user.roles.set(form_dict['roles'])
         user.languages.set(form_dict['languages'])
-        user.services.set(form_dict['services'])
-        for org in form_dict['member_of']:
-            member_of_relationship = Relationship.objects.get(name="Member of")
-            rel = EntitiesEntities(from_ind=user, to_org=org, relationship=member_of_relationship)
-            rel.save()
-            user.related_organizations.add(org)
-        for org in form_dict['founder_of']:
-            founder_of_relationship = Relationship.objects.get(name="Founder of")
-            rel = EntitiesEntities(from_ind=user, to_org=org, relationship=founder_of_relationship)
-            rel.save()
-            user.related_organizations.add(org)
-        for org in form_dict['worked_with']:
-            worked_with_relationship = Relationship.objects.get(name="Worked with")
-            rel = EntitiesEntities(from_ind=user, to_org=org, relationship=worked_with_relationship)
-            rel.save()
-            user.related_organizations.add(org)
+        if 'services' in form_dict:
+            user.services.set(form_dict['services'])
+        if 'member_of' in form_dict:
+            for org in form_dict['member_of']:
+                member_of_relationship = Relationship.objects.get(name="Member of")
+                rel = EntitiesEntities(from_ind=user, to_org=org, relationship=member_of_relationship)
+                rel.save()
+                user.related_organizations.add(org)
+        if 'founder_of' in form_dict:
+            for org in form_dict['founder_of']:
+                founder_of_relationship = Relationship.objects.get(name="Founder of")
+                rel = EntitiesEntities(from_ind=user, to_org=org, relationship=founder_of_relationship)
+                rel.save()
+                user.related_organizations.add(org)
+        if 'worked_with' in form_dict:
+            for org in form_dict['worked_with']:
+                worked_with_relationship = Relationship.objects.get(name="Worked with")
+                rel = EntitiesEntities(from_ind=user, to_org=org, relationship=worked_with_relationship)
+                rel.save()
+                user.related_organizations.add(org)
         for sn in form_dict['formset-social_networks']:
             if sn['identifier'] != '':
                 UserSocialNetwork.objects.create(user=user, socialnetwork=sn['socialnetwork'], identifier=sn['identifier'])
 
         return redirect('individual-detail', user_id=user.id)
+
+
+class InvididualBasicInfoUpdate(UpdateView):
+    model = get_user_model()
+    template_name = 'maps/profiles/individual/update_basic_info.html'
+
+    def get_form_class(self):
+        return IndividualBasicInfoUpdateForm
+
+    def get_object(self, *args, **kwargs):
+        user = super(InvididualBasicInfoUpdate, self).get_object(*args, **kwargs)
+        if user != self.request.user:
+            raise PermissionDenied()  # TODO: Make this nicer
+        return user
+
+    def get_initial(self):
+        if self.object.geom:
+            return {'lng': self.object.geom.x, 'lat': self.object.geom.y}
+        else:
+            return {'lat': 0, 'lng': 0}
+
+    def get_success_url(self, **kwargs):
+        return reverse('individual-detail', kwargs={'user_id': self.object.id})
+
+    def form_valid(self, form):
+        if form.cleaned_data['lat'] and form.cleaned_data['lng']:
+            self.object.geom = Point(float(form.cleaned_data['lng']), float(form.cleaned_data['lat']))
+        else:
+            self.object.geom = Point([])
+        return super(InvididualBasicInfoUpdate, self).form_valid(form)
+
+
+class InvididualOverviewUpdate(UpdateView):
+    model = get_user_model()
+    template_name = 'maps/profiles/individual/update_overview.html'
+
+    def get_form_class(self):
+        return IndividualOverviewUpdateForm
+
+    def get_object(self, *args, **kwargs):
+        user = super(InvididualOverviewUpdate, self).get_object(*args, **kwargs)
+        if user != self.request.user:
+            raise PermissionDenied()  # TODO: Make this nicer
+        return user
+
+    def get_context_data(self, **kwargs):
+        context = super(InvididualOverviewUpdate, self).get_context_data(**kwargs)
+        roles = self.object.roles.all()
+        context.update({'roles': roles})
+        return context
+
+    def get_initial(self):
+        member_of_relationship = Relationship.objects.get(name="Member of")
+        member_of_relationships = EntitiesEntities.objects.filter(from_ind=self.object, relationship=member_of_relationship)
+        founder_of_relationship = Relationship.objects.get(name="Founder of")
+        founder_of_relationships = EntitiesEntities.objects.filter(from_ind=self.object, relationship=founder_of_relationship)
+        worked_with_relationship = Relationship.objects.get(name="Worked with")
+        worked_with_relationships = EntitiesEntities.objects.filter(from_ind=self.object, relationship=worked_with_relationship)
+        member_orgs = []
+        founder_orgs = []
+        worked_with_orgs = []
+        for relationship in member_of_relationships:
+            member_orgs.append(Organization.objects.get(id=relationship.to_org.id))
+        for relationship in founder_of_relationships:
+            founder_orgs.append(Organization.objects.get(id=relationship.to_org.id))
+        for relationship in worked_with_relationships:
+            worked_with_orgs.append(Organization.objects.get(id=relationship.to_org.id))
+        return {
+            'member_of': member_orgs,
+            'founder_of': founder_orgs,
+            'worked_with': worked_with_orgs
+        }
+
+    def get(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        form_class = self.get_form_class()
+        form = self.get_form(form_class)
+        initial = []
+        socialnetworks = SocialNetwork.objects.all()
+        for index, sn in enumerate(socialnetworks):
+            if sn not in self.object.socialnetworks.all():
+                initial.append({
+                    'socialnetwork': sn.id,
+                    'name': sn.name,
+                    'hint': sn.hint,
+                })
+        social_network_form = IndividualEditSocialNetworkFormSet(instance=self.object, initial=initial)
+        return self.render_to_response(self.get_context_data(form=form, social_network_form=social_network_form))
+
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        form_class = self.get_form_class()
+        form = self.get_form(form_class)
+        social_network_form = IndividualEditSocialNetworkFormSet(self.request.POST, instance=self.object)
+        if (form.is_valid() and social_network_form.is_valid()):
+            return self.form_valid(form, social_network_form)
+        return self.form_invalid(form, social_network_form)
+
+    def get_success_url(self, **kwargs):
+        return reverse('individual-detail', kwargs={'user_id': self.object.id})
+
+    def form_valid(self, form, social_network_form):
+        member_of_relationship = Relationship.objects.get(name="Member of")
+        founder_of_relationship = Relationship.objects.get(name="Founder of")
+        worked_with_relationship = Relationship.objects.get(name="Worked with")
+        self.object.related_organizations.clear()
+        for member_of_org in form.cleaned_data['member_of']:
+            EntitiesEntities.objects.create(from_ind=self.object, to_org=member_of_org, relationship=member_of_relationship)
+        for founded_by_org in form.cleaned_data['founder_of']:
+            EntitiesEntities.objects.create(from_ind=self.object, to_org=founded_by_org, relationship=founder_of_relationship)
+        for worked_with_org in form.cleaned_data['worked_with']:
+            EntitiesEntities.objects.create(from_ind=self.object, to_org=worked_with_org, relationship=worked_with_relationship)
+        self.object.socialnetworks.clear()
+        for sn in social_network_form.cleaned_data:
+            if sn['identifier'] != '':
+                UserSocialNetwork.objects.create(user=self.object, socialnetwork=sn['socialnetwork'], identifier=sn['identifier'])
+        return super(InvididualOverviewUpdate, self).form_valid(form)
 
 
 class OrganizationProfileWizard(LoginRequiredMixin, SessionWizardView):
@@ -260,17 +388,159 @@ class OrganizationProfileWizard(LoginRequiredMixin, SessionWizardView):
             if k not in ['languages', 'categories', 'sectors', 'formset-social_networks']:
                 setattr(org, k, v)
         setattr(org, 'type_id', form_dict['type'].id)
+        organic = Source.objects.get(name='Organic')
+        org.source = organic
         org.save()
         org.languages.set(form_dict['languages'])
         if form_dict['type'].name == 'Cooperative':
             # We don't need to set these for non-coops at present.
             org.categories.set(form_dict['categories'])
-        org.sectors.set(form_dict['sectors'])
+        if 'sectors' in form_dict:
+            org.sectors.set(form_dict['sectors'])
         for sn in form_dict['formset-social_networks']:
             if sn['identifier'] != '':
                 OrganizationSocialNetwork.objects.create(organization=org, socialnetwork=sn['socialnetwork'], identifier=sn['identifier'])
 
         return redirect('organization-detail', organization_id=org.id)
+
+
+class OrganizationBasicInfoUpdate(UpdateView):
+    model = Organization
+    template_name = 'maps/profiles/organization/update_basic_info.html'
+
+    def get_form_class(self):
+        return OrganizationBasicInfoUpdateForm
+
+    def get_object(self, *args, **kwargs):
+        org = super(OrganizationBasicInfoUpdate, self).get_object(*args, **kwargs)
+        if org.admin_email != self.request.user.email:
+            raise PermissionDenied()  # TODO: Make this nicer
+        return org
+
+    def get_initial(self):
+        return {}
+
+    def get_success_url(self, **kwargs):
+        return reverse('organization-detail', kwargs={'organization_id': self.object.id})
+
+    def form_valid(self, form):
+        return super(OrganizationBasicInfoUpdate, self).form_valid(form)
+
+
+class OrganizationOverviewUpdate(UpdateView):
+    model = Organization
+    template_name = 'maps/profiles/organization/update_overview.html'
+
+    def get_form_class(self):
+        return OrganizationOverviewUpdateForm
+
+    def get_object(self, *args, **kwargs):
+        org = super(OrganizationOverviewUpdate, self).get_object(*args, **kwargs)
+        if org.admin_email != self.request.user.email:
+            raise PermissionDenied()  # TODO: Make this nicer
+        return org
+
+    def get_context_data(self, **kwargs):
+        context = super(OrganizationOverviewUpdate, self).get_context_data(**kwargs)
+        type = self.object.type
+        context.update({'type': type})
+        return context
+
+    def get_initial(self):
+        year = ''
+        month = ''
+        day = ''
+
+        if self.object.founded:
+            pieces = str(self.object.founded).split('-')
+            year = pieces[0]
+            month = pieces[1]
+            day = pieces[2]
+        elif self.object.founded_min_date and self.object.founded_max_date:
+            min_pieces = str(self.object.founded_min_date).split('-')
+            max_pieces = str(self.object.founded_max_date).split('-')
+            year = min_pieces[0]
+            if min_pieces[1] == max_pieces[1]:
+                month = min_pieces[1]
+
+        return {
+            'year_founded': year,
+            'month_founded': month,
+            'day_founded': day,
+            'type': self.object.type
+        }
+
+    def get_success_url(self, **kwargs):
+        return reverse('organization-detail', kwargs={'organization_id': self.object.id})
+
+    def form_valid(self, form):
+        return super(OrganizationOverviewUpdate, self).form_valid(form)
+
+
+class OrganizationContactUpdate(UpdateView):
+    model = Organization
+    template_name = 'maps/profiles/organization/update_contact.html'
+
+    def get_form_class(self):
+        return OrganizationContactUpdateForm
+
+    def get_object(self, *args, **kwargs):
+        org = super(OrganizationContactUpdate, self).get_object(*args, **kwargs)
+        if org.admin_email != self.request.user.email:
+            raise PermissionDenied()  # TODO: Make this nicer
+        return org
+
+    def get_initial(self):
+        lng = 0
+        lat = 0
+
+        if self.object.geom:
+            lng = self.object.geom.x
+            lat = self.object.geom.y
+
+        return {
+            'lat': lat,
+            'lng': lng
+        }
+
+    def get(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        form_class = self.get_form_class()
+        form = self.get_form(form_class)
+        initial = []
+        socialnetworks = SocialNetwork.objects.all()
+        for index, sn in enumerate(socialnetworks):
+            if sn not in self.object.socialnetworks.all():
+                initial.append({
+                    'socialnetwork': sn.id,
+                    'name': sn.name,
+                    'hint': sn.hint,
+                })
+        social_network_form = OrganizationEditSocialNetworkFormSet(instance=self.object, initial=initial)
+        return self.render_to_response(self.get_context_data(form=form, social_network_form=social_network_form))
+
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        form_class = self.get_form_class()
+        form = self.get_form(form_class)
+        social_network_form = OrganizationEditSocialNetworkFormSet(self.request.POST, instance=self.object)
+        if (form.is_valid() and social_network_form.is_valid()):
+            return self.form_valid(form, social_network_form)
+        return self.form_invalid(form, social_network_form)
+
+    def get_success_url(self, **kwargs):
+        return reverse('organization-detail', kwargs={'organization_id': self.object.id})
+
+    def form_valid(self, form, social_network_form):
+        if form.cleaned_data['lat'] and form.cleaned_data['lng']:
+            self.object.geom = Point(float(form.cleaned_data['lng']), float(form.cleaned_data['lat']))
+        else:
+            self.object.geom = Point([])
+        self.object.socialnetworks.clear()
+        for sn in social_network_form.cleaned_data:
+            if sn['identifier'] != '':
+                OrganizationSocialNetwork.objects.create(organization=self.object, socialnetwork=sn['socialnetwork'], identifier=sn['identifier'])
+        return super(OrganizationContactUpdate, self).form_valid(form)
 
 
 class ToolWizard(LoginRequiredMixin, SessionWizardView):
@@ -378,6 +648,41 @@ class OrganizationDelete(DeleteView):
 
 
 @login_required
+def delete_individual_profile(user):
+    fields = [
+        'address',
+        'affiliation_url',
+        'affiliation',
+        'bio',
+        'city',
+        'community_skills',
+        'country',
+        'field_of_study',
+        'first_name',
+        'geom',
+        'last_name',
+        'middle_name',
+        'notes'
+        'phone',
+        'postal_code',
+        'projects',
+        'state',
+        'url',
+    ]
+
+    for f in filter(lambda x: x.name in fields, user._meta.fields):
+        if f.blank or f.has_default():
+            setattr(user, f.name, f.get_default())
+
+    user.challenges.clear()
+    user.languages.clear()
+    user.related_organizations.clear()
+    user.roles.clear()
+    user.services.clear()
+    user.socialnetworks.clear()
+
+
+@login_required
 def my_profiles(request):
     user = request.user
     user_orgs = Organization.objects.filter(admin_email=user.email)
@@ -385,6 +690,8 @@ def my_profiles(request):
     if request.method == 'POST':
         form = IndividualProfileDeleteForm(request.POST, instance=user)
         if form.is_valid():
+            delete_individual_profile(user)
+            user.save()
             form.save()
             messages.success(request, 'You have successfully deleted your personal profile.')
             return HttpResponseRedirect('/my-profiles/')
