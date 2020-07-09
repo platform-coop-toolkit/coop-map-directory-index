@@ -62,7 +62,7 @@
         {{ social_network_form.management_form }}
         {% for sn in social_network_form.forms %}
             {{ sn.id }}
-            <label for="{{ sn.identifier.id_for_label }}">{{ sn.initial.socialnetwork|social_network_id_to_label }}</label>
+            {{ sn.identifier.label_tag }}
             {{ sn.identifier }}
             {{ sn.socialnetwork }}
         {% endfor %}

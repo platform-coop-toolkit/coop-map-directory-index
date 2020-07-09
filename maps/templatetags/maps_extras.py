@@ -11,16 +11,6 @@ def titlify(value):
     return value + ' – ' + title_base
 
 
-@register.filter(name='social_network_id_to_label')
-def social_network_id_to_label(id):
-    """Takes a Social Network instance ID and returns the label"""
-    sn = SocialNetwork.objects.get(id=id)
-    if sn:
-        return sn.name
-    else:
-        return None
-
-
 @register.inclusion_tag('maps/partials/icon.html')
 def icon(name, **kwargs):
     modifier = kwargs.get('modifier', name)
