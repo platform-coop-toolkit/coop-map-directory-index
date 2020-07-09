@@ -10,7 +10,7 @@ from django.utils.text import slugify
 from django.template.defaultfilters import safe
 from django_countries.fields import CountryField
 from accounts.models import Role, SocialNetwork, UserSocialNetwork
-from mdi.models import Organization, Category, Language, OrganizationSocialNetwork, Stage, Tool, Type, Pricing, License, LegalStatus
+from mdi.models import Organization, Category, Language, OrganizationSocialNetwork, Stage, Tool, Type, Pricing, License, LegalStatus, Challenge
 
 
 class BaseForm(forms.Form):
@@ -651,7 +651,7 @@ class OrganizationOverviewUpdateForm(BaseModelForm):
     )
 
     legal_status = forms.ModelMultipleChoiceField(
-        queryset=LegalStatus.objects.all(),
+        queryset=LegalStatus.objects.filter(order__lt=9999),
         required=False,
         label=_('Legal status'),
         help_text=_('Choose all that apply.'),
@@ -676,6 +676,14 @@ class OrganizationOverviewUpdateForm(BaseModelForm):
         required=False,
         widget=RadioSelect(attrs={'class': 'input-group radio'}),
         label=_('Stage of development')
+    )
+
+    challenges = forms.ModelMultipleChoiceField(
+        queryset=Challenge.objects.filter(order__lt=9999),
+        required=False,
+        label=_('Challenges'),
+        help_text=_('Choose all that apply.'),
+        widget=CheckboxSelectMultiple(attrs={'class': 'input-group checkbox'})
     )
 
     worker_distribution = forms.ChoiceField(
@@ -830,7 +838,6 @@ class OrganizationOverviewUpdateForm(BaseModelForm):
         help_texts = {
             'sectors': _('Hold down the <kbd>ctrl</kbd> (Windows) or <kbd>command</kbd> (macOS) key to select multiple options.'),
             'impacted_exact_number': _('Include clients and users as well as their family members or others indirectly impacted by the work of your co-operative.'),
-            'challenges': _('Hold down the <kbd>ctrl</kbd> (Windows) or <kbd>command</kbd> (macOS) key to select multiple options.')
         }
 
 
