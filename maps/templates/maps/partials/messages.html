@@ -1,0 +1,5 @@
+{% if messages %}
+    {% for message in messages %}
+    {% include 'maps/partials/notification.html' %}
+    {% endfor %}
+{% endif %}

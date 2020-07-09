@@ -47,7 +47,7 @@
             <div class="card__meta">
                 <span class="card__subtypes">
                     <span class="screen-reader-text">sectors: </span>
-                    {% icon 'sector' %}
+                    {% icon 'sector-small' %}
                     {% for sector in organization.sectors.all %}
                         {{ sector }}{% if not forloop.last %}, {% endif %}
                     {% endfor %}

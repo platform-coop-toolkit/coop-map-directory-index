@@ -84,6 +84,42 @@ select.multiple {
     @include breakpoint-up(md) {
       padding-top: rem(65);
     }
+
+    .role-1,
+    .role-2,
+    .role-3,
+    .role-4,
+    .role-5,
+    .role-6,
+    .role-7,
+    .role-8 {
+      display: none;
+    }
+
+    &.role-1 .role-1,
+    &.role-2 .role-2,
+    &.role-3 .role-3,
+    &.role-4 .role-4,
+    &.role-5 .role-5,
+    &.role-6 .role-6,
+    &.role-7 .role-7,
+    &.role-8 .role-8 {
+      display: block;
+    }
+
+    .type-1,
+    .type-6,
+    .type-7,
+    .type-8 {
+      display: none;
+    }
+
+    &.type-1 .type-1,
+    &.type-6 .type-6,
+    &.type-7 .type-7,
+    &.type-8 .type-8 {
+      display: block;
+    }
   }
 
   .form__content .errorlist {
@@ -135,7 +171,9 @@ select.multiple {
   input + label,
   textarea + label,
   select + label,
+  div + label,
   .helptext + label,
+  .input-group + label,
   ul.checkbox + label,
   ul.radio + label {
     margin-top: rem(45);
@@ -424,6 +462,8 @@ h1 + .profile__meta {
 .tabs [role="tabpanel"] {
   @include full-width-background($off-white);
 
+  --parent-background-color: var(--off-white);
+
   background-color: var(--off-white);
   padding-bottom: rem(100);
   padding-top: rem(54);
@@ -444,6 +484,10 @@ h1 + .profile__meta {
   padding-bottom: 0;
 }
 
+.panel__sidebar {
+  margin-bottom: $gutter;
+}
+
 @include breakpoint-up(md) {
   .profile [role="tabpanel"] > .cards {
     grid-template-columns: repeat(3, 1fr);
@@ -459,6 +503,10 @@ h1 + .profile__meta {
       display: grid;
     }
 
+    .edit {
+      grid-column: 1 / 13;
+    }
+
     .panel__sidebar {
       grid-column: 1 / 4;
     }
@@ -472,6 +520,10 @@ h1 + .profile__meta {
 @include breakpoint-up(xl) {
   .profile [role="tabpanel"]#overview {
     grid-template-columns: repeat(16, 1fr);
+
+    .edit {
+      grid-column: 1 / 17;
+    }
 
     .panel__sidebar {
       grid-column: 1 / 4;
@@ -518,4 +570,26 @@ h1 + .profile__meta {
       margin-top: 0;
     }
   }
+}
+
+.niches > li {
+  padding: rem(8) 0 rem(6);
+  position: relative;
+}
+
+.niches button {
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+
+[for="id_detailed_info-license"],
+#id_detailed_info-license,
+.form-wizard--tool [for="id_detailed_info-sectors"],
+.form-wizard--tool #id_detailed_info-sectors {
+  display: none;
+}
+
+.form__content > * + div {
+  margin-top: rem(45);
 }

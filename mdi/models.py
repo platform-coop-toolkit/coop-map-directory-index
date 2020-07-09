@@ -1,15 +1,16 @@
 from django.contrib.postgres.fields import IntegerRangeField
 from django.contrib.auth import get_user_model
 from django.contrib.gis.db import models
+from django.dispatch import receiver
 from datetime import date
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 from accounts.models import SocialNetwork
 from django_countries.fields import CountryField
-
 from django.core.exceptions import ValidationError
 from django.urls import reverse
 from django.db.models import Manager as GeoManager
+from allauth.account.signals import email_changed
 
 
 class Type(models.Model):
@@ -24,6 +25,7 @@ class Type(models.Model):
 
     def __str__(self):
         return self.name
+
 
 class Category(models.Model):
     name = models.CharField(blank=False, max_length=255, unique=True)
@@ -111,6 +113,7 @@ class Stage(models.Model):
     def __str__(self):
         return self.name
 
+
 class Sector(models.Model):
     name = models.CharField(blank=False, max_length=255, unique=True)
     description = models.CharField(blank=True, default='', max_length=255)
@@ -151,6 +154,15 @@ class Niche(models.Model):
 
     def __str__(self):
         return self.name
+
+    def parent(self):
+        return self.name.split(' - ')[0]
+
+    def child(self):
+        if len(self.name.split(' - ')) > 1:
+            return self.name.split(' - ')[1]
+        else:
+            return False
 
 
 class Pricing(models.Model):
@@ -196,17 +208,23 @@ class Tool(models.Model):
     description = models.TextField(blank=True, default='')
     url = models.URLField(blank=False, max_length=255)
     license_type = models.CharField(blank=True, default='', max_length=64,
-                                    choices=[('proprietary', 'Proprietary'), ('proprietary-with-floss-integration-tools', 'Proprietary with free / libre / open source integration tools'), ('floss', 'Free / libre / open source')], verbose_name='License type')
-    license = models.ForeignKey(License, blank=True, null=True, on_delete=models.CASCADE, verbose_name='Free / libre / open source license')
+                                    choices=[
+                                        ('', _('Not sure')),
+                                        ('proprietary', _('Proprietary')),
+                                        ('proprietary-with-floss-integration-tools', _('Proprietary with free / libre / open source integration tools')),
+                                        ('floss', _('Free / libre / open source'))
+                                    ],
+                                    verbose_name=_('License type'))
+    license = models.ForeignKey(License, blank=True, null=True, on_delete=models.CASCADE, verbose_name=_('Free / libre / open source license'))
     pricing = models.ForeignKey(Pricing, blank=True, null=True, on_delete=models.CASCADE)
     niches = models.ManyToManyField(Niche)
     languages_supported = models.ManyToManyField(Language, blank=True)
     sectors = models.ManyToManyField(Sector, blank=True)
-    coop_made = models.CharField(blank=False, default=0, max_length=16,
-                                 choices=[('unknown', 'Not sure'), ('yes', 'Yes'), ('no', 'No')], verbose_name='Made by a cooperative')
+    coop_made = models.CharField(blank=True, default='', max_length=16, choices=[('', _('Not sure')), ('yes', _('Yes')), ('no', _('No'))], verbose_name=_('Made by a cooperative'))
     notes = models.TextField(blank=True, default='')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    submitted_by_email = models.EmailField(default='', max_length=255)
 
     def use_count(self):
         return self.organization_set.count()
@@ -359,3 +377,16 @@ class EntitiesEntities(models.Model):
 
     class Meta:
         verbose_name_plural = "Entity to Entity Relationships"
+
+# The relationship between a user and Organizations that they can administer is
+# maintained via the Organization.admin_email key. This receiver for
+# django-allauth's email_changed signal updates Organization.admin_email for
+# all related Organizations when a user changes their primary email.
+
+
+@receiver(email_changed)
+def email_changed_handler(request, user, from_email_address, to_email_address, **kwargs):
+    orgs = Organization.objects.filter(admin_email=from_email_address)
+    for org in orgs:
+        org.admin_email = to_email_address.email
+        org.save()

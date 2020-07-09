@@ -17,6 +17,10 @@ if ( tabGroups ) {
   } );
 }
 
+[...document.querySelectorAll('.accordion')].forEach(accordion => {
+  new Pinecone.Accordion( accordion );
+} );
+
 const icons = document.querySelectorAll( 'svg' );
 if (icons) {
   Array.prototype.forEach.call(icons, icon => {
@@ -93,8 +97,8 @@ if (scopeAndImpact) {
     }
   };
 
-  const scopes = scopeAndImpact.querySelectorAll('[name="scope_and_impact-geo_scope"]');
-  const currentScope = scopeAndImpact.querySelector('[name="scope_and_impact-geo_scope"]:checked').value;
+  const scopes = scopeAndImpact.querySelectorAll('[name$="geo_scope"]');
+  const currentScope = scopeAndImpact.querySelector('[name$="geo_scope"]:checked').value;
   showHideFieldsForValue(currentScope, scopeAndImpact);
   const scopeList = Array.from(scopes);
   scopeList.forEach(scope => {
@@ -104,15 +108,15 @@ if (scopeAndImpact) {
   });
 }
 
-const basicInfo = document.getElementById('basic-info');
+const dateWrapper = document.querySelector('.date-wrapper');
 
-if (basicInfo) {
-  const year = document.getElementById('id_basic_info-year_founded');
-  const month = document.getElementById('id_basic_info-month_founded');
-  const day = document.getElementById('id_basic_info-day_founded');
-  const founded = document.getElementById('id_basic_info-founded');
-  const foundedMin = document.getElementById('id_basic_info-founded_min_date');
-  const foundedMax = document.getElementById('id_basic_info-founded_max_date');
+if (dateWrapper) {
+  const year = document.getElementById('year_founded');
+  const month = document.getElementById('month_founded');
+  const day = document.getElementById('day_founded');
+  const founded = document.getElementById('founded');
+  const foundedMin = document.getElementById('founded_min_date');
+  const foundedMax = document.getElementById('founded_max_date');
 
   if (year.value == '') {
     month.setAttribute('disabled', '');
@@ -185,27 +189,81 @@ if (basicInfo) {
     }
   };
 
-
   year.addEventListener('keyup', () => {
-    updateFoundedDates();
-    updateDisabledStatus();
     updateDaysField(year.value, month.value);
+    updateDisabledStatus();
+    updateFoundedDates();
+  });
+
+  year.addEventListener('change', () => {
+    updateDaysField(year.value, month.value);
+    updateDisabledStatus();
+    updateFoundedDates();
   });
 
   month.addEventListener('change', () => {
-    updateFoundedDates();
-    updateDisabledStatus();
     updateDaysField(year.value, month.value);
+    updateDisabledStatus();
+    updateFoundedDates();
   });
 
   day.addEventListener('change', () => {
-    updateFoundedDates();
     updateDisabledStatus();
+    updateFoundedDates();
   });
 }
 
 [...document.querySelectorAll('.card')].forEach(function (card) {
   new Pinecone.Card( card );
+});
+
+[...document.querySelectorAll( '.input-group__parent > li' )].forEach( (container) => {
+  const input = container.querySelector( '.input--parent' );
+  const subInputs = container.querySelectorAll( '.input-group__descendant input' );
+  if ( 0 < subInputs.length ) {
+    new Pinecone.NestedCheckbox( container, input, subInputs );
+  }
+} );
+	
+[...document.querySelectorAll( '.filter-disclosure-label' )].forEach( (label) => {
+  new Pinecone.DisclosureButton( label, { buttonVariant: 'button--disc', visuallyHiddenLabel: true } );
+} );
+
+[...document.querySelectorAll('[name="detailed_info-license_type"')].forEach(element => {
+  element.addEventListener('change', () => {
+    const license = document.getElementById('id_detailed_info-license');
+    const licenseLabel = document.querySelector('[for="id_detailed_info-license"]');
+    if (element.value === 'floss' || element.value === 'proprietary-with-floss-integration-tools') {   
+      license.style.display = 'block';
+      licenseLabel.style.display = 'block';
+    } else {
+      license.style.display = 'none';
+      licenseLabel.style.display = 'none';
+    }
+  });
+});
+
+[...document.querySelectorAll('[name="detailed_info-sector"')].forEach(element => {
+  element.addEventListener('change', () => {
+    const sectors = document.getElementById('id_detailed_info-sectors');
+    const sectorsLabel = document.querySelector('[for="id_detailed_info-sectors"]');
+    if (element.value === 'yes') {   
+      sectors.style.display = 'block';
+      sectorsLabel.style.display = 'block';
+    } else {
+      sectors.style.display = 'none';
+      sectorsLabel.style.display = 'none';
+    }
+  });
+});
+
+[...document.querySelectorAll('[role="checkbox"]')].forEach(checkbox => {
+  checkbox.addEventListener('click', () => {
+    if (checkbox.getAttribute('aria-checked') !== 'true') {
+      const disclosureButton = checkbox.parentNode.querySelector('button');
+      disclosureButton.setAttribute('aria-expanded', 'true');
+    }
+  });
 });
 
 [...document.querySelectorAll('.delete-organization')].forEach((form) => {
@@ -220,6 +278,17 @@ if (basicInfo) {
     dismiss: 'No, don&rsquo;t delete',
     callback: function callback() {
       form.submit();
+    }
+  });
+});
+
+[...document.querySelectorAll('[name="roles"]')].forEach((checkbox) => {
+  checkbox.addEventListener('change', () => {
+    const checkboxClass = `role-${event.target.value}`;
+    if (event.target.checked) {
+      document.querySelector('.form__content').classList.add(checkboxClass);
+    } else {
+      document.querySelector('.form__content').classList.remove(checkboxClass);
     }
   });
 });
@@ -241,6 +310,34 @@ if (deleteIndividual) {
     }
   });
 }
+
+/* TODO: allow map to be reset to contact info
+document.addEventListener('click', (event) => {
+  if (!event.target.id === 'set-to-contact-info') return;
+  const address = document.getElementById('id_address').value;
+  const city = document.getElementById('id_city').value;
+  const state = document.getElementById('id_state').value;
+  const country = document.getElementById('id_country').value;
+  const postalCode = document.getElementById('id_postal_code').value;
+  let addressString = '';
+  if (address != '') {
+    addressString = address;
+  }
+  if (city != '') {
+    addressString = `${addressString}, ${city}`;
+  }
+  if (state != '') {
+    addressString = `${addressString}, ${state}`;
+  }
+  if (country != '') {
+    addressString = `${addressString}, ${country}`;
+  }
+  if (postalCode != '') {
+    addressString = `${addressString}, ${postalCode}`;
+  }
+  // TODO: Post to Here API endpoint
+});
+*/
 
 const geolocationMapContainer = document.getElementById('geolocation-map');
 
@@ -274,8 +371,6 @@ if (geolocationMapContainer) {
     crosshairs = document.getElementById('crosshairs'),
     ctx = crosshairs.getContext('2d'),
     openingDimension = 40;
-
-
 
   const drawCrosshairs = () => {
     const x = geolocationMap.getCanvas().width / 2,
