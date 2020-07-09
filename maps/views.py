@@ -1,21 +1,24 @@
+from django.core.exceptions import PermissionDenied
 from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib import messages
 from django.conf import settings
 from django.http import HttpResponse, HttpResponseRedirect
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
 from django.template import loader
+from django.utils.translation import gettext_lazy as _
 from django.views.generic import TemplateView
-from django.views.generic.edit import DeleteView
+from django.views.generic.edit import DeleteView, UpdateView
 from django.shortcuts import get_object_or_404, render, redirect
-from django.forms import inlineformset_factory
+from django.forms import inlineformset_factory  # ModelMultipleChoiceField, SelectMultiple
 from accounts.models import UserSocialNetwork
 from mdi.models import Organization, SocialNetwork, OrganizationSocialNetwork, Relationship, EntitiesEntities, \
     Tool, Niche
 from formtools.wizard.views import SessionWizardView
 from .forms import GeolocationForm, IndividualProfileDeleteForm, IndividualRolesForm, IndividualBasicInfoForm, \
     IndividualMoreAboutYouForm, IndividualDetailedInfoForm, IndividualContactInfoForm, IndividualSocialNetworkFormSet, \
+    IndividualEditSocialNetworkFormSet, IndividualOverviewUpdateForm, IndividualBasicInfoUpdateForm, \
     OrganizationTypeForm, OrganizationBasicInfoForm, OrganizationContactInfoForm, OrganizationDetailedInfoForm, \
     OrganizationScopeAndImpactForm, OrganizationSocialNetworkFormSet, ToolBasicInfoForm, ToolDetailedInfoForm
 from django_countries import countries
@@ -211,6 +214,124 @@ class IndividualProfileWizard(LoginRequiredMixin, SessionWizardView):
                 UserSocialNetwork.objects.create(user=user, socialnetwork=sn['socialnetwork'], identifier=sn['identifier'])
 
         return redirect('individual-detail', user_id=user.id)
+
+
+class InvididualBasicInfoUpdate(UpdateView):
+    model = get_user_model()
+    template_name = 'maps/profiles/individual/update_basic_info.html'
+
+    def get_form_class(self):
+        return IndividualBasicInfoUpdateForm
+
+    def get_object(self, *args, **kwargs):
+        user = super(InvididualBasicInfoUpdate, self).get_object(*args, **kwargs)
+        if user != self.request.user:
+            raise PermissionDenied()  # TODO: Make this nicer
+        return user
+
+    def get_initial(self):
+        if self.object.geom:
+            return {'lng': self.object.geom.x, 'lat': self.object.geom.y}
+        else:
+            return {'lat': 0, 'lng': 0}
+
+    def get_success_url(self, **kwargs):
+        return reverse('individual-detail', kwargs={'user_id': self.object.id})
+
+    def form_valid(self, form):
+        if form.cleaned_data['lat'] and form.cleaned_data['lng']:
+            self.object.geom = Point(float(form.cleaned_data['lng']), float(form.cleaned_data['lat']))
+        else:
+            self.object.geom = Point([])
+        return super(InvididualBasicInfoUpdate, self).form_valid(form)
+
+
+class InvididualOverviewUpdate(UpdateView):
+    model = get_user_model()
+    template_name = 'maps/profiles/individual/update_overview.html'
+
+    def get_form_class(self):
+        return IndividualOverviewUpdateForm
+
+    def get_object(self, *args, **kwargs):
+        user = super(InvididualOverviewUpdate, self).get_object(*args, **kwargs)
+        if user != self.request.user:
+            raise PermissionDenied()  # TODO: Make this nicer
+        return user
+
+    def get_context_data(self, **kwargs):
+        context = super(InvididualOverviewUpdate, self).get_context_data(**kwargs)
+        roles = self.object.roles.all()
+        context.update({'roles': roles})
+        return context
+
+    def get_initial(self):
+        member_of_relationship = Relationship.objects.get(name="Member of")
+        member_of_relationships = EntitiesEntities.objects.filter(from_ind=self.object, relationship=member_of_relationship)
+        founder_of_relationship = Relationship.objects.get(name="Founder of")
+        founder_of_relationships = EntitiesEntities.objects.filter(from_ind=self.object, relationship=founder_of_relationship)
+        worked_with_relationship = Relationship.objects.get(name="Worked with")
+        worked_with_relationships = EntitiesEntities.objects.filter(from_ind=self.object, relationship=worked_with_relationship)
+        member_orgs = []
+        founder_orgs = []
+        worked_with_orgs = []
+        for relationship in member_of_relationships:
+            member_orgs.append(Organization.objects.get(id=relationship.to_org.id))
+        for relationship in founder_of_relationships:
+            founder_orgs.append(Organization.objects.get(id=relationship.to_org.id))
+        for relationship in worked_with_relationships:
+            worked_with_orgs.append(Organization.objects.get(id=relationship.to_org.id))
+        return {
+            'member_of': member_orgs,
+            'founder_of': founder_orgs,
+            'worked_with': worked_with_orgs
+        }
+
+    def get(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        form_class = self.get_form_class()
+        form = self.get_form(form_class)
+        initial = []
+        socialnetworks = SocialNetwork.objects.all()
+        for index, sn in enumerate(socialnetworks):
+            if sn not in self.object.socialnetworks.all():
+                initial.append({
+                    'socialnetwork': sn.id,
+                    'name': sn.name,
+                    'hint': sn.hint,
+                })
+        social_network_form = IndividualEditSocialNetworkFormSet(instance=self.object, initial=initial)
+        return self.render_to_response(self.get_context_data(form=form, social_network_form=social_network_form))
+
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        form_class = self.get_form_class()
+        form = self.get_form(form_class)
+        social_network_form = IndividualEditSocialNetworkFormSet(self.request.POST, instance=self.object)
+        if (form.is_valid() and social_network_form.is_valid()):
+            return self.form_valid(form, social_network_form)
+        return self.form_invalid(form, social_network_form)
+
+    def get_success_url(self, **kwargs):
+        return reverse('individual-detail', kwargs={'user_id': self.object.id})
+
+    def form_valid(self, form, social_network_form):
+        member_of_relationship = Relationship.objects.get(name="Member of")
+        founder_of_relationship = Relationship.objects.get(name="Founder of")
+        worked_with_relationship = Relationship.objects.get(name="Worked with")
+        self.object.related_organizations.clear()
+        for member_of_org in form.cleaned_data['member_of']:
+            EntitiesEntities.objects.create(from_ind=self.object, to_org=member_of_org, relationship=member_of_relationship)
+        for founded_by_org in form.cleaned_data['founder_of']:
+            EntitiesEntities.objects.create(from_ind=self.object, to_org=founded_by_org, relationship=founder_of_relationship)
+        for worked_with_org in form.cleaned_data['worked_with']:
+            EntitiesEntities.objects.create(from_ind=self.object, to_org=worked_with_org, relationship=worked_with_relationship)
+        self.object.socialnetworks.clear()
+        print(social_network_form.cleaned_data)
+        for sn in social_network_form.cleaned_data:
+            if sn['identifier'] != '':
+                UserSocialNetwork.objects.create(user=self.object, socialnetwork=sn['socialnetwork'], identifier=sn['identifier'])
+        return super(InvididualOverviewUpdate, self).form_valid(form)
 
 
 class OrganizationProfileWizard(LoginRequiredMixin, SessionWizardView):
