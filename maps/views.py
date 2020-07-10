@@ -746,8 +746,8 @@ class SummaryPageView(TemplateView):
         ]
 
         context['labels'] = {
-            'countries': _('Countries'),
-            'org_type': _('Organization type'),
+            'countries': _('Filter by country'),
+            'org_type': _('Filter by organization type'),
             'coops': _('Co-ops'),
             'coops_plus': _('Co-ops, potential co-ops and shared platforms'),
             'supporting_orgs': _('Supporting organizations'),
