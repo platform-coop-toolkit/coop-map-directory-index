@@ -866,7 +866,7 @@ class SummaryPageView(TemplateView):
                 coop_impact['scope'] = {
                     'datasets': [
                         {
-                                    'data': [
+                            'data': [
                                 coop_scopes['unknown'],
                                 coop_scopes['local'],
                                 coop_scopes['regional'],
@@ -903,7 +903,7 @@ class SummaryPageView(TemplateView):
                 coops_plus_impact['scope'] = {
                     'datasets': [
                         {
-                                    'data': [
+                            'data': [
                                 coops_plus_scopes['unknown'],
                                 coops_plus_scopes['local'],
                                 coops_plus_scopes['regional'],
@@ -940,7 +940,7 @@ class SummaryPageView(TemplateView):
                 supporting_orgs_impact['scope'] = {
                     'datasets': [
                         {
-                                    'data': [
+                            'data': [
                                 supporting_orgs_scopes['unknown'],
                                 supporting_orgs_scopes['local'],
                                 supporting_orgs_scopes['regional'],
