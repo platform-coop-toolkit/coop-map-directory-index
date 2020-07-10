@@ -1,4 +1,4 @@
-import SummaryOfImpact from './components/Summary.svelte';
+import SummaryOfImpact from './components/SummaryOfImpact.svelte';
 
 new SummaryOfImpact({
 	target: document.querySelector('#summary-of-impact')

@@ -3,17 +3,29 @@
 {% load i18n %}
 {% load static %}
 {% block title %}{{ title |titlify }}{% endblock %}
-{% block bodyclass %}page{% endblock %}
+{% block bodyclass %}page page--impact{% endblock %}
 {% block content %}
     <div class="page-header">
         <p><a class="link--breadcrumb" href="/">{% trans 'Home' %}</a></p>
         <h1>{% trans 'Summary of Impact' %}</h1>
     </div>
-    
-    <h2>Co-ops</h2>
+
+    <script type="application/json" id="colors">
+    {{ colors | to_json }}
+    </script>
+
+    <script type="application/json" id="labels">
+    {{ labels | to_json }}
+    </script>
+
+    <script type="application/json" id="data">
+    {{ countries | to_json }}
+    </script>
 
     <div id="summary-of-impact"></div>
 
+    {% comment %}
+    <h2>Co-ops</h2>
     <div class="summary">
         <div class="organizations">
         {{ coops.count }} co-ops
@@ -65,6 +77,7 @@
         {{ supporting_orgs.sectors }} sectors
         </div>
     </div>
+    {% endcomment %}
 {% endblock %}
 {% block extra_body %}
 <script src="{% static 'maps/dist/js/impact.js' %}"></script>
