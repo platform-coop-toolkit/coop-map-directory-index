@@ -1,4 +1,8 @@
 {% load i18n %}
 <p class="subhead">Page {{ wizard.steps.step1 }} of {{ wizard.steps.count }}</p>
 <div class="spacer"></div>
+{% if profile_type == 'individual' %}
 <p><em>{% blocktrans %}All information you enter will be displayed on your public profile.{% endblocktrans %}</em></p>
+{% elif profile_type == 'organization' %}
+<p><em>{% blocktrans %}All information you enter will be displayed on your organization’s public profile.{% endblocktrans %}</em></p>
+{% endif %}
