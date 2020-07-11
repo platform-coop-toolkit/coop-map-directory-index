@@ -593,3 +593,81 @@ h1 + .profile__meta {
 .form__content > * + div {
   margin-top: rem(45);
 }
+
+.summary {
+  display: grid;
+  grid-gap: var(--gutter);
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+
+  > div {
+    background-color: $white;
+    padding: var(--gutter);
+  }
+
+  span {
+    display: block;
+
+    &.dot {
+      border-radius: 50%;
+      display: inline-block;
+      height: 1em;
+      margin-right: 0.5rem;
+      width: 1em;
+    }
+  }
+
+  .scope {
+    grid-column: 1 / 3;
+    grid-row: 2 / 4;
+
+    .h4 {
+      margin-top: 0;
+      text-align: center;
+    }
+
+    figure {
+      align-items: center;
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+    }
+
+    .chart {
+      width: 50%;
+    }
+
+    figcaption {
+      font-size: rem(14);
+      width: calc(50% - var(--gutter));
+    }
+  }
+}
+
+.page.page--impact .page-header::before {
+  background-color: var(--blue-500);
+  background-image: unset;
+}
+
+@include breakpoint-up(lg) {
+  .page.page--impact {
+    main {
+      @include grid-column-span(8, 12, 3);
+    }
+
+    .form {
+      align-items: flex-start;
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+    }
+
+    .input-group {
+      width: calc(50% - (var(--gutter) / 2));
+    }
+
+    .input-group + .input-group {
+      margin-top: 0;
+    }
+  }
+}

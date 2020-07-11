@@ -4,6 +4,8 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib import messages
 from django.conf import settings
+from django.db.models import Sum, Count
+from django_countries import countries
 from django.http import HttpResponse, HttpResponseRedirect
 from django.urls import reverse_lazy, reverse
 from django.template import loader
@@ -14,7 +16,7 @@ from django.shortcuts import get_object_or_404, render, redirect
 from django.forms import inlineformset_factory  # ModelMultipleChoiceField, SelectMultiple
 from accounts.models import UserSocialNetwork
 from mdi.models import Organization, SocialNetwork, OrganizationSocialNetwork, Relationship, EntitiesEntities, \
-    Tool, Niche, Source
+    Tool, Niche, Type, Sector, Source
 from formtools.wizard.views import SessionWizardView
 from .forms import GeolocationForm, IndividualProfileDeleteForm, IndividualRolesForm, IndividualBasicInfoForm, \
     IndividualMoreAboutYouForm, IndividualDetailedInfoForm, IndividualContactInfoForm, IndividualSocialNetworkFormSet, \
@@ -719,3 +721,247 @@ class TermsOfServiceView(TemplateView):
 
 class AboutPageView(TemplateView):
     template_name = "maps/about.html"
+
+
+class SummaryPageView(TemplateView):
+    template_name = "maps/summary_of_impact.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        chart_labels = [
+            _('Unknown'),
+            _('Local'),
+            _('Regional'),
+            _('National'),
+            _('International')
+        ]
+
+        chart_colors = [
+            '#edf5f3',
+            '#c9f8db',
+            '#face00',
+            '#ff621a',
+            '#1d7c79'
+        ]
+
+        context['labels'] = {
+            'countries': _('Filter by country'),
+            'org_type': _('Filter by organization type'),
+            'coops': _('Co-ops'),
+            'coops_plus': _('Co-ops, potential co-ops and shared platforms'),
+            'supporting_orgs': _('Supporting organizations'),
+            'workers': _('workers'),
+            'members': _('members'),
+            'sectors': _('sectors'),
+            'impacted': _('people impacted'),
+            'geo_scope': _('Geographic scope')
+        }
+
+        context['colors'] = chart_colors
+
+        coop_type = Type.objects.get(name='Cooperative')
+        potential_coop_type = Type.objects.get(name='Potential cooperative')
+        shared_platform_type = Type.objects.get(name='Shared platform')
+        supporting_org_type = Type.objects.get(name='Supporting organization')
+
+        context['countries'] = {'ALL': {'name': _('All')}}
+
+        coops = Organization.objects.filter(type=coop_type)
+        coop_impact = coops.aggregate(people_impacted=Sum('impacted_exact_number', distinct=True), workers=Sum('num_workers', distinct=True), members=Sum('num_members', distinct=True), sectors=Count('sectors', distinct=True))
+        coop_impact['count'] = coops.count()
+        coop_scopes = {
+            'unknown': coops.filter(geo_scope__exact='').count(),
+            'local': coops.filter(geo_scope__exact='Local').count(),
+            'regional': coops.filter(geo_scope__exact='Regional').count(),
+            'national': coops.filter(geo_scope__exact='National').count(),
+            'international': coops.filter(geo_scope__exact='International').count()
+        }
+        coop_impact['scope'] = {
+            'datasets': [
+                {
+                    'data': [
+                        coop_scopes['unknown'],
+                        coop_scopes['local'],
+                        coop_scopes['regional'],
+                        coop_scopes['national'],
+                        coop_scopes['international']
+                    ],
+                    'backgroundColor': chart_colors
+                }
+            ],
+            'labels': chart_labels
+        }
+
+        coops_plus = Organization.objects.filter(type__in=[coop_type, potential_coop_type, shared_platform_type])
+        coops_plus_impact = coops_plus.aggregate(people_impacted=Sum('impacted_exact_number', distinct=True), workers=Sum('num_workers', distinct=True), members=Sum('num_members', distinct=True), sectors=Count('sectors', distinct=True))
+        coops_plus_impact['count'] = coops_plus.count()
+        coops_plus_impact['sectors'] = Sector.objects.filter(organization__in=coops_plus).distinct().count()
+        coops_plus_scopes = {
+            'unknown': coops_plus.filter(geo_scope__exact='').count(),
+            'local': coops_plus.filter(geo_scope__exact='Local').count(),
+            'regional': coops_plus.filter(geo_scope__exact='Regional').count(),
+            'national': coops_plus.filter(geo_scope__exact='National').count(),
+            'international': coops_plus.filter(geo_scope__exact='International').count()
+        }
+        coops_plus_impact['scope'] = {
+            'datasets': [
+                {
+                    'data': [
+                        coops_plus_scopes['unknown'],
+                        coops_plus_scopes['local'],
+                        coops_plus_scopes['regional'],
+                        coops_plus_scopes['national'],
+                        coops_plus_scopes['international']
+                    ],
+                    'backgroundColor': chart_colors
+                }
+            ],
+            'labels': chart_labels
+        }
+
+        supporting_orgs = Organization.objects.filter(type=supporting_org_type)
+        supporting_orgs_impact = supporting_orgs.aggregate(workers=Sum('num_workers', distinct=True), sectors=Count('sectors', distinct=True))
+        supporting_orgs_impact['count'] = supporting_orgs.count()
+        supporting_orgs_scopes = {
+            'unknown': supporting_orgs.filter(geo_scope__exact='').count(),
+            'local': supporting_orgs.filter(geo_scope__exact='Local').count(),
+            'regional': supporting_orgs.filter(geo_scope__exact='Regional').count(),
+            'national': supporting_orgs.filter(geo_scope__exact='National').count(),
+            'international': supporting_orgs.filter(geo_scope__exact='International').count()
+        }
+        supporting_orgs_impact['scope'] = {
+            'datasets': [
+                {
+                    'data': [
+                        supporting_orgs_scopes['unknown'],
+                        supporting_orgs_scopes['local'],
+                        supporting_orgs_scopes['regional'],
+                        supporting_orgs_scopes['national'],
+                        supporting_orgs_scopes['international']
+                    ],
+                    'backgroundColor': chart_colors
+                }
+            ],
+            'labels': chart_labels
+        }
+
+        context['countries']['ALL']['coops'] = coop_impact
+        context['countries']['ALL']['coops_plus'] = coops_plus_impact
+        context['countries']['ALL']['supporting_orgs'] = supporting_orgs_impact
+
+        for key, country in dict(countries).items():
+            context['countries'][key] = {'name': country}
+            coops = Organization.objects.filter(country__exact=key, type=coop_type)
+            if coops.count() > 0:
+                coop_impact = coops.aggregate(people_impacted=Sum('impacted_exact_number', distinct=True), workers=Sum('num_workers', distinct=True), members=Sum('num_members', distinct=True), sectors=Count('sectors', distinct=True))
+                coop_impact['count'] = coops.count()
+                coop_scopes = {
+                    'unknown': coops.filter(geo_scope__exact='').count(),
+                    'local': coops.filter(geo_scope__exact='Local').count(),
+                    'regional': coops.filter(geo_scope__exact='Regional').count(),
+                    'national': coops.filter(geo_scope__exact='National').count(),
+                    'international': coops.filter(geo_scope__exact='International').count()
+                }
+                coop_impact['scope'] = {
+                    'datasets': [
+                        {
+                            'data': [
+                                coop_scopes['unknown'],
+                                coop_scopes['local'],
+                                coop_scopes['regional'],
+                                coop_scopes['national'],
+                                coop_scopes['international']
+                            ],
+                            'backgroundColor': chart_colors
+                        }
+                    ],
+                    'labels': chart_labels
+                }
+                context['countries'][key]['coops'] = coop_impact
+            else:
+                coop_impact = None
+                context['countries'][key]['coops'] = {
+                    'people_impacted': 0,
+                    'workers': 0,
+                    'members': 0,
+                    'sectors': 0,
+                    'count': 0
+                }
+
+            coops_plus = Organization.objects.filter(country__exact=key, type__in=[coop_type, potential_coop_type, shared_platform_type])
+            if coops_plus.count() > 0:
+                coops_plus_impact = coops_plus.aggregate(people_impacted=Sum('impacted_exact_number', distinct=True), workers=Sum('num_workers', distinct=True), members=Sum('num_members', distinct=True), sectors=Count('sectors', distinct=True))
+                coops_plus_impact['count'] = coops_plus.count()
+                coops_plus_scopes = {
+                    'unknown': coops_plus.filter(geo_scope__exact='').count(),
+                    'local': coops_plus.filter(geo_scope__exact='Local').count(),
+                    'regional': coops_plus.filter(geo_scope__exact='Regional').count(),
+                    'national': coops_plus.filter(geo_scope__exact='National').count(),
+                    'international': coops_plus.filter(geo_scope__exact='International').count()
+                }
+                coops_plus_impact['scope'] = {
+                    'datasets': [
+                        {
+                            'data': [
+                                coops_plus_scopes['unknown'],
+                                coops_plus_scopes['local'],
+                                coops_plus_scopes['regional'],
+                                coops_plus_scopes['national'],
+                                coops_plus_scopes['international']
+                            ],
+                            'backgroundColor': chart_colors
+                        }
+                    ],
+                    'labels': chart_labels
+                }
+                context['countries'][key]['coops_plus'] = coops_plus_impact
+            else:
+                coops_plus_impact = None
+                context['countries'][key]['coops_plus'] = {
+                    'people_impacted': 0,
+                    'workers': 0,
+                    'members': 0,
+                    'sectors': 0,
+                    'count': 0
+                }
+
+            supporting_orgs = Organization.objects.filter(country__exact=key, type=supporting_org_type)
+            if supporting_orgs.count() > 0:
+                supporting_orgs_impact = supporting_orgs.aggregate(workers=Sum('num_workers', distinct=True), sectors=Count('sectors', distinct=True))
+                supporting_orgs_impact['count'] = supporting_orgs.count()
+                supporting_orgs_scopes = {
+                    'unknown': supporting_orgs.filter(geo_scope__exact='').count(),
+                    'local': supporting_orgs.filter(geo_scope__exact='Local').count(),
+                    'regional': supporting_orgs.filter(geo_scope__exact='Regional').count(),
+                    'national': supporting_orgs.filter(geo_scope__exact='National').count(),
+                    'international': supporting_orgs.filter(geo_scope__exact='International').count()
+                }
+                supporting_orgs_impact['scope'] = {
+                    'datasets': [
+                        {
+                            'data': [
+                                supporting_orgs_scopes['unknown'],
+                                supporting_orgs_scopes['local'],
+                                supporting_orgs_scopes['regional'],
+                                supporting_orgs_scopes['national'],
+                                supporting_orgs_scopes['international']
+                            ],
+                            'backgroundColor': chart_colors
+                        }
+                    ],
+                    'labels': chart_labels
+                }
+                context['countries'][key]['supporting_orgs'] = supporting_orgs_impact
+            else:
+                supporting_orgs_impact = None
+                context['countries'][key]['supporting_orgs'] = {
+                    'workers': 0,
+                    'sectors': 0,
+                    'count': 0
+                }
+
+            if coop_impact == None and coops_plus_impact == None and supporting_orgs_impact == None:
+                del context['countries'][key]
+
+        return context

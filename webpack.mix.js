@@ -1,4 +1,5 @@
-let mix = require('laravel-mix');
+const mix = require('laravel-mix');
+require('laravel-mix-svelte');
 
 mix.setPublicPath('./maps/static/maps/dist');
 
@@ -14,6 +15,7 @@ mix.sass('maps/static/maps/css/app.scss', 'maps/static/maps/dist/css/', {
 });
 
 mix.js('maps/static/maps/js/app.js', 'maps/static/maps/dist/js/');
+mix.js('maps/static/maps/js/impact.js', 'maps/static/maps/dist/js/').svelte();
 
 mix.copy('node_modules/@platform-coop-toolkit/pinecone/src/assets/images', 'maps/static/maps/dist/images')
     .copy('maps/static/maps/images', 'maps/static/maps/dist/images') // Temporary.
