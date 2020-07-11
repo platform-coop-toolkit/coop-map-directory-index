@@ -86,6 +86,7 @@ class IndividualContactInfoForm(BaseModelForm):
     class Meta:
         model = get_user_model()
         fields = [
+            'contact_email',
             'phone',
             'address',
             'city',
@@ -258,6 +259,7 @@ class IndividualBasicInfoUpdateForm(BaseModelForm):
             'last_name',
             'languages',
             'url',
+            'contact_email',
             'phone',
             'address',
             'city',
