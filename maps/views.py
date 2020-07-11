@@ -144,6 +144,7 @@ class IndividualProfileWizard(LoginRequiredMixin, SessionWizardView):
 
     def get_context_data(self, form, **kwargs):
         context = super().get_context_data(form=form, **kwargs)
+        context.update({'profile_type': 'individual'})
 
         if self.steps.current in ['more_about_you', 'detailed_info']:
             roles = self.get_cleaned_data_for_step('roles')['roles']
@@ -349,6 +350,7 @@ class OrganizationProfileWizard(LoginRequiredMixin, SessionWizardView):
 
     def get_context_data(self, form, **kwargs):
         context = super().get_context_data(form=form, **kwargs)
+        context.update({'profile_type': 'organization'})
 
         if self.steps.current in ['basic_info', 'contact_info', 'detailed_info']:
             type = self.get_cleaned_data_for_step('org_type')['type']
@@ -550,6 +552,7 @@ class ToolWizard(LoginRequiredMixin, SessionWizardView):
 
     def get_context_data(self, form, **kwargs):
         context = super().get_context_data(form=form, **kwargs)
+        context.update({'profile_type': 'tool'})
         if self.steps.current == 'basic_info':
             niche_dict = {}
             niches = Niche.objects.all()

@@ -31,7 +31,13 @@
             <a rel="external" href="{{ individual.url }}">{% trans 'Visit website' %}</a>
         </p>
         {% endif %}
+        {% if individual.contact_email %}
+        <p>
+            <a rel="external" href="mailto:{{ individual.contact_email }}">{% blocktrans with fname=individual.first_name lname=individual.last_name %}Email {{ fname }} {{ lname }}{% endblocktrans %}</a>
+        </p>
+        {% endif %}
         {% if individual == user %}
+        <div class="spacer"></div>
         <p class="align-right">
             <a href="{% url 'edit-my-basic-info' pk=user.id %}">{% icon 'edit' %}{% trans 'Edit basic information' %}</a>
         </p>
