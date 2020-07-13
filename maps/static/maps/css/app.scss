@@ -637,7 +637,7 @@ h1 + .profile__meta {
   }
 }
 
-@include breakpoint-up(md) {
+@include breakpoint-up(sm) {
   .summary .scope {
     figure {
       align-items: center;
@@ -657,7 +657,7 @@ h1 + .profile__meta {
   }
 }
 
-@include breakpoint-up(lg) {
+@include breakpoint-up(md) {
   .summary {
     display: grid;
     grid-gap: var(--gutter);
@@ -691,7 +691,9 @@ h1 + .profile__meta {
       }
     }
   }
+}
 
+@include breakpoint-up(lg) {
   .page.page--impact {
     main {
       @include grid-column-span(8, 12, 3);
