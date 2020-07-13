@@ -17,7 +17,6 @@
         {{ form.name.label_tag }}
         {{ form.name }}
         {{ form.niches.label_tag }}
-        {{ initial }}
         <ul id="niches" class="input-group input-group__parent checkbox niches">
         {% for parent, value in niche_dict.items %}
             <li>
@@ -31,14 +30,14 @@
                 {% for child in value.children %}
                     <li>
                         <label for="niche-{{ child.id }}">
-                            <input id="niche-{{ child.id }}" type="checkbox" name="basic_info-niches" value="{{ child.id }}" />{{ child.name|capfirst }}
+                            <input id="niche-{{ child.id }}" type="checkbox" name="basic_info-niches" value="{{ child.id }}" {% if child.id in form.initial.niches %}checked {% endif %}/>{{ child.name|capfirst }}
                         </label>
                     </li>
                 {% endfor %}
                 </ul>
                 {% else %}
                 <label for="niche-{{ value.id }}">
-                    <input class="input--parent" id="niche-{{ value.id }}" type="checkbox" name="basic_info-niches" value="{{ value.id }}" />{{ parent }}
+                    <input class="input--parent" id="niche-{{ value.id }}" type="checkbox" name="basic_info-niches" value="{{ value.id }}" {% if value.id in form.initial.niches %}checked {% endif %}/>{{ parent }}
                 </label>
                 {% endif %}
             </li>

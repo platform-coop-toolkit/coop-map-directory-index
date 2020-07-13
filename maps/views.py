@@ -617,6 +617,12 @@ class ToolWizard(LoginRequiredMixin, SessionWizardView):
     def get_template_names(self):
         return [TOOL_TEMPLATES[self.steps.current]]
 
+    def get_form_initial(self, step):
+        if step == 'basic_info':
+            if self.request.method == 'POST':
+                return self.initial_dict.get(step, {'niches': [int(x) for x in self.request.POST.getlist('basic_info-niches')]})
+            return self.initial_dict.get(step)
+
     def get_context_data(self, form, **kwargs):
         context = super().get_context_data(form=form, **kwargs)
         context.update({'profile_type': 'tool'})
@@ -655,6 +661,16 @@ class ToolUpdate(LoginRequiredMixin, UpdateView):
 
     def get_form_class(self):
         return ToolUpdateForm
+
+    def get_initial(self):
+        if self.object.niches:
+            niches = []
+            for niche in self.object.niches.all():
+                niches.append(niche.id)
+            return {
+                'niches': niches
+            }
+        return {}
 
     def get_context_data(self, **kwargs):
         context = super(ToolUpdate, self).get_context_data(**kwargs)
