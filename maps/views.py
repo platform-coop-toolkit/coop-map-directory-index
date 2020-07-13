@@ -1,4 +1,4 @@
-from django.core.exceptions import PermissionDenied
+from django.core.exceptions import PermissionDenied, ImproperlyConfigured
 from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -29,6 +29,54 @@ from django_countries import countries
 from django.contrib.gis.geos import Point
 import os
 import requests
+
+
+class RedirectMixin:
+    redirect_url = None
+    redirect_message = None
+
+    def get_redirect_message(self):
+        redirect_message = self.redirect_message
+        if not redirect_message:
+            raise ImproperlyConfigured(
+                '{0} is missing the redirect_message attribute. Define {0}.redirect_message or override '
+                '{0}.get_redirect_message().'.format(self.__class__.__name__)
+            )
+        return str(redirect_message)
+
+    def get_redirect_url(self):
+        redirect_url = self.redirect_url
+        if not redirect_url:
+            raise ImproperlyConfigured(
+                '{0} is missing the redirect_url attribute. Define {0}.redirect_url or override '
+                '{0}.get_redirect_url().'.format(self.__class__.__name__)
+            )
+        return str(redirect_url)
+
+    def test_func(self):
+        raise NotImplementedError(
+            '{0} is missing the implementation of the test_func() method.'.format(self.__class__.__name__)
+        )
+
+    def get_test_func(self):
+        """
+        Override this method to use a different test_func method.
+        """
+        return self.test_func
+
+    def dispatch(self, request, *args, **kwargs):
+        test_result = self.get_test_func()()
+        if not test_result:
+            messages.error(self.request, self.get_redirect_message())
+            return redirect(self.get_redirect_url())
+        return super().dispatch(request, *args, **kwargs)
+
+
+class IndividualProfileRedirectMixin(RedirectMixin):
+    def test_func(self):
+        if self.request.user.has_profile:
+            return False
+        return True
 
 
 def contact_info_to_lng_lat(contact_info):
@@ -138,7 +186,10 @@ def show_scope_and_impact_condition(wizard):
     return False
 
 
-class IndividualProfileWizard(LoginRequiredMixin, SessionWizardView):
+class IndividualProfileWizard(LoginRequiredMixin, IndividualProfileRedirectMixin, SessionWizardView):
+    redirect_url = reverse_lazy('my-profiles')
+    redirect_message = _('You already have an individual profile.')
+
     def get_template_names(self):
         return [INDIVIDUAL_TEMPLATES[self.steps.current]]
 
