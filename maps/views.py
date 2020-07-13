@@ -824,16 +824,20 @@ class SummaryPageView(TemplateView):
         ]
 
         context['labels'] = {
-            'countries': _('Filter by country'),
-            'org_type': _('Filter by organization type'),
+            'countries': _('Apply filter by country'),
+            'org_type': _('Apply filter by organization type'),
             'coops': _('Co-ops'),
+            'coops_in': _('Co-ops in %s'),
             'coops_plus': _('Co-ops, potential co-ops and shared platforms'),
+            'coops_plus_in': _('Co-ops, potential co-ops and shared platforms in %s'),
             'supporting_orgs': _('Supporting organizations'),
+            'supporting_orgs_in': _('Supporting organizations in %s'),
             'workers': _('workers'),
             'members': _('members'),
             'sectors': _('sectors'),
             'impacted': _('people impacted'),
-            'geo_scope': _('Geographic scope')
+            'geo_scope': _('Geographic scope of %s'),
+            'geo_scope_in': _('Geographic scope of %s in %s')
         }
 
         context['colors'] = chart_colors
