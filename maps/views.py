@@ -24,7 +24,7 @@ from .forms import GeolocationForm, IndividualProfileDeleteForm, IndividualRoles
     OrganizationTypeForm, OrganizationBasicInfoForm, OrganizationContactInfoForm, OrganizationDetailedInfoForm, \
     OrganizationScopeAndImpactForm, OrganizationSocialNetworkFormSet, OrganizationBasicInfoUpdateForm, \
     OrganizationOverviewUpdateForm, OrganizationContactUpdateForm, OrganizationEditSocialNetworkFormSet, \
-    ToolBasicInfoForm, ToolDetailedInfoForm
+    ToolBasicInfoForm, ToolDetailedInfoForm, ToolUpdateForm
 from django_countries import countries
 from django.contrib.gis.geos import Point
 import os
@@ -647,6 +647,29 @@ class ToolWizard(LoginRequiredMixin, SessionWizardView):
         tool.languages_supported.set(form_dict['languages_supported'])
         messages.success(self.request, 'Thank you for submitting this tool.')
         return HttpResponseRedirect('/my-profiles/')
+
+
+class ToolUpdate(UpdateView):
+    model = Tool
+    template_name = 'maps/profiles/tool/update.html'
+
+    def get_form_class(self):
+        return ToolUpdateForm
+
+    def get_context_data(self, **kwargs):
+        context = super(ToolUpdate, self).get_context_data(**kwargs)
+        niche_dict = {}
+        niches = Niche.objects.all()
+        for niche in niches:
+            parent = niche.parent()
+            if parent not in niche_dict:
+                niche_dict[parent] = {'children': []}
+            if niche.child():
+                niche_dict[parent]['children'].append({'id': niche.id, 'name': niche.child()})
+            else:
+                niche_dict[parent]['id'] = niche.id
+        context.update({'niche_dict': niche_dict})
+        return context
 
 
 def index(request):

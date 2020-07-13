@@ -4,7 +4,7 @@ from . import views
 from .views import INDIVIDUAL_FORMS, ORGANIZATION_FORMS, TOOL_FORMS, show_more_about_you_condition, show_scope_and_impact_condition,\
     IndividualProfileWizard, OrganizationProfileWizard, ToolWizard, OrganizationDelete, PrivacyPolicyView, TermsOfServiceView, AboutPageView,\
     InvididualOverviewUpdate, InvididualBasicInfoUpdate, OrganizationBasicInfoUpdate, OrganizationOverviewUpdate, OrganizationContactUpdate,\
-    SummaryPageView
+    SummaryPageView, ToolUpdate
 from accounts.models import UserSocialNetwork
 from mdi.models import SocialNetwork
 
@@ -21,6 +21,7 @@ urlpatterns = [
     path('individuals/<int:user_id>', views.individual_detail, name='individual-detail'),
     path('individuals/<int:pk>/edit-basic-info', InvididualBasicInfoUpdate.as_view(), name='edit-my-basic-info'),
     path('individuals/<int:pk>/edit-overview', InvididualOverviewUpdate.as_view(), name='edit-my-overview'),
+    path('tools/<int:pk>/edit', ToolUpdate.as_view(), name='edit-tool'),
     path('my-profiles/', views.my_profiles, name='my-profiles'),
     path('accounts/', views.account_settings, name='account-settings'),
     path('about/', AboutPageView.as_view(), {'title': 'About'}, name='about'),

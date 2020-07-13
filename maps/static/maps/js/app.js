@@ -233,10 +233,21 @@ if (dateWrapper) {
   new Pinecone.DisclosureButton( label, { buttonVariant: 'button--disc', visuallyHiddenLabel: true } );
 } );
 
-[...document.querySelectorAll('[name="detailed_info-license_type"')].forEach(element => {
+[...document.querySelectorAll('#id_detailed_info-license_type input')].forEach(element => {
+  const license = document.getElementById('id_detailed_info-license');
+  const licenseLabel = document.querySelector('[for="id_detailed_info-license"]');
+
+  if (element.checked) {
+    if (element.value === 'floss' || element.value === 'proprietary-with-floss-integration-tools') {   
+      license.style.display = 'block';
+      licenseLabel.style.display = 'block';
+    } else {
+      license.style.display = 'none';
+      licenseLabel.style.display = 'none';
+    }
+  }
+
   element.addEventListener('change', () => {
-    const license = document.getElementById('id_detailed_info-license');
-    const licenseLabel = document.querySelector('[for="id_detailed_info-license"]');
     if (element.value === 'floss' || element.value === 'proprietary-with-floss-integration-tools') {   
       license.style.display = 'block';
       licenseLabel.style.display = 'block';
