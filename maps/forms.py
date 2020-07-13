@@ -844,6 +844,7 @@ class OrganizationOverviewUpdateForm(BaseModelForm):
             'impacted_exact_number',
             'description',
             'challenges',
+            'tools',
             'code_availability',
             'code_url'
         ]
@@ -866,6 +867,7 @@ class OrganizationOverviewUpdateForm(BaseModelForm):
         help_texts = {
             'sectors': _('Hold down the <kbd>ctrl</kbd> (Windows) or <kbd>command</kbd> (macOS) key to select multiple options.'),
             'impacted_exact_number': _('Include clients and users as well as their family members or others indirectly impacted by the work of your co-operative.'),
+            'tools': _('Hold down the <kbd>ctrl</kbd> (Windows) or <kbd>command</kbd> (macOS) key to select multiple options.'),
         }
 
 
