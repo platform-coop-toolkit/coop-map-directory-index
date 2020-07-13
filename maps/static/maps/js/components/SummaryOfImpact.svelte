@@ -41,6 +41,7 @@
 
     let country = 'ALL';
     let segment = 'coops';
+
 </script>
 
 <div class="form">
@@ -59,8 +60,7 @@
         {/each}
     </div>
 </div>
-
-<h2>{ labels[segment] }</h2>
+<h2>{ (country != 'ALL') ? labels[`${segment}_in`].replace('%s', countries.find(x => x.id === country).name) : labels[segment] }</h2>
 <div class="summary">
     <div class="organizations">
     <span class="h2">{ data[country][segment].count }</span> { labels[segment].toLowerCase() }
@@ -72,7 +72,7 @@
     <span class="h2">{ data[country][segment].sectors ? data[country][segment].sectors : 0 }</span> { labels['sectors'] }
     </div>
     <div class="scope">
-        <p class="h4">{ labels['geo_scope'] }</p>
+        <p class="h4">{ (country != 'ALL') ? labels['geo_scope_in'].replace('%s', labels[segment].toLowerCase()).replace('%s', countries.find(x => x.id === country).name) : labels['geo_scope'].replace('%s', labels[segment].toLowerCase()) }</p>
         <figure>
             <div class="chart">
                 <Pie data={data[country][segment].scope} options={chartOptions} />
@@ -82,8 +82,7 @@
                     <caption class="screen-reader-text">{ labels['geo_scope'] }</caption>
                     {#each data[country][segment].scope.datasets[0].data as point, i}
                     <tr>
-                        <td><span class="dot" style="background-color: { colors[i] };"></span>{ data[country][segment].scope.labels[i] }</td>
-                        <td class="screen-reader-text">{ point } organizations</td>
+                        <td><span class="dot" style="background-color: { colors[i] };"></span>{ data[country][segment].scope.labels[i] }: { point }</td>
                     </tr>
                     {/each}
                 </table>
