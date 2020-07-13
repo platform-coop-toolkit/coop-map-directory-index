@@ -286,7 +286,7 @@ class IndividualProfileWizard(LoginRequiredMixin, IndividualProfileRedirectMixin
         return redirect('individual-detail', user_id=user.id)
 
 
-class InvididualBasicInfoUpdate(UpdateView):
+class InvididualBasicInfoUpdate(LoginRequiredMixin, UpdateView):
     model = get_user_model()
     template_name = 'maps/profiles/individual/update_basic_info.html'
 
@@ -316,7 +316,7 @@ class InvididualBasicInfoUpdate(UpdateView):
         return super(InvididualBasicInfoUpdate, self).form_valid(form)
 
 
-class InvididualOverviewUpdate(UpdateView):
+class InvididualOverviewUpdate(LoginRequiredMixin, UpdateView):
     model = get_user_model()
     template_name = 'maps/profiles/individual/update_overview.html'
 
@@ -474,7 +474,7 @@ class OrganizationProfileWizard(LoginRequiredMixin, SessionWizardView):
         return redirect('organization-detail', organization_id=org.id)
 
 
-class OrganizationBasicInfoUpdate(UpdateView):
+class OrganizationBasicInfoUpdate(LoginRequiredMixin, UpdateView):
     model = Organization
     template_name = 'maps/profiles/organization/update_basic_info.html'
 
@@ -497,7 +497,7 @@ class OrganizationBasicInfoUpdate(UpdateView):
         return super(OrganizationBasicInfoUpdate, self).form_valid(form)
 
 
-class OrganizationOverviewUpdate(UpdateView):
+class OrganizationOverviewUpdate(LoginRequiredMixin, UpdateView):
     model = Organization
     template_name = 'maps/profiles/organization/update_overview.html'
 
@@ -547,7 +547,7 @@ class OrganizationOverviewUpdate(UpdateView):
         return super(OrganizationOverviewUpdate, self).form_valid(form)
 
 
-class OrganizationContactUpdate(UpdateView):
+class OrganizationContactUpdate(LoginRequiredMixin, UpdateView):
     model = Organization
     template_name = 'maps/profiles/organization/update_contact.html'
 
@@ -649,7 +649,7 @@ class ToolWizard(LoginRequiredMixin, SessionWizardView):
         return HttpResponseRedirect('/my-profiles/')
 
 
-class ToolUpdate(UpdateView):
+class ToolUpdate(LoginRequiredMixin, UpdateView):
     model = Tool
     template_name = 'maps/profiles/tool/update.html'
 
