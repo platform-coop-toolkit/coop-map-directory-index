@@ -815,6 +815,14 @@ class SummaryPageView(TemplateView):
             '#1d7c79'
         ]
 
+        chart_defaults = [
+            0,
+            0,
+            0,
+            0,
+            0
+        ]
+
         context['labels'] = {
             'countries': _('Filter by country'),
             'org_type': _('Filter by organization type'),
@@ -956,7 +964,16 @@ class SummaryPageView(TemplateView):
                     'workers': 0,
                     'members': 0,
                     'sectors': 0,
-                    'count': 0
+                    'count': 0,
+                    'scope': {
+                        'datasets': [
+                            {
+                                'data': chart_defaults,
+                                'backgroundColor': chart_colors
+                            }
+                        ],
+                        'labels': chart_labels
+                    }
                 }
 
             coops_plus = Organization.objects.filter(country__exact=key, type__in=[coop_type, potential_coop_type, shared_platform_type])
@@ -993,7 +1010,16 @@ class SummaryPageView(TemplateView):
                     'workers': 0,
                     'members': 0,
                     'sectors': 0,
-                    'count': 0
+                    'count': 0,
+                    'scope': {
+                        'datasets': [
+                            {
+                                'data': chart_defaults,
+                                'backgroundColor': chart_colors
+                            }
+                        ],
+                        'labels': chart_labels
+                    }
                 }
 
             supporting_orgs = Organization.objects.filter(country__exact=key, type=supporting_org_type)
@@ -1028,7 +1054,16 @@ class SummaryPageView(TemplateView):
                 context['countries'][key]['supporting_orgs'] = {
                     'workers': 0,
                     'sectors': 0,
-                    'count': 0
+                    'count': 0,
+                    'scope': {
+                        'datasets': [
+                            {
+                                'data': chart_defaults,
+                                'backgroundColor': chart_colors
+                            }
+                        ],
+                        'labels': chart_labels
+                    }
                 }
 
             if coop_impact == None and coops_plus_impact == None and supporting_orgs_impact == None:
