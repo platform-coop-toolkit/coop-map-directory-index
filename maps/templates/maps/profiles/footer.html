@@ -1,6 +1,9 @@
 {% load i18n %}
 {% load maps_extras %}
 <div class="spacer"></div>
+<script type="application/json" id="labels">
+{{ labels | to_json }}
+</script>
 <div class="align-center">
     <p>Page {{ wizard.steps.step1 }} of {{ wizard.steps.count }}</p>
     <p>
