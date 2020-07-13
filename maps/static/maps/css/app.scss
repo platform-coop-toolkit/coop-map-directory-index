@@ -594,15 +594,19 @@ h1 + .profile__meta {
   margin-top: rem(45);
 }
 
-.summary {
-  display: grid;
-  grid-gap: var(--gutter);
-  grid-template-columns: repeat(3, 1fr);
-  grid-template-rows: repeat(3, 1fr);
+.page.page--impact .page-header::before {
+  background-color: var(--blue-500);
+  background-image: unset;
+}
 
+.summary {
   > div {
     background-color: $white;
     padding: var(--gutter);
+  }
+
+  > div + div {
+    margin-top: $gutter;
   }
 
   span {
@@ -618,14 +622,23 @@ h1 + .profile__meta {
   }
 
   .scope {
-    grid-column: 1 / 3;
-    grid-row: 2 / 4;
+    figure {
+      margin: $gutter 0 0;
+      padding: 0;
+    }
 
     .h4 {
-      margin-top: 0;
       text-align: center;
     }
 
+    figcaption {
+      margin-top: $gutter;
+    }
+  }
+}
+
+@include breakpoint-up(sm) {
+  .summary .scope {
     figure {
       align-items: center;
       display: flex;
@@ -634,19 +647,50 @@ h1 + .profile__meta {
     }
 
     .chart {
-      width: 50%;
+      width: calc(50% - var(--gutter) / 2);
     }
 
     figcaption {
-      font-size: rem(14);
-      width: calc(50% - var(--gutter));
+      margin-top: 0;
+      width: calc(50% - var(--gutter) / 2);
     }
   }
 }
 
-.page.page--impact .page-header::before {
-  background-color: var(--blue-500);
-  background-image: unset;
+@include breakpoint-up(md) {
+  .summary {
+    display: grid;
+    grid-gap: var(--gutter);
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+
+    > div + div {
+      margin-top: 0;
+    }
+
+    .scope {
+      grid-column: 1 / 3;
+      grid-row: 2 / 4;
+
+      .h4 {
+        margin-top: 0;
+        text-align: center;
+      }
+
+      figure {
+        align-items: center;
+      }
+
+      .chart {
+        width: 50%;
+      }
+
+      figcaption {
+        font-size: rem(14);
+        width: calc(50% - var(--gutter));
+      }
+    }
+  }
 }
 
 @include breakpoint-up(lg) {

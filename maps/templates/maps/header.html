@@ -43,7 +43,7 @@
               <a href="{% url 'about' %}" class="menu__item">{% trans 'About' %}</a>
               <ul class="menu__submenu">
                 <li class="menu-item"><a {% if request.get_full_path == about %}aria-current="page" {% endif %}href="{% url 'about' %}" class="menu__item">{% trans 'About' %}</a></li>
-                <li class="menu-item"><a {% if request.get_full_path == impact %}aria-current="page" {% endif %}href="{% url 'impact' %}" class="menu__item">{% trans 'Impact' %}</a></li>
+                <li class="menu-item"><a {% if request.get_full_path == impact %}aria-current="page" {% endif %}href="{% url 'impact' %}" class="menu__item">{% trans 'Summary of Impact' %}</a></li>
               </ul>
             </li>
             {% if user.is_authenticated %}
