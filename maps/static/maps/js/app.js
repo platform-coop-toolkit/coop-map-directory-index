@@ -28,13 +28,17 @@ if (icons) {
   });
 }
 
-const dialogBtn = document.getElementById('invoke-dialog');
+const dialogBtn = document.getElementById('cancel-profile-creation');
 if (dialogBtn) {
+    let labels = JSON.parse(document.getElementById('labels').innerHTML);
     new Pinecone.Dialog(dialogBtn, {
-        title: 'Cancel',
-        question: 'Are you sure you want to exit the profile editor and delete all of your information?',
-        confirm: 'Yes, exit and delete all info',
-        dismiss: 'No, return to profile editor'
+        title: labels.cancelTitle,
+        question: labels.cancelQuestion,
+        confirm: labels.cancelConfirm,
+        dismiss: labels.cancelDismiss,
+        callback: function() {
+          window.location.href = `${window.location.origin}/my-profiles/`;
+        }
     });
 }
 

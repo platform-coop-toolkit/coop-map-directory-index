@@ -144,6 +144,14 @@ class IndividualProfileWizard(LoginRequiredMixin, SessionWizardView):
 
     def get_context_data(self, form, **kwargs):
         context = super().get_context_data(form=form, **kwargs)
+        context.update({
+            'labels': {
+                'cancelTitle': _('Cancel'),
+                'cancelQuestion': _('Are you sure you want to exit the profile editor and discard all of your information?'),
+                'cancelConfirm': _('Yes, exit and discard all info'),
+                'cancelDismiss': _('No, return to profile editor')
+            }
+        })
         context.update({'profile_type': 'individual'})
 
         if self.steps.current in ['more_about_you', 'detailed_info']:
@@ -350,6 +358,14 @@ class OrganizationProfileWizard(LoginRequiredMixin, SessionWizardView):
 
     def get_context_data(self, form, **kwargs):
         context = super().get_context_data(form=form, **kwargs)
+        context.update({
+            'labels': {
+                'cancelTitle': _('Cancel'),
+                'cancelQuestion': _('Are you sure you want to exit the profile editor and discard all of your information?'),
+                'cancelConfirm': _('Yes, exit and discard all info'),
+                'cancelDismiss': _('No, return to profile editor')
+            }
+        })
         context.update({'profile_type': 'organization'})
 
         if self.steps.current in ['basic_info', 'contact_info', 'detailed_info']:
