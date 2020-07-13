@@ -844,6 +844,7 @@ class OrganizationOverviewUpdateForm(BaseModelForm):
             'impacted_exact_number',
             'description',
             'challenges',
+            'tools',
             'code_availability',
             'code_url'
         ]
@@ -866,6 +867,7 @@ class OrganizationOverviewUpdateForm(BaseModelForm):
         help_texts = {
             'sectors': _('Hold down the <kbd>ctrl</kbd> (Windows) or <kbd>command</kbd> (macOS) key to select multiple options.'),
             'impacted_exact_number': _('Include clients and users as well as their family members or others indirectly impacted by the work of your co-operative.'),
+            'tools': _('Hold down the <kbd>ctrl</kbd> (Windows) or <kbd>command</kbd> (macOS) key to select multiple options.'),
         }
 
 
@@ -973,7 +975,6 @@ class ToolDetailedInfoForm(BaseModelForm):
             'pricing',
             'license_type',
             'license',
-            'sector',
             'sectors',
             'languages_supported',
             'coop_made'
@@ -984,7 +985,48 @@ class ToolDetailedInfoForm(BaseModelForm):
             'languages_supported': _('What languages does this tool support?'),
             'coop_made': _('Was this tool created by a co-op?')
         }
+        help_texts = {
+            'sectors': _('Hold down the <kbd>ctrl</kbd> (Windows) or <kbd>command</kbd> (macOS) key to select multiple options.'),
+            'languages_supported': _('Hold down the <kbd>ctrl</kbd> (Windows) or <kbd>command</kbd> (macOS) key to select multiple options.')
+        }
         widgets = {
             'license_type': RadioSelect(attrs={'class': 'input-group radio'}),
+            'coop_made': RadioSelect(attrs={'class': 'input-group radio'})
+        }
+
+
+class ToolUpdateForm(BaseModelForm):
+    class Meta:
+        model = Tool
+        fields = [
+            'name',
+            'niches',
+            'description',
+            'url',
+            'pricing',
+            'license_type',
+            'license',
+            'sectors',
+            'languages_supported',
+            'coop_made'
+        ]
+        labels = {
+            'name': _('Name of tool'),
+            'niches': _('What is this tool used for?'),
+            'description': _('Description of tool'),
+            'url': _('URL of tool website'),
+            'license_type': _('How is this tool licensed?'),
+            'sectors': _('Please choose a sector or sectors:'),
+            'languages_supported': _('What languages does this tool support?'),
+            'coop_made': _('Was this tool created by a co-op?')
+        }
+        help_texts = {
+            'description': _('Max 270 characters.'),
+            'sectors': _('Hold down the <kbd>ctrl</kbd> (Windows) or <kbd>command</kbd> (macOS) key to select multiple options.'),
+            'languages_supported': _('Hold down the <kbd>ctrl</kbd> (Windows) or <kbd>command</kbd> (macOS) key to select multiple options.')
+        }
+        widgets = {
+            'license_type': RadioSelect(attrs={'class': 'input-group radio', 'id': 'id_detailed_info-license_type'}),
+            'license': Select(attrs={'id': 'id_detailed_info-license'}),
             'coop_made': RadioSelect(attrs={'class': 'input-group radio'})
         }

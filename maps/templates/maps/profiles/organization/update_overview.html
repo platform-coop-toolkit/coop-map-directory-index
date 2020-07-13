@@ -124,6 +124,12 @@
                 <span class="helptext">{{ form.challenges.help_text | safe }}</span>
                 {% endif %}
             </div>
+            <h3>{% trans 'Tools used' %}</h3>
+            {{ form.tools.label_tag }}
+            {{ form.tools }}
+            {% if form.tools.help_text %}
+            <span class="helptext">{{ form.tools.help_text | safe }}</span>
+            {% endif %}
             <h3>{% trans 'Source code' %}</h3>
             {{ form.code_availability.label_tag }}
             {{ form.code_availability }}

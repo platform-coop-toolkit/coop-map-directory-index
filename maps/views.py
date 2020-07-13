@@ -24,7 +24,7 @@ from .forms import GeolocationForm, IndividualProfileDeleteForm, IndividualRoles
     OrganizationTypeForm, OrganizationBasicInfoForm, OrganizationContactInfoForm, OrganizationDetailedInfoForm, \
     OrganizationScopeAndImpactForm, OrganizationSocialNetworkFormSet, OrganizationBasicInfoUpdateForm, \
     OrganizationOverviewUpdateForm, OrganizationContactUpdateForm, OrganizationEditSocialNetworkFormSet, \
-    ToolBasicInfoForm, ToolDetailedInfoForm
+    ToolBasicInfoForm, ToolDetailedInfoForm, ToolUpdateForm
 from django_countries import countries
 from django.contrib.gis.geos import Point
 import os
@@ -286,7 +286,7 @@ class IndividualProfileWizard(LoginRequiredMixin, IndividualProfileRedirectMixin
         return redirect('individual-detail', user_id=user.id)
 
 
-class InvididualBasicInfoUpdate(UpdateView):
+class InvididualBasicInfoUpdate(LoginRequiredMixin, UpdateView):
     model = get_user_model()
     template_name = 'maps/profiles/individual/update_basic_info.html'
 
@@ -316,7 +316,7 @@ class InvididualBasicInfoUpdate(UpdateView):
         return super(InvididualBasicInfoUpdate, self).form_valid(form)
 
 
-class InvididualOverviewUpdate(UpdateView):
+class InvididualOverviewUpdate(LoginRequiredMixin, UpdateView):
     model = get_user_model()
     template_name = 'maps/profiles/individual/update_overview.html'
 
@@ -474,7 +474,7 @@ class OrganizationProfileWizard(LoginRequiredMixin, SessionWizardView):
         return redirect('organization-detail', organization_id=org.id)
 
 
-class OrganizationBasicInfoUpdate(UpdateView):
+class OrganizationBasicInfoUpdate(LoginRequiredMixin, UpdateView):
     model = Organization
     template_name = 'maps/profiles/organization/update_basic_info.html'
 
@@ -497,7 +497,7 @@ class OrganizationBasicInfoUpdate(UpdateView):
         return super(OrganizationBasicInfoUpdate, self).form_valid(form)
 
 
-class OrganizationOverviewUpdate(UpdateView):
+class OrganizationOverviewUpdate(LoginRequiredMixin, UpdateView):
     model = Organization
     template_name = 'maps/profiles/organization/update_overview.html'
 
@@ -547,7 +547,7 @@ class OrganizationOverviewUpdate(UpdateView):
         return super(OrganizationOverviewUpdate, self).form_valid(form)
 
 
-class OrganizationContactUpdate(UpdateView):
+class OrganizationContactUpdate(LoginRequiredMixin, UpdateView):
     model = Organization
     template_name = 'maps/profiles/organization/update_contact.html'
 
@@ -617,6 +617,12 @@ class ToolWizard(LoginRequiredMixin, SessionWizardView):
     def get_template_names(self):
         return [TOOL_TEMPLATES[self.steps.current]]
 
+    def get_form_initial(self, step):
+        if step == 'basic_info':
+            if self.request.method == 'POST':
+                return self.initial_dict.get(step, {'niches': [int(x) for x in self.request.POST.getlist('basic_info-niches')]})
+            return self.initial_dict.get(step)
+
     def get_context_data(self, form, **kwargs):
         context = super().get_context_data(form=form, **kwargs)
         context.update({'profile_type': 'tool'})
@@ -647,6 +653,39 @@ class ToolWizard(LoginRequiredMixin, SessionWizardView):
         tool.languages_supported.set(form_dict['languages_supported'])
         messages.success(self.request, 'Thank you for submitting this tool.')
         return HttpResponseRedirect('/my-profiles/')
+
+
+class ToolUpdate(LoginRequiredMixin, UpdateView):
+    model = Tool
+    template_name = 'maps/profiles/tool/update.html'
+
+    def get_form_class(self):
+        return ToolUpdateForm
+
+    def get_initial(self):
+        if self.object.niches:
+            niches = []
+            for niche in self.object.niches.all():
+                niches.append(niche.id)
+            return {
+                'niches': niches
+            }
+        return {}
+
+    def get_context_data(self, **kwargs):
+        context = super(ToolUpdate, self).get_context_data(**kwargs)
+        niche_dict = {}
+        niches = Niche.objects.all()
+        for niche in niches:
+            parent = niche.parent()
+            if parent not in niche_dict:
+                niche_dict[parent] = {'children': []}
+            if niche.child():
+                niche_dict[parent]['children'].append({'id': niche.id, 'name': niche.child()})
+            else:
+                niche_dict[parent]['id'] = niche.id
+        context.update({'niche_dict': niche_dict})
+        return context
 
 
 def index(request):
