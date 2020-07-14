@@ -79,6 +79,7 @@ class ToolSerializer(serializers.HyperlinkedModelSerializer):
             'name',
             'description',
             'url',
+            'license_type',
             'license',
             'pricing',
             'niches',
