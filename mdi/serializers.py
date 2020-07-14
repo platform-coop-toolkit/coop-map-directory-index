@@ -72,6 +72,7 @@ class ToolSerializer(serializers.HyperlinkedModelSerializer):
     pricing = serializers.StringRelatedField()
     niches = NicheSerializer(many=True)
     languages_supported = LanguageSerializer(many=True)
+    sectors = serializers.StringRelatedField(many=True)
 
     class Meta:
         model = Tool
@@ -84,8 +85,8 @@ class ToolSerializer(serializers.HyperlinkedModelSerializer):
             'pricing',
             'niches',
             'languages_supported',
-            'sectors',
             'coop_made',
+            'sectors',
             'use_count',
         )
 
