@@ -739,14 +739,14 @@ h1 + .profile__meta {
   }
 
   .page-header::before {
-    background-color: var(--blue-700);
+    background-color: var(--dark-mint-500);
   }
 
   .home__search {
-    background-color: var(--blue-700);
+    background-color: var(--dark-mint-500);
 
     &::before {
-      background-color: var(--blue-700);
+      background-color: var(--dark-mint-500);
     }
   }
 }
