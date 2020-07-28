@@ -460,8 +460,6 @@ h1 + .profile__meta {
 }
 
 .tabs [role="tabpanel"] {
-  @include full-width-background($off-white);
-
   --parent-background-color: var(--off-white);
 
   background-color: var(--off-white);
@@ -469,15 +467,17 @@ h1 + .profile__meta {
   padding-top: rem(54);
   position: relative;
 
+  @include full-width-background($off-white);
+
   @include breakpoint-up(md) {
     padding-bottom: rem(130);
   }
 }
 
 .profile .page-header {
-  @include full-width-background($white);
-
   background-color: var(--white);
+
+  @include full-width-background($white);
 }
 
 .profile main {
@@ -713,5 +713,47 @@ h1 + .profile__meta {
     .input-group + .input-group {
       margin-top: 0;
     }
+  }
+}
+
+.page.home {
+  [role="banner"] {
+    --parent-background-color: var(--blue-700);
+
+    background-color: var(--blue-700);
+    box-shadow: none;
+  }
+
+  .menu {
+    --parent-background-color: var(--blue-700);
+
+    background-color: var(--blue-700);
+  }
+
+  .banner-pattern {
+    display: none;
+  }
+
+  .page-header {
+    margin-top: 0;
+  }
+
+  .page-header::before {
+    background-color: var(--blue-700);
+  }
+
+  .home__search {
+    background-color: var(--blue-700);
+
+    &::before {
+      background-color: var(--blue-700);
+    }
+  }
+}
+
+.page.page--directory {
+  .page-header::before {
+    background-color: var(--blue-500);
+    background-image: unset;
   }
 }
