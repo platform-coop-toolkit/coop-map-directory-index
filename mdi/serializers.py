@@ -77,6 +77,8 @@ class ToolSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Tool
         fields = (
+            'id',
+            'updated_at',
             'name',
             'description',
             'url',
