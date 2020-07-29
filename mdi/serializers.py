@@ -78,6 +78,7 @@ class ToolSerializer(serializers.HyperlinkedModelSerializer):
         model = Tool
         fields = (
             'id',
+            'updated_at',
             'name',
             'description',
             'url',
