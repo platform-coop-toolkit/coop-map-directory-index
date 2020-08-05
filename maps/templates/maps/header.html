@@ -4,23 +4,22 @@
   <div class="banner-pattern"></div>
   <header role="banner">
     <div class="container">
-
       <a class="link link--brand" aria-current="page" href="{% url 'index' %}">
         {% icon 'directory' size='lg' viewbox='0 0 32 32' %}
-        <span class="brand__title screen-reader-text">Platform Co-op Directory</span></a>
+        <span class="brand__title screen-reader-text">{% trans 'Platform Co-op Directory' %}</span></a>
       <div class="inner">
       {% if request.get_full_path != home_url %}
         <button class="button button--borderless search-toggle" aria-expanded="false"><span
-      class="screen-reader-text">Search </span>
+      class="screen-reader-text">{% trans 'Search' %} </span>
           {% icon 'search' %}
         </button>
 
         <form role="search" method="get" class="search-form search-form--inverse" action="#">
           <label>
-            <span class="screen-reader-text">search</span>
+            <span class="screen-reader-text">{% trans 'search' %}</span>
             <input id="s" name="s" type="search" />
           </label>
-          <button type="submit" class="button button--search"><span class="screen-reader-text">submit search</span>
+          <button type="submit" class="button button--search"><span class="screen-reader-text">{% trans 'submit search' %}</span>
             {% icon 'search' %}
           </button>
         </form>
@@ -30,23 +29,32 @@
           <button class="button button--borderless menu-toggle" aria-expanded="false">
             {% icon 'menu' modifier='open' %}
             {% icon 'close' %}
-            <span id="menu-primary-label" class="menu-toggle__label">Menu</span>
+            <span id="menu-primary-label" class="menu-toggle__label">{% trans 'Menu' %}</span>
           </button>
 
           <ul class="menu">
             {% if user.is_authenticated %}
-            <li class="menu-item "><a href="{% url 'my-profiles' %}" class="menu__item">My profiles</a></li>
+            {% url 'my-profiles' as my_profiles %}
+            <li class="menu-item "><a {% if request.get_full_path == my_profiles %}aria-current="page" {% endif %}href="{% url 'my-profiles' %}" class="menu__item">{% trans 'My profiles' %}</a></li>
             {% endif %}
-            <li class="menu-item"><a href="{% url 'about' %}" class="menu__item">About</a></li>
+            {% url 'about' as about %}
+            {% url 'impact' as impact %}
+            <li class="menu__submenu-wrapper{% if request.get_full_path == about or request.get_full_path == impact %} current-page-ancestor current-menu-ancestor{% endif %}">
+              <a href="{% url 'about' %}" class="menu__item">{% trans 'About' %}</a>
+              <ul class="menu__submenu">
+                <li class="menu-item"><a {% if request.get_full_path == about %}aria-current="page" {% endif %}href="{% url 'about' %}" class="menu__item">{% trans 'About' %}</a></li>
+                <li class="menu-item"><a {% if request.get_full_path == impact %}aria-current="page" {% endif %}href="{% url 'impact' %}" class="menu__item">{% trans 'Summary of Impact' %}</a></li>
+              </ul>
+            </li>
             {% if user.is_authenticated %}
-            <li class="menu__submenu-wrapper">
-                <a class="menu__item" href="#">{% trans 'Account' %}</a>
+            {% url 'account-settings' as account_settings %}
+            <li class="menu__submenu-wrapper{% if request.get_full_path == account_settings %} current-page-ancestor current-menu-ancestor{% endif %}">
+                <a class="menu__item" href="{% url 'account-settings' %}">{% trans 'Account' %}</a>
                 <ul class="menu__submenu">
-                  <li class="menu-item"><a href="{% url 'account-settings' %}" class="menu__item">{% trans 'Account settings' %}</a></li>
+                  <li class="menu-item"><a {% if request.get_full_path == account_settings %}aria-current="page" {% endif %}href="{% url 'account-settings' %}" class="menu__item">{% trans 'Account settings' %}</a></li>
                   <li class="menu-item"><a href="/accounts/logout/" class="menu__item">{% trans 'Log out' %}</a></li>
                 </ul>
             {% else %}
-
             <li class="menu-item"><a
                 href="/accounts/login/" class="menu__item">{% trans 'Log in / Sign up' %}</a>
             </li>

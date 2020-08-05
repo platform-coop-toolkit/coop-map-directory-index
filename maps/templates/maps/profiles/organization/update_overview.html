@@ -1,0 +1,148 @@
+{% extends "maps/base.html" %}
+{% load i18n %}
+{% load maps_extras %}
+{% block bodyclass %}form-wizard{% endblock %}
+{% block title %}{{ 'Edit organization'|titlify }}{% endblock %}}
+
+{% block content %}
+    <form class="form" action="" method="post" novalidate>
+        {% csrf_token %}
+        <div class="page-header">
+            <h1>{% trans 'Edit organization' %}</h1>
+        </div>
+        <div class="form__content type-{{ type.id }}">
+            {% if form.errors  %}
+            {% include 'maps/profiles/errors.html' %}
+            {% endif %}
+            <h2>{% trans 'Overview' %}</h2>
+            <h3>{% trans 'At a glance' %}</h3>
+            <div class="type-1">
+                {{ form.categories.label_tag }}
+                {{ form.categories }}
+                {% if form.categories.help_text %}
+                <span class="helptext">{{ form.categories.help_text | safe }}</span>
+                {% endif %}
+            </div>
+            {{ form.sectors.label_tag }}
+            {{ form.sectors }}
+            {% if form.sectors.help_text %}
+            <span class="helptext">{{ form.sectors.help_text | safe }}</span>
+            {% endif %}
+            <div class="type-1">
+                {{ form.stage.label_tag }}
+                {{ form.stage }}
+                {% if form.stage.help_text %}
+                <span class="helptext">{{ form.stage.help_text | safe }}</span>
+                {% endif %}
+            </div>
+            <div class="type-1 type-6 type-7">
+                {{ form.num_workers.label_tag }}
+                {{ form.num_workers }}
+                {% if form.num_workers.help_text %}
+                <span class="helptext">{{ form.num_workers.help_text | safe }}</span>
+                {% endif %}
+                {{ form.worker_distribution.label_tag }}
+                {{ form.worker_distribution }}
+                {% if form.worker_distribution.help_text %}
+                <span class="helptext">{{ form.worker_distribution.help_text | safe }}</span>
+                {% endif %}
+            </div>
+            <div class="type-1">
+                {{ form.num_members.label_tag }}
+                {{ form.num_members }}
+                {% if form.num_members.help_text %}
+                <span class="helptext">{{ form.num_members.help_text | safe }}</span>
+                {% endif %}
+                {{ form.legal_status.label_tag }}
+                {{ form.legal_status }}
+                {% if form.legal_status.help_text %}
+                <span class="helptext">{{ form.legal_status.help_text | safe }}</span>
+                {% endif %}
+                <h3 class="h4">{% trans 'Date founded' %}</h3>
+            </div>
+            <div class="date-wrapper">
+                {{ form.year_founded.label_tag }}
+                {{ form.year_founded }}
+                {% if form.year_founded.help_text %}
+                <span class="helptext">{{ form.year_founded.help_text | safe }}</span>
+                {% endif %}
+                {{ form.month_founded.label_tag }}
+                {{ form.month_founded }}
+                {% if form.month_founded.help_text %}
+                <span class="helptext">{{ form.month_founded.help_text | safe }}</span>
+                {% endif %}
+                {{ form.day_founded.label_tag }}
+                {{ form.day_founded }}
+                {% if form.day_founded.help_text %}
+                <span class="helptext">{{ form.day_founded.help_text | safe }}</span>
+                {% endif %}
+                {{ form.founded }}
+                {{ form.founded_min_date }}
+                {{ form.founded_max_date }}
+            </div>
+            <div class="type-1">
+                <h3>{% trans 'Scope and impact' %}</h3>
+                <div id="scope-and-impact">
+                    {{ form.geo_scope.label_tag }}
+                    {{ form.geo_scope }}
+                    {% if form.geo_scope.help_text %}
+                    <span class="helptext">{{ form.geo_scope.help_text | safe }}</span>
+                    {% endif %}
+                    {{ form.geo_scope_city.label_tag }}
+                    {{ form.geo_scope_city }}
+                    {% if form.geo_scope_city.help_text %}
+                    <span class="helptext">{{ form.geo_scope_city.help_text | safe }}</span>
+                    {% endif %}
+                    {{ form.geo_scope_region.label_tag }}
+                    {{ form.geo_scope_region }}
+                    {% if form.geo_scope_region.help_text %}
+                    <span class="helptext">{{ form.geo_scope_region.help_text | safe }}</span>
+                    {% endif %}
+                    {{ form.geo_scope_country.label_tag }}
+                    {{ form.geo_scope_country }}
+                    {% if form.geo_scope_country.help_text %}
+                    <span class="helptext">{{ form.geo_scope_country.help_text | safe }}</span>
+                    {% endif %}
+                    {{ form.impacted_exact_number.label_tag }}
+                    {{ form.impacted_exact_number }}
+                    {% if form.impacted_exact_number.help_text %}
+                    <span class="helptext">{{ form.impacted_exact_number.help_text | safe }}</span>
+                    {% endif %}
+                </div>
+            </div>
+            <h3>{% trans 'Description' %}</h3>
+            {{ form.description.label_tag }}
+            {{ form.description }}
+            {% if form.description.help_text %}
+            <span class="helptext">{{ form.description.help_text | safe }}</span>
+            {% endif %}
+            <div class="type-1">
+                <h3>{% trans 'Challenges' %}</h3>
+                {{ form.challenges.label_tag }}
+                {{ form.challenges }}
+                {% if form.challenges.help_text %}
+                <span class="helptext">{{ form.challenges.help_text | safe }}</span>
+                {% endif %}
+            </div>
+            <h3>{% trans 'Tools used' %}</h3>
+            {{ form.tools.label_tag }}
+            {{ form.tools }}
+            {% if form.tools.help_text %}
+            <span class="helptext">{{ form.tools.help_text | safe }}</span>
+            {% endif %}
+            <h3>{% trans 'Source code' %}</h3>
+            {{ form.code_availability.label_tag }}
+            {{ form.code_availability }}
+            {% if form.code_availability.help_text %}
+            <span class="helptext">{{ form.code_availability.help_text | safe }}</span>
+            {% endif %}
+            {{ form.code_url.label_tag }}
+            {{ form.code_url }}
+            {% if form.code_url.help_text %}
+            <span class="helptext">{{ form.code_url.help_text | safe }}</span>
+            {% endif %}
+            <div class="spacer"></div>
+            <button class="button" type="submit">{% trans 'Save' %}</button>
+        </div>
+    </form>
+{% endblock %}

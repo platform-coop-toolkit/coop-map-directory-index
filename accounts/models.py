@@ -5,6 +5,7 @@ from django.dispatch import receiver
 from django.contrib.auth.models import AbstractUser, UserManager
 from django_countries.fields import CountryField
 from django.core.exceptions import ValidationError
+from django.utils.translation import gettext_lazy as _
 
 
 class MyUserManager(UserManager):
@@ -78,6 +79,7 @@ class User(AbstractUser):
     has_profile = models.BooleanField(default=False)
     middle_name = models.CharField(blank=True, max_length=255, unique=False)
     bio = models.TextField(blank=True, default='')
+    contact_email = models.EmailField(blank=True, default='', verbose_name=_('Contact email'))
     phone = models.CharField(blank=True, default='', max_length=255)
     address = models.CharField(blank=True, default='', max_length=255)
     city = models.CharField(blank=True, default='', max_length=255)

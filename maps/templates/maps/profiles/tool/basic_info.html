@@ -1,0 +1,66 @@
+{% extends "maps/base.html" %}
+{% load i18n %}
+{% load maps_extras %}
+{% block bodyclass %}form-wizard form-wizard--tool{% endblock %}
+{% block title %}{{ 'Basic information'|titlify }}{% endblock %}}
+
+{% block content %}
+    <form class="form" action="" method="post" novalidate>
+        <div class="page-header">
+            {% include 'maps/profiles/back.html' %}
+            <h1>{% trans 'Add a tool' %}</h1>
+            {% include 'maps/profiles/steps.html' %}
+        </div>
+        <div class="form__content">
+        {% if form.errors  %}
+        {% include 'maps/profiles/errors.html' %}
+        {% endif %}
+        <h2>{% trans 'Basic information' %}</h2>        
+        {{ wizard.management_form }}
+        {% csrf_token %}
+        {% if wizard.form.forms %}
+            {{ wizard.form.management_form }}
+            {% for form in wizard.form.forms %}
+                {{ form }}
+            {% endfor %}
+        {% else %}
+            {{ wizard.form.name.label_tag }}
+            {{ wizard.form.name }}
+            {{ wizard.form.niches.label_tag }}
+            <ul id="niches" class="input-group input-group__parent checkbox niches">
+            {% for parent, value in niche_dict.items %}
+                <li>
+                    {% if value.children|length > 0%}
+                    <label for="niche-{{ parent|slugify }}">
+                        <input class="input--parent" id="niche-{{ parent|slugify }}" type="checkbox" name="basic_info-niche-parents" value="niche-{{ parent|slugify }}" />{{ parent }}
+                    </label>
+                    <span class="filter-disclosure-label" hidden>{% blocktrans with parent=parent count=value.children|length %}show {{ count }} subtypes for "{{ parent }}"{% endblocktrans %}</span>
+                    <span class="supplementary-label" hidden>{% blocktrans with count=value.children|length %} (and {{ count }} subtopics){% endblocktrans %}</span>
+                    <ul class="input-group checkbox input-group__descendant">
+                    {% for child in value.children %}
+                        <li>
+                            <label for="niche-{{ child.id }}">
+                                <input id="niche-{{ child.id }}" type="checkbox" name="basic_info-niches" value="{{ child.id }}" {% if child.id in wizard.form.initial.niches %}checked {% endif %}/>{{ child.name|capfirst }}
+                            </label>
+                        </li>
+                    {% endfor %}
+                    </ul>
+                    {% else %}
+                    <label for="niche-{{ value.id }}">
+                        <input class="input--parent" id="niche-{{ value.id }}" type="checkbox" name="basic_info-niches" value="{{ value.id }}" {% if value.id in wizard.form.initial.niches %}checked {% endif %}/>{{ parent }}
+                    </label>
+                    {% endif %}
+                </li>
+            {% endfor %}
+            </ul>
+            {{ wizard.form.description.label_tag }}
+            {{ wizard.form.description }}
+            <span class="helptext">{{ wizard.form.description.help_text | safe }}</span>
+            {{ wizard.form.url.label_tag }}
+            {{ wizard.form.url }}
+        {% endif %}
+        {% include 'maps/profiles/footer.html' %}
+        </div>
+    </form>
+    {% include 'maps/profiles/cancel.html' %}
+{% endblock %}

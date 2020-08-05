@@ -1,0 +1,83 @@
+{% extends "maps/base.html" %}
+{% load i18n %}
+{% load maps_extras %}
+{% block bodyclass %}form-wizard form-wizard--tool{% endblock %}
+{% block title %}{{ 'Edit tool'|titlify }}{% endblock %}}
+
+{% block content %}
+    <form class="form" action="" method="post" novalidate>
+        <div class="page-header">
+            <h1>{% trans 'Edit tool' %}</h1>
+        </div>
+        <div class="form__content">
+        {% if form.errors  %}
+        {% include 'maps/profiles/errors.html' %}
+        {% endif %}
+        {% csrf_token %}
+        {{ form.name.label_tag }}
+        {{ form.name }}
+        {{ form.niches.label_tag }}
+        <ul id="niches" class="input-group input-group__parent checkbox niches">
+        {% for parent, value in niche_dict.items %}
+            <li>
+                {% if value.children|length > 0%}
+                <label for="niche-{{ parent|slugify }}">
+                    <input class="input--parent" id="niche-{{ parent|slugify }}" type="checkbox" name="basic_info-niche-parents" value="niche-{{ parent|slugify }}" />{{ parent }}
+                </label>
+                <span class="filter-disclosure-label" hidden>{% blocktrans with parent=parent count=value.children|length %}show {{ count }} subtypes for "{{ parent }}"{% endblocktrans %}</span>
+                <span class="supplementary-label" hidden>{% blocktrans with count=value.children|length %} (and {{ count }} subtopics){% endblocktrans %}</span>
+                <ul class="input-group checkbox input-group__descendant">
+                {% for child in value.children %}
+                    <li>
+                        <label for="niche-{{ child.id }}">
+                            <input id="niche-{{ child.id }}" type="checkbox" name="basic_info-niches" value="{{ child.id }}" {% if child.id in form.initial.niches %}checked {% endif %}/>{{ child.name|capfirst }}
+                        </label>
+                    </li>
+                {% endfor %}
+                </ul>
+                {% else %}
+                <label for="niche-{{ value.id }}">
+                    <input class="input--parent" id="niche-{{ value.id }}" type="checkbox" name="basic_info-niches" value="{{ value.id }}" {% if value.id in form.initial.niches %}checked {% endif %}/>{{ parent }}
+                </label>
+                {% endif %}
+            </li>
+        {% endfor %}
+        </ul>
+        {{ form.description.label_tag }}
+        {{ form.description }}
+        <span class="helptext">{{ form.description.help_text | safe }}</span>
+        {{ form.url.label_tag }}
+        {{ form.url }}
+        {{ form.pricing.label_tag }}
+        {{ form.pricing }}
+        {% if form.pricing.help_text %}
+        <span class="helptext">{{ form.pricing.help_text | safe }}</span>
+        {% endif %}
+        {{ form.license_type.label_tag }}
+        {{ form.license_type }}
+        {% if form.license_type.help_text %}
+        <span class="helptext">{{ form.license_type.help_text | safe }}</span>
+        {% endif %}
+        {{ form.license.label_tag }}
+        {{ form.license }}
+        {% if form.license.help_text %}
+        <span class="helptext">{{ form.license.help_text | safe }}</span>
+        {% endif %}
+        {{ form.sectors.label_tag }}
+        {{ form.sectors }}
+        {% if form.sectors.help_text %}
+        <span class="helptext">{{ form.sectors.help_text | safe }}</span>
+        {% endif %}
+        {{ form.languages_supported.label_tag }}
+        {{ form.languages_supported }}
+        {% if form.languages_supported.help_text %}
+        <span class="helptext">{{ form.languages_supported.help_text | safe }}</span>
+        {% endif %}
+        {{ form.coop_made.label_tag }}
+        {{ form.coop_made }}
+        {% if form.coop_made.help_text %}
+        <span class="helptext">{{ form.coop_made.help_text | safe }}</span>
+        {% endif %}
+        </div>
+    </form>
+{% endblock %}

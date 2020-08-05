@@ -35,6 +35,7 @@
             <span class="helptext">{{ wizard.form.languages.help_text | safe }}</span>
             {% endif %}
             <p class="h4">{% trans 'Date founded' %}</p>
+            <div class="date-wrapper">
             {{ wizard.form.year_founded.label_tag }}
             {{ wizard.form.year_founded }}
             {{ wizard.form.month_founded.label_tag }}
@@ -44,6 +45,7 @@
             {{ wizard.form.founded }}
             {{ wizard.form.founded_min_date }}
             {{ wizard.form.founded_max_date }}
+            </div>
             {{ wizard.form.url.label_tag }}
             {{ wizard.form.url }}
             {% if wizard.form.url.help_text %}

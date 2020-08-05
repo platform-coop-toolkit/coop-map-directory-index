@@ -2,6 +2,7 @@ const mix = require('laravel-mix');
 const webpack = require('webpack');
 
 require('laravel-mix-string-replace');
+require('laravel-mix-svelte');
 
 mix.setPublicPath('./maps/static/maps/dist');
 
@@ -13,10 +14,11 @@ mix.browserSync({
 mix.sass('maps/static/maps/css/app.scss', 'maps/static/maps/dist/css/', {
     sassOptions: {
         includePaths: [path.join(__dirname, 'node_modules')],   
-    },
-})
+    }
+});
 
 mix.js('maps/static/maps/js/app.js', 'maps/static/maps/dist/js/');
+mix.js('maps/static/maps/js/impact.js', 'maps/static/maps/dist/js/').svelte();
 
 mix.copy('node_modules/@platform-coop-toolkit/pinecone/src/assets/images', 'maps/static/maps/dist/images')
     .copy('maps/static/maps/images', 'maps/static/maps/dist/images') // Temporary.
@@ -24,7 +26,7 @@ mix.copy('node_modules/@platform-coop-toolkit/pinecone/src/assets/images', 'maps
 
 mix.copyDirectory('maps/static/maps/styles', 'maps/static/maps/dist/styles');
 
-mix.copy(`maps/static/maps/styles/${process.env.MAP_STYLE}/style.json`, 'maps/static/maps/dist/js/mapStyle.js')
+mix.copy(`maps/static/maps/styles/${process.env.MAP_STYLE}/style.json`, 'maps/static/maps/dist/styles/pcc/style.json')
   .stringReplace({
     test: /style\.json$/,
     loader: 'string-replace-loader',

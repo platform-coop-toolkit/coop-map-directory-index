@@ -33,9 +33,11 @@ class LegalStatusAdmin(ModelAdmin):
 class ServiceAdmin(ModelAdmin):
     list_display = ('name', 'order', 'description', )
 
+
 @admin.register(Type)
 class TypeAdmin(ModelAdmin):
     list_display = ('name', 'description')
+
 
 class OrganizationSocialNetworkInline(TabularInline):
     model = OrganizationSocialNetwork

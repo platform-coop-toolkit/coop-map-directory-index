@@ -21,7 +21,7 @@
         {% if wizard.form.forms %}
             {{ wizard.form.management_form }}
             {% for form in wizard.form.forms %}
-              <label for="{{ form.identifier.id_for_label }}">{{ form.initial.name }}</label>
+              {{ form.identifier.label_tag }}
               {{ form.identifier }}
               {{ form.socialnetwork }}
             {% endfor %}

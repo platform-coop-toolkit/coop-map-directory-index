@@ -1,0 +1,43 @@
+{% extends "maps/base.html" %}
+{% load i18n %}
+{% load maps_extras %}
+{% block bodyclass %}form-wizard{% endblock %}
+{% block title %}{{ 'Edit organization'|titlify }}{% endblock %}}
+
+{% block content %}
+    <form class="form" action="" method="post" novalidate>
+        {% csrf_token %}
+        <div class="page-header">
+            <h1>{% trans 'Edit organization' %}</h1>
+        </div>
+        <div class="form__content">
+        {% if form.errors  %}
+        {% include 'maps/profiles/errors.html' %}
+        {% endif %}
+        <h2>{% trans 'Basic information' %}</h2>
+        <h3>{% trans 'Primary information' %}</h3>
+        {{ form.type.label_tag }}
+        {{ form.type }}
+        {% if form.type.help_text %}
+        <span class="helptext">{{ form.type.help_text | safe }}</span>
+        {% endif %}
+        {{ form.name.label_tag }}
+        {{ form.name }}
+        {% if form.name.help_text %}
+        <span class="helptext">{{ form.name.help_text | safe }}</span>
+        {% endif %}
+        {{ form.languages.label_tag }}
+        {{ form.languages }}
+        {% if form.languages.help_text %}
+        <span class="helptext">{{ form.languages.help_text | safe }}</span>
+        {% endif %}
+        {{ form.url.label_tag }}
+        {{ form.url }}
+        {% if form.url.help_text %}
+        <span class="helptext">{{ form.url.help_text | safe }}</span>
+        {% endif %}
+        <div class="spacer"></div>
+        <button class="button" type="submit">{% trans 'Save' %}</button>
+        </div>
+    </form>
+{% endblock %}

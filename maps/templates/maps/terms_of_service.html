@@ -2,11 +2,11 @@
 {% load i18n %}
 {% load maps_extras %}
 {% block title %}{{ title |titlify }}{% endblock %}
-{% block bodyclass %}page{% endblock %}
+{% block bodyclass %}page page--directory{% endblock %}
 {% block content %}
     <div class="page-header">
-        <p><a class="link--breadcrumb" href="{% url 'index' %}">{% trans "Home" %}</a></p>
-        <h1><span class="pc-ff--sans pc-fw--normal">Platform Co-op</span><br/> Directory</h1>
+        <p><a class="link--breadcrumb" href="/">{% trans 'Home' %}</a></p>
+        <h1>{% trans 'Terms of service' %}</h1>
     </div>
     <h2>Terms of Use ("Terms")</h2>
 

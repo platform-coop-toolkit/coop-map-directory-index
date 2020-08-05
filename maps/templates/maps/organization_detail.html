@@ -5,7 +5,6 @@
 {% block bodyclass %}profile profile--organization{% endblock %}
 {% block content %}
   <div class="page-header">
-      
       <p>
         {% if organization.type.icon %}{% icon organization.type.icon %}{% endif %}
         {{ organization.type }}
@@ -34,7 +33,13 @@
           <a rel="external" href="{{ organization.url }}">{% trans 'Visit website' %}</a>
       </p>
       {% endif %}
+      {% if organization.admin_email == user.email %}
+      <div class="align-right">
+          <a href="{% url 'edit-basic-info' pk=organization.id %}">{% icon 'edit' %}{% trans 'Edit basic information' %}</a>
+      </div>
+      {% endif %}
   </div>
+  {% include 'maps/partials/messages.html' %}
   <div class="tabs">
   <div role="tablist" aria-labelledby="tabs-label">
     <span class="screen-reader-text" id="tabs-label">{% trans 'tab group' %}</span>
@@ -137,6 +142,11 @@
       {% endif %}
     </div>
     <div class="panel__content">
+      {% if organization.admin_email == user.email %}
+      <div class="edit align-right">
+          <a href="{% url 'edit-overview' pk=organization.id %}">{% icon 'edit' %}{% trans 'Edit overview' %}</a>
+      </div>
+      {% endif %}
       <h2>{% trans 'Description' %}</h2>
       {% if organization.description %}
       <p>{{ organization.description }}</p>
@@ -260,6 +270,11 @@
   {% endif %}
   {% if organization.email or organization.city or organization.country %}
   <div id="contact" role="tabpanel" aria-labelledby="contact-btn">
+    {% if organization.admin_email == user.email %}
+    <div class="edit align-right">
+        <a href="{% url 'edit-contact' pk=organization.id %}">{% icon 'edit' %}{% trans 'Edit contact information' %}</a>
+    </div>
+    {% endif %}
     <h2>{% trans 'Contact' %}</h2>
     <div class="columns">
     {% if organization.email or organization.phone %}
