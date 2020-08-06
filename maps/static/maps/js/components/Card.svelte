@@ -7,6 +7,12 @@ const type = (organization.properties.type === 'null') ? null : {
     name: organization.properties.type
 };
 
+let country = false;
+
+if (organization.properties.country !== '') {
+    country = JSON.parse(organization.properties.country).name;
+}
+
 if (type) {
     switch (type.name) {
         case 'Cooperative':
@@ -50,14 +56,14 @@ console.log(organization);
         </p>
         {/if}
         <div class="card__aside">
-            {#if organization.properties.city || organization.properties.state || organization.properties.country}
+            {#if organization.properties.city || organization.properties.state || country}
             <div class="card__meta">
                 <span class="card__locality">
                     <span class="screen-reader-text">location: </span>
                     <Icon name={'location'} />
                         {#if organization.properties.city}{organization.properties.city}, {/if}
-                        {#if organization.properties.state}{organization.properties.state}{#if organization.properties.country},{/if} {/if}
-                        {#if organization.properties.country}{organization.properties.country}{/if}
+                        {#if organization.properties.state}{organization.properties.state}{#if country},{/if} {/if}
+                        {#if country}{country}{/if}
                 </span>
             </div>
             {/if}

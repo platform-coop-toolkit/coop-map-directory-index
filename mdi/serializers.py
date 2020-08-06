@@ -4,11 +4,12 @@ from rest_framework.serializers import SerializerMethodField
 from django.contrib.auth.models import Group
 from mdi.models import Organization, SocialNetwork, Sector, Tool, License, Language, Niche
 from rest_framework_gis.serializers import GeoFeatureModelSerializer
-from django_countries.serializers import CountryFieldMixin
+from django_countries.serializer_fields import CountryField
 
 
-class UserSerializer(CountryFieldMixin, GeoFeatureModelSerializer):
+class UserSerializer(GeoFeatureModelSerializer):
     source = serializers.StringRelatedField(source='source.name')
+    country = CountryField(country_dict=True)
 
     class Meta:
         model = get_user_model()
@@ -93,11 +94,13 @@ class ToolSerializer(serializers.HyperlinkedModelSerializer):
         )
 
 
-class OrganizationSerializer(CountryFieldMixin, GeoFeatureModelSerializer):
+class OrganizationSerializer(GeoFeatureModelSerializer):
     categories = serializers.StringRelatedField(many=True)
     source = serializers.StringRelatedField()
     stage = serializers.StringRelatedField()
     type = serializers.StringRelatedField()
+    languages = LanguageSerializer(many=True)
+    country = CountryField(country_dict=True)
     sectors = serializers.StringRelatedField(many=True)
     socialnetworks = serializers.StringRelatedField(many=True)
     tools = serializers.StringRelatedField(many=True)
@@ -114,6 +117,7 @@ class OrganizationSerializer(CountryFieldMixin, GeoFeatureModelSerializer):
             'state',
             'postal_code',
             'country',
+            'languages',
             'url',
             'socialnetworks',
             'categories',
