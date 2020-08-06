@@ -696,7 +696,7 @@ h1 + .profile__meta {
 @include breakpoint-up(lg) {
   .page.page--impact {
     main {
-      @include grid-column-span(8, 12, 3);
+      @include grid-column-span(8, 12, 5);
     }
 
     .form {
