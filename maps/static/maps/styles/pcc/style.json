@@ -40,8 +40,8 @@
       "type": "vector"
     }
   },
-  "sprite": "http://localhost:3000/static/maps/dist/styles/pcc/sprites",
-  "glyphs": "http://localhost:8078/glyphs/{fontstack}/{range}.pbf",
+  "sprite": "https://directory.platform.coop/static/maps/dist/styles/pcc/sprites",
+  "glyphs": "https://directory.platform.coop/static/maps/dist/styles/glyphs/{fontstack}/{range}.pbf",
   "layers": [
     {
       "id": "background",
