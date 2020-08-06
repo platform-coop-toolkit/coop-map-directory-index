@@ -1,5 +1,6 @@
 const mix = require('laravel-mix');
 const globby = require('globby');
+const webpack = require('webpack');
 const CopyPlugin = require('copy-webpack-plugin');
 
 require('laravel-mix-svelte');
@@ -66,6 +67,9 @@ mix.webpackConfig({
           },
         },
       ],
+    }),
+    new webpack.DefinePlugin({
+      'process.env.MAP_ASSETS_BASE_URL': (process.env.MAP_ASSETS_BASE_URL) ? JSON.stringify(process.env.MAP_ASSETS_BASE_URL) : JSON.stringify('https://directory.platform.coop')
     })
   ]
 });
