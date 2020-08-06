@@ -1,27 +1,36 @@
 import Pinecone from '@platform-coop-toolkit/pinecone';
+import Cards from './components/Cards.svelte';
+
 
 export const generateCards = (map, layers) => {
   let visibleFeatures = map.queryRenderedFeatures({layers: layers});
   if (visibleFeatures) {
-    let htmlString = '<ul class="cards">\n';
-    visibleFeatures.forEach(function (f) {
-      htmlString += `<li class="card__wrapper"><article id="${f.id}" class="card"><header><h3 class="card__title"><span class="card__format">${f.properties.categories.replace('[', '').replace(']', '').replace(/","/g, ', ').replace(/"/g, '').toUpperCase()}</span><span class="screen-reader-text">: </span><a class="card__link" href="/organizations/${f.id}">${f.properties.name}</a></h3></header><aside class="card__aside">\n`;
-      if (f.properties.sectors) {
-        htmlString += `<strong>${f.properties.sectors.replace('[', '').replace(']', '').replace(/","/g, ', ').replace(/"/g, '')}</strong><br />`;
+    new Cards({
+      target: document.getElementById('visibles'),
+      props: {
+        features: visibleFeatures
       }
-      if (f.properties.city) {
-        htmlString += `${f.properties.city} `;
-      }
-      if (f.properties.state) {
-        htmlString += `${f.properties.state} `;
-      }
-      if (f.properties.country) {
-        htmlString += `${f.properties.country}`;
-      }
-      htmlString += '</aside></article></li>';
     });
-    htmlString += '</ul>';
-    document.getElementById('visibles').innerHTML = htmlString;
+    
+    // let htmlString = '<ul class="cards">\n';
+    // visibleFeatures.forEach(function (f) {
+    //   htmlString += `<li class="card__wrapper"><article id="${f.id}" class="card"><header><h3 class="card__title"><span class="card__format">${f.properties.categories.replace('[', '').replace(']', '').replace(/","/g, ', ').replace(/"/g, '').toUpperCase()}</span><span class="screen-reader-text">: </span><a class="card__link" href="/organizations/${f.id}">${f.properties.name}</a></h3></header><aside class="card__aside">\n`;
+    //   if (f.properties.sectors) {
+    //     htmlString += `<strong>${f.properties.sectors.replace('[', '').replace(']', '').replace(/","/g, ', ').replace(/"/g, '')}</strong><br />`;
+    //   }
+    //   if (f.properties.city) {
+    //     htmlString += `${f.properties.city} `;
+    //   }
+    //   if (f.properties.state) {
+    //     htmlString += `${f.properties.state} `;
+    //   }
+    //   if (f.properties.country) {
+    //     htmlString += `${f.properties.country}`;
+    //   }
+    //   htmlString += '</aside></article></li>';
+    // });
+    // htmlString += '</ul>';
+    // document.getElementById('visibles').innerHTML = htmlString;
 
     [...document.getElementsByTagName('article')].forEach(function (card) {
       new Pinecone.Card( card );
