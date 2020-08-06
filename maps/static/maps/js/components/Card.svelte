@@ -3,15 +3,33 @@ import Icon from './Icon.svelte';
 
 export let organization;
 
-if (organization.properties.type === 'null') {
-    organization.properties.type = null;
+const type = (organization.properties.type === 'null') ? null : {
+    name: organization.properties.type
+};
+
+if (type) {
+    switch (type.name) {
+        case 'Cooperative':
+            type.icon = 'cooperative';
+        break;
+    case 'Potential cooperative':
+        type.icon = 'converting';
+        break;
+    case 'Shared platform':
+        type.icon = 'shared-platform';
+        break;
+    case 'Supporting organization':
+        type.icon = 'support-organization';
+        break;
+    }
 }
 
-organization.properties.categories = organization.properties.categories.replace('[', '').replace(']', '').replace(/","/g, ',').replace(/"/g, '').split(',').filter((el) => {
-  return el != '';
+const categories = organization.properties.categories.replace('[', '').replace(']', '').replace(/","/g, ',').replace(/"/g, '').split(',').filter((el) => {
+      return el != '';
 });
-organization.properties.sectors = organization.properties.sectors.replace('[', '').replace(']', '').replace(/","/g, ',').replace(/"/g, '').split(',').filter((el) => {
-  return el != '';
+
+const sectors = organization.properties.sectors.replace('[', '').replace(']', '').replace(/","/g, ',').replace(/"/g, '').split(',').filter((el) => {
+      return el != '';
 });
 
 console.log(organization);
@@ -24,11 +42,11 @@ console.log(organization);
                 <a class="card__link" href="/organizations/{organization.id}">{organization.properties.name}</a>
             </h3>
         </header>
-        {#if organization.properties.type}
+        {#if type}
         <p class="card__meta card__type">
             <span class="screen-reader-text">type: </span>
-            {#if organization.properties.type.icon}<Icon name={organization.properties.type.icon} />{/if}
-            {organization.properties.type}
+            {#if type.icon}<Icon name={type.icon} />{/if}
+            {type.name}
         </p>
         {/if}
         <div class="card__aside">
@@ -52,24 +70,24 @@ console.log(organization);
                 </span>
             </div>
             {/if}
-            {#if organization.properties.categories.length > 0}
+            {#if categories.length > 0}
             <div class="card__meta">
                 <span class="card__subtypes">
-                    <span class="screen-reader-text">{#if organization.properties.type == 'Cooperative'}cooperative{:else}organization{/if} types: </span>
+                    <span class="screen-reader-text">{#if type == 'Cooperative'}cooperative{:else}organization{/if} types: </span>
                     <Icon name={'coop-type'} />
-                    {#each organization.properties.categories as type, index}
-                        {type}{#if index + 1 < organization.properties.categories.length},&nbsp;{/if}
+                    {#each categories as type, index}
+                        {type}{#if index + 1 < categories.length},&nbsp;{/if}
                     {/each}
                 </span>
             </div>
             {/if}
-            {#if organization.properties.sectors.length > 0}
+            {#if sectors.length > 0}
             <div class="card__meta">
                 <span class="card__subtypes">
                     <span class="screen-reader-text">sectors: </span>
                     <Icon name={'sector-small'} />
-                    {#each organization.properties.sectors as sector, index}
-                        {sector}{#if index + 1 < organization.properties.sectors.length},&nbsp;{/if}
+                    {#each sectors as sector, index}
+                        {sector}{#if index + 1 < sectors.length},&nbsp;{/if}
                     {/each}
                 </span>
             </div>
