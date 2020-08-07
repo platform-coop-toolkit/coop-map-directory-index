@@ -1,4 +1,3 @@
-import Pinecone from '@platform-coop-toolkit/pinecone';
 import Cards from './components/Cards.svelte';
 import { features } from './store.js';
 
@@ -8,10 +7,6 @@ import { features } from './store.js';
 export const generateCards = () => {
   new Cards({
     target: document.getElementById('visibles')
-  });
-  
-  [...document.getElementsByTagName('article')].forEach(function (card) {
-    new Pinecone.Card( card );
   });
 };
 
