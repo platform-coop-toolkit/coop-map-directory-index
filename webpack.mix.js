@@ -20,7 +20,7 @@ mix.sass('maps/static/maps/css/app.scss', `${distDir}/css/`, {
     }
 });
 
-mix.js('maps/static/maps/js/app.js', `${distDir}/js/`);
+mix.js('maps/static/maps/js/app.js', `${distDir}/js/`).svelte();
 mix.js('maps/static/maps/js/impact.js', `${distDir}/js/`).svelte();
 
 mix.copyDirectory('node_modules/@platform-coop-toolkit/pinecone/src/assets/images', `${distDir}/images`)
