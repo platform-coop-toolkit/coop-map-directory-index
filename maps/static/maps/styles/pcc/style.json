@@ -178,33 +178,7 @@
                     0
                 ]
             }
-        },
-        {
-            "id": "urban-areas",
-            "type": "fill",
-            "source": "mapbox_streets",
-            "source-layer": "urban_areas",
-            "maxzoom": 11,
-            "layout": {
-                "visibility": "none"
-            },
-            "paint": {
-                "fill-color": "#e6e5e1",
-                "fill-opacity": [
-                    "interpolate",
-                    [
-                        "linear"
-                    ],
-                    [
-                        "zoom"
-                    ],
-                    6,
-                    0.4,
-                    11,
-                    0.6
-                ]
-            }
-        },
+        }
         {
             "id": "sites",
             "type": "fill",
