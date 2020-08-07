@@ -1,5 +1,5 @@
 import Pinecone from '@platform-coop-toolkit/pinecone';
-import { generateCards, generatePopupHtml } from './cards.js';
+import { generateCards, generatePopupHtml, updateStore } from './cards.js';
 
 const menu = document.querySelector('.menu');
 const menuToggle = document.querySelector('.menu-toggle');
@@ -595,13 +595,14 @@ if (mainMapContainer) {
       mainMap.getCanvas().style.cursor = '';
     });
 
-    generateCards(mainMap, ['unclustered-point']);
+    generateCards();
+    updateStore(mainMap, ['unclustered-point']);
 
     mainMap.on('render', function () {
-      generateCards(mainMap, ['unclustered-point']);
+      updateStore(mainMap, ['unclustered-point']);
     });
     mainMap.on('moveend', function () {
-      generateCards(mainMap, ['unclustered-point']);
+      updateStore(mainMap, ['unclustered-point']);
     });
 
     // mainMap.addLayer({
