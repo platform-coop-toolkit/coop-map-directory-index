@@ -17,6 +17,9 @@ function processOrganization(feature) {
         props.country = JSON.parse(props.country);
     }
 
+    props.city = props.city.trim();
+    props.state = props.state.trim();
+
     props.categories = JSON.parse(props.categories);
     props.languages = JSON.parse(props.languages);
     props.sectors = JSON.parse(props.sectors);
@@ -38,6 +41,9 @@ function processIndividual(feature) {
     if (props.country !== '') {
         props.country = JSON.parse(props.country);
     }
+
+    props.city = props.city.trim();
+    props.state = props.state.trim();
 
     props.languages = JSON.parse(props.languages);
 
