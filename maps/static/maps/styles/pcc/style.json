@@ -161,7 +161,7 @@
                 "visibility": "visible"
             },
             "paint": {
-                "fill-color": "#45d385",
+                "fill-color": "#c1d7c6",
                 "fill-opacity": [
                     "interpolate",
                     [
@@ -177,19 +177,6 @@
                     12,
                     0
                 ]
-            }
-        }
-        {
-            "id": "sites",
-            "type": "fill",
-            "source": "mapbox_streets",
-            "source-layer": "sites",
-            "layout": {
-                "visibility": "none"
-            },
-            "paint": {
-                "fill-color": "#eee7dd",
-                "fill-opacity": 0.7
             }
         },
         {
@@ -213,10 +200,10 @@
                 "visibility": "visible"
             },
             "paint": {
-                "fill-color": "#0b8441",
+                "fill-color": "#c1d7c6",
                 "fill-antialias": false,
-                "fill-opacity": 0.15,
-                "fill-outline-color": "#294040"
+                "fill-opacity": 1.0,
+                "fill-outline-color": "#c1d7c6"
             }
         },
         {
@@ -229,7 +216,7 @@
                 "line-join": "round"
             },
             "paint": {
-                "line-color": "#d5ddd0",
+                "line-color": "#c1d7c6",
                 "line-width": [
                     "interpolate",
                     [
@@ -271,7 +258,7 @@
                 "visibility": "visible"
             },
             "paint": {
-                "fill-color": "#973102",
+                "fill-color": "#c1d7c6",
                 "fill-opacity": [
                     "interpolate",
                     [
@@ -285,18 +272,6 @@
                     12,
                     0.1
                 ]
-            }
-        },
-        {
-            "id": "foreshore",
-            "type": "fill",
-            "source": "mapbox_streets",
-            "source-layer": "foreshore",
-            "layout": {
-                "visibility": "none"
-            },
-            "paint": {
-                "fill-color": "#e9e7e2"
             }
         },
         {
