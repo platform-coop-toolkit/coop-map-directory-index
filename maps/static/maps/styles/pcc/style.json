@@ -755,12 +755,29 @@
             },
             "filter": [
                 "all",
-                ["==", ["get", "admin_level"], 0],
-                ["==", ["get", "maritime"], "false"]
+                [
+                    "==",
+                    [
+                        "get",
+                        "admin_level"
+                    ],
+                    0
+                ],
+                [
+                    "==",
+                    [
+                        "get",
+                        "maritime"
+                    ],
+                    "false"
+                ]
             ],
             "paint": {
                 "line-color": "#858585",
-                "line-dasharray": [3, 1]
+                "line-dasharray": [
+                    3,
+                    1
+                ]
             }
         },
         {
@@ -773,70 +790,31 @@
             },
             "filter": [
                 "all",
-                ["==", ["get", "admin_level"], 1],
-                ["==", ["get", "maritime"], "false"]
+                [
+                    "==",
+                    [
+                        "get",
+                        "admin_level"
+                    ],
+                    1
+                ],
+                [
+                    "==",
+                    [
+                        "get",
+                        "maritime"
+                    ],
+                    "false"
+                ]
             ],
             "paint": {
                 "line-color": "#c5c5c6",
-                "line-dasharray": [2, 2, 4, 2]
-            }
-        },
-        {
-            "id": "road numbers",
-            "type": "symbol",
-            "metadata": {
-                "mapbox:group": "beaf4956fb8a63410ecf80abdebcdfb5"
-            },
-            "source": "mapbox_streets",
-            "source-layer": "road",
-            "minzoom": 10,
-            "filter": [
-                "match",
-                [
-                    "get",
-                    "type"
-                ],
-                [
-                    "primary",
-                    "motorway"
-                ],
-                false,
-                true
-            ],
-            "layout": {
-                "text-field": [
-                    "to-string",
-                    [
-                        "get",
-                        "number"
-                    ]
-                ],
-                "symbol-placement": "line",
-                "text-max-angle": 45,
-                "text-size": [
-                    "interpolate",
-                    [
-                        "linear"
-                    ],
-                    [
-                        "zoom"
-                    ],
-                    10,
-                    8,
-                    15,
-                    11,
-                    22,
-                    28
-                ],
-                "text-font": [
-                    "Noto Sans Regular"
+                "line-dasharray": [
+                    2,
+                    2,
+                    4,
+                    2
                 ]
-            },
-            "paint": {
-                "text-halo-color": "hsl(0, 0%, 100%)",
-                "text-halo-width": 1,
-                "text-halo-blur": 1,
-                "text-color": "#6a6f73"
             }
         },
         {
@@ -856,6 +834,7 @@
                 ],
                 [
                     "primary",
+                    "trunk",
                     "motorway"
                 ],
                 false,
@@ -881,28 +860,12 @@
                     [
                         "zoom"
                     ],
-                    10,
-                    8,
+                    9,
+                    12,
                     15,
-                    10,
-                    22,
-                    25
+                    16
                 ],
-                "symbol-spacing": [
-                    "interpolate",
-                    [
-                        "linear"
-                    ],
-                    [
-                        "zoom"
-                    ],
-                    10,
-                    25,
-                    15,
-                    97,
-                    17,
-                    250
-                ],
+                "text-letter-spacing": 0.1,
                 "text-max-angle": 82,
                 "text-padding": 1
             },
@@ -910,7 +873,7 @@
                 "text-halo-color": "hsl(0, 0%, 100%)",
                 "text-halo-width": 1,
                 "text-halo-blur": 1,
-                "text-color": "#6a6f73"
+                "text-color": "#4a5459"
             }
         },
         {
@@ -939,7 +902,7 @@
                     "to-string",
                     [
                         "get",
-                        "number"
+                        "ref"
                     ]
                 ],
                 "symbol-placement": "line",
@@ -953,28 +916,13 @@
                         "zoom"
                     ],
                     9,
-                    8.5,
-                    15,
                     12,
-                    22,
-                    28
-                ],
-                "text-font": [
-                    "Noto Sans Bold"
+                    15,
+                    16
                 ],
                 "text-letter-spacing": 0.1,
-                "symbol-spacing": [
-                    "interpolate",
-                    [
-                        "linear"
-                    ],
-                    [
-                        "zoom"
-                    ],
-                    9,
-                    50,
-                    15,
-                    250
+                "text-font": [
+                    "Noto Sans Regular"
                 ],
                 "visibility": "visible"
             },
@@ -982,7 +930,7 @@
                 "text-halo-color": "#ffffff",
                 "text-halo-width": 1.25,
                 "text-halo-blur": 0,
-                "text-color": "#6a6f73"
+                "text-color": "#4a5459"
             }
         },
         {
@@ -993,7 +941,7 @@
             },
             "source": "mapbox_streets",
             "source-layer": "road",
-            "minzoom": 8,
+            "minzoom": 6,
             "filter": [
                 "match",
                 [
@@ -1011,10 +959,10 @@
                     "to-string",
                     [
                         "get",
-                        "number"
+                        "ref"
                     ]
                 ],
-                "symbol-placement": "line",
+                "symbol-placement": "line-center",
                 "text-max-angle": 45,
                 "text-size": [
                     "interpolate",
@@ -1024,146 +972,21 @@
                     [
                         "zoom"
                     ],
-                    8,
-                    8.5,
-                    10,
                     9,
-                    15,
                     12,
-                    22,
-                    28
+                    15,
+                    16
                 ],
                 "text-font": [
-                    "Noto Sans Bold"
+                    "Noto Sans Regular"
                 ],
-                "text-letter-spacing": 0.1,
-                "symbol-spacing": [
-                    "interpolate",
-                    [
-                        "linear"
-                    ],
-                    [
-                        "zoom"
-                    ],
-                    8,
-                    50,
-                    15,
-                    250
-                ]
+                "text-letter-spacing": 0.1
             },
             "paint": {
                 "text-halo-color": "#ffffff",
                 "text-halo-width": 1.25,
                 "text-halo-blur": 0,
-                "text-color": "#6a6f73"
-            }
-        },
-        {
-            "id": "motorway junction numbers",
-            "type": "symbol",
-            "metadata": {
-                "mapbox:group": "e196265c0e550aaddd2885dc32fdb674"
-            },
-            "source": "mapbox_streets",
-            "source-layer": "motorway_junction",
-            "minzoom": 13,
-            "filter": [
-                "match",
-                [
-                    "get",
-                    "class"
-                ],
-                [
-                    "motorway"
-                ],
-                true,
-                false
-            ],
-            "layout": {
-                "text-field": [
-                    "to-string",
-                    [
-                        "get",
-                        "name"
-                    ]
-                ],
-                "text-size": [
-                    "interpolate",
-                    [
-                        "linear"
-                    ],
-                    [
-                        "zoom"
-                    ],
-                    13,
-                    11,
-                    16,
-                    16,
-                    22,
-                    30
-                ],
-                "text-font": [
-                    "Noto Bold"
-                ]
-            },
-            "paint": {
-                "text-color": "#ffffff",
-                "text-halo-color": "#9c9c9c",
-                "text-halo-width": 10
-            }
-        },
-        {
-            "id": "greenspace names",
-            "type": "symbol",
-            "metadata": {
-                "mapbox:group": "e196265c0e550aaddd2885dc32fdb674"
-            },
-            "source": "mapbox_streets",
-            "source-layer": "poi_label",
-            "minzoom": 13,
-            "filter": [
-                "match",
-                [
-                    "get",
-                    "class"
-                ],
-                [
-                    "park_like"
-                ],
-                true,
-                false
-            ],
-            "layout": {
-                "text-field": [
-                    "to-string",
-                    [
-                        "get",
-                        "name_en"
-                    ]
-                ],
-                "text-size": [
-                    "interpolate",
-                    [
-                        "linear"
-                    ],
-                    [
-                        "zoom"
-                    ],
-                    13,
-                    9,
-                    14,
-                    11
-                ],
-                "text-font": [
-                    "Noto Sans Regular"
-                ],
-                "text-line-height": 1
-            },
-            "paint": {
-                "text-color": "#5d8366",
-                "text-halo-color": "#f1efec",
-                "text-halo-width": 1,
-                "text-halo-blur": 1
+                "text-color": "#4a5459"
             }
         },
         {
@@ -1175,18 +998,6 @@
             "source": "mapbox_streets",
             "source-layer": "poi_label",
             "minzoom": 13,
-            "filter": [
-                "match",
-                [
-                    "get",
-                    "class"
-                ],
-                [
-                    "landmark"
-                ],
-                false,
-                true
-            ],
             "layout": {
                 "text-field": [
                     "to-string",
@@ -1195,40 +1006,29 @@
                         "name_en"
                     ]
                 ],
-                "text-size": [
-                    "interpolate",
-                    [
-                        "linear"
-                    ],
-                    [
-                        "zoom"
-                    ],
-                    13,
-                    9,
-                    14,
-                    11
-                ],
+                "text-size": 12,
                 "text-font": [
-                    "Noto Sans Regular"
+                    "Noto Sans Semibold"
                 ],
                 "text-line-height": 1
             },
             "paint": {
-                "text-color": "#6a6f73",
-                "text-halo-color": "#f1efec",
+                "text-color": "#677174",
+                "text-halo-color": "#ffffff",
                 "text-halo-width": 1,
-                "text-halo-blur": 1
+                "text-halo-blur": 1,
+                "text-opacity": 1.0
             }
         },
         {
-            "id": "landform names",
+            "id": "major water names",
             "type": "symbol",
             "metadata": {
                 "mapbox:group": "e196265c0e550aaddd2885dc32fdb674"
             },
             "source": "mapbox_streets",
             "source-layer": "natural_label",
-            "minzoom": 5,
+            "minzoom": 1,
             "filter": [
                 "match",
                 [
@@ -1236,7 +1036,7 @@
                     "class"
                 ],
                 [
-                    "landform"
+                    "ocean"
                 ],
                 true,
                 false
@@ -1249,40 +1049,39 @@
                         "name_en"
                     ]
                 ],
-                "text-size": [
-                    "interpolate",
-                    [
-                        "linear"
-                    ],
-                    [
-                        "zoom"
-                    ],
-                    11,
-                    9,
-                    14,
-                    11
-                ],
+                "text-size": 16,
                 "text-font": [
-                    "Noto Sans Regular"
+                    "Noto Sans Italic"
                 ],
                 "text-line-height": 1
             },
             "paint": {
-                "text-color": "#6a6f73",
-                "text-halo-color": "#f1efec",
-                "text-halo-width": 1,
-                "text-halo-blur": 1
+                "text-color": "#82A9B8"
             }
         },
         {
-            "id": "water names",
+            "id": "minor water names",
             "type": "symbol",
             "metadata": {
                 "mapbox:group": "e196265c0e550aaddd2885dc32fdb674"
             },
             "source": "mapbox_streets",
-            "source-layer": "water",
-            "minzoom": 12,
+            "source-layer": "natural_label",
+            "minzoom": 1,
+            "filter": [
+                "match",
+                [
+                    "get",
+                    "class"
+                ],
+                [
+                    "bay",
+                    "sea",
+                    "water"
+                ],
+                true,
+                false
+            ],
             "layout": {
                 "text-field": [
                     "to-string",
@@ -1291,29 +1090,14 @@
                         "name_en"
                     ]
                 ],
-                "text-size": [
-                    "interpolate",
-                    [
-                        "linear"
-                    ],
-                    [
-                        "zoom"
-                    ],
-                    11,
-                    9,
-                    14,
-                    11
-                ],
+                "text-size": 12,
                 "text-font": [
                     "Noto Sans Italic"
                 ],
                 "text-line-height": 1
             },
             "paint": {
-                "text-color": "#6c8499",
-                "text-halo-color": "#f1efec",
-                "text-halo-width": 1,
-                "text-halo-blur": 1
+                "text-color": "#82A9B8"
             }
         },
         {
