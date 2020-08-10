@@ -11,7 +11,7 @@ function processOrganization(feature) {
 
     props.id = feature.id;
 
-    props.type = (props.type === 'null') ? null : JSON.parse(props.type);
+    props.type = (props.type === 'null') ? null : props.type;
 
     if (props.country !== '') {
         props.country = JSON.parse(props.country);

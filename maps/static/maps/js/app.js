@@ -447,39 +447,34 @@ if (mainMapContainer) {
 
   mainMap.on('load', function () {
     const
-      platformCoop = ['==', ['get', 'category'], 'platform co-op'],
-      coopRunPlatform = ['==', ['get', 'category'], 'co-op-run platform'],
-      sharedPlatform = ['==', ['get', 'category'], 'shared platform'],
-      supporter = ['==', ['get', 'category'], 'supporter'],
-      other = ['==', ['get', 'category'], ''],
-      colors = ['#e41a1c', '#377eb8', '#4daf4a', '#984ea3', '#ff7f00']
-    ;
-
-    const colorScale = d3.scaleOrdinal()
-      .domain('platformCoop', 'coopRunPlatform', 'sharedPlatform', 'supporter', 'other')
-      .range(colors)
-    ;
+      coop = ['==', ['get', 'type'], 'Cooperative'],
+      potentialCoop = ['==', ['get', 'type'], 'Potential cooperative'],
+      sharedPlatform = ['==', ['get', 'type'], 'Shared platform'],
+      supportingOrganization = ['==', ['get', 'type'], 'Supporting organization'],
+      other = ['any',
+        ['==', ['get', 'type'], 'Company'],
+        ['==', ['get', 'type'], 'Individual'],
+        ['==', ['get', 'type'], 'Resource']
+      ];
 
     let
       markers = {},
       markersOnScreen = {},
       point_counts = [],
-      totals
-    ;
+      totals;
 
     mainMap.addSource('organizations', {
       'type': 'geojson',
       'data': '/api/organizations/',
       'cluster': true,
       'clusterMaxZoom': 14,
-      'clusterRadius': 50 //,
-      // 'clusterProperties': {
-      //   'platformCoop': ['+', ['case', platformCoop, 1, 0]],
-      //   'coopRunPlatform': ['+', ['case', coopRunPlatform, 1, 0]],
-      //   'sharedPlatform': ['+', ['case', sharedPlatform, 1, 0]],
-      //   'supporter': ['+', ['case', supporter, 1, 0]],
-      //   'other': ['+', ['case', other, 1, 0]]
-      // }
+      'clusterRadius': 50,
+      'clusterProperties': {
+        'coop': ['+', ['case', coop, 1, 0]],
+        'potentialCoop': ['+', ['case', potentialCoop, 1, 0]],
+        'sharedPlatform': ['+', ['case', sharedPlatform, 1, 0]],
+        'supportingOrganization': ['+', ['case', supportingOrganization, 1, 0]]
+      }
     });
 
     mainMap.addSource('individuals', {
@@ -491,78 +486,172 @@ if (mainMapContainer) {
     });
 
     mainMap.addLayer({
-      id: 'clusters',
+      id: 'organization-clusters',
       type: 'circle',
       source: 'organizations',
       filter: ['has', 'point_count'],
-      // 'filter': ['!=', ['get', 'cluster'], true],
       'paint': {
         'circle-color': [
           'step',
           ['get', 'point_count'],
-          '#51bbd6',
+          '#1d7c79',
+          50,
+          '#16605d',
           100,
-          '#f1f075',
-          750,
-          '#f28cb1'
+          '#18514f',
+          200,
+          '#1c4342',
+          500,
+          '#203131'
         ],
         'circle-radius': [
           'step',
           ['get', 'point_count'],
           20,
-          100,
+          10,
           30,
-          750,
-          40
-        ], //[
-        //   'case',
-        //   platformCoop, colorScale('platformCoop'),
-        //   coopRunPlatform, colorScale('coopRunPlatform'),
-        //   sharedPlatform, colorScale('sharedPlatform'),
-        //   supporter, colorScale('supporter'),
-        //   other, colorScale('other'),
-        //   '#999'
-        // ],
-        'circle-opacity': 0.8,
+          50,
+          40,
+          100,
+          50,
+          200,
+          60,
+          500,
+          70
+        ],
+        'circle-opacity': 0.9,
       }
     });
 
     mainMap.addLayer({
-      id: 'cluster-count',
+      id: 'individual-clusters',
+      type: 'circle',
+      source: 'individuals',
+      filter: ['has', 'point_count'],
+      'paint': {
+        'circle-color': [
+          'step',
+          ['get', 'point_count'],
+          '#1d7c79',
+          50,
+          '#16605d',
+          100,
+          '#18514f',
+          200,
+          '#1c4342',
+          500,
+          '#203131'
+        ],
+        'circle-radius': [
+          'step',
+          ['get', 'point_count'],
+          20,
+          10,
+          30,
+          50,
+          40,
+          100,
+          50,
+          200,
+          60,
+          500,
+          70
+        ],
+        'circle-opacity': 0.9,
+      }
+    });
+
+    mainMap.addLayer({
+      id: 'organization-cluster-count',
       type: 'symbol',
       source: 'organizations',
       filter: ['has', 'point_count'],
       layout: {
+        'text-font': ['Noto Sans Regular'],
         'text-field': '{point_count_abbreviated}',
         'text-size': 12
+      },
+      paint: {
+        'text-color': '#ffffff'
       }
     });
 
     mainMap.addLayer({
-      id: 'unclustered-point',
+      id: 'individual-cluster-count',
+      type: 'symbol',
+      source: 'individuals',
+      filter: ['has', 'point_count'],
+      layout: {
+        'text-font': ['Noto Sans Regular'],
+        'text-field': '{point_count_abbreviated}',
+        'text-size': 12
+      },
+      paint: {
+        'text-color': '#ffffff'
+      }
+    });
+
+    mainMap.addLayer({
+      id: 'unclustered-individuals',
+      type: 'circle',
+      source: 'individuals',
+      filter: ['!', ['has', 'point_count']],
+      paint: {
+        'circle-color': '#ff621a',
+        'circle-radius': 8,
+        'circle-stroke-width': 1,
+        'circle-stroke-color': '#294040'
+      }
+    });
+
+    mainMap.addLayer({
+      id: 'unclustered-organizations',
       type: 'circle',
       source: 'organizations',
       filter: ['!', ['has', 'point_count']],
       paint: {
         'circle-color': [
-          'match',
-          ['get', 'category'],
-          'platform co-op', colorScale('platformCoop'),
-          'co-op-run platform', colorScale('coopRunPlatform'),
-          'shared platform', colorScale('sharedPlatform'),
-          'supporter', colorScale('supporter'),
-          'other', colorScale('other'),
-          '#999'
+          'case',
+          coop, '#0b8441',
+          potentialCoop, '#c9f8db',
+          sharedPlatform, '#face00',
+          supportingOrganization, '#30cfc9',
+          other, '#585850',
+          '#585850'
         ],
-        'circle-radius': 8,
-        'circle-stroke-width': 1,
-        'circle-stroke-color': '#fff'
+        'circle-radius': [
+          'case',
+          coop, 8,
+          potentialCoop, 8,
+          sharedPlatform, 8,
+          supportingOrganization, 8,
+          other, 3,
+          3
+        ],
+        'circle-stroke-width': [
+          'case',
+          coop, 1,
+          potentialCoop, 1,
+          sharedPlatform, 1,
+          supportingOrganization, 1,
+          other, 6,
+          6
+        ],
+        'circle-stroke-color': [
+          'case',
+          coop, '#294040',
+          potentialCoop, '#294040',
+          sharedPlatform, '#294040',
+          supportingOrganization, '#294040',
+          other, '#b2b2a7',
+          '#b2b2a7'
+        ]
       }
     });
 
-    mainMap.on('click', 'clusters', function (e) {
+    mainMap.on('click', 'organization-clusters', function (e) {
       var features = mainMap.queryRenderedFeatures(e.point, {
-        layers: ['clusters']
+        layers: ['organization-clusters']
       });
       var clusterId = features[0].properties.cluster_id;
       mainMap.getSource('organizations').getClusterExpansionZoom(
@@ -578,7 +667,7 @@ if (mainMapContainer) {
       );
     });
 
-    mainMap.on('click', 'unclustered-point', function (e) {
+    mainMap.on('click', 'unclustered-organizations', function (e) {
       mainMap.getCanvas().style.cursor = 'pointer';
       let popup = new mapboxgl.Popup({
         closeButton: true,
@@ -590,21 +679,21 @@ if (mainMapContainer) {
         .addTo(mainMap);
     });
 
-    mainMap.on('mouseenter', 'clusters', function () {
+    mainMap.on('mouseenter', 'organization-clusters', function () {
       mainMap.getCanvas().style.cursor = 'pointer';
     });
-    mainMap.on('mouseleave', 'clusters', function () {
+    mainMap.on('mouseleave', 'organization-clusters', function () {
       mainMap.getCanvas().style.cursor = '';
     });
 
     generateCards();
-    updateStore(mainMap, ['unclustered-point']);
+    updateStore(mainMap, ['unclustered-organizations', 'unclustered-individuals']);
 
     mainMap.on('render', function () {
-      updateStore(mainMap, ['unclustered-point']);
+      updateStore(mainMap, ['unclustered-organizations', 'unclustered-individuals']);
     });
     mainMap.on('moveend', function () {
-      updateStore(mainMap, ['unclustered-point']);
+      updateStore(mainMap, ['unclustered-organizations', 'unclustered-individuals']);
     });
 
     // mainMap.addLayer({

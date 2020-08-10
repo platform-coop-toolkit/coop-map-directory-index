@@ -1106,7 +1106,7 @@
             },
             "source": "mapbox_streets",
             "source-layer": "place_label",
-            "minzoom": 5,
+            "minzoom": 8,
             "filter": [
                 "match",
                 [
