@@ -1,4 +1,5 @@
 import Pinecone from '@platform-coop-toolkit/pinecone';
+import * as d3 from 'd3';
 import { generateCards, generatePopupHtml, updateStore } from './cards.js';
 
 const menu = document.querySelector('.menu');
@@ -457,12 +458,6 @@ if (mainMapContainer) {
         ['==', ['get', 'type'], 'Resource']
       ];
 
-    let
-      markers = {},
-      markersOnScreen = {},
-      point_counts = [],
-      totals;
-
     mainMap.addSource('organizations', {
       'type': 'geojson',
       'data': '/api/organizations/',
@@ -532,15 +527,15 @@ if (mainMapContainer) {
         'circle-color': [
           'step',
           ['get', 'point_count'],
-          '#1d7c79',
+          '#fdc2a7',
           50,
-          '#16605d',
+          '#ffa47a',
           100,
-          '#18514f',
+          '#ff621a',
           200,
-          '#1c4342',
+          '#973102',
           500,
-          '#203131'
+          '#531A00'
         ],
         'circle-radius': [
           'step',
@@ -558,6 +553,8 @@ if (mainMapContainer) {
           70
         ],
         'circle-opacity': 0.9,
+        'circle-stroke-width': 1,
+        'circle-stroke-color': '#203131'
       }
     });
 
@@ -587,7 +584,13 @@ if (mainMapContainer) {
         'text-size': 12
       },
       paint: {
-        'text-color': '#ffffff'
+        'text-color': [
+          'step',
+          ['get', 'point_count'],
+          '#000000',
+          200,
+          '#ffffff'
+        ]
       }
     });
 
@@ -695,86 +698,5 @@ if (mainMapContainer) {
     mainMap.on('moveend', function () {
       updateStore(mainMap, ['unclustered-organizations', 'unclustered-individuals']);
     });
-
-    // mainMap.addLayer({
-    //   'id': 'organizations_individual_outer',
-    //   'type': 'circle',
-    //   'source': 'organizations',
-    //   'filter': ['!=', ['get', 'cluster'], true],
-    //   'paint': {
-    //     'circle-color': [
-    //       'case',
-    //       platformCoop, colorScale('platformCoop'),
-    //       coopRunPlatform, colorScale('coopRunPlatform'),
-    //       sharedPlatform, colorScale('sharedPlatform'),
-    //       supporter, colorScale('supporter'),
-    //       other, colorScale('other'),
-    //       '#999'
-    //     ],
-    //     'circle-opacity': 1.0,
-    //     'circle-stroke-width': 2,
-    //     'circle-radius': 10,
-    //     'circle-color': "rgba(0, 0, 0, 0)"
-    //   }
-    // });
-
-    // const updateMarkers = () => {
-    //   // keep track of new markers
-    //   let newMarkers = {};
-    //   // get the features whether or not they are visible (https://docs.mapbox.com/mapbox-gl-js/api/#map#queryrenderedfeatures)
-    //   const features = mainMap.querySourceFeatures('organizations');
-    //   totals = getPointCount(features);
-    //   // loop through each feature
-    //   features.forEach((feature) => {
-    //     const coordinates = feature.geometry.coordinates;
-    //     // get our properties, which include our clustered properties
-    //     const props = feature.properties;
-    //     // continue only if the point is part of a cluster
-    //     if (!props.cluster) {
-    //       return;
-    //     }
-    //     // if yes, get the cluster_id
-    //     const id = props.cluster_id;
-    //     // create a marker object with the cluster_id as a key
-    //     let marker = markers[id];
-    //     // if that marker doesn't exist yet, create it
-    //     if (!marker) {
-    //       // create an html element (more on this later)
-    //       const el = createDonutChart(props, totals);
-    //       // create the marker object passing the html element and the coordinates
-    //       marker = markers[id] = new mapboxgl.Marker({
-    //         element: el
-    //       }).setLngLat(coordinates);
-    //     }
-    //
-    //     // create an object in our newMarkers object with our current marker representing the current cluster
-    //     newMarkers[id] = marker;
-    //
-    //     // if the marker isn't already on screen then add it to the map
-    //     if (!markersOnScreen[id]) {
-    //       marker.addTo(mainMap);
-    //     }
-    //   });
-    //
-    //   // check if the marker with the cluster_id is already on the screen by iterating through our markersOnScreen object, which keeps track of that
-    //   for (id in markersOnScreen) {
-    //     // if there isn't a new marker with that id, then it's not visible, therefore remove it.
-    //     if (!newMarkers[id]) {
-    //       markersOnScreen[id].remove();
-    //     }
-    //   }
-    //   // otherwise, it is visible and we need to add it to our markersOnScreen object
-    //   markersOnScreen = newMarkers;
-    // };
-    //
-    // const getPointCount = (features) => {
-    //   features.forEach(f => {
-    //     if (f.properties.cluster) {
-    //       point_counts.push(f.properties.point_count)
-    //     }
-    //   });
-    //   return point_counts;
-    // };
-
   });
 }
