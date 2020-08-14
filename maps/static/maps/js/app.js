@@ -458,6 +458,18 @@ if (mainMapContainer) {
         ['==', ['get', 'type'], 'Resource']
       ];
 
+    const colors = ['#0b8441', '#c9f8db', '#face00', '#30cfc9', '#585850'];
+    
+    const colorScale = d3.scaleOrdinal()
+      .domain(['coop', 'potentialCoop', 'sharedPlatform', 'supportingOrganization', 'other'])
+      .range(colors);
+
+    // let
+    //   markers = {},
+    //   markersOnScreen = {},
+    //   point_counts = [],
+    //   totals;
+
     mainMap.addSource('organizations', {
       'type': 'geojson',
       'data': '/api/organizations/',
@@ -468,7 +480,8 @@ if (mainMapContainer) {
         'coop': ['+', ['case', coop, 1, 0]],
         'potentialCoop': ['+', ['case', potentialCoop, 1, 0]],
         'sharedPlatform': ['+', ['case', sharedPlatform, 1, 0]],
-        'supportingOrganization': ['+', ['case', supportingOrganization, 1, 0]]
+        'supportingOrganization': ['+', ['case', supportingOrganization, 1, 0]],
+        'other': ['+', ['case', other, 1, 0]]
       }
     });
 
@@ -479,6 +492,135 @@ if (mainMapContainer) {
       'clusterMaxZoom': 14,
       'clusterRadius': 50
     });
+
+    // const getPointCount = (features) => {
+    //   features.forEach(f => {
+    //     if (f.properties.cluster) {
+    //       point_counts.push(f.properties.point_count);
+    //     }
+    //   });
+    //   return point_counts;
+    // };
+
+    // const updateMarkers = () => {
+    //   // keep track of new markers
+    //   let newMarkers = {};
+    //   // get the features whether or not they are visible (https://docs.mapbox.com/mapbox-gl-js/api/#map#queryrenderedfeatures)
+    //   const features = mainMap.querySourceFeatures('organizations');
+      
+    //   totals = getPointCount(features);
+    
+    //   // loop through each feature
+    //   features.forEach((feature) => {
+    //     const coordinates = feature.geometry.coordinates;
+    //     // get our properties, which include our clustered properties
+    //     const props = feature.properties;
+    //     // continue only if the point is part of a cluster
+    //     if (!props.cluster) {
+    //       return;
+    //     }
+    //     // if yes, get the cluster_id
+    //     const id = props.cluster_id;
+    //     // create a marker object with the cluster_id as a key
+    //     let marker = markers[id];
+    //     // if that marker doesn't exist yet, create it
+    //     if (!marker) {
+    //       // create an html element (more on this later)
+    //       const el = createDonutChart(props, totals);
+    //       // create the marker object passing the html element and the coordinates
+    //       marker = markers[id] = new mapboxgl.Marker({
+    //         element: el
+    //       }).setLngLat(coordinates);
+    //     }
+        
+    //     // create an object in our newMarkers object with our current marker representing the current cluster
+    //     newMarkers[id] = marker;
+        
+    //     // if the marker isn't already on screen then add it to the map
+    //     if (!markersOnScreen[id]) {
+    //       marker.addTo(mainMap);
+    //     }
+    //   });
+      
+    //   // check if the marker with the cluster_id is already on the screen by iterating through our markersOnScreen object, which keeps track of that
+    //   for (let id in markersOnScreen) {
+    //     // if there isn't a new marker with that id, then it's not visible, therefore remove it. 
+    //     if (!newMarkers[id]) {
+    //       markersOnScreen[id].remove();
+    //     }
+    //   }
+    //   // otherwise, it is visible and we need to add it to our markersOnScreen object
+    //   markersOnScreen = newMarkers;
+    // };
+
+    // const createDonutChart = (props, totals) => {
+    //   // create a div element to hold our marker
+    //   const div = document.createElement('div');
+      
+    //   // create our array with our data
+    //   const data = [
+    //     {type: 'coop', count: props.coop},
+    //     {type: 'potentialCoop', count: props.potentialCoop},
+    //     {type: 'sharedPlatform', count: props.sharedPlatform},
+    //     {type: 'supportingOrganization', count: props.supportingOrganization},
+    //     {type: 'other', count: props.other},
+    //   ];
+      
+    //   // svg config
+    //   const thickness = 10;
+      
+    //   // this sets the scale for our circle radius and this is why we need the totals. We need to set a mininum and a maximum to define the domain and the range. 
+    //   const scale = d3.scaleLinear()
+    //     .domain([d3.min(totals), d3.max(totals)])
+    //     .range([500, d3.max(totals)]);
+      
+    //   // calculate the radius
+    //   const radius = Math.sqrt(scale(props.point_count));
+    //   // calculate the radius of the smaller circle
+    //   const circleRadius = radius - thickness;      
+      
+    //   // create the svg
+    //   const svg = d3.select(div).append('svg');
+    //     svg.attr('class', 'pie');
+    //     svg.attr('width', radius * 2);
+    //     svg.attr('height', radius * 2);
+      
+    //   // create a group to hold our arc paths and center
+    //   const g = svg.append('g');
+    //     g.attr('transform', `translate(${radius}, ${radius})`);
+    
+       
+    //   // create an arc using the radius above
+    //   const arc = d3.arc()
+    //     .innerRadius(radius - thickness)
+    //     .outerRadius(radius);
+      
+    //   // create the pie for the donut
+    //   const pie = d3.pie()
+    //     .value(d => d.count)
+    //     .sort(null);
+      
+    //   // using the pie and the arc, create our path based on the data
+    //   const path = g.selectAll('path').data(pie(data.sort((x, y) => d3.ascending(y.count, x.count)))).enter().append('path');
+    //     path.attr('d', arc);
+    //     path.attr('fill', (d) => colorScale(d.data.type));
+      
+    //   // create the center circle
+    //   const circle = g.append('circle');
+    //     circle.attr('r', circleRadius);
+    //     circle.attr('fill', 'rgba(0, 0, 0, 0.7)');
+    //     circle.attr('class', 'center-circle');
+      
+    //   // create the text
+    //   const text = g.append('text');
+    //     text.attr('class', 'total');
+    //     text.text(props.point_count_abbreviated);
+    //     text.attr('text-anchor', 'middle');
+    //     text.attr('dy', 5);
+    //     text.attr('fill', 'white');
+     
+    //   return div;
+    // };
 
     mainMap.addLayer({
       id: 'organization-clusters',
@@ -598,7 +740,7 @@ if (mainMapContainer) {
       id: 'unclustered-individuals',
       type: 'circle',
       source: 'individuals',
-      filter: ['!', ['has', 'point_count']],
+      filter: ['!=', ['get', 'cluster'], true],
       paint: {
         'circle-color': '#ff621a',
         'circle-radius': 8,
@@ -611,15 +753,15 @@ if (mainMapContainer) {
       id: 'unclustered-organizations',
       type: 'circle',
       source: 'organizations',
-      filter: ['!', ['has', 'point_count']],
+      filter: ['!=', ['get', 'cluster'], true],
       paint: {
         'circle-color': [
           'case',
-          coop, '#0b8441',
-          potentialCoop, '#c9f8db',
-          sharedPlatform, '#face00',
-          supportingOrganization, '#30cfc9',
-          other, '#585850',
+          coop, colorScale('coop'),
+          potentialCoop, colorScale('potentialCoop'),
+          sharedPlatform, colorScale('sharedPlatform'),
+          supportingOrganization, colorScale('supportingOrganization'),
+          other, colorScale('other'),
           '#585850'
         ],
         'circle-radius': [
@@ -698,5 +840,13 @@ if (mainMapContainer) {
     mainMap.on('moveend', function () {
       updateStore(mainMap, ['unclustered-organizations', 'unclustered-individuals']);
     });
+
+    // mainMap.on('data', (e) => {
+    //   if (e.sourceId !== 'organizations' || !e.isSourceLoaded) return;
+    
+    //   mainMap.on('move', updateMarkers);
+    //   mainMap.on('moveend', updateMarkers);
+    //   updateMarkers();
+    // });
   });
 }

@@ -43,7 +43,8 @@ export const generatePopupHtml = (f) => {
     htmlString += `${f.properties.postal_code} `;
   }
   if (f.properties.country) {
-    htmlString += `${f.properties.country} `;
+    const c = JSON.parse(f.properties.country);
+    htmlString += `${c.name} `;
   }
   if (f.properties.type || f.properties.categories || f.properties.sectors) {
     htmlString += '<hr>';
