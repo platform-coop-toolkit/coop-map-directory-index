@@ -1,0 +1,1584 @@
+{
+    "version": 8,
+    "name": "OS Open Zoomstack - Light",
+    "metadata": {
+        "mapbox:automapbox-streets": true,
+        "mapbox:type": "template",
+        "mapbox:sdk-support": {
+            "js": "0.50.0",
+            "android": "6.7.0",
+            "ios": "4.6.0"
+        },
+        "mapbox:groups": {
+            "e196265c0e550aaddd2885dc32fdb674": {
+                "name": "Names Group",
+                "collapsed": true
+            },
+            "2a680f24b0d35061ed7d21fd33c9cf08": {
+                "name": "Road Level 0 Group",
+                "collapsed": true
+            }
+        },
+        "maputnik:renderer": "mbgljs"
+    },
+    "center": [
+        -1.464858786792547,
+        50.939150779110975
+    ],
+    "zoom": 13.12365211904204,
+    "bearing": -0.44200633613297663,
+    "pitch": 0,
+    "light": {
+        "intensity": 0.25,
+        "color": "hsl(0, 0%, 100%)"
+    },
+    "sources": {
+        "mapbox_streets": {
+            "url": "mapbox://mapbox.mapbox-streets-v8",
+            "type": "vector"
+        }
+    },
+    "sprite": "https://directory.platform.coop/static/maps/dist/styles/pcc/sprites",
+    "glyphs": "https://directory.platform.coop/static/maps/dist/styles/glyphs/{fontstack}/{range}.pbf",
+    "layers": [
+        {
+            "id": "background",
+            "type": "background",
+            "paint": {
+                "background-color": "#ebf3f5",
+                "background-opacity": 1.0
+            }
+        },
+        {
+            "id": "waterway",
+            "type": "line",
+            "source": "mapbox_streets",
+            "source-layer": "waterway",
+            "layout": {
+                "line-join": "round"
+            },
+            "paint": {
+                "line-color": "#bfd5df",
+                "line-width": [
+                    "match",
+                    [
+                        "get",
+                        "type"
+                    ],
+                    [
+                        "national",
+                        "regional",
+                        "district",
+                        "local"
+                    ],
+                    1,
+                    [
+                        "MHW"
+                    ],
+                    1.2,
+                    [
+                        "MLW"
+                    ],
+                    0.7,
+                    1
+                ],
+                "line-opacity": 1.0
+            }
+        },
+        {
+            "id": "water",
+            "type": "fill",
+            "source": "mapbox_streets",
+            "source-layer": "water",
+            "layout": {},
+            "paint": {
+                "fill-color": "#bfd5df",
+                "fill-opacity": 1.0
+            }
+        },
+        {
+            "id": "landuse_overlay",
+            "type": "fill",
+            "source": "mapbox_streets",
+            "source-layer": "landuse_overlay",
+            "maxzoom": 12,
+            "layout": {
+                "visibility": "none"
+            },
+            "paint": {
+                "fill-color": "#d8ddd4",
+                "fill-opacity": [
+                    "interpolate",
+                    [
+                        "linear"
+                    ],
+                    [
+                        "zoom"
+                    ],
+                    5,
+                    0.6,
+                    9,
+                    0.5,
+                    12,
+                    0.1
+                ]
+            }
+        },
+        {
+            "id": "national-parks",
+            "type": "fill",
+            "source": "mapbox_streets",
+            "source-layer": "landuse_overlay",
+            "maxzoom": 12,
+            "filter": [
+                "all",
+                [
+                    "match",
+                    [
+                        "get",
+                        "class"
+                    ],
+                    [
+                        "national_park"
+                    ],
+                    true,
+                    false
+                ]
+            ],
+            "layout": {
+                "visibility": "visible"
+            },
+            "paint": {
+                "fill-color": "#c1d7c6",
+                "fill-opacity": [
+                    "interpolate",
+                    [
+                        "linear"
+                    ],
+                    [
+                        "zoom"
+                    ],
+                    5,
+                    0.075,
+                    9,
+                    0.15,
+                    12,
+                    0
+                ]
+            }
+        },
+        {
+            "id": "park",
+            "type": "fill",
+            "source": "mapbox_streets",
+            "source-layer": "landuse",
+            "filter": [
+                "match",
+                [
+                    "get",
+                    "class"
+                ],
+                [
+                    "park"
+                ],
+                false,
+                true
+            ],
+            "layout": {
+                "visibility": "visible"
+            },
+            "paint": {
+                "fill-color": "#c1d7c6",
+                "fill-antialias": false,
+                "fill-opacity": 1.0,
+                "fill-outline-color": "#c1d7c6"
+            }
+        },
+        {
+            "id": "wood",
+            "type": "fill",
+            "source": "mapbox_streets",
+            "source-layer": "landuse",
+            "filter": [
+                "all",
+                [
+                    "match",
+                    [
+                        "get",
+                        "class"
+                    ],
+                    [
+                        "wood"
+                    ],
+                    true,
+                    false
+                ]
+            ],
+            "layout": {
+                "visibility": "visible"
+            },
+            "paint": {
+                "fill-color": "#c1d7c6",
+                "fill-opacity": [
+                    "interpolate",
+                    [
+                        "linear"
+                    ],
+                    [
+                        "zoom"
+                    ],
+                    6,
+                    0.05,
+                    12,
+                    0.1
+                ]
+            }
+        },
+        {
+            "id": "buildings",
+            "type": "fill",
+            "source": "mapbox_streets",
+            "source-layer": "building",
+            "layout": {
+                "visibility": "visible"
+            },
+            "paint": {
+                "fill-color": "#d1dee2",
+                "fill-translate": [
+                    0,
+                    0
+                ],
+                "fill-opacity": 1.0
+            }
+        },
+        {
+            "id": "roads 0 Restricted Road",
+            "type": "line",
+            "metadata": {
+                "mapbox:group": "2a680f24b0d35061ed7d21fd33c9cf08"
+            },
+            "source": "mapbox_streets",
+            "source-layer": "road",
+            "filter": [
+                "all",
+                [
+                    "match",
+                    [
+                        "get",
+                        "class"
+                    ],
+                    [
+                        "street_limited"
+                    ],
+                    true,
+                    false
+                ]
+            ],
+            "layout": {
+                "line-join": "round"
+            },
+            "paint": {
+                "line-color": "#ffffff",
+                "line-width": [
+                    "interpolate",
+                    [
+                        "linear"
+                    ],
+                    [
+                        "zoom"
+                    ],
+                    12,
+                    1,
+                    14,
+                    2.5,
+                    15,
+                    4,
+                    16,
+                    7,
+                    18,
+                    24,
+                    22,
+                    85
+                ],
+                "line-opacity": 1,
+                "line-dasharray": [
+                    2,
+                    0.5
+                ]
+            }
+        },
+        {
+            "id": "roads 0 Local Road",
+            "type": "line",
+            "metadata": {
+                "mapbox:group": "2a680f24b0d35061ed7d21fd33c9cf08"
+            },
+            "source": "mapbox_streets",
+            "source-layer": "road",
+            "filter": [
+                "all",
+                [
+                    "match",
+                    [
+                        "get",
+                        "class"
+                    ],
+                    [
+                        "street"
+                    ],
+                    true,
+                    false
+                ]
+            ],
+            "layout": {
+                "line-cap": "round",
+                "line-join": "round",
+                "visibility": "visible"
+            },
+            "paint": {
+                "line-width": [
+                    "interpolate",
+                    [
+                        "linear"
+                    ],
+                    [
+                        "zoom"
+                    ],
+                    12,
+                    1.4,
+                    14,
+                    3.5,
+                    15,
+                    5,
+                    16,
+                    12,
+                    18,
+                    35,
+                    22,
+                    100
+                ],
+                "line-color": "#ffffff"
+            }
+        },
+        {
+            "id": "roads 0 Motorway",
+            "type": "line",
+            "metadata": {
+                "mapbox:group": "2a680f24b0d35061ed7d21fd33c9cf08"
+            },
+            "source": "mapbox_streets",
+            "source-layer": "road",
+            "filter": [
+                "all",
+                [
+                    "match",
+                    [
+                        "get",
+                        "class"
+                    ],
+                    [
+                        "motorway"
+                    ],
+                    true,
+                    false
+                ]
+            ],
+            "layout": {
+                "line-cap": "round",
+                "line-join": "round",
+                "visibility": "visible"
+            },
+            "paint": {
+                "line-width": [
+                    "interpolate",
+                    [
+                        "linear"
+                    ],
+                    [
+                        "zoom"
+                    ],
+                    5,
+                    0.75,
+                    10,
+                    2,
+                    12,
+                    2.75,
+                    14,
+                    4.5,
+                    15,
+                    8,
+                    16,
+                    17,
+                    18,
+                    48,
+                    22,
+                    140
+                ],
+                "line-color": "#ffffff"
+            }
+        },
+        {
+            "id": "roads 0 Minor Road",
+            "type": "line",
+            "metadata": {
+                "mapbox:group": "2a680f24b0d35061ed7d21fd33c9cf08"
+            },
+            "source": "mapbox_streets",
+            "source-layer": "road",
+            "filter": [
+                "all",
+                [
+                    "match",
+                    [
+                        "get",
+                        "class"
+                    ],
+                    [
+                        "tertiary"
+                    ],
+                    true,
+                    false
+                ]
+            ],
+            "layout": {
+                "line-cap": "round",
+                "line-join": "round"
+            },
+            "paint": {
+                "line-width": [
+                    "interpolate",
+                    [
+                        "linear"
+                    ],
+                    [
+                        "zoom"
+                    ],
+                    5,
+                    0.35,
+                    10,
+                    1.5,
+                    12,
+                    1.7,
+                    14,
+                    3.5,
+                    15,
+                    6.5,
+                    16,
+                    15,
+                    18,
+                    44,
+                    22,
+                    120
+                ],
+                "line-color": "#ffffff"
+            }
+        },
+        {
+            "id": "roads 0 B Road",
+            "type": "line",
+            "metadata": {
+                "mapbox:group": "2a680f24b0d35061ed7d21fd33c9cf08"
+            },
+            "source": "mapbox_streets",
+            "source-layer": "road",
+            "filter": [
+                "all",
+                [
+                    "match",
+                    [
+                        "get",
+                        "class"
+                    ],
+                    [
+                        "secondary"
+                    ],
+                    true,
+                    false
+                ]
+            ],
+            "layout": {
+                "line-cap": "round",
+                "line-join": "round"
+            },
+            "paint": {
+                "line-width": [
+                    "interpolate",
+                    [
+                        "linear"
+                    ],
+                    [
+                        "zoom"
+                    ],
+                    5,
+                    0.35,
+                    10,
+                    1.5,
+                    12,
+                    1.7,
+                    14,
+                    3.5,
+                    15,
+                    6.5,
+                    16,
+                    15,
+                    18,
+                    44,
+                    22,
+                    120
+                ],
+                "line-color": "#ffffff"
+            }
+        },
+        {
+            "id": "roads 0 A Road",
+            "type": "line",
+            "metadata": {
+                "mapbox:group": "2a680f24b0d35061ed7d21fd33c9cf08"
+            },
+            "source": "mapbox_streets",
+            "source-layer": "road",
+            "filter": [
+                "all",
+                [
+                    "match",
+                    [
+                        "get",
+                        "class"
+                    ],
+                    [
+                        "primary"
+                    ],
+                    true,
+                    false
+                ]
+            ],
+            "layout": {
+                "line-cap": "round",
+                "line-join": "round"
+            },
+            "paint": {
+                "line-width": [
+                    "interpolate",
+                    [
+                        "linear"
+                    ],
+                    [
+                        "zoom"
+                    ],
+                    5,
+                    0.35,
+                    10,
+                    1.5,
+                    12,
+                    1.7,
+                    14,
+                    3.5,
+                    15,
+                    6.5,
+                    16,
+                    15,
+                    18,
+                    44,
+                    22,
+                    120
+                ],
+                "line-color": "#ffffff"
+            }
+        },
+        {
+            "id": "roads 0 Primary Road",
+            "type": "line",
+            "metadata": {
+                "mapbox:group": "2a680f24b0d35061ed7d21fd33c9cf08"
+            },
+            "source": "mapbox_streets",
+            "source-layer": "road",
+            "filter": [
+                "all",
+                [
+                    "match",
+                    [
+                        "get",
+                        "class"
+                    ],
+                    [
+                        "trunk"
+                    ],
+                    true,
+                    false
+                ]
+            ],
+            "layout": {
+                "line-cap": "round",
+                "line-join": "round",
+                "visibility": "visible"
+            },
+            "paint": {
+                "line-width": [
+                    "interpolate",
+                    [
+                        "linear"
+                    ],
+                    [
+                        "zoom"
+                    ],
+                    5,
+                    0.5,
+                    10,
+                    1.75,
+                    12,
+                    2,
+                    14,
+                    4,
+                    15,
+                    7.5,
+                    16,
+                    16,
+                    18,
+                    46,
+                    22,
+                    130
+                ],
+                "line-color": "#ffffff",
+                "line-opacity": [
+                    "interpolate",
+                    [
+                        "linear"
+                    ],
+                    [
+                        "zoom"
+                    ],
+                    5,
+                    0.6,
+                    9,
+                    1
+                ]
+            }
+        },
+        {
+            "id": "rail",
+            "type": "line",
+            "source": "mapbox_streets",
+            "source-layer": "road",
+            "filter": [
+                "match",
+                [
+                    "get",
+                    "class"
+                ],
+                [
+                    "major_rail",
+                    "minor_rail"
+                ],
+                false,
+                true
+            ],
+            "layout": {
+                "line-join": "round",
+                "visibility": "none"
+            },
+            "paint": {
+                "line-color": "#000000",
+                "line-opacity": [
+                    "interpolate",
+                    [
+                        "linear"
+                    ],
+                    [
+                        "zoom"
+                    ],
+                    10,
+                    0.2,
+                    14,
+                    1
+                ],
+                "line-width": [
+                    "interpolate",
+                    [
+                        "linear"
+                    ],
+                    [
+                        "zoom"
+                    ],
+                    10,
+                    [
+                        "match",
+                        [
+                            "get",
+                            "type"
+                        ],
+                        [
+                            "Multi Track"
+                        ],
+                        0.6,
+                        [
+                            "Single Track"
+                        ],
+                        0.5,
+                        [
+                            "Narrow Gauge"
+                        ],
+                        0.4,
+                        1
+                    ],
+                    17,
+                    [
+                        "match",
+                        [
+                            "get",
+                            "type"
+                        ],
+                        [
+                            "Multi Track"
+                        ],
+                        2,
+                        [
+                            "Single Track"
+                        ],
+                        1.5,
+                        [
+                            "Narrow Gauge"
+                        ],
+                        1,
+                        1
+                    ]
+                ]
+            }
+        },
+        {
+            "id": "admin-0",
+            "type": "line",
+            "source": "mapbox_streets",
+            "source-layer": "admin",
+            "layout": {
+                "line-join": "round"
+            },
+            "filter": [
+                "all",
+                [
+                    "==",
+                    [
+                        "get",
+                        "admin_level"
+                    ],
+                    0
+                ],
+                [
+                    "==",
+                    [
+                        "get",
+                        "maritime"
+                    ],
+                    "false"
+                ]
+            ],
+            "paint": {
+                "line-color": "#858585",
+                "line-dasharray": [
+                    3,
+                    1
+                ]
+            }
+        },
+        {
+            "id": "admin-1",
+            "type": "line",
+            "source": "mapbox_streets",
+            "source-layer": "admin",
+            "layout": {
+                "line-join": "round"
+            },
+            "filter": [
+                "all",
+                [
+                    "==",
+                    [
+                        "get",
+                        "admin_level"
+                    ],
+                    1
+                ],
+                [
+                    "==",
+                    [
+                        "get",
+                        "maritime"
+                    ],
+                    "false"
+                ]
+            ],
+            "paint": {
+                "line-color": "#c5c5c6",
+                "line-dasharray": [
+                    2,
+                    2,
+                    4,
+                    2
+                ]
+            }
+        },
+        {
+            "id": "road names",
+            "type": "symbol",
+            "metadata": {
+                "mapbox:group": "beaf4956fb8a63410ecf80abdebcdfb5"
+            },
+            "source": "mapbox_streets",
+            "source-layer": "road",
+            "minzoom": 10,
+            "filter": [
+                "match",
+                [
+                    "get",
+                    "class"
+                ],
+                [
+                    "primary",
+                    "trunk",
+                    "motorway"
+                ],
+                false,
+                true
+            ],
+            "layout": {
+                "text-field": [
+                    "to-string",
+                    [
+                        "get",
+                        "name"
+                    ]
+                ],
+                "symbol-placement": "line",
+                "text-font": [
+                    "Noto Sans Regular"
+                ],
+                "text-size": [
+                    "interpolate",
+                    [
+                        "linear"
+                    ],
+                    [
+                        "zoom"
+                    ],
+                    9,
+                    12,
+                    15,
+                    16
+                ],
+                "text-max-angle": 45,
+                "text-padding": 1
+            },
+            "paint": {
+                "text-halo-color": "hsl(0, 0%, 100%)",
+                "text-halo-width": 1,
+                "text-halo-blur": 1,
+                "text-color": "#4a5459"
+            }
+        },
+        {
+            "id": "primary road numbers",
+            "type": "symbol",
+            "metadata": {
+                "mapbox:group": "beaf4956fb8a63410ecf80abdebcdfb5"
+            },
+            "source": "mapbox_streets",
+            "source-layer": "road",
+            "minzoom": 9,
+            "filter": [
+                "match",
+                [
+                    "get",
+                    "type"
+                ],
+                [
+                    "Primary"
+                ],
+                true,
+                false
+            ],
+            "layout": {
+                "text-field": [
+                    "to-string",
+                    [
+                        "get",
+                        "ref"
+                    ]
+                ],
+                "symbol-placement": "line",
+                "text-max-angle": 65,
+                "text-size": [
+                    "interpolate",
+                    [
+                        "linear"
+                    ],
+                    [
+                        "zoom"
+                    ],
+                    9,
+                    12,
+                    15,
+                    16
+                ],
+                "text-font": [
+                    "Noto Sans Regular"
+                ],
+                "visibility": "visible"
+            },
+            "paint": {
+                "text-halo-color": "#ffffff",
+                "text-halo-width": 1.25,
+                "text-halo-blur": 0,
+                "text-color": "#4a5459"
+            }
+        },
+        {
+            "id": "motorway numbers",
+            "type": "symbol",
+            "metadata": {
+                "mapbox:group": "beaf4956fb8a63410ecf80abdebcdfb5"
+            },
+            "source": "mapbox_streets",
+            "source-layer": "road",
+            "minzoom": 6,
+            "filter": [
+                "match",
+                [
+                    "get",
+                    "class"
+                ],
+                [
+                    "motorway"
+                ],
+                true,
+                false
+            ],
+            "layout": {
+                "text-field": [
+                    "to-string",
+                    [
+                        "get",
+                        "ref"
+                    ]
+                ],
+                "symbol-placement": "line-center",
+                "text-max-angle": 45,
+                "text-size": [
+                    "interpolate",
+                    [
+                        "linear"
+                    ],
+                    [
+                        "zoom"
+                    ],
+                    9,
+                    12,
+                    15,
+                    16
+                ],
+                "text-font": [
+                    "Noto Sans Regular"
+                ],
+                "text-letter-spacing": 0.1
+            },
+            "paint": {
+                "text-halo-color": "#ffffff",
+                "text-halo-width": 1.25,
+                "text-halo-blur": 0,
+                "text-color": "#4a5459"
+            }
+        },
+        {
+            "id": "sites names",
+            "type": "symbol",
+            "metadata": {
+                "mapbox:group": "e196265c0e550aaddd2885dc32fdb674"
+            },
+            "source": "mapbox_streets",
+            "source-layer": "poi_label",
+            "minzoom": 13,
+            "layout": {
+                "text-field": [
+                    "to-string",
+                    [
+                        "get",
+                        "name_en"
+                    ]
+                ],
+                "text-size": 12,
+                "text-font": [
+                    "Noto Sans Semibold"
+                ],
+                "text-line-height": 1
+            },
+            "paint": {
+                "text-color": "#677174",
+                "text-halo-color": "#ffffff",
+                "text-halo-width": 1,
+                "text-halo-blur": 1,
+                "text-opacity": 1.0
+            }
+        },
+        {
+            "id": "major water names",
+            "type": "symbol",
+            "metadata": {
+                "mapbox:group": "e196265c0e550aaddd2885dc32fdb674"
+            },
+            "source": "mapbox_streets",
+            "source-layer": "natural_label",
+            "minzoom": 1,
+            "filter": [
+                "match",
+                [
+                    "get",
+                    "class"
+                ],
+                [
+                    "ocean"
+                ],
+                true,
+                false
+            ],
+            "layout": {
+                "text-field": [
+                    "to-string",
+                    [
+                        "get",
+                        "name_en"
+                    ]
+                ],
+                "text-size": 16,
+                "text-font": [
+                    "Noto Sans Italic"
+                ],
+                "text-line-height": 1
+            },
+            "paint": {
+                "text-color": "#82A9B8"
+            }
+        },
+        {
+            "id": "minor water names",
+            "type": "symbol",
+            "metadata": {
+                "mapbox:group": "e196265c0e550aaddd2885dc32fdb674"
+            },
+            "source": "mapbox_streets",
+            "source-layer": "natural_label",
+            "minzoom": 1,
+            "filter": [
+                "match",
+                [
+                    "get",
+                    "class"
+                ],
+                [
+                    "bay",
+                    "sea",
+                    "water"
+                ],
+                true,
+                false
+            ],
+            "layout": {
+                "text-field": [
+                    "to-string",
+                    [
+                        "get",
+                        "name_en"
+                    ]
+                ],
+                "text-size": 12,
+                "text-font": [
+                    "Noto Sans Italic"
+                ],
+                "text-line-height": 1
+            },
+            "paint": {
+                "text-color": "#82A9B8"
+            }
+        },
+        {
+            "id": "small settlement names",
+            "type": "symbol",
+            "metadata": {
+                "mapbox:group": "e196265c0e550aaddd2885dc32fdb674"
+            },
+            "source": "mapbox_streets",
+            "source-layer": "place_label",
+            "minzoom": 8,
+            "filter": [
+                "match",
+                [
+                    "get",
+                    "type"
+                ],
+                [
+                    "hamlet",
+                    "village"
+                ],
+                true,
+                false
+            ],
+            "layout": {
+                "text-field": [
+                    "to-string",
+                    [
+                        "get",
+                        "name_en"
+                    ]
+                ],
+                "text-size": [
+                    "interpolate",
+                    [
+                        "linear"
+                    ],
+                    [
+                        "zoom"
+                    ],
+                    12,
+                    10,
+                    14,
+                    12
+                ],
+                "text-font": [
+                    "Noto Sans Regular"
+                ],
+                "text-line-height": 1
+            },
+            "paint": {
+                "text-color": "#000000",
+                "text-halo-color": "#ffffff",
+                "text-halo-width": 1,
+                "text-halo-blur": 1
+            }
+        },
+        {
+            "id": "suburb and neighbourhood names",
+            "type": "symbol",
+            "metadata": {
+                "mapbox:group": "e196265c0e550aaddd2885dc32fdb674"
+            },
+            "source": "mapbox_streets",
+            "source-layer": "place_label",
+            "minzoom": 10,
+            "filter": [
+                "match",
+                [
+                    "get",
+                    "type"
+                ],
+                [
+                    "suburb",
+                    "neighbourhood"
+                ],
+                true,
+                false
+            ],
+            "layout": {
+                "text-field": [
+                    "to-string",
+                    [
+                        "get",
+                        "name_en"
+                    ]
+                ],
+                "text-size": [
+                    "interpolate",
+                    [
+                        "linear"
+                    ],
+                    [
+                        "zoom"
+                    ],
+                    10,
+                    10,
+                    14,
+                    14
+                ],
+                "text-font": [
+                    "Noto Sans Semibold"
+                ],
+                "text-line-height": 1,
+                "text-letter-spacing": 0.0625,
+                "text-transform": "uppercase",
+                "text-padding": [
+                    "interpolate",
+                    [
+                        "linear"
+                    ],
+                    [
+                        "zoom"
+                    ],
+                    10,
+                    10,
+                    14,
+                    2
+                ]
+            },
+            "paint": {
+                "text-color": "#4c4c4c",
+                "text-halo-color": "#ffffff",
+                "text-halo-width": 1,
+                "text-halo-blur": 1,
+                "text-opacity": 1.0
+            }
+        },
+        {
+            "id": "town names",
+            "type": "symbol",
+            "metadata": {
+                "mapbox:group": "e196265c0e550aaddd2885dc32fdb674"
+            },
+            "source": "mapbox_streets",
+            "source-layer": "place_label",
+            "minzoom": 9,
+            "filter": [
+                "all",
+                [
+                    "match",
+                    [
+                        "get",
+                        "class"
+                    ],
+                    [
+                        "settlement"
+                    ],
+                    true,
+                    false
+                ]
+            ],
+            "layout": {
+                "text-field": [
+                    "to-string",
+                    [
+                        "get",
+                        "name_en"
+                    ]
+                ],
+                "text-size": [
+                    "interpolate",
+                    [
+                        "linear"
+                    ],
+                    [
+                        "zoom"
+                    ],
+                    7,
+                    10,
+                    14,
+                    14
+                ],
+                "text-font": [
+                    "Noto Sans Regular"
+                ],
+                "text-line-height": 1,
+                "text-padding": 2,
+                "visibility": "visible"
+            },
+            "paint": {
+                "text-color": "#000000",
+                "text-halo-color": "#ffffff",
+                "text-halo-width": 1,
+                "text-halo-blur": 1
+            }
+        },
+        {
+            "id": "city names",
+            "type": "symbol",
+            "metadata": {
+                "mapbox:group": "e196265c0e550aaddd2885dc32fdb674"
+            },
+            "source": "mapbox_streets",
+            "source-layer": "place_label",
+            "minzoom": 5,
+            "filter": [
+                "all",
+                [
+                    "match",
+                    [
+                        "get",
+                        "type"
+                    ],
+                    [
+                        "city"
+                    ],
+                    true,
+                    false
+                ]
+            ],
+            "layout": {
+                "text-field": [
+                    "to-string",
+                    [
+                        "get",
+                        "name_en"
+                    ]
+                ],
+                "text-size": [
+                    "interpolate",
+                    [
+                        "linear"
+                    ],
+                    [
+                        "zoom"
+                    ],
+                    6,
+                    10,
+                    14,
+                    18
+                ],
+                "text-font": [
+                    "Noto Sans Semibold"
+                ],
+                "text-line-height": 1,
+                "text-padding": 2,
+                "visibility": "visible"
+            },
+            "paint": {
+                "text-color": "#000000",
+                "text-halo-color": "#ffffff",
+                "text-halo-width": 1,
+                "text-halo-blur": 1,
+                "text-opacity": 1
+            }
+        },
+        {
+            "id": "national park names",
+            "type": "symbol",
+            "metadata": {
+                "mapbox:group": "e196265c0e550aaddd2885dc32fdb674"
+            },
+            "source": "mapbox_streets",
+            "source-layer": "landuse_overlay",
+            "minzoom": 5,
+            "filter": [
+                "match",
+                [
+                    "get",
+                    "class"
+                ],
+                [
+                    "national_park"
+                ],
+                true,
+                false
+            ],
+            "layout": {
+                "text-field": [
+                    "to-string",
+                    [
+                        "get",
+                        "name_en"
+                    ]
+                ],
+                "text-size": [
+                    "interpolate",
+                    [
+                        "linear"
+                    ],
+                    [
+                        "zoom"
+                    ],
+                    6,
+                    8,
+                    14,
+                    15
+                ],
+                "text-font": [
+                    "Noto Sans Semibold"
+                ],
+                "text-line-height": 1,
+                "text-padding": 2
+            },
+            "paint": {
+                "text-color": "#5d8366",
+                "text-halo-color": "#ffffff",
+                "text-halo-width": 1,
+                "text-halo-blur": 1
+            }
+        },
+        {
+            "id": "capital-city-names",
+            "type": "symbol",
+            "metadata": {
+                "mapbox:group": "e196265c0e550aaddd2885dc32fdb674"
+            },
+            "source": "mapbox_streets",
+            "source-layer": "place_label",
+            "minzoom": 4,
+            "filter": [
+                "all",
+                [
+                    "has",
+                    "capital"
+                ],
+                [
+                    "<=",
+                    "capital",
+                    4
+                ]
+            ],
+            "layout": {
+                "text-field": [
+                    "to-string",
+                    [
+                        "get",
+                        "name_en"
+                    ]
+                ],
+                "text-size": [
+                    "interpolate",
+                    [
+                        "linear"
+                    ],
+                    [
+                        "zoom"
+                    ],
+                    5,
+                    10,
+                    10,
+                    22
+                ],
+                "text-font": [
+                    "Noto Sans Semibold"
+                ],
+                "text-line-height": 1,
+                "text-padding": 2,
+                "text-letter-spacing": 0.0625
+            },
+            "paint": {
+                "text-color": "#000000",
+                "text-halo-color": "#ffffff",
+                "text-halo-width": 1,
+                "text-halo-blur": 1,
+                "text-opacity": 1
+            }
+        },
+        {
+            "id": "state-names",
+            "type": "symbol",
+            "metadata": {
+                "mapbox:group": "e196265c0e550aaddd2885dc32fdb674"
+            },
+            "source": "mapbox_streets",
+            "source-layer": "place_label",
+            "minzoom": 3,
+            "maxzoom": 10,
+            "filter": [
+                "all",
+                [
+                    "match",
+                    [
+                        "get",
+                        "type"
+                    ],
+                    [
+                        "state"
+                    ],
+                    true,
+                    false
+                ]
+            ],
+            "layout": {
+                "text-field": [
+                    "to-string",
+                    [
+                        "get",
+                        "name_en"
+                    ]
+                ],
+                "text-size": [
+                    "interpolate",
+                    [
+                        "linear"
+                    ],
+                    [
+                        "zoom"
+                    ],
+                    5,
+                    11,
+                    10,
+                    14
+                ],
+                "text-font": [
+                    "Noto Sans Semibold"
+                ],
+                "text-line-height": 1,
+                "text-padding": 16,
+                "text-letter-spacing": 0.0625,
+                "text-transform": "uppercase",
+                "visibility": "visible"
+            },
+            "paint": {
+                "text-color": "#000000",
+                "text-halo-color": "#ffffff",
+                "text-halo-width": 1,
+                "text-halo-blur": 1,
+                "text-opacity": 1.0
+            }
+        },
+        {
+            "id": "country-names",
+            "type": "symbol",
+            "metadata": {
+                "mapbox:group": "e196265c0e550aaddd2885dc32fdb674"
+            },
+            "source": "mapbox_streets",
+            "source-layer": "place_label",
+            "minzoom": 1,
+            "maxzoom": 9,
+            "filter": [
+                "all",
+                [
+                    "match",
+                    [
+                        "get",
+                        "type"
+                    ],
+                    [
+                        "country"
+                    ],
+                    true,
+                    false
+                ]
+            ],
+            "layout": {
+                "text-field": [
+                    "to-string",
+                    [
+                        "get",
+                        "name_en"
+                    ]
+                ],
+                "text-size": [
+                    "interpolate",
+                    [
+                        "linear"
+                    ],
+                    [
+                        "zoom"
+                    ],
+                    2,
+                    12,
+                    6,
+                    16
+                ],
+                "text-font": [
+                    "Noto Sans Bold"
+                ],
+                "text-line-height": 1,
+                "text-transform": "none",
+                "visibility": "visible"
+            },
+            "paint": {
+                "text-color": "#000000",
+                "text-halo-color": "#fff",
+                "text-halo-width": 2,
+                "text-halo-blur": 2,
+                "text-opacity": 1.0
+            }
+        }
+    ],
+    "id": "hquacmmep"
+}

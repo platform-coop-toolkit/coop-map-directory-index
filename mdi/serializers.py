@@ -105,17 +105,11 @@ class ToolSerializer(serializers.HyperlinkedModelSerializer):
         )
 
 
-class TypeSerializer(serializers.HyperlinkedModelSerializer):
-    class Meta:
-        model = Type
-        fields = ('name', 'icon')
-
-
 class OrganizationSerializer(GeoFeatureModelSerializer):
     categories = serializers.StringRelatedField(many=True)
     source = serializers.StringRelatedField()
     stage = serializers.StringRelatedField()
-    type = TypeSerializer()
+    type = serializers.StringRelatedField()
     languages = LanguageSerializer(many=True)
     country = CountryField(country_dict=True)
     sectors = serializers.StringRelatedField(many=True)

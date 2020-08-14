@@ -2,6 +2,25 @@
 import Icon from './Icon.svelte';
 
 export let organization;
+
+let typeIcon = false;
+
+if (organization.type) {
+    switch(organization.type) {
+        case 'Cooperative':
+            typeIcon = 'cooperative';
+            break;
+        case 'Potential cooperative':
+            typeIcon = 'converting';
+            break;
+        case 'Shared platform':
+            typeIcon = 'shared-platform';
+            break;
+        case 'Supporting organization':
+            typeIcon = 'support-organization';
+            break;
+    }
+}
 </script>
 
 <li class="card__wrapper">
@@ -14,8 +33,8 @@ export let organization;
         {#if organization.type}
         <p class="card__meta card__type">
             <span class="screen-reader-text">type: </span>
-            {#if organization.type.icon}<Icon name={organization.type.icon} />{/if}
-            {organization.type.name}
+            {#if typeIcon}<Icon name={typeIcon} />{/if}
+            {organization.type}
         </p>
         {/if}
         <div class="card__aside">
