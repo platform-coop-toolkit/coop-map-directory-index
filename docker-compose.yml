@@ -11,6 +11,7 @@ services:
       - DJANGO_EMAIL_HOST=${DJANGO_EMAIL_HOST}
       - DJANGO_DEFAULT_FROM_EMAIL=${DJANGO_DEFAULT_FROM_EMAIL}
       - DEBUG=${DEBUG:-false}
+      - MAP_STYLE="pcc"
     networks:
       - default
     restart: always
