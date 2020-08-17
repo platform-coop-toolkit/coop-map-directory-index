@@ -21,13 +21,26 @@ if (organization.type) {
             break;
     }
 }
+
+let down, up, link;
+
+const downHandler = () => {
+    down = +new Date();
+}
+
+const upHandler = () => {
+    up = +new Date();
+    if ( 200 > ( up - down ) ) {
+        link.click();
+    }
+}
 </script>
 
 <li class="card__wrapper">
-    <div class="card card--organization">
+    <div class="card card--organization" on:mousedown={downHandler} on:mouseup={upHandler}>
         <header>
             <h3 class="card__title">
-                <a class="card__link" href="/organizations/{organization.id}">{organization.name}</a>
+                <a class="card__link" bind:this={link} href="/organizations/{organization.id}">{organization.name}</a>
             </h3>
         </header>
         {#if organization.type}

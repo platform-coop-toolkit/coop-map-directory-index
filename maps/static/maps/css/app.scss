@@ -338,7 +338,7 @@ select[multiple] {
   font-weight: $font-weight-bold;
 }
 
-.card__role + .card__role {
+* + .card__role {
   margin-top: rem(9);
 }
 
@@ -751,6 +751,10 @@ h1 + .profile__meta {
     &::before {
       background-color: var(--dark-mint-500);
     }
+  }
+
+  .card {
+    cursor: pointer;
   }
 }
 

@@ -2,13 +2,26 @@
 import Icon from './Icon.svelte';
 
 export let individual;
+
+	let down, up, link;
+	
+    const downHandler = () => {
+        down = +new Date();
+    }
+
+    const upHandler = () => {
+        up = +new Date();
+        if ( 200 > ( up - down ) ) {
+            link.click();
+        }
+    }
 </script>
 
 <li class="card__wrapper">
-    <div class="card card--individual">
+    <div class="card card--individual" on:mousedown={downHandler} on:mouseup={upHandler}>
         <header>
             <h3 class="card__title">
-                <a class="card__link" href="/individuals/{individual.id}">{individual.name}</a>
+                <a class="card__link" bind:this={link} href="/individuals/{individual.id}">{individual.name}</a>
             </h3>
         </header>
         {#if individual.roles.length > 0}
