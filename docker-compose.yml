@@ -2,7 +2,12 @@ version: '2.4'
 
 services:
   app:
-    build: .
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        - MAP_ASSETS_BASE_URL=${MAP_ASSETS_BASE_URL}
+        - MAP_STYLE=${MAP_STYLE}
     ports:
       - ${APP_PORT}:8000
     environment:
@@ -12,7 +17,7 @@ services:
       - DJANGO_DEFAULT_FROM_EMAIL=${DJANGO_DEFAULT_FROM_EMAIL}
       - DEBUG=${DEBUG:-false}
       - MAP_ASSETS_BASE_URL=${MAP_ASSETS_BASE_URL}
-      - MAP_STYLE="pcc"
+      - MAP_STYLE=${MAP_STYLE}
     networks:
       - default
     restart: always
