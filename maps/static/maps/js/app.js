@@ -1,6 +1,5 @@
 import Pinecone from '@platform-coop-toolkit/pinecone';
-import { scaleOrdinal } from 'd3';
-// import { scaleLinear, min, max, select, arc, pie, descending } from 'd3';
+const d3 = Object.assign({}, require('d3-scale')/*, require('d3-selection'), require('d3-array'), require('d3-shape')*/);
 import { generateCards, generatePopupHtml, updateStore } from './cards.js';
 
 const menu = document.querySelector('.menu');
@@ -461,7 +460,7 @@ if (mainMapContainer) {
 
     const colors = ['#0b8441', '#c9f8db', '#face00', '#30cfc9', '#585850'];
     
-    const colorScale = scaleOrdinal()
+    const colorScale = d3.scaleOrdinal()
       .domain(['coop', 'potentialCoop', 'sharedPlatform', 'supportingOrganization', 'other'])
       .range(colors);
 
