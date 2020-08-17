@@ -824,6 +824,18 @@ if (mainMapContainer) {
         .addTo(mainMap);
     });
 
+    mainMap.on('click', 'unclustered-individuals', function (e) {
+      mainMap.getCanvas().style.cursor = 'pointer';
+      let popup = new mapboxgl.Popup({
+        closeButton: true,
+        closeOnClick: true
+      });
+
+      popup.setLngLat(e.features[0].geometry.coordinates)
+        .setHTML(generatePopupHtml(e.features[0]))
+        .addTo(mainMap);
+    });
+
     mainMap.on('mouseenter', 'organization-clusters', function () {
       mainMap.getCanvas().style.cursor = 'pointer';
     });
