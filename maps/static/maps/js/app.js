@@ -1,7 +1,6 @@
 import Pinecone from '@platform-coop-toolkit/pinecone';
 const d3 = Object.assign({}, require('d3-scale')/*, require('d3-selection'), require('d3-array'), require('d3-shape')*/);
 import { generateCards, generatePopupHtml, updateStore } from './cards.js';
-import MultiTouch from 'mapbox-gl-multitouch';
 
 const menu = document.querySelector('.menu');
 const menuToggle = document.querySelector('.menu-toggle');
@@ -383,7 +382,6 @@ if (geolocationMapContainer) {
     }
   });
   geolocationMap.addControl(geo, 'top-right');
-  geolocationMap.addControl(new MultiTouch());
 
   const
     crosshairs = document.getElementById('crosshairs'),
@@ -440,8 +438,6 @@ if (mainMapContainer) {
 
   let nav = new mapboxgl.NavigationControl({ showCompass: false });
   mainMap.addControl(nav, 'top-right');
-
-  mainMap.addControl(new MultiTouch());
   
   let geo = new mapboxgl.GeolocateControl({
     fitBoundsOptions: {
