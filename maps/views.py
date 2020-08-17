@@ -4,13 +4,14 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib import messages
 from django.conf import settings
-from django.db.models import Sum, Count
+from django.db.models import Sum, Count, Q, Value
+from django.db.models.functions import Concat
 from django_countries import countries
 from django.http import HttpResponse, HttpResponseRedirect
 from django.urls import reverse_lazy, reverse
 from django.template import loader
 from django.utils.translation import gettext_lazy as _
-from django.views.generic import TemplateView
+from django.views.generic import TemplateView, ListView
 from django.views.generic.edit import DeleteView, UpdateView
 from django.shortcuts import get_object_or_404, render, redirect
 from django.forms import inlineformset_factory  # ModelMultipleChoiceField, SelectMultiple
@@ -753,6 +754,30 @@ class OrganizationDelete(DeleteView):
         obj = self.get_object()
         messages.success(self.request, self.success_message % obj.__dict__)
         return super(OrganizationDelete, self).delete(request, *args, **kwargs)
+
+
+class SearchResultsView(ListView):
+    model = Organization
+    template_name = 'maps/search_results.html'
+
+    def get_queryset(self):
+        query = self.request.GET.get('s')
+        object_list = Organization.objects.filter(
+            Q(name__icontains=query) | Q(type__name__icontains=query) | Q(sectors__name__icontains=query) | Q(categories__name__icontains=query) | Q(description__icontains=query) | Q(city__icontains=query) | Q(state__icontains=query) | Q(country__exact=query) | Q(legal_status__name__icontains=query)
+        ).distinct()
+        return object_list
+
+    def get_context_data(self, **kwargs):
+        query = self.request.GET.get('s')
+        context = super(SearchResultsView, self).get_context_data(**kwargs)
+        individual_list = get_user_model().objects.annotate(full_name=Concat('first_name', Value(' '), 'last_name')).filter(has_profile=True).filter(
+            Q(full_name__icontains=query) | Q(roles__name__icontains=query) | Q(bio__icontains=query) | Q(city__icontains=query) | Q(state__icontains=query) | Q(country__exact=query) | Q(affiliation__icontains=query)
+        )
+        context.update({
+            'search_term': query,
+            'individual_list': individual_list
+        })
+        return context
 
 # My Profiles
 

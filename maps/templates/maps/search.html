@@ -1,8 +1,10 @@
 {% load maps_extras %}
-<form role="search" method="get" class="search-form" action="/">
+{% load i18n %}
+<form role="search" method="get" class="search-form" action="{% url 'search_results' %}">
+    <!-- {% csrf_token %} -->
     <label>
-        <span class="screen-reader-text">search</span>
-        <input id="s" name="s" placeholder="Search by co-op or individual name, details, or tags…" type="search">
+        <span class="screen-reader-text">{% trans 'search' %}</span>
+        <input id="s" name="s" placeholder="{% trans 'Search…' %}" type="search">
     </label>
-    <button type="submit" class="button button--search"><span class="screen-reader-text">submit search</span> {% icon 'search' %}</button>
+    <button type="submit" class="button button--search"><span class="screen-reader-text">{% trans 'submit search' %}</span> {% icon 'search' %}</button>
 </form>
