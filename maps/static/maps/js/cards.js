@@ -19,6 +19,8 @@ export const generateCards = () => {
 export const updateStore = (map, layers) => {
   let visibleFeatures = map.queryRenderedFeatures({layers: layers});
   if (visibleFeatures) {
+    const visibleFeaturesStatus = document.querySelector('#visible-features');
+    visibleFeaturesStatus.innerText = (visibleFeatures.length == 1) ? `showing ${visibleFeatures.length} organization or individual` : `showing ${visibleFeatures.length} organizations and/or individuals`;
     features.set(visibleFeatures);
   }
 };
