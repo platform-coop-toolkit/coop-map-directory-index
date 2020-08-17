@@ -735,6 +735,9 @@ h1 + .profile__meta {
   }
 
   .page-header {
+    --parent-background-color: var(--dark-mint-500);
+
+    background-color: var(--dark-mint-500);
     margin-top: 0;
   }
 
@@ -755,5 +758,35 @@ h1 + .profile__meta {
   .page-header::before {
     background-color: var(--blue-500);
     background-image: unset;
+  }
+}
+
+.mapboxgl-popup-close-button {
+  font-size: rem(24);
+}
+
+.mapboxgl-popup-content {
+  .card__title {
+    padding-right: rem(24);
+  }
+
+  .card__meta {
+    --parent-background-color: var(--white);
+
+    font-family: $font-family-serif;
+  }
+
+  .card__aside .card__meta {
+    color: var(--grey-500);
+  }
+
+  .card__type {
+    font-weight: $font-weight-bold;
+  }
+
+  .card__profile-link {
+    font-weight: $font-weight-normal;
+    padding-left: 0;
+    text-indent: 0;
   }
 }
