@@ -14,15 +14,7 @@
           {% icon 'search' %}
         </button>
 
-        <form role="search" method="get" class="search-form search-form--inverse" action="#">
-          <label>
-            <span class="screen-reader-text">{% trans 'search' %}</span>
-            <input id="s" name="s" type="search" />
-          </label>
-          <button type="submit" class="button button--search"><span class="screen-reader-text">{% trans 'submit search' %}</span>
-            {% icon 'search' %}
-          </button>
-        </form>
+        {% include 'maps/search.html' %}
       {% endif %}
 
         <nav class="nav" aria-labelledby="menu-primary-label">

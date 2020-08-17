@@ -1,11 +1,13 @@
 {% load maps_extras %}
+{% load i18n %}
 <section class="home__search">
-<form role="search" method="get" class="search-form search-form--inverse" action="/">
+<form role="search" method="get" class="search-form search-form--inverse" action="{% url 'search_results' %}">
+    <!-- {% csrf_token %} -->
     <label>
-        <span class="screen-reader-text">search</span>
-        <input id="s" name="s" placeholder="Search by co-op or individual name, details, or tags…" type="search">
+        <span class="screen-reader-text">{% trans 'search' %}</span>
+        <input id="s" name="s" placeholder="{% trans 'Search by co-op or individual name, details, or tags…' %}" type="search">
     </label>
-    <button type="submit" class="button button--search" disabled><span class="screen-reader-text">submit search</span> {% icon 'search' %}
+    <button type="submit" class="button button--search"><span class="screen-reader-text">{% trans 'submit search' %}</span> {% icon 'search' %}
 </button>
 </form>
 </section>

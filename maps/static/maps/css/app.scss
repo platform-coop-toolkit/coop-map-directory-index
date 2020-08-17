@@ -228,7 +228,8 @@ select[multiple] {
   }
 }
 
-.my-profiles .cards .card__wrapper {
+.my-profiles .cards .card__wrapper,
+.results .cards .card__wrapper {
   display: grid;
   gap: 1.25rem;
   grid-template-columns: 100%;
@@ -236,27 +237,31 @@ select[multiple] {
 }
 
 @media (min-width: 37.5rem) {
-  .my-profiles .cards {
+  .my-profiles .cards,
+  .results .cards {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
   }
 
   @supports (display:grid) {
-    .my-profiles .cards {
+    .my-profiles .cards,
+    .results .cards {
       display: grid;
       gap: 1.875rem;
       grid-template-columns: 100%;
     }
   }
 
-  .my-profiles .cards .card__wrapper {
+  .my-profiles .cards .card__wrapper,
+  .results .cards .card__wrapper {
     margin-bottom: 1.875rem;
     width: 100%;
   }
 
   @supports (display:grid) {
-    .my-profiles .cards .card__wrapper {
+    .my-profiles .cards .card__wrapper,
+    .results .cards .card__wrapper {
       margin-bottom: 0;
     }
   }
@@ -276,43 +281,51 @@ select[multiple] {
   }
 
   @supports (display:grid) {
-    .my-profiles .cards {
+    .my-profiles .cards,
+    .results .cards {
       grid-template-columns: repeat(2, 1fr);
     }
   }
 
-  .my-profiles .cards .card__wrapper {
+  .my-profiles .cards .card__wrapper,
+  .results .cards .card__wrapper {
     width: calc(50% - 0.9375rem);
   }
 
   @supports (display:grid) {
-    .my-profiles .cards .card__wrapper {
+    .my-profiles .cards .card__wrapper,
+    .results .cards .card__wrapper {
       width: 100%;
     }
   }
 
-  .my-profiles .card:nth-child(2n) {
+  .my-profiles .card:nth-child(2n),
+  .results .card:nth-child(2n) {
     margin-left: 1.875rem;
   }
 
   @supports (display:grid) {
-    .my-profiles .card:nth-child(2n) {
+    .my-profiles .card:nth-child(2n),
+    .results .card:nth-child(2n) {
       margin-left: 0;
     }
   }
 
-  .my-profiles .cards .card__wrapper + .card__wrapper {
+  .my-profiles .cards .card__wrapper + .card__wrapper,
+  .results .cards .card__wrapper + .card__wrapper {
     margin-top: 0;
   }
 }
 
 @media (min-width: 80rem) {
-  .my-profiles main {
+  .my-profiles main,
+  .results main {
     width: calc(66.66667% - 0.625rem);
   }
 
   @supports (display:grid) {
-    .my-profiles main {
+    .my-profiles main,
+    .results main {
       grid-column: 3/11;
       width: 100%;
     }
@@ -320,12 +333,14 @@ select[multiple] {
 }
 
 @media (min-width: 120rem) {
-  .my-profiles main {
+  .my-profiles main,
+  .results main {
     width: calc(50% - 0.9375rem);
   }
 
   @supports (display:grid) {
-    .my-profiles main {
+    .my-profiles main,
+    .results main {
       grid-column: 4/12;
       width: 100%;
     }
