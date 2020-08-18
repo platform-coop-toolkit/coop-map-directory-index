@@ -106,7 +106,7 @@ class GeolocationForm(BaseForm):
 
     def __init__(self, *args, **kwargs):
         self.lat = kwargs['initial']['lat']
-        self.lng = kwargs['initial']['lat']
+        self.lng = kwargs['initial']['lng']
         super(GeolocationForm, self).__init__(*args, **kwargs)
         self.fields['lat'].value = self.lat
         self.fields['lng'].value = self.lng
