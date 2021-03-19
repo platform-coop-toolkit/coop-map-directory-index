@@ -23,7 +23,7 @@ django-dotenv==1.4.2
 django-formtools==2.2
 django-lockdown==3.0.0
 django-ses==0.8.14
-djangorestframework==3.11.0
+djangorestframework==3.11.2
 djangorestframework-gis==0.15
 drf-yasg==1.17.1
 et-xmlfile==1.0.1
